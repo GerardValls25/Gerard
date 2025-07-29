@@ -6,12 +6,23 @@
   <title>Gerard Valls - Nutrición Personalizada</title>
   <style>
    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: linear-gradient(135deg, #00cba9, #b2fefa); /* Degradado claro */
-      background-attachment: fixed;
-      background-size: cover;
-      color: #fff;
+  margin: 0;
+  background: black;
+  color: white;
+  overflow: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: transparent url('https://www.transparenttextures.com/patterns/stardust.png');
+  animation: twinkle 20s linear infinite;
+  z-index: -1;
+  opacity: 0.3;
+}
+@keyframes twinkle {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-100px, -100px); }
     
 }
     header {
