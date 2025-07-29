@@ -6,44 +6,27 @@
   <title>Gerard Valls - Nutrición Personalizada</title>
   <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
   <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
-
   <style>
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
-      background: #e0f7fa;
-      overflow: hidden;
+      padding: 0;
+      box-sizing: border-box;
       font-family: Arial, sans-serif;
-      color: #333;
+      color: #fff;
     }
 
-    .particle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #00bcd4;
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: float 10s infinite;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-100vh) scale(0.5);
-        opacity: 0;
-      }
+    body {
+      background: url('gimnasio.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-attachment: fixed;
     }
 
     header {
-      background-color: #007b5e;
+      background-color: rgba(0, 123, 94, 0.9);
       color: white;
       padding: 30px 20px;
       text-align: center;
-      position: relative;
-      z-index: 1;
     }
 
     header h1 {
@@ -60,16 +43,12 @@
     section {
       max-width: 700px;
       margin: 30px auto;
-      padding: 0 20px;
-      background-color: rgba(255, 255, 255, 0.85);
-      border-radius: 10px;
-      position: relative;
-      z-index: 1;
+      padding: 0 20px 100px; /* espacio extra para que el footer no tape */
     }
 
     h2 {
-      color: #007b5e;
-      border-bottom: 2px solid #007b5e;
+      color: #00ffaa;
+      border-bottom: 2px solid #00ffaa;
       padding-bottom: 5px;
     }
 
@@ -84,7 +63,7 @@
     }
 
     .contact a {
-      color: #007b5e;
+      color: #00ffaa;
       text-decoration: none;
     }
 
@@ -93,13 +72,11 @@
     }
 
     footer {
-      background-color: #007b5e;
+      background-color: rgba(0, 123, 94, 0.95);
       color: white;
       text-align: center;
       padding: 15px 10px;
       font-size: 0.9rem;
-      position: relative;
-      z-index: 1;
     }
 
     .photo {
@@ -107,7 +84,7 @@
       max-width: 150px;
       margin: 20px auto;
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
     }
 
     form {
@@ -129,30 +106,18 @@
     }
 
     button {
-      background-color: #007b5e;
-      color: white;
+      background-color: #00ffaa;
+      color: #000;
       border: none;
       cursor: pointer;
     }
 
     button:hover {
-      background-color: #005f47;
+      background-color: #00cc88;
     }
   </style>
 </head>
-
 <body>
-  <!-- Partículas flotantes -->
-  <script>
-    for (let i = 0; i < 35; i++) {
-      const p = document.createElement("div");
-      p.classList.add("particle");
-      p.style.left = Math.random() * 100 + "vw";
-      p.style.top = Math.random() * 100 + "vh";
-      p.style.animationDuration = (5 + Math.random() * 10) + "s";
-      document.body.appendChild(p);
-    }
-  </script>
 
   <header>
     <h1>Gerard Valls</h1>
@@ -188,7 +153,9 @@
       <label for="mensaje">Mensaje:</label>
       <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
 
+      <!-- Redirección personalizada después del envío -->
       <input type="hidden" name="_redirect" value="https://gerardvalls25.github.io/Gerard/gracias.html" />
+
       <button type="submit">Enviar</button>
     </form>
   </section>
@@ -196,5 +163,6 @@
   <footer>
     &copy; 2025 Gerard Valls. Todos los derechos reservados.
   </footer>
+
 </body>
 </html>
