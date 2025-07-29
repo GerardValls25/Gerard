@@ -2,94 +2,150 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Formulario con validación</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerard Valls - Nutrición Personalizada</title>
+  <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
+  <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
   <style>
     body {
-      font-family: Arial, sans-serif;
-      max-width: 400px;
-      margin: 50px auto;
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 10px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: url('gimnasio.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+    header {
+      background-color: #007b5e;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
     }
-    input, button {
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    section {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      color: #007b5e;
+      border-bottom: 2px solid #007b5e;
+      padding-bottom: 5px;
+    }
+    ul {
+      list-style: disc inside;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+    .contact {
+      font-size: 1.1rem;
+    }
+    .contact a {
+      color: #007b5e;
+      text-decoration: none;
+    }
+    .contact a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background-color: #007b5e;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      position: fixed;
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      font-size: 16px;
-      border-radius: 6px;
+      bottom: 0;
+      font-size: 0.9rem;
+    }
+    @media (max-height: 500px) {
+      footer {
+        position: static;
+      }
+    }
+    .photo {
+      display: block;
+      max-width: 150px;
+      margin: 20px auto;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
+      border-radius: 4px;
+      font-family: inherit;
     }
     button {
-      background-color: #007BFF;
+      background-color: #007b5e;
       color: white;
       border: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
     button:hover {
-      background-color: #0056b3;
-    }
-    .error {
-      color: red;
-      font-size: 0.9rem;
-      margin-top: -6px;
-      margin-bottom: 12px;
-      display: none;
+      background-color: #005f47;
     }
   </style>
 </head>
 <body>
 
-<h2>Formulario de Contacto</h2>
+  <header>
+    <h1>Gerard Valls</h1>
+    <p>Especialista en nutrición personalizada</p>
+  </header>
 
-<form id="contactForm" action="https://formspree.io/f/tu_form_id" method="POST" novalidate>
-  <input type="text" name="nombre" id="nombre" placeholder="Tu nombre" required />
-  <div id="errorNombre" class="error">Por favor ingresa tu nombre.</div>
+  <section>
+    <!-- Foto / Logo -->
+    <img src="gerard.jpg" alt="Gerard Valls" class="photo" />
 
-  <input type="email" name="email" id="email" placeholder="Tu correo electrónico" required />
-  <div id="errorEmail" class="error">Por favor ingresa un correo válido.</div>
+    <h2>Sobre mí</h2>
+    <p>Soy Gerard Valls, especialista en nutrición personalizada. Ayudo a personas a alcanzar sus objetivos de salud y peso de forma realista y sostenible.</p>
 
-  <!-- Cambia esta URL a la de tu página gracias -->
-  <input type="hidden" name="_redirect" value="https://tu-dominio.com/gracias.html" />
+    <h2>Servicios</h2>
+    <ul>
+      <li>Planes de alimentación</li>
+      <li>Dietas para pérdida de peso</li>
+      <li>Asesoría para deportistas</li>
+      <li>Seguimiento semanal</li>
+    </ul>
+
+    <h2>Contacto</h2>
+    <p class="contact">Sígueme en Instagram: <a href="https://www.instagram.com/gerardvallss/" target="_blank">@gerardvallss</a></p>
+    <p class="contact">Contáctame por WhatsApp: <a href="https://wa.me/34123456789" target="_blank">Enviar mensaje</a></p>
+
+    <h2>Agenda tu cita</h2>
+<form action="https://formspree.io/f/mgvzyyqk" method="POST">
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" name="nombre" required />
+
+  <label for="email">Correo:</label>
+  <input type="email" id="email" name="email" required />
+
+  <label for="mensaje">Mensaje:</label>
+  <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
 
   <button type="submit">Enviar</button>
-</form>
+	</form>
+  </section>
 
-<script>
-  const form = document.getElementById('contactForm');
-  const nombre = document.getElementById('nombre');
-  const email = document.getElementById('email');
-  const errorNombre = document.getElementById('errorNombre');
-  const errorEmail = document.getElementById('errorEmail');
-
-  form.addEventListener('submit', function(e) {
-    let valid = true;
-
-    // Validar nombre
-    if (!nombre.value.trim()) {
-      errorNombre.style.display = 'block';
-      valid = false;
-    } else {
-      errorNombre.style.display = 'none';
-    }
-
-    // Validar email
-    const emailVal = email.value.trim();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailVal || !emailPattern.test(emailVal)) {
-      errorEmail.style.display = 'block';
-      valid = false;
-    } else {
-      errorEmail.style.display = 'none';
-    }
-
-    if (!valid) {
-      e.preventDefault();
-    }
-  });
-</script>
+  <footer>
+    &copy; 2025 Gerard Valls. Todos los derechos reservados.
+  </footer>
 
 </body>
 </html>
