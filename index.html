@@ -150,21 +150,22 @@
     <p class="contact">WhatsApp: <a href="https://wa.me/34123456789" target="_blank" rel="noopener noreferrer">Enviar mensaje</a></p>
 
     <h2>Agenda tu cita</h2>
-   <form action="https://formsubmit.co/tu-email@example.com" method="POST">
-  <!-- Opcional: evitar captcha -->
-  <input type="hidden" name="_captcha" value="false" />
+    <form action="https://formsubmit.co/tu-email@example.com" method="POST">
+      <!-- Desactivar captcha -->
+      <input type="hidden" name="_captcha" value="false" />
+      <!-- Redirigir a página gracias -->
+      <input type="hidden" name="_next" value="https://gerardvalls25.github.io/Gerard/gracias.html" />
 
-  <label for="nombre">Nombre:</label>
-  <input type="text" id="nombre" name="nombre" required />
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required />
 
-  <label for="email">Correo:</label>
-  <input type="email" id="email" name="email" required />
+      <label for="email">Correo:</label>
+      <input type="email" id="email" name="email" required />
 
-  <label for="mensaje">Mensaje:</label>
-  <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+      <label for="mensaje">Mensaje:</label>
+      <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
 
-  <button type="submit">Enviar</button>
-</form>
+      <button type="submit">Enviar</button>
     </form>
   </section>
 
