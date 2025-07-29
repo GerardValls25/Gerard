@@ -7,55 +7,77 @@
   <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
   <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
   <style>
+    /* Fondo animado */
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #007b5e;
+      z-index: -1;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: url('gimnasio.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: transparent;
       color: #fff;
     }
+
     header {
-      background-color: #007b5e;
+      background-color: rgba(0, 123, 94, 0.9);
       color: white;
       padding: 30px 20px;
       text-align: center;
     }
+
     header h1 {
       margin: 0;
       font-size: 2.5rem;
     }
+
     header p {
       font-size: 1.2rem;
       margin-top: 10px;
       font-style: italic;
     }
+
     section {
       max-width: 700px;
       margin: 30px auto;
       padding: 0 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
     }
+
     h2 {
-      color: #007b5e;
-      border-bottom: 2px solid #007b5e;
+      color: #00ffc8;
+      border-bottom: 2px solid #00ffc8;
       padding-bottom: 5px;
     }
+
     ul {
       list-style: disc inside;
       margin-top: 10px;
       margin-bottom: 30px;
     }
+
     .contact {
       font-size: 1.1rem;
     }
+
     .contact a {
-      color: #007b5e;
+      color: #00ffc8;
       text-decoration: none;
     }
+
     .contact a:hover {
       text-decoration: underline;
     }
+
     footer {
-      background-color: #007b5e;
+      background-color: rgba(0, 123, 94, 0.9);
       color: white;
       text-align: center;
       padding: 15px 10px;
@@ -64,11 +86,13 @@
       bottom: 0;
       font-size: 0.9rem;
     }
+
     @media (max-height: 500px) {
       footer {
         position: static;
       }
     }
+
     .photo {
       display: block;
       max-width: 150px;
@@ -76,12 +100,15 @@
       border-radius: 50%;
       box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
+
     form {
       margin-top: 20px;
     }
+
     label {
       font-weight: bold;
     }
+
     input, textarea, button {
       width: 100%;
       padding: 10px;
@@ -91,18 +118,23 @@
       border-radius: 4px;
       font-family: inherit;
     }
+
     button {
       background-color: #007b5e;
       color: white;
       border: none;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #005f47;
     }
   </style>
 </head>
 <body>
+
+  <!-- Fondo animado -->
+  <div id="particles-js"></div>
 
   <header>
     <h1>Gerard Valls</h1>
@@ -129,7 +161,7 @@
     <p class="contact">Contáctame por WhatsApp: <a href="https://wa.me/34123456789" target="_blank">Enviar mensaje</a></p>
 
     <h2>Agenda tu cita</h2>
-    <form id="miFormulario" action="https://formspree.io/f/mgvzyyqk" method="POST">
+    <form action="https://formspree.io/f/mgvzyyqk" method="POST">
       <label for="nombre">Nombre:</label>
       <input type="text" id="nombre" name="nombre" required />
 
@@ -139,6 +171,7 @@
       <label for="mensaje">Mensaje:</label>
       <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
 
+      <input type="hidden" name="_redirect" value="https://gerardvalls25.github.io/Gerard/gracias.html" />
       <button type="submit">Enviar</button>
     </form>
   </section>
@@ -147,70 +180,39 @@
     &copy; 2025 Gerard Valls. Todos los derechos reservados.
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    document.getElementById('miFormulario').addEventListener('submit', function(e) {
-      e.preventDefault(); // Evita envío tradicional
-
-      const form = e.target;
-      const data = new FormData(form);
-
-      fetch(form.action, {
-        method: form.method,
-        body: data,
-        headers: {
-          'Accept': 'application/json'
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.3 },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#ffffff",
+          opacity: 0.2,
+          width: 1
+        },
+        move: { enable: true, speed: 2 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          grab: { distance: 200, line_linked: { opacity: 0.5 } },
+          push: { particles_nb: 4 }
         }
-      })
-      .then(response => {
-        if (response.ok) {
-          // Abre nueva ventana con mensaje de gracias
-          const ventanaGracias = window.open('', '_blank', 'width=400,height=300');
-          ventanaGracias.document.write(`
-            <html lang="es">
-              <head>
-                <title>Gracias</title>
-                <style>
-                  body {
-                    font-family: Arial, sans-serif;
-                    text-align: center;
-                    padding: 20px;
-                    background: #f9f9f9;
-                    color: #333;
-                  }
-                  h1 {
-                    color: #007b5e;
-                  }
-                  button {
-                    background-color: #007b5e;
-                    color: white;
-                    border: none;
-                    padding: 10px 20px;
-                    cursor: pointer;
-                    font-size: 1rem;
-                    border-radius: 4px;
-                    margin-top: 20px;
-                  }
-                  button:hover {
-                    background-color: #005f47;
-                  }
-                </style>
-              </head>
-              <body>
-                <h1>¡Gracias!</h1>
-                <p>El formulario ha sido enviado con éxito.</p>
-                <button onclick="window.close()">Cerrar</button>
-              </body>
-            </html>
-          `);
-          ventanaGracias.document.close();
-
-          form.reset();
-        } else {
-          alert('Error al enviar el formulario. Inténtalo de nuevo.');
-        }
-      })
-      .catch(() => alert('Error al enviar el formulario. Inténtalo de nuevo.'));
+      },
+      retina_detect: true
     });
   </script>
+
 </body>
 </html>
