@@ -120,7 +120,6 @@
   </header>
 
   <section>
-    <!-- Foto / Logo -->
     <img src="gerard.jpg" alt="Gerard Valls" class="photo" />
 
     <h2>Sobre mí</h2>
@@ -153,8 +152,7 @@
     </form>
 
     <div id="mensajeGracias">
-      ¡Gracias por contactarnos! Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.
-      <br />
+      ¡Gracias por contactarnos! Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.<br />
       <a href="https://gerardvalls25.github.io/Gerard/" >Volver al inicio</a>
     </div>
   </section>
@@ -168,20 +166,18 @@
     const mensajeGracias = document.getElementById('mensajeGracias');
 
     form.addEventListener('submit', function(event) {
-      event.preventDefault(); // Evita el envío tradicional
+      event.preventDefault();
 
       const formData = new FormData(form);
 
       fetch('https://formspree.io/f/mgvzyyqk', {
         method: 'POST',
         body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       }).then(response => {
         if (response.ok) {
-          form.style.display = 'none'; // Oculta el formulario
-          mensajeGracias.style.display = 'block'; // Muestra mensaje de gracias
+          form.style.display = 'none';
+          mensajeGracias.style.display = 'block';
           form.reset();
         } else {
           alert('Hubo un problema al enviar el formulario. Por favor, inténtalo de nuevo.');
@@ -191,5 +187,6 @@
       });
     });
   </script>
+
 </body>
 </html>
