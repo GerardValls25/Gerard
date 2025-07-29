@@ -2,109 +2,64 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gracias - Gerard Valls</title>
+  <title>Gracias</title>
   <style>
-    /* Fondo animado */
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: #007b5e;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      color: white;
-      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e0f7fa;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-      background: transparent;
+      margin: 0;
+      color: #004d40;
     }
-
-    .mensaje {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 40px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
-    }
-
-    h1 {
+    h2 {
       font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: #00ffc8;
+      margin-bottom: 10px;
+      animation: fadeInDown 1s ease forwards;
     }
-
     p {
       font-size: 1.2rem;
       margin-bottom: 30px;
+      animation: fadeInUp 1s ease forwards;
     }
-
-    .boton {
-      background-color: #00ffc8;
-      color: #000;
+    button {
+      padding: 14px 30px;
+      font-size: 18px;
+      background-color: #00796b;
+      color: white;
       border: none;
-      padding: 12px 25px;
-      font-size: 1rem;
-      border-radius: 5px;
-      text-decoration: none;
+      border-radius: 8px;
       cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 1.5s ease forwards;
+    }
+    button:hover {
+      background-color: #004d40;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
     }
 
-    .boton:hover {
-      background-color: #00d6a8;
+    /* Animaciones */
+    @keyframes fadeInDown {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
     }
   </style>
 </head>
 <body>
-  <div id="particles-js"></div>
-
-  <div class="mensaje">
-    <h1>¡Gracias por tu mensaje!</h1>
-    <p>Hemos recibido tu información y nos pondremos en contacto contigo pronto.</p>
-    <a href="https://gerardvalls25.github.io/Gerard/" class="boton">Volver al sitio</a>
-  </div>
-
-  <!-- Script de partículas -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 60, density: { enable: true, value_area: 800 } },
-        color: { value: "#ffffff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.3 },
-        size: { value: 3, random: true },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffffff",
-          opacity: 0.2,
-          width: 1
-        },
-        move: { enable: true, speed: 2 }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "push" }
-        },
-        modes: {
-          grab: { distance: 200, line_linked: { opacity: 0.5 } },
-          push: { particles_nb: 4 }
-        }
-      },
-      retina_detect: true
-    });
-  </script>
+  <h2>¡Gracias por contactarnos!</h2>
+  <p>Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.</p>
+  <button onclick="window.history.back()">Atrás</button>
 </body>
 </html>
