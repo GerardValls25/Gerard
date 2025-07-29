@@ -8,12 +8,12 @@
   <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
   <style>
     body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: url('gimnasio.jpg') no-repeat center center fixed;
-  background-size: cover;
-  color: #fff;
-}
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: url('gimnasio.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
     header {
       background-color: #007b5e;
       color: white;
@@ -100,6 +100,16 @@
     button:hover {
       background-color: #005f47;
     }
+    #mensajeGracias {
+      display: none;
+      margin-top: 20px;
+      color: #007b5e;
+      font-weight: bold;
+    }
+    #mensajeGracias a {
+      color: #007b5e;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -125,28 +135,61 @@
     </ul>
 
     <h2>Contacto</h2>
-    <p class="contact">Sígueme en Instagram: <a href="https://www.instagram.com/gerardvallss/" target="_blank">@gerardvallss</a></p>
-    <p class="contact">Contáctame por WhatsApp: <a href="https://wa.me/34123456789" target="_blank">Enviar mensaje</a></p>
+    <p class="contact">Sígueme en Instagram: <a href="https://www.instagram.com/gerardvallss/" target="_blank" rel="noopener noreferrer">@gerardvallss</a></p>
+    <p class="contact">Contáctame por WhatsApp: <a href="https://wa.me/34123456789" target="_blank" rel="noopener noreferrer">Enviar mensaje</a></p>
 
     <h2>Agenda tu cita</h2>
-<form action="https://formspree.io/f/mgvzyyqk" method="POST">
-  <label for="nombre">Nombre:</label>
-  <input type="text" id="nombre" name="nombre" required />
+    <form id="contactForm">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required />
 
-  <label for="email">Correo:</label>
-  <input type="email" id="email" name="email" required />
+      <label for="email">Correo:</label>
+      <input type="email" id="email" name="email" required />
 
-  <label for="mensaje">Mensaje:</label>
-  <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+      <label for="mensaje">Mensaje:</label>
+      <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
 
-  <input type="hidden" name="_redirect" value="https://gerardvalls25.github.io/Gerard/gracias.html" />
-  <button type="submit">Enviar</button>
-</form>
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div id="mensajeGracias">
+      ¡Gracias por contactarnos! Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.
+      <br />
+      <a href="https://gerardvalls25.github.io/Gerard/" >Volver al inicio</a>
+    </div>
   </section>
 
   <footer>
     &copy; 2025 Gerard Valls. Todos los derechos reservados.
   </footer>
 
+  <script>
+    const form = document.getElementById('contactForm');
+    const mensajeGracias = document.getElementById('mensajeGracias');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío tradicional
+
+      const formData = new FormData(form);
+
+      fetch('https://formspree.io/f/mgvzyyqk', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          form.style.display = 'none'; // Oculta el formulario
+          mensajeGracias.style.display = 'block'; // Muestra mensaje de gracias
+          form.reset();
+        } else {
+          alert('Hubo un problema al enviar el formulario. Por favor, inténtalo de nuevo.');
+        }
+      }).catch(error => {
+        alert('Error de red: ' + error.message);
+      });
+    });
+  </script>
 </body>
 </html>
