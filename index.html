@@ -4,84 +4,101 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gerard Valls - Nutrición Personalizada</title>
+  <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
+  <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
   <style>
-   body {
+    /* Fondo animado */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #0b0f2f; /* fondo base oscuro */
+      z-index: -1;
+      top: 0;
+      left: 0;
+    }
+
+    body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: linear-gradient(135deg, #00cba9, #b2fefa); /* Degradado claro */
-      background-attachment: fixed;
-      background-size: cover;
+      padding: 0;
       color: #fff;
-    
-}
+      position: relative;
+    }
+
     header {
-      background-color: #007b5e;
+      background-color: rgba(0, 123, 94, 0.85);
       color: white;
       padding: 30px 20px;
       text-align: center;
     }
+
     header h1 {
       margin: 0;
       font-size: 2.5rem;
     }
+
     header p {
       font-size: 1.2rem;
       margin-top: 10px;
       font-style: italic;
     }
+
     section {
       max-width: 700px;
       margin: 30px auto;
       padding: 0 20px;
     }
+
     h2 {
-      color: #007b5e;
-      border-bottom: 2px solid #007b5e;
+      color: #00ffcc;
+      border-bottom: 2px solid #00ffcc;
       padding-bottom: 5px;
     }
+
     ul {
       list-style: disc inside;
       margin-top: 10px;
       margin-bottom: 30px;
     }
+
     .contact {
       font-size: 1.1rem;
     }
+
     .contact a {
-      color: #007b5e;
+      color: #00ffcc;
       text-decoration: none;
     }
+
     .contact a:hover {
       text-decoration: underline;
     }
+
     footer {
-      background-color: #007b5e;
+      background-color: rgba(0, 123, 94, 0.85);
       color: white;
       text-align: center;
       padding: 15px 10px;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
       font-size: 0.9rem;
     }
-    @media (max-height: 500px) {
-      footer {
-        position: static;
-      }
-    }
+
     .photo {
       display: block;
       max-width: 150px;
       margin: 20px auto;
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
     }
+
     form {
       margin-top: 20px;
     }
+
     label {
       font-weight: bold;
     }
+
     input, textarea, button {
       width: 100%;
       padding: 10px;
@@ -91,18 +108,23 @@
       border-radius: 4px;
       font-family: inherit;
     }
+
     button {
       background-color: #007b5e;
       color: white;
       border: none;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #005f47;
     }
   </style>
 </head>
 <body>
+
+  <!-- Fondo animado -->
+  <div id="particles-js"></div>
 
   <header>
     <h1>Gerard Valls</h1>
@@ -124,11 +146,11 @@
     </ul>
 
     <h2>Contacto</h2>
-    <p class="contact">Sígueme en Instagram: <a href="https://www.instagram.com/gerardvallss/" target="_blank">@gerardvallss</a></p>
-    <p class="contact">Contáctame por WhatsApp: <a href="https://wa.me/34123456789" target="_blank">Enviar mensaje</a></p>
+    <p class="contact">Instagram: <a href="https://www.instagram.com/gerardvallss/" target="_blank">@gerardvallss</a></p>
+    <p class="contact">WhatsApp: <a href="https://wa.me/34123456789" target="_blank">Enviar mensaje</a></p>
 
     <h2>Agenda tu cita</h2>
-    <form id="miFormulario">
+    <form action="https://formspree.io/f/mgvzyyqk" method="POST">
       <label for="nombre">Nombre:</label>
       <input type="text" id="nombre" name="nombre" required />
 
@@ -138,6 +160,9 @@
       <label for="mensaje">Mensaje:</label>
       <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
 
+      <!-- Redirección personalizada tras envío -->
+      <input type="hidden" name="_redirect" value="https://gerardvalls25.github.io/Gerard/gracias.html" />
+
       <button type="submit">Enviar</button>
     </form>
   </section>
@@ -146,53 +171,36 @@
     &copy; 2025 Gerard Valls. Todos los derechos reservados.
   </footer>
 
+  <!-- Cargar Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    const form = document.getElementById('miFormulario');
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      // Abrir ventana nueva con mensaje personalizado
-      const win = window.open('', '_blank', 'width=400,height=300');
-      win.document.write(`
-        <html>
-          <head>
-            <title>Gracias</title>
-            <style>
-              body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background: #f9f9f9; color: #333; }
-              h1 { color: #007b5e; }
-              button {
-                margin-top: 20px; padding: 10px 20px; background: #007b5e; border: none; color: white;
-                cursor: pointer; border-radius: 5px; font-weight: bold;
-              }
-              button:hover { background: #005f47; }
-            </style>
-          </head>
-          <body>
-            <h1>¡Gracias!</h1>
-            <p>El formulario ha sido enviado con éxito.<br>Nos pondremos en contacto contigo pronto.</p>
-            <button onclick="window.close()">Cerrar ventana</button>
-          </body>
-        </html>
-      `);
-
-      // Prepara los datos
-      const formData = new FormData(form);
-
-      // Enviar a Formspree
-      try {
-        const response = await fetch('https://formspree.io/f/mgvzyyqk', {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-        if (response.ok) {
-          form.reset();
-        } else {
-          alert('Hubo un error al enviar el formulario.');
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 80 },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5 },
+        "size": { "value": 3 },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 3,
+          "direction": "none",
+          "out_mode": "out"
         }
-      } catch {
-        alert('Error de red al enviar el formulario.');
-      }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" }
+        }
+      },
+      "retina_detect": true
     });
   </script>
 
