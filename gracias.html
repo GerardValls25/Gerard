@@ -2,64 +2,60 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Gracias</title>
+  <title>¡Gracias por tu mensaje! - Gerard Valls</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #e0f7fa;
+      background-color: #0b0f2f;
+      color: #00ffcc;
+      font-family: Arial, sans-serif;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      color: #004d40;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
     }
-    h2 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      animation: fadeInDown 1s ease forwards;
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.3em;
     }
     p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-      animation: fadeInUp 1s ease forwards;
+      font-size: 1.25rem;
+      margin-bottom: 1.5em;
+      max-width: 400px;
     }
-    button {
-      padding: 14px 30px;
-      font-size: 18px;
-      background-color: #00796b;
+    a {
+      background-color: #007b5e;
       color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeIn 1.5s ease forwards;
+      padding: 12px 30px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,123,94,0.4);
     }
-    button:hover {
-      background-color: #004d40;
-      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    a:hover {
+      background-color: #005f47;
+      box-shadow: 0 6px 12px rgba(0,95,71,0.6);
     }
-
-    /* Animaciones */
-    @keyframes fadeInDown {
-      from {opacity: 0; transform: translateY(-20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-    @keyframes fadeInUp {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+    /* Opcional: logo o imagen arriba */
+    .logo {
+      max-width: 120px;
+      margin-bottom: 30px;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(0,255,204,0.6);
     }
   </style>
 </head>
 <body>
-  <h2>¡Gracias por contactarnos!</h2>
-  <p>Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.</p>
-  <button onclick="window.history.back()">Atrás</button>
+  <!-- Puedes cambiar o poner tu logo aquí -->
+  <img src="gerard.jpg" alt="Gerard Valls" class="logo" />
+
+  <h1>¡Gracias por tu mensaje!</h1>
+  <p>He recibido tu solicitud y me pondré en contacto contigo muy pronto para ayudarte con tu nutrición personalizada.</p>
+  <a href="index.html">Volver al inicio</a>
 </body>
 </html>
