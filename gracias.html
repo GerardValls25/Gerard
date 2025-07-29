@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #0b0f2f;
+      background-color: #0b0f2f;
       color: #00ffcc;
       display: flex;
       flex-direction: column;
@@ -17,30 +17,14 @@
       margin: 0;
       text-align: center;
       padding: 20px;
-      overflow: hidden;
-    }
-    @keyframes fadeSlideUp {
-      0% {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    h1, p, a {
-      animation: fadeSlideUp 1s ease forwards;
     }
     h1 {
       font-size: 3rem;
       margin-bottom: 20px;
-      animation-delay: 0.1s;
     }
     p {
       font-size: 1.3rem;
       margin-bottom: 40px;
-      animation-delay: 0.3s;
     }
     a {
       color: #00ffcc;
@@ -49,25 +33,18 @@
       padding: 12px 30px;
       border: 2px solid #00ffcc;
       border-radius: 6px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      animation-delay: 0.5s;
-      display: inline-block;
+      transition: background-color 0.3s, color 0.3s;
     }
     a:hover {
       background-color: #00ffcc;
       color: #0b0f2f;
     }
     footer {
-      position: absolute;
-      bottom: 15px;
-      width: 100%;
-      text-align: center;
-      color: #007b5e;
-      font-size: 0.9rem;
+      position: fixed;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #004d40;
       font-style: italic;
-      opacity: 0.8;
-      animation: fadeSlideUp 1s ease forwards;
-      animation-delay: 0.7s;
     }
   </style>
 </head>
@@ -75,9 +52,6 @@
   <h1>¡Gracias!</h1>
   <p>El formulario ha sido enviado con éxito.</p>
   <a href="https://gerardvalls25.github.io/Gerard/">Regresar al sitio original</a>
-
-  <footer>
-    &copy; 2025 Gerard Valls. Todos los derechos reservados.
-  </footer>
+  <footer>Estás usando FormSubmit</footer>
 </body>
 </html>
