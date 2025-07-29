@@ -2,47 +2,60 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gracias por tu mensaje</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>¡Gracias!</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f0f8f5;
-      color: #333;
+      color: white;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
+      align-items: center;
       text-align: center;
+      background: linear-gradient(-45deg, #007b5e, #00b894, #55efc4, #007b5e);
+      background-size: 400% 400%;
+      animation: animarFondo 15s ease infinite;
     }
+
+    @keyframes animarFondo {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     h1 {
-      color: #007b5e;
+      font-size: 3rem;
       margin-bottom: 10px;
     }
+
     p {
       font-size: 1.2rem;
       margin-bottom: 30px;
     }
-    .boton {
-      display: inline-block;
+
+    button {
       background-color: #007b5e;
       color: white;
-      padding: 12px 24px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 1rem;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      cursor: pointer;
       transition: background-color 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
-    .boton:hover {
+
+    button:hover {
       background-color: #005f47;
     }
   </style>
 </head>
 <body>
-  <h1>¡Gracias por contactarnos!</h1>
-  <p>Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.</p>
-  https://gerardvalls25.github.io/Gerard/gracias.htmlhttps://gerardvalls25.github.io/Gerard/gracias.html
+  <h1>¡Gracias!</h1>
+  <p>Tu formulario fue enviado con éxito.<br>Nos pondremos en contacto contigo pronto.</p>
+  <button onclick="window.history.back()">Volver</button>
 </body>
 </html>
