@@ -6,6 +6,21 @@
   <title>Gerard Valls - Nutrición Personalizada</title>
   <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
   <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
+
+  <!-- Open Graph (Facebook, LinkedIn...) -->
+  <meta property="og:title" content="Gerard Valls - Nutrición Personalizada" />
+  <meta property="og:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas y personas que buscan una vida saludable." />
+  <meta property="og:image" content="https://i.imgur.com/3qXz7wG.jpg" />
+  <meta property="og:url" content="https://tu-dominio.com/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gerard Valls - Nutrición Personalizada" />
+  <meta name="twitter:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas y personas que buscan una vida saludable." />
+  <meta name="twitter:image" content="https://i.imgur.com/3qXz7wG.jpg" />
+  <meta name="twitter:site" content="@tuusuario" />
+
   <style>
     /* Fondo animado */
     #particles-js {
@@ -191,6 +206,7 @@
       font-size: 1rem;
       margin-bottom: 10px;
       display: none;
+      outline: none;
     }
 
     /* Contenedor mensaje éxito */
@@ -199,6 +215,7 @@
       font-size: 1rem;
       margin-bottom: 10px;
       display: none;
+      outline: none;
     }
 
     /* Animaciones */
@@ -280,8 +297,8 @@
   <h2 id="consulta">Consulta rápida</h2>
   <form id="contactForm" novalidate aria-describedby="formErrors formSuccess" aria-live="polite">
     <!-- Contenedores para mensajes generales -->
-    <div id="formErrors" role="alert" aria-live="assertive"></div>
-    <div id="formSuccess" aria-live="polite"></div>
+    <div id="formErrors" role="alert" aria-live="assertive" tabindex="-1"></div>
+    <div id="formSuccess" aria-live="polite" tabindex="-1"></div>
 
     <label for="name">Nombre completo *</label>
     <input
@@ -407,6 +424,7 @@
         isValid = false;
       }
     }
+
     return isValid;
   }
 
@@ -418,14 +436,17 @@
     formSuccess.textContent = '';
 
     if (!validateFields()) {
-      // Si hay errores individuales, no mostrar error general
+      // No se envía el formulario si hay errores
+      formErrors.style.display = 'block';
+      formErrors.textContent = 'Por favor corrige los errores indicados.';
+      formErrors.focus();
       return;
     }
 
-    // Aquí iría la llamada a tu servidor o API
-    // Simulamos éxito:
+    // Simulación de envío exitoso
     formSuccess.style.display = 'block';
     formSuccess.textContent = '¡Gracias por tu consulta! Me pondré en contacto contigo pronto.';
+    formSuccess.focus();
 
     form.reset();
   });
