@@ -4,233 +4,227 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gerard Valls - Nutrición Personalizada</title>
-  <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
-  <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
   <style>
-    /* Fondo animado */
+    body {
+      margin: 0;
+      padding-top: 90px;
+      font-family: Arial, sans-serif;
+      color: #0b0f2f;
+      background: #0b0f2f;
+    }
     #particles-js {
       position: fixed;
       width: 100%;
       height: 100%;
-      background: #0b0f2f; /* fondo base oscuro */
-      z-index: -1;
+      background: #0b0f2f;
       top: 0;
       left: 0;
+      z-index: -1;
     }
-
-    body {
-      font-family: Arial, sans-serif;
+    .encabezado {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ffffffdd;
+      backdrop-filter: blur(8px);
+      padding: 15px 25px;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      max-width: 800px;
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      text-align: left;
+      z-index: 1000;
+      flex-direction: row;
+      animation: slideFadeIn 0.6s ease forwards;
+      transition: top 0.3s ease;
+    }
+    .logo {
+      height: 40px;
+      width: auto;
+      flex-shrink: 0;
+    }
+    .encabezado h1 {
+      font-size: 1.6rem;
+      color: #0b0f2f;
       margin: 0;
-      padding: 0;
-      color: #fff;
-      position: relative;
     }
-
-    header {
-      background-color: rgba(0, 123, 94, 0.85);
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
+    @keyframes slideFadeIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
     }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
+    @media (max-width: 600px) {
+      .encabezado {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius: 0 0 12px 12px;
+      }
+      .logo {
+        height: 50px;
+        margin-bottom: 10px;
+      }
+      .encabezado h1 {
+        font-size: 1.4rem;
+      }
     }
-
-    header p {
-      font-size: 1.2rem;
-      margin-top: 10px;
-      font-style: italic;
+    /* Panel de control para partículas */
+    #control-panel {
+      position: fixed;
+      top: 110px;
+      right: 20px;
+      background: rgba(255 255 255 / 0.9);
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      max-width: 250px;
+      font-size: 14px;
+      color: #0b0f2f;
+      z-index: 1100;
     }
-
-    section {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    h2 {
-      color: #00ffcc;
-      border-bottom: 2px solid #00ffcc;
-      padding-bottom: 5px;
-    }
-
-    ul {
-      list-style: disc inside;
-      margin-top: 10px;
-      margin-bottom: 30px;
-    }
-
-    .contact {
-      font-size: 1.1rem;
-    }
-
-    .contact a {
-      color: #00ffcc;
-      text-decoration: none;
-    }
-
-    .contact a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      background-color: rgba(0, 123, 94, 0.85);
-      color: white;
-      text-align: center;
-      padding: 15px 10px;
-      font-size: 0.9rem;
-    }
-
-    .photo {
+    #control-panel label {
       display: block;
-      max-width: 150px;
-      margin: 20px auto;
-      border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      margin-top: 10px;
+      font-weight: 600;
     }
-
-    form {
-      margin-top: 20px;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input, textarea, button {
+    #control-panel select,
+    #control-panel input[type="color"],
+    #control-panel input[type="range"],
+    #control-panel input[type="number"] {
       width: 100%;
-      padding: 10px;
       margin-top: 5px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-family: inherit;
-    }
-
-    button {
-      background-color: #007b5e;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #005f47;
+      padding: 4px 6px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
 
-  <!-- Fondo animado -->
-  <div id="particles-js"></div>
+<div id="particles-js"></div>
 
 <header class="encabezado">
   <img src="gerard.jpg" alt="Logo Gerard Valls" class="logo" />
   <h1>Gerard Valls - Nutrición Personalizada</h1>
 </header>
 
-<style>
-  .encabezado {
-    display: flex;
-    align-items: center;
-    gap: 30px; /* ← controla la separación entre imagen y texto */
-    background-color: #ffffffdd;
-    padding: 15px 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 40px auto;
-  }
+<div id="control-panel">
+  <h3>Configura Partículas</h3>
+  <label for="color">Color:</label>
+  <input type="color" id="color" value="#FFD700" />
+  
+  <label for="shape">Forma:</label>
+  <select id="shape">
+    <option value="circle">Círculo</option>
+    <option value="edge">Cuadrado</option>
+    <option value="triangle">Triángulo</option>
+    <option value="star" selected>Estrella</option>
+    <option value="polygon">Polígono</option>
+  </select>
+  
+  <label for="size">Tamaño:</label>
+  <input type="range" id="size" min="1" max="10" value="4" />
+  
+  <label for="speed">Velocidad:</label>
+  <input type="range" id="speed" min="0.5" max="10" step="0.1" value="3" />
+  
+  <label for="count">Cantidad:</label>
+  <input type="number" id="count" min="10" max="200" value="80" />
+</div>
 
-  .logo {
-    height: 40px;
-    width: auto;
-    flex-shrink: 0; /* evita que la imagen se reduzca al mínimo en pantallas pequeñas */
-  }
-
-  .encabezado h1 {
-    font-size: 1.6rem;
-    color: #0b0f2f;
-    margin: 0;
-  }
-</style>
-
+<main>
   <section>
-    
-
-    <h2>Sobre mí</h2>
-    <p>Soy Gerard Valls, especialista en nutrición personalizada. Ayudo a personas a alcanzar sus objetivos de salud y peso de forma realista y sostenible.</p>
-
-    <h2>Servicios</h2>
-    <ul>
-      <li>Planes de alimentación</li>
-      <li>Dietas para pérdida de peso</li>
-      <li>Asesoría para deportistas</li>
-      <li>Seguimiento semanal</li>
-    </ul>
-
-    <h2>Contacto</h2>
-    <p class="contact">Instagram: <a href="https://www.instagram.com/gerardvallss/" target="_blank" rel="noopener noreferrer">@gerardvallss</a></p>
-    <p class="contact">WhatsApp: <a href="https://wa.me/34123456789" target="_blank" rel="noopener noreferrer">Enviar mensaje</a></p>
-
-    <h2>Agenda tu cita</h2>
-    <form action="https://formsubmit.co/gerardvalls25@gmail.com" method="POST">
-      <!-- Redirigir a página de gracias personalizada -->
-      <input type="hidden" name="_next" value="https://gerardvalls25.github.io/Gerard/gracias.html" />
-      <!-- Desactivar captcha si quieres -->
-      <input type="hidden" name="_captcha" value="false" />
-
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" required />
-
-      <label for="email">Correo:</label>
-      <input type="email" id="email" name="email" required />
-
-      <label for="mensaje">Mensaje:</label>
-      <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
-
-      <button type="submit">Enviar</button>
-    </form>
+    <p>Contenido de ejemplo debajo del encabezado fijo.</p>
   </section>
+</main>
 
-  <footer>
-    &copy; 2025 Gerard Valls. Todos los derechos reservados.
-  </footer>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  // Configuración inicial
+  let config = {
+    particles: {
+      number: { value: 80, density: { enable: true, value_area: 900 } },
+      color: { value: "#FFD700" },
+      shape: { type: "star", stroke: { width: 0, color: "#000000" }, polygon: { nb_sides: 5 } },
+      opacity: { value: 0.6, random: false },
+      size: { value: 4, random: true },
+      move: { enable: true, speed: 3, direction: "none", random: false, straight: false, out_mode: "out", bounce: false }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+      modes: {
+        grab: { distance: 150, line_linked: { opacity: 0.6 } },
+        bubble: { distance: 200, size: 8, duration: 2, opacity: 0.8, speed: 3 },
+        repulse: { distance: 100, duration: 0.4 },
+        push: { particles_nb: 4 },
+        remove: { particles_nb: 2 }
+      }
+    },
+    retina_detect: true
+  };
 
-  <!-- Cargar Particles.js -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80 },
-        color: { value: "#ffffff" },
-        shape: { type: "circle" },
-        opacity: { value: 0.5 },
-        size: { value: 3 },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffffff",
-          opacity: 0.4,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 3,
-          direction: "none",
-          out_mode: "out"
-        }
-      },
-      interactivity: {
-        events: {
-          onhover: { enable: true, mode: "repulse" }
-        }
-      },
-      retina_detect: true
-    });
-  </script>
+  // Inicializa partículas
+  function loadParticles() {
+    particlesJS("particles-js", config);
+  }
+  loadParticles();
+
+  // Control panel elements
+  const colorInput = document.getElementById('color');
+  const shapeSelect = document.getElementById('shape');
+  const sizeInput = document.getElementById('size');
+  const speedInput = document.getElementById('speed');
+  const countInput = document.getElementById('count');
+
+  // Actualiza la configuración y recarga partículas
+  function updateParticles() {
+    config.particles.color.value = colorInput.value;
+    config.particles.shape.type = shapeSelect.value;
+    config.particles.size.value = parseFloat(sizeInput.value);
+    config.particles.move.speed = parseFloat(speedInput.value);
+    config.particles.number.value = parseInt(countInput.value, 10);
+
+    // Recarga particles.js (para evitar que se acumulen varias instancias)
+    if(window.pJSDom && window.pJSDom.length > 0) {
+      window.pJSDom[0].pJS.fn.vendors.destroypJS();
+      window.pJSDom = [];
+    }
+    loadParticles();
+  }
+
+  // Escucha cambios en los controles
+  colorInput.addEventListener('input', updateParticles);
+  shapeSelect.addEventListener('change', updateParticles);
+  sizeInput.addEventListener('input', updateParticles);
+  speedInput.addEventListener('input', updateParticles);
+  countInput.addEventListener('input', updateParticles);
+
+  // Header ocultar/mostrar en scroll
+  let lastScrollTop = 0;
+  const header = document.querySelector('.encabezado');
+
+  window.addEventListener('scroll', () => {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+      header.style.top = '-100px';
+    } else {
+      header.style.top = '0';
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  });
+</script>
 
 </body>
 </html>
