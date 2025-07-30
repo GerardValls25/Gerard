@@ -6,17 +6,16 @@
   <title>Gerard Valls - Nutrición Personalizada</title>
   <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
   <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
-  
-  <!-- Meta tags sociales para SEO y compartir -->
+
+  <!-- Meta tags sociales -->
   <meta property="og:title" content="Gerard Valls - Nutrición Personalizada" />
-  <meta property="og:description" content="Planes de alimentación personalizados y asesoría para deportistas." />
+  <meta property="og:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas." />
   <meta property="og:image" content="https://i.imgur.com/3qXz7wG.jpg" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://tusitio.com" />
-  
+  <meta property="og:url" content="https://tu-sitio-ejemplo.com" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Gerard Valls - Nutrición Personalizada" />
-  <meta name="twitter:description" content="Planes de alimentación personalizados y asesoría para deportistas." />
+  <meta name="twitter:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas." />
   <meta name="twitter:image" content="https://i.imgur.com/3qXz7wG.jpg" />
 
   <style>
@@ -252,6 +251,52 @@
         max-width: 100px;
       }
     }
+
+    /* Estilos para ventana modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #0b0f2f;
+      color: #00ffcc;
+      padding: 25px 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 15px #00ffcc;
+    }
+
+    .modal-content button {
+      margin-top: 20px;
+      background-color: #007b5e;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-content button:hover,
+    .modal-content button:focus {
+      background-color: #005f47;
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -293,8 +338,8 @@
   <h2 id="consulta">Consulta rápida</h2>
   <form id="contactForm" novalidate aria-describedby="formErrors formSuccess" aria-live="polite">
     <!-- Contenedores para mensajes generales -->
-    <div id="formErrors" role="alert" tabindex="-1"></div>
-    <div id="formSuccess" role="alert" tabindex="-1"></div>
+    <div id="formErrors" role="alert" aria-live="assertive" tabindex="-1"></div>
+    <div id="formSuccess" aria-live="polite"></div>
 
     <label for="name">Nombre completo *</label>
     <input
@@ -337,6 +382,15 @@
   </form>
 </section>
 
+<!-- Ventana modal de agradecimiento -->
+<div id="thankYouModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+  <div class="modal-content">
+    <h2 id="modalTitle">¡Gracias por tu consulta!</h2>
+    <p>Me pondré en contacto contigo pronto.</p>
+    <button id="closeModalBtn">Cerrar</button>
+  </div>
+</div>
+
 <footer>
   &copy; 2025 Gerard Valls - Todos los derechos reservados.
 </footer>
@@ -355,12 +409,31 @@
       },
       opacity: { value: 0.5, random: false, anim: { enable: false } },
       size: { value: 3, random: true, anim: { enable: false } },
-      line_linked: { enable: true, distance: 150, color: "#00ffcc", opacity: 0.4, width: 1 },
-      move: { enable: true, speed: 3, direction: "none", random: false, straight: false, out_mode: "out" }
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: "#00ffcc",
+        opacity: 0.4,
+        width: 1
+      },
+      move: {
+        enable: true,
+        speed: 4,
+        direction: "none",
+        random: false,
+        straight: false,
+        out_mode: "out",
+        bounce: false,
+        attract: { enable: false }
+      }
     },
     interactivity: {
       detect_on: "canvas",
-      events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
+      events: {
+        onhover: { enable: true, mode: "grab" },
+        onclick: { enable: true, mode: "push" },
+        resize: true
+      },
       modes: {
         grab: { distance: 140, line_linked: { opacity: 1 } },
         bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
@@ -372,26 +445,27 @@
     retina_detect: true
   });
 
-  // Form validation y accesibilidad mejorada
+  // Validación y manejo formulario
+
   const form = document.getElementById('contactForm');
   const formErrors = document.getElementById('formErrors');
   const formSuccess = document.getElementById('formSuccess');
 
   const fields = {
     name: {
-      input: form.name,
+      input: document.getElementById('name'),
       errorDiv: document.getElementById('nameError'),
       validator: value => value.length >= 3,
       errorMsg: 'El nombre debe tener al menos 3 caracteres.'
     },
     email: {
-      input: form.email,
+      input: document.getElementById('email'),
       errorDiv: document.getElementById('emailError'),
-      validator: value => /^\S+@\S+\.\S+$/.test(value),
-      errorMsg: 'Por favor ingresa un correo electrónico válido.'
+      validator: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+      errorMsg: 'Introduce un correo electrónico válido.'
     },
     message: {
-      input: form.message,
+      input: document.getElementById('message'),
       errorDiv: document.getElementById('messageError'),
       validator: value => value.length >= 10,
       errorMsg: 'El mensaje debe tener al menos 10 caracteres.'
@@ -399,15 +473,37 @@
   };
 
   function clearFieldErrors() {
-    for (const key in fields) {
-      fields[key].errorDiv.style.display = 'none';
-      fields[key].errorDiv.textContent = '';
-    }
     formErrors.style.display = 'none';
     formErrors.textContent = '';
     formSuccess.style.display = 'none';
     formSuccess.textContent = '';
+    for (const key in fields) {
+      fields[key].errorDiv.style.display = 'none';
+      fields[key].errorDiv.textContent = '';
+    }
   }
+
+  // Modal manejo
+  const modal = document.getElementById('thankYouModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  function openModal() {
+    modal.classList.add('active');
+    modal.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    form.querySelector('button[type="submit"]').focus();
+  }
+
+  closeModalBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -432,13 +528,11 @@
       return;
     }
 
-    // Simular envío exitoso
-    formSuccess.textContent = '¡Gracias por tu consulta! Me pondré en contacto contigo pronto.';
-    formSuccess.style.display = 'block';
-    formSuccess.focus();
-
+    // Abrir modal de gracias en vez de mensaje inline
+    openModal();
     form.reset();
   });
 </script>
+
 </body>
 </html>
