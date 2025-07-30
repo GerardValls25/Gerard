@@ -306,7 +306,7 @@
 <header>
   <h1>Gerard Valls</h1>
   <p>Nutrición personalizada y planes de alimentación</p>
-  <!-- Imagen con srcset para responsive y accesibilidad -->
+  <!-- Imagen sin tabindex -->
   <img
     src="https://i.imgur.com/3qXz7wG.jpg"
     srcset="https://i.imgur.com/3qXz7wG_480.jpg 480w,
@@ -314,7 +314,7 @@
     sizes="(max-width: 600px) 100px, 120px"
     alt="Gerard Valls"
     class="photo"
-    tabindex="0" />
+  />
 </header>
 
 <section aria-labelledby="servicios">
@@ -329,178 +329,150 @@
 <section aria-labelledby="contacto">
   <h2 id="contacto">Contacto</h2>
   <p class="contact">
-    Email: <a href="mailto:gerardvalls25@gmail.com" tabindex="0">gerardvalls25@gmail.com</a><br/>
-    WhatsApp: <a href="https://wa.me/34612345678" target="_blank" rel="noopener" tabindex="0">+34 612 345 678</a>
+    Email: <a href="mailto:gerardvalls25@gmail.com">gerardvalls25@gmail.com</a><br/>
+    WhatsApp: <a href="https://wa.me/34612345678" target="_blank" rel="noopener">+34 612 345 678</a>
   </p>
 </section>
 
 <section aria-labelledby="consulta">
   <h2 id="consulta">Consulta rápida</h2>
-  <form id="contactForm" novalidate aria-describedby="formErrors formSuccess" aria-live="polite">
-    <!-- Contenedores para mensajes generales -->
-    <div id="formErrors" role="alert" aria-live="assertive" tabindex="-1"></div>
-    <div id="formSuccess" aria-live="polite"></div>
+  <form id="contactForm" novalidate aria-describedby="formErrors" aria-live="polite">
+    <div id="formErrors" tabindex="-1" role="alert"></div>
+    <div id="formSuccess" role="status"></div>
 
-    <label for="name">Nombre completo *</label>
+    <label for="nombre">Nombre completo</label>
     <input
       type="text"
-      id="name"
-      name="name"
+      id="nombre"
+      name="nombre"
       required
       aria-required="true"
-      minlength="3"
+      aria-describedby="nombreError"
       placeholder="Tu nombre completo"
-      aria-describedby="nameError"
+      autocomplete="name"
     />
-    <div id="nameError" class="error-message" role="alert" aria-live="assertive"></div>
+    <div id="nombreError" class="error-message" aria-live="assertive"></div>
 
-    <label for="email">Correo electrónico *</label>
+    <label for="email">Correo electrónico</label>
     <input
       type="email"
       id="email"
       name="email"
       required
       aria-required="true"
-      placeholder="correo@ejemplo.com"
       aria-describedby="emailError"
+      placeholder="correo@ejemplo.com"
+      pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+      autocomplete="email"
     />
-    <div id="emailError" class="error-message" role="alert" aria-live="assertive"></div>
+    <div id="emailError" class="error-message" aria-live="assertive"></div>
 
-    <label for="message">Mensaje *</label>
+    <label for="consultaTexto">Consulta</label>
     <textarea
-      id="message"
-      name="message"
+      id="consultaTexto"
+      name="consultaTexto"
+      rows="4"
       required
       aria-required="true"
-      minlength="10"
-      placeholder="Escribe tu consulta"
-      aria-describedby="messageError"
+      aria-describedby="consultaError"
+      placeholder="Escribe tu consulta aquí"
     ></textarea>
-    <div id="messageError" class="error-message" role="alert" aria-live="assertive"></div>
+    <div id="consultaError" class="error-message" aria-live="assertive"></div>
 
     <button type="submit">Enviar</button>
   </form>
 </section>
 
-<!-- Ventana modal de agradecimiento -->
-<div id="thankYouModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
-  <div class="modal-content">
-    <h2 id="modalTitle">¡Gracias por tu consulta!</h2>
-    <p>Me pondré en contacto contigo pronto.</p>
-    <button id="closeModalBtn">Cerrar</button>
-  </div>
-</div>
-
 <footer>
   &copy; 2025 Gerard Valls - Todos los derechos reservados.
 </footer>
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<!-- Modal -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
+  <div class="modal-content">
+    <h2 id="modalTitle">Consulta recibida</h2>
+    <p id="modalDesc">Gracias por tu consulta, nos pondremos en contacto contigo pronto.</p>
+    <button id="closeModalBtn" aria-label="Cerrar ventana de confirmación">Cerrar</button>
+  </div>
+</div>
+
 <script>
-  // Particles.js config
-  particlesJS('particles-js', {
-    particles: {
-      number: { value: 80, density: { enable: true, value_area: 800 } },
-      color: { value: "#00ffcc" },
-      shape: {
-        type: "circle",
-        stroke: { width: 0, color: "#000000" },
-        polygon: { nb_sides: 5 }
-      },
-      opacity: { value: 0.5, random: false, anim: { enable: false } },
-      size: { value: 3, random: true, anim: { enable: false } },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: "#00ffcc",
-        opacity: 0.4,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 4,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-        attract: { enable: false }
-      }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: { enable: true, mode: "grab" },
-        onclick: { enable: true, mode: "push" },
-        resize: true
-      },
-      modes: {
-        grab: { distance: 140, line_linked: { opacity: 1 } },
-        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
-        repulse: { distance: 200, duration: 0.4 },
-        push: { particles_nb: 4 },
-        remove: { particles_nb: 2 }
-      }
-    },
-    retina_detect: true
-  });
-
-  // Validación y manejo formulario
-
-  const form = document.getElementById('contactForm');
-  const formErrors = document.getElementById('formErrors');
-  const formSuccess = document.getElementById('formSuccess');
-
+  // Campos y validaciones
   const fields = {
-    name: {
-      input: document.getElementById('name'),
-      errorDiv: document.getElementById('nameError'),
-      validator: value => value.length >= 3,
-      errorMsg: 'El nombre debe tener al menos 3 caracteres.'
+    nombre: {
+      input: document.getElementById('nombre'),
+      errorDiv: document.getElementById('nombreError'),
+      validator: val => val.length >= 2,
+      errorMsg: 'Por favor, ingresa tu nombre completo (mínimo 2 caracteres).'
     },
     email: {
       input: document.getElementById('email'),
       errorDiv: document.getElementById('emailError'),
-      validator: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-      errorMsg: 'Introduce un correo electrónico válido.'
+      validator: val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val),
+      errorMsg: 'Por favor, ingresa un correo electrónico válido.'
     },
-    message: {
-      input: document.getElementById('message'),
-      errorDiv: document.getElementById('messageError'),
-      validator: value => value.length >= 10,
-      errorMsg: 'El mensaje debe tener al menos 10 caracteres.'
+    consultaTexto: {
+      input: document.getElementById('consultaTexto'),
+      errorDiv: document.getElementById('consultaError'),
+      validator: val => val.length >= 10,
+      errorMsg: 'La consulta debe tener al menos 10 caracteres.'
     }
   };
 
+  const form = document.getElementById('contactForm');
+  const formErrors = document.getElementById('formErrors');
+  const formSuccess = document.getElementById('formSuccess');
+  const modal = document.getElementById('modal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  function validateField(key) {
+    const field = fields[key];
+    const value = field.input.value.trim();
+    if (!field.validator(value)) {
+      field.errorDiv.style.display = 'block';
+      field.errorDiv.textContent = field.errorMsg;
+      return false;
+    } else {
+      field.errorDiv.style.display = 'none';
+      field.errorDiv.textContent = '';
+      return true;
+    }
+  }
+
   function clearFieldErrors() {
-    formErrors.style.display = 'none';
-    formErrors.textContent = '';
-    formSuccess.style.display = 'none';
-    formSuccess.textContent = '';
     for (const key in fields) {
       fields[key].errorDiv.style.display = 'none';
       fields[key].errorDiv.textContent = '';
     }
+    formErrors.style.display = 'none';
+    formErrors.textContent = '';
+    formSuccess.style.display = 'none';
+    formSuccess.textContent = '';
   }
 
-  // Modal manejo
-  const modal = document.getElementById('thankYouModal');
-  const closeModalBtn = document.getElementById('closeModalBtn');
+  // Validar campos al perder foco
+  for (const key in fields) {
+    fields[key].input.addEventListener('blur', () => {
+      validateField(key);
+    });
+  }
 
   function openModal() {
     modal.classList.add('active');
-    modal.focus();
+    closeModalBtn.focus();
   }
 
   function closeModal() {
     modal.classList.remove('active');
-    form.querySelector('button[type="submit"]').focus();
+    // Opcional: devolver foco al formulario o primer campo
+    fields.nombre.input.focus();
   }
 
   closeModalBtn.addEventListener('click', closeModal);
 
-  modal.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+  // Cerrar modal con Escape
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
       closeModal();
     }
   });
@@ -512,11 +484,7 @@
     let isValid = true;
 
     for (const key in fields) {
-      const field = fields[key];
-      const value = field.input.value.trim();
-      if (!field.validator(value)) {
-        field.errorDiv.style.display = 'block';
-        field.errorDiv.textContent = field.errorMsg;
+      if (!validateField(key)) {
         isValid = false;
       }
     }
@@ -528,9 +496,18 @@
       return;
     }
 
-    // Abrir modal de gracias en vez de mensaje inline
+    // Aquí puedes hacer la lógica de envío, AJAX, etc.
+
     openModal();
     form.reset();
+  });
+</script>
+
+<!-- Particles.js script (puedes reemplazar por tu animación) -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js/demo/particles.json', function() {
+    console.log('Particles.js cargado.');
   });
 </script>
 
