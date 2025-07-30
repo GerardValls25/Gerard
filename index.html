@@ -126,10 +126,20 @@
   <!-- Fondo animado -->
   <div id="particles-js"></div>
 
-  <header>
+  <header class="encabezado">
+  <div class="encabezado__contenido">
+    <img src="gerard.jpg" alt="Logo Gerard Valls" class="logo" />
     <h1>Gerard Valls</h1>
-    <p>Especialista en nutrición personalizada</p>
-  </header>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
+  <nav class="nav" id="nav">
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
 
   <section>
     <img src="gerard.jpg" alt="Gerard Valls" class="photo" />
