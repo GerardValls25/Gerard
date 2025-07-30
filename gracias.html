@@ -18,6 +18,13 @@
       margin: 0;
       text-align: center;
       padding: 20px;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
     h1 {
       font-size: 3rem;
@@ -26,6 +33,18 @@
     p {
       font-size: 1.3rem;
       margin-bottom: 30px;
+    }
+    #personal-msg {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #66fff2;
+      margin-bottom: 30px;
+    }
+    #countdown {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #00fff0;
     }
     button, .share-btn {
       color: #00ffcc;
@@ -39,20 +58,17 @@
       margin: 5px;
       text-decoration: none;
       display: inline-block;
-      
-      /* Animación suave de brillo */
       animation: pulseGlow 2.5s ease-in-out infinite;
-      transition: none; /* sin transición que cambie colores */
+      transition: none;
     }
     button:hover, .share-btn:hover {
-      /* No cambiar nada al hover para que no se apague */
       background-color: transparent !important;
       color: #00ffcc !important;
       border-color: #00ffcc !important;
       opacity: 1 !important;
       filter: none !important;
       box-shadow: none !important;
-      animation-play-state: running !important; /* animación sigue igual */
+      animation-play-state: running !important;
       cursor: pointer;
     }
     button:focus, .share-btn:focus {
@@ -68,7 +84,7 @@
       animation: pulseGlowRed 2.5s ease-in-out infinite;
     }
     #cancelRedirect:hover {
-      background-color: #ff4444 !important; /* sin cambio */
+      background-color: #ff4444 !important;
       border-color: #ff4444 !important;
       animation-play-state: running !important;
       cursor: pointer;
@@ -107,12 +123,15 @@
       h1 {
         font-size: 2rem;
       }
-      p {
+      p, #personal-msg {
         font-size: 1.1rem;
       }
       button, .share-btn {
         padding: 10px 20px;
         font-size: 0.9rem;
+      }
+      #countdown {
+        font-size: 1rem;
       }
     }
   </style>
@@ -120,6 +139,11 @@
 <body>
   <h1>¡Gracias!</h1>
   <p>El formulario ha sido enviado con éxito.</p>
+
+  <p id="personal-msg" aria-live="polite" aria-atomic="true">Hola, ¡tu envío fue exitoso!</p>
+
+  <div id="countdown" aria-live="polite" aria-atomic="true">Redireccionando en 10 segundos...</div>
+
   <button onclick="history.back()" aria-label="Regresar a la página anterior">Regresar a la página anterior</button>
 
   <div aria-label="Opciones para compartir esta página" role="region" style="margin-top:30px;">
@@ -131,17 +155,57 @@
 
   <button id="cancelRedirect" aria-live="polite" aria-label="Cancelar redirección automática">Cancelar redirección automática (10s)</button>
 
+  <audio id="clickSound" src="https://actions.google.com/sounds/v1/ui/click.ogg" preload="auto"></audio>
+
   <script>
+    // Leer parámetro "nombre" de la URL
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const nombre = getQueryParam('nombre');
+    const personalMsg = document.getElementById('personal-msg');
+    if (nombre && nombre.trim().length > 0) {
+      personalMsg.innerHTML = `Hola <strong>${nombre.trim()}</strong>, ¡tu envío fue exitoso!`;
+    }
+
+    let secondsLeft = 10;
+    const countdownEl = document.getElementById('countdown');
+    const cancelBtn = document.getElementById('cancelRedirect');
+    const clickSound = document.getElementById('clickSound');
+
     let redirectTimeout = setTimeout(() => {
       window.location.href = "https://gerardvalls25.github.io/Gerard/";
-    }, 10000);
+    }, secondsLeft * 1000);
 
-    const cancelBtn = document.getElementById('cancelRedirect');
+    let interval = setInterval(() => {
+      secondsLeft--;
+      if(secondsLeft <= 0){
+        clearInterval(interval);
+      }
+      countdownEl.textContent = `Redireccionando en ${secondsLeft} segundo${secondsLeft !== 1 ? 's' : ''}...`;
+    }, 1000);
+
     cancelBtn.addEventListener('click', () => {
       clearTimeout(redirectTimeout);
+      clearInterval(interval);
       cancelBtn.textContent = 'Redirección cancelada';
       cancelBtn.disabled = true;
       cancelBtn.style.cursor = 'default';
+      countdownEl.textContent = 'Redirección cancelada';
+      playClickSound();
+    });
+
+    function playClickSound() {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+
+    document.querySelectorAll('button, .share-btn').forEach(el => {
+      el.addEventListener('click', () => {
+        playClickSound();
+      });
     });
   </script>
 </body>
