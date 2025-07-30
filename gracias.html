@@ -18,27 +18,14 @@
       margin: 0;
       text-align: center;
       padding: 20px;
-      animation: fadeIn 1.5s ease forwards;
-      opacity: 0;
-    }
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
     }
     h1 {
       font-size: 3rem;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
     p {
       font-size: 1.3rem;
-      margin-bottom: 15px;
-    }
-    #personal-msg {
-      font-size: 1.1rem;
       margin-bottom: 30px;
-      font-style: italic;
-      color: #66fff2;
     }
     button, .share-btn {
       color: #00ffcc;
@@ -53,17 +40,19 @@
       text-decoration: none;
       display: inline-block;
       
+      /* Animación suave de brillo */
       animation: pulseGlow 2.5s ease-in-out infinite;
-      transition: none;
+      transition: none; /* sin transición que cambie colores */
     }
     button:hover, .share-btn:hover {
+      /* No cambiar nada al hover para que no se apague */
       background-color: transparent !important;
       color: #00ffcc !important;
       border-color: #00ffcc !important;
       opacity: 1 !important;
       filter: none !important;
       box-shadow: none !important;
-      animation-play-state: running !important;
+      animation-play-state: running !important; /* animación sigue igual */
       cursor: pointer;
     }
     button:focus, .share-btn:focus {
@@ -71,21 +60,7 @@
       outline-offset: 2px;
       animation-play-state: running !important;
     }
-    /* Animación diferente para "Regresar" */
-    #backBtn {
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-        box-shadow: 0 0 6px 0 #00ffcc;
-      }
-      50% {
-        transform: translateY(-8px);
-        box-shadow: 0 0 15px 8px #00fff0;
-      }
-    }
-
+    
     #cancelRedirect {
       background-color: #ff4444;
       border-color: #ff4444;
@@ -93,7 +68,7 @@
       animation: pulseGlowRed 2.5s ease-in-out infinite;
     }
     #cancelRedirect:hover {
-      background-color: #ff4444 !important;
+      background-color: #ff4444 !important; /* sin cambio */
       border-color: #ff4444 !important;
       animation-play-state: running !important;
       cursor: pointer;
@@ -127,28 +102,17 @@
       }
     }
 
-    /* Contador estilo */
-    #countdown {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      color: #00fff0;
-      font-weight: bold;
-    }
-
     /* Responsive */
     @media (max-width: 480px) {
       h1 {
         font-size: 2rem;
       }
-      p, #personal-msg {
+      p {
         font-size: 1.1rem;
       }
       button, .share-btn {
         padding: 10px 20px;
         font-size: 0.9rem;
-      }
-      #countdown {
-        font-size: 1rem;
       }
     }
   </style>
@@ -156,117 +120,29 @@
 <body>
   <h1>¡Gracias!</h1>
   <p>El formulario ha sido enviado con éxito.</p>
-  <p id="personal-msg">Hola <strong id="userName">Gerard</strong>, ¡tu envío fue exitoso!</p>
-
-  <div id="countdown" aria-live="polite" aria-atomic="true">Redireccionando en 10 segundos...</div>
-
-  <button id="backBtn" onclick="goBack()" aria-label="Regresar a la página anterior">Regresar a la página anterior</button>
+  <button onclick="history.back()" aria-label="Regresar a la página anterior">Regresar a la página anterior</button>
 
   <div aria-label="Opciones para compartir esta página" role="region" style="margin-top:30px;">
-    <a href="#" id="twitterShare" target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en Twitter">Compartir en Twitter</a>
-    <a href="#" id="facebookShare" target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en Facebook">Compartir en Facebook</a>
-    <a href="#" id="whatsappShare" target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en WhatsApp">Compartir en WhatsApp</a>
-    <a href="#" id="linkedinShare" target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en LinkedIn">Compartir en LinkedIn</a>
+    <a href="https://twitter.com/intent/tweet?text=Gracias%20por%20enviar%20el%20formulario%20en%20Gerard%20Valls%20-%20https%3A%2F%2Fgerardvalls25.github.io%2FGerard%2F" 
+       target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en Twitter">Compartir en Twitter</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgerardvalls25.github.io%2FGerard%2F" 
+       target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en Facebook">Compartir en Facebook</a>
   </div>
 
   <button id="cancelRedirect" aria-live="polite" aria-label="Cancelar redirección automática">Cancelar redirección automática (10s)</button>
 
-  <!-- Sonido por defecto (click) -->
-  <audio id="clickSound" src="https://actions.google.com/sounds/v1/ui/click.ogg" preload="auto"></audio>
-
   <script>
-    // CONFIGURACIÓN (modifica aquí)
-    const redirectUrl = "https://gerardvalls25.github.io/Gerard/";
-    const defaultUserName = "Gerard";
-    const baseShareUrl = redirectUrl;
-    const shareTextTemplate = "Gracias por enviar el formulario en {name} - ";
-
-    // Obtener parámetros URL (nombre y opción para personalizar)
-    function getQueryParams() {
-      const params = {};
-      location.search.substring(1).split("&").forEach(pair => {
-        const [key, value] = pair.split("=");
-        if (key) params[key] = decodeURIComponent(value || "");
-      });
-      return params;
-    }
-
-    // Actualiza el texto de bienvenida con el nombre dinámico
-    function setUserName(name) {
-      const userNameEl = document.getElementById("userName");
-      userNameEl.textContent = name || defaultUserName;
-    }
-
-    // Construye las URLs para compartir con texto y enlace dinámico
-    function buildShareLinks(name, url) {
-      const text = shareTextTemplate.replace("{name}", name);
-      const encodedUrl = encodeURIComponent(url);
-      const encodedText = encodeURIComponent(text + url);
-
-      document.getElementById("twitterShare").href = `https://twitter.com/intent/tweet?text=${encodedText}`;
-      document.getElementById("facebookShare").href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-      document.getElementById("whatsappShare").href = `https://api.whatsapp.com/send?text=${encodedText}`;
-      document.getElementById("linkedinShare").href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-    }
-
-    // Variables de la página
-    let secondsLeft = 10;
-    const countdownEl = document.getElementById('countdown');
-    const cancelBtn = document.getElementById('cancelRedirect');
-    const clickSound = document.getElementById('clickSound');
-
-    // Leer parámetros de URL
-    const params = getQueryParams();
-    const userName = params.name || defaultUserName;
-
-    // Aplicar nombre dinámico
-    setUserName(userName);
-    // Actualizar enlaces para compartir
-    buildShareLinks(userName, baseShareUrl);
-
-    // Temporizador y redirección
     let redirectTimeout = setTimeout(() => {
-      window.location.href = redirectUrl;
-    }, secondsLeft * 1000);
+      window.location.href = "https://gerardvalls25.github.io/Gerard/";
+    }, 10000);
 
-    const interval = setInterval(() => {
-      secondsLeft--;
-      if (secondsLeft <= 0) {
-        clearInterval(interval);
-      }
-      countdownEl.textContent = `Redireccionando en ${secondsLeft} segundo${secondsLeft !== 1 ? 's' : ''}...`;
-    }, 1000);
-
-    // Cancelar redirección
+    const cancelBtn = document.getElementById('cancelRedirect');
     cancelBtn.addEventListener('click', () => {
       clearTimeout(redirectTimeout);
-      clearInterval(interval);
       cancelBtn.textContent = 'Redirección cancelada';
       cancelBtn.disabled = true;
       cancelBtn.style.cursor = 'default';
-      countdownEl.textContent = 'Redirección cancelada';
-      playClickSound();
     });
-
-    // Función regresar
-    function goBack() {
-      playClickSound();
-      history.back();
-    }
-
-    // Sonido click
-    function playClickSound() {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    }
-
-    // Añadir sonido click a botones y enlaces
-    document.querySelectorAll('button, .share-btn').forEach(el => {
-      el.addEventListener('click', () => {
-        playClickSound();
-      });
-    });
-
   </script>
 </body>
 </html>
