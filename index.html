@@ -1,239 +1,545 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Chat Mejorado - Gerard Valls</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #011627;
-    color: #a0e9d8;
-    margin: 0; padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  header {
-    background: #00ffc8;
-    color: #003333;
-    padding: 1rem;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.5rem;
-  }
-  main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    overflow: hidden;
-  }
-  #chatbot-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding-right: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  .message {
-    margin-bottom: 1rem;
-    max-width: 70%;
-    padding: 0.6rem 1rem;
-    border-radius: 20px;
-    word-wrap: break-word;
-  }
-  .bot-message {
-    background: #00ffc8;
-    color: #003333;
-    align-self: flex-start;
-  }
-  .user-message {
-    background: #011627;
-    border: 2px solid #00ffc8;
-    color: #a0e9d8;
-    align-self: flex-end;
-  }
-  #typing-indicator {
-    font-style: italic;
-    font-size: 0.9rem;
-    color: #00ffc8;
-    margin-bottom: 0.8rem;
-    min-height: 1.2rem;
-  }
-  form {
-    display: flex;
-    gap: 0.5rem;
-  }
-  input[type="text"] {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    background: #022b38;
-    color: #a0e9d8;
-  }
-  button {
-    padding: 0 1.2rem;
-    background: #00ffc8;
-    border: none;
-    border-radius: 20px;
-    color: #003333;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  button:hover {
-    background: #00e6b8;
-  }
-  /* Quick reply buttons container */
-  .quick-replies {
-    display: flex;
-    gap: 8px;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .quick-replies button {
-    padding: 6px 14px;
-    font-weight: 600;
-    background-color: #00ffc8;
-    color: #003333;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  .quick-replies button:hover {
-    background-color: #00e6b8;
-  }
-  a {
-    color: #a0e9d8;
-    text-decoration: underline;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerard Valls - Nutrición Personalizada</title>
+  <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
+  <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
+  <style>
+    /* Fondo animado */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #0b0f2f;
+      z-index: -1;
+      top: 0;
+      left: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      position: relative;
+      scroll-behavior: smooth;
+      background: transparent;
+      outline-offset: 3px;
+    }
+
+    /* Enfoque visible para accesibilidad */
+    a:focus,
+    button:focus,
+    input:focus,
+    textarea:focus {
+      outline: 3px solid #00ffcc;
+      outline-offset: 2px;
+    }
+
+    header {
+      background-color: rgba(0, 123, 94, 0.95);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-style: italic;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    section {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      color: #00ffcc;
+      border-bottom: 2px solid #00ffcc;
+      padding-bottom: 5px;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    ul {
+      list-style: disc inside;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .contact {
+      font-size: 1.1rem;
+    }
+
+    .contact a {
+      position: relative;
+      color: #00ffcc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #00ffcc;
+      transition: width 0.3s ease;
+    }
+
+    .contact a:hover,
+    .contact a:focus {
+      color: #00e6b8;
+    }
+
+    .contact a:hover::after,
+    .contact a:focus::after {
+      width: 100%;
+    }
+
+    footer {
+      background-color: rgba(0, 123, 94, 0.95);
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+    }
+
+    .photo {
+      display: block;
+      max-width: 120px;
+      margin: 30px auto 20px auto;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: fadeInUp 1.2s ease forwards;
+    }
+
+    .photo:hover,
+    .photo:focus {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,255,204,0.6);
+    }
+
+    form {
+      margin-top: 20px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeInUp 1.2s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007b5e;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    button:hover,
+    button:focus {
+      background-color: #005f47;
+      transform: scale(1.05);
+      outline: none;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    /* Animaciones */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Media queries para móviles */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+      section {
+        padding: 0 15px;
+      }
+      .photo {
+        max-width: 100px;
+      }
+    }
+
+    /* Chatbot estilos */
+    #chatbot-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007b5e;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+      z-index: 1000;
+    }
+
+    #chatbot-btn:hover,
+    #chatbot-btn:focus {
+      background-color: #005f47;
+      outline: none;
+    }
+
+    #chatbot-window {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 320px;
+      max-width: 90vw;
+      height: 400px;
+      background: rgba(11, 15, 47, 0.95);
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    #chatbot-header {
+      background-color: #007b5e;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px 8px 0 0;
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #chatbot-close {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    #chatbot-messages {
+      flex: 1;
+      padding: 10px 15px;
+      overflow-y: auto;
+      color: #eee;
+      font-size: 0.95rem;
+    }
+
+    #chatbot-input-container {
+      display: flex;
+      border-top: 1px solid #00ffcc;
+    }
+
+    #chatbot-input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 0 0 0 8px;
+      outline: none;
+      color: #000;
+    }
+
+    #chatbot-send {
+      background-color: #00ffcc;
+      border: none;
+      padding: 0 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 0 0 8px 0;
+      transition: background-color 0.3s ease;
+    }
+
+    #chatbot-send:hover,
+    #chatbot-send:focus {
+      background-color: #00e6b8;
+      outline: none;
+    }
+
+    .chatbot-message {
+      margin-bottom: 10px;
+      line-height: 1.3;
+      padding: 6px 10px;
+      border-radius: 12px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .chatbot-message.bot {
+      background-color: #005f47;
+      align-self: flex-start;
+    }
+
+    .chatbot-message.user {
+      background-color: #00ffcc;
+      color: #000;
+      align-self: flex-end;
+    }
+  </style>
 </head>
 <body>
-<header>Chat Nutricional con Gerard Valls</header>
-<main>
-  <div id="chatbot-messages"></div>
-  <div id="typing-indicator"></div>
-  <form id="chat-form">
-    <input type="text" id="user-input" placeholder="Escribe tu mensaje..." autocomplete="off" />
+
+<div id="particles-js"></div>
+
+<header>
+  <h1>Gerard Valls</h1>
+  <p>Nutrición personalizada y planes de alimentación</p>
+  <img src="https://i.imgur.com/3qXz7wG.jpg" alt="Gerard Valls" class="photo" tabindex="0" />
+</header>
+
+<section aria-labelledby="servicios">
+  <h2 id="servicios">Servicios</h2>
+  <ul>
+    <li>Planes de alimentación para deportistas</li>
+    <li>Asesoría para pérdida de peso</li>
+    <li>Evaluaciones nutricionales</li>
+  </ul>
+</section>
+
+<section aria-labelledby="contacto">
+  <h2 id="contacto">Contacto</h2>
+  <p class="contact">
+    Email: <a href="mailto:gerardvalls@gmail.com" tabindex="0">gerardvalls@gmail.com</a><br/>
+    WhatsApp: <a href="https://wa.me/34612345678" target="_blank" rel="noopener" tabindex="0">+34 612 345 678</a>
+  </p>
+</section>
+
+<section aria-labelledby="consulta">
+  <h2 id="consulta">Consulta rápida</h2>
+  <form id="contactForm" novalidate aria-describedby="formErrors" aria-live="polite">
+    <div id="formErrors" class="error-message" role="alert"></div>
+
+    <label for="name">Nombre completo *</label>
+    <input type="text" id="name" name="name" required aria-required="true" minlength="3" placeholder="Tu nombre completo" />
+
+    <label for="email">Correo electrónico *</label>
+    <input type="email" id="email" name="email" required aria-required="true" placeholder="correo@ejemplo.com" />
+
+    <label for="message">Mensaje *</label>
+    <textarea id="message" name="message" required aria-required="true" minlength="10" placeholder="Escribe tu consulta"></textarea>
+
     <button type="submit">Enviar</button>
   </form>
-</main>
+</section>
 
+<footer>
+  &copy; 2025 Gerard Valls - Todos los derechos reservados.
+</footer>
+
+<button id="chatbot-btn" aria-label="Abrir chat de ayuda" title="Chat de ayuda">💬</button>
+
+<div id="chatbot-window" role="region" aria-live="polite" aria-label="Chatbot de ayuda">
+  <div id="chatbot-header">
+    <span>Ayuda Nutricional</span>
+    <button id="chatbot-close" aria-label="Cerrar chat">×</button>
+  </div>
+  <div id="chatbot-messages" tabindex="0"></div>
+  <div id="chatbot-input-container">
+    <input id="chatbot-input" type="text" aria-label="Escribe tu mensaje" autocomplete="off" />
+    <button id="chatbot-send" aria-label="Enviar mensaje">➡️</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-  const chatForm = document.getElementById('chat-form');
-  const userInput = document.getElementById('user-input');
-  const chatbotMessages = document.getElementById('chatbot-messages');
-  const typingIndicator = document.getElementById('typing-indicator');
+  // Particles.js config
+  particlesJS('particles-js', {
+    particles: {
+      number: { value: 80, density: { enable: true, value_area: 800 } },
+      color: { value: "#00ffcc" },
+      shape: {
+        type: "circle",
+        stroke: { width: 0, color: "#000000" },
+        polygon: { nb_sides: 5 }
+      },
+      opacity: { value: 0.5, random: false, anim: { enable: false } },
+      size: { value: 3, random: true, anim: { enable: false } },
+      line_linked: { enable: true, distance: 150, color: "#00ffcc", opacity: 0.4, width: 1 },
+      move: { enable: true, speed: 3, direction: "none", random: false, straight: false, out_mode: "out" }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: { enable: true, mode: "grab" },
+        onclick: { enable: true, mode: "push" }
+      },
+      modes: {
+        grab: { distance: 140, line_linked: { opacity: 1 } },
+        push: { particles_nb: 4 }
+      }
+    },
+    retina_detect: true
+  });
 
-  function scrollToBottom() {
+  // Form validation y envío simulado
+  const form = document.getElementById('contactForm');
+  const formErrors = document.getElementById('formErrors');
+
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.toLowerCase());
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    formErrors.style.display = 'none';
+    formErrors.textContent = '';
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+    let errors = [];
+
+    if (name.length < 3) errors.push('El nombre debe tener al menos 3 caracteres.');
+    if (!validateEmail(email)) errors.push('El correo electrónico no es válido.');
+    if (message.length < 10) errors.push('El mensaje debe tener al menos 10 caracteres.');
+
+    if (errors.length > 0) {
+      formErrors.style.display = 'block';
+      formErrors.innerHTML = errors.join('<br>');
+      formErrors.focus();
+      return;
+    }
+
+    // Simular envío
+    alert('Gracias por tu mensaje, ' + name + '. Te responderé pronto.');
+    form.reset();
+  });
+
+  // Chatbot funcionalidad básica
+  const chatbotBtn = document.getElementById('chatbot-btn');
+  const chatbotWindow = document.getElementById('chatbot-window');
+  const chatbotClose = document.getElementById('chatbot-close');
+  const chatbotMessages = document.getElementById('chatbot-messages');
+  const chatbotInput = document.getElementById('chatbot-input');
+  const chatbotSend = document.getElementById('chatbot-send');
+
+  chatbotBtn.addEventListener('click', () => {
+    chatbotWindow.style.display = 'flex';
+    chatbotInput.focus();
+    addBotMessage("Hola! Soy tu asistente de nutrición. ¿En qué puedo ayudarte?");
+  });
+
+  chatbotClose.addEventListener('click', () => {
+    chatbotWindow.style.display = 'none';
+    chatbotMessages.innerHTML = '';
+    chatbotInput.value = '';
+  });
+
+  function addBotMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'chatbot-message bot';
+    div.textContent = text;
+    chatbotMessages.appendChild(div);
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
   }
 
-  function addBotMessage(text) {
-    const message = document.createElement('div');
-    message.classList.add('message', 'bot-message');
-    message.innerHTML = text;
-    chatbotMessages.appendChild(message);
-    scrollToBottom();
-  }
-
   function addUserMessage(text) {
-    const message = document.createElement('div');
-    message.classList.add('message', 'user-message');
-    message.textContent = text;
-    chatbotMessages.appendChild(message);
-    scrollToBottom();
-  }
-
-  function toggleTyping(isTyping) {
-    typingIndicator.textContent = isTyping ? 'Gerard está escribiendo...' : '';
-  }
-
-  function addQuickReplies(replies = []) {
-    if (!replies.length) return;
-
-    const container = document.createElement('div');
-    container.classList.add('quick-replies');
-
-    replies.forEach(text => {
-      const btn = document.createElement('button');
-      btn.textContent = text;
-
-      btn.onclick = () => {
-        addUserMessage(text);
-        botResponse(text);
-        container.remove();
-      };
-
-      container.appendChild(btn);
-    });
-
-    chatbotMessages.appendChild(container);
-    scrollToBottom();
+    const div = document.createElement('div');
+    div.className = 'chatbot-message user';
+    div.textContent = text;
+    chatbotMessages.appendChild(div);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
   }
 
   function botResponse(message) {
-    toggleTyping(true);
-    const delay = 800 + Math.random() * 1200;
+    // Respuestas simples predefinidas
+    const msg = message.toLowerCase();
 
-    setTimeout(() => {
-      const msg = message.toLowerCase();
-      toggleTyping(false);
-
-      if (msg.includes('hola') || msg.includes('buenos')) {
-        addBotMessage("¡Hola! ¿Quieres saber sobre planes de alimentación o asesoría?");
-        addQuickReplies(['Planes de alimentación', 'Asesoría personalizada', 'Contacto']);
-      } else if (msg.includes('plan') || msg.includes('alimentación')) {
-        addBotMessage("Ofrezco planes personalizados según tu objetivo y actividad física.");
-        addQuickReplies(['Perder peso', 'Ganar músculo', 'Volver']);
-      } else if (msg.includes('peso') || msg.includes('adelgazar')) {
-        addBotMessage("Puedo ayudarte a perder peso con un plan saludable y sostenible.");
-        addQuickReplies(['¿Cómo empiezo?', '¿Qué comer?', 'Volver']);
-      } else if (msg.includes('contacto')) {
-        addBotMessage(`Puedes contactarme por email: <a href="mailto:gerardvalls@gmail.com">gerardvalls@gmail.com</a> o WhatsApp: <a href="https://wa.me/34612345678" target="_blank" rel="noopener">+34 612 345 678</a>`);
-        addQuickReplies(['Volver']);
-      } else if (msg === 'volver') {
-        addBotMessage("¿En qué más puedo ayudarte?");
-        addQuickReplies(['Planes de alimentación', 'Asesoría personalizada', 'Contacto']);
-      } else if (msg.includes('cómo empiezo')) {
-        addBotMessage("Para comenzar, dime tus hábitos actuales y metas específicas.");
-        addQuickReplies(['Quiero bajar 5 kg', 'Quiero estar más saludable', 'Volver']);
-      } else if (msg.includes('qué comer')) {
-        addBotMessage("Te puedo sugerir una dieta balanceada rica en frutas, verduras y proteínas magras.");
-        addQuickReplies(['Más info', 'Volver']);
-      } else if (msg.includes('más info')) {
-        addBotMessage("Claro, puedo enviarte una guía completa si quieres. ¿Quieres que te la envíe?");
-        addQuickReplies(['Sí, por favor', 'No, gracias', 'Volver']);
-      } else if (msg.includes('sí') || msg.includes('por favor')) {
-        addBotMessage("¡Perfecto! Te enviaré el material a tu email: gerardvalls@gmail.com");
-        addQuickReplies(['Volver']);
-      } else if (msg.includes('no')) {
-        addBotMessage("Está bien, dime si necesitas ayuda con algo más.");
-        addQuickReplies(['Planes de alimentación', 'Asesoría personalizada', 'Contacto']);
-      } else {
-        addBotMessage("Disculpa, no entiendo tu pregunta. Por favor intenta con otra.");
-        addQuickReplies(['Planes de alimentación', 'Asesoría personalizada', 'Contacto']);
-      }
-    }, delay);
+    if (msg.includes('hola') || msg.includes('buenos')) {
+      addBotMessage("¡Hola! ¿Quieres saber sobre planes de alimentación o asesoría?");
+    } else if (msg.includes('plan') || msg.includes('alimentación')) {
+      addBotMessage("Ofrezco planes personalizados según tu objetivo y actividad física.");
+    } else if (msg.includes('peso') || msg.includes('adelgazar')) {
+      addBotMessage("Puedo ayudarte a perder peso con un plan saludable y sostenible.");
+    } else if (msg.includes('contacto')) {
+      addBotMessage("Puedes contactarme por email: gerardvalls@gmail.com o WhatsApp: +34 612 345 678");
+    } else {
+      addBotMessage("Disculpa, no entiendo tu pregunta. Por favor intenta con otra.");
+    }
   }
 
-  chatForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const inputText = userInput.value.trim();
-    if (!inputText) return;
-    addUserMessage(inputText);
-    botResponse(inputText);
-    userInput.value = '';
-  });
+  function sendMessage() {
+    const text = chatbotInput.value.trim();
+    if (text === '') return;
+    addUserMessage(text);
+    chatbotInput.value = '';
+    setTimeout(() => botResponse(text), 600);
+  }
 
-  // Saludo inicial
-  addBotMessage("¡Hola! Soy Gerard, tu asistente nutricional. ¿En qué puedo ayudarte hoy?");
-  addQuickReplies(['Planes de alimentación', 'Asesoría personalizada', 'Contacto']);
+  chatbotSend.addEventListener('click', sendMessage);
+  chatbotInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
 </script>
+
 </body>
 </html>
