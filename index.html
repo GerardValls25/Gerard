@@ -6,20 +6,18 @@
   <title>Gerard Valls - Nutrición Personalizada</title>
   <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
   <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
-
-  <!-- Open Graph (Facebook, LinkedIn...) -->
+  
+  <!-- Meta tags sociales para SEO y compartir -->
   <meta property="og:title" content="Gerard Valls - Nutrición Personalizada" />
-  <meta property="og:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas y personas que buscan una vida saludable." />
+  <meta property="og:description" content="Planes de alimentación personalizados y asesoría para deportistas." />
   <meta property="og:image" content="https://i.imgur.com/3qXz7wG.jpg" />
-  <meta property="og:url" content="https://tu-dominio.com/" />
   <meta property="og:type" content="website" />
-
-  <!-- Twitter Card -->
+  <meta property="og:url" content="https://tusitio.com" />
+  
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Gerard Valls - Nutrición Personalizada" />
-  <meta name="twitter:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas y personas que buscan una vida saludable." />
+  <meta name="twitter:description" content="Planes de alimentación personalizados y asesoría para deportistas." />
   <meta name="twitter:image" content="https://i.imgur.com/3qXz7wG.jpg" />
-  <meta name="twitter:site" content="@tuusuario" />
 
   <style>
     /* Fondo animado */
@@ -206,7 +204,6 @@
       font-size: 1rem;
       margin-bottom: 10px;
       display: none;
-      outline: none;
     }
 
     /* Contenedor mensaje éxito */
@@ -215,7 +212,6 @@
       font-size: 1rem;
       margin-bottom: 10px;
       display: none;
-      outline: none;
     }
 
     /* Animaciones */
@@ -297,8 +293,8 @@
   <h2 id="consulta">Consulta rápida</h2>
   <form id="contactForm" novalidate aria-describedby="formErrors formSuccess" aria-live="polite">
     <!-- Contenedores para mensajes generales -->
-    <div id="formErrors" role="alert" aria-live="assertive" tabindex="-1"></div>
-    <div id="formSuccess" aria-live="polite" tabindex="-1"></div>
+    <div id="formErrors" role="alert" tabindex="-1"></div>
+    <div id="formSuccess" role="alert" tabindex="-1"></div>
 
     <label for="name">Nombre completo *</label>
     <input
@@ -381,7 +377,6 @@
   const formErrors = document.getElementById('formErrors');
   const formSuccess = document.getElementById('formSuccess');
 
-  // Campos e indicadores de error específicos
   const fields = {
     name: {
       input: form.name,
@@ -403,54 +398,47 @@
     }
   };
 
-  // Limpia errores específicos
   function clearFieldErrors() {
     for (const key in fields) {
       fields[key].errorDiv.style.display = 'none';
       fields[key].errorDiv.textContent = '';
     }
+    formErrors.style.display = 'none';
+    formErrors.textContent = '';
+    formSuccess.style.display = 'none';
+    formSuccess.textContent = '';
   }
 
-  // Validar todos los campos
-  function validateFields() {
-    let isValid = true;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
     clearFieldErrors();
+
+    let isValid = true;
 
     for (const key in fields) {
       const field = fields[key];
-      if (!field.validator(field.input.value.trim())) {
+      const value = field.input.value.trim();
+      if (!field.validator(value)) {
         field.errorDiv.style.display = 'block';
         field.errorDiv.textContent = field.errorMsg;
         isValid = false;
       }
     }
 
-    return isValid;
-  }
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    formErrors.style.display = 'none';
-    formErrors.textContent = '';
-    formSuccess.style.display = 'none';
-    formSuccess.textContent = '';
-
-    if (!validateFields()) {
-      // No se envía el formulario si hay errores
-      formErrors.style.display = 'block';
+    if (!isValid) {
       formErrors.textContent = 'Por favor corrige los errores indicados.';
+      formErrors.style.display = 'block';
       formErrors.focus();
       return;
     }
 
-    // Simulación de envío exitoso
-    formSuccess.style.display = 'block';
+    // Simular envío exitoso
     formSuccess.textContent = '¡Gracias por tu consulta! Me pondré en contacto contigo pronto.';
+    formSuccess.style.display = 'block';
     formSuccess.focus();
 
     form.reset();
   });
 </script>
-
 </body>
 </html>
