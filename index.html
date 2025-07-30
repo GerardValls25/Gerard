@@ -177,9 +177,26 @@
       outline: none;
     }
 
+    /* Estilos para mensajes de error por campo */
     .error-message {
       color: #ff6b6b;
       font-size: 0.9rem;
+      margin-top: 3px;
+      display: none;
+    }
+
+    /* Contenedor general de errores */
+    #formErrors {
+      color: #ff6b6b;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    /* Contenedor mensaje éxito */
+    #formSuccess {
+      color: #00ffcc;
+      font-size: 1rem;
       margin-bottom: 10px;
       display: none;
     }
@@ -231,7 +248,15 @@
 <header>
   <h1>Gerard Valls</h1>
   <p>Nutrición personalizada y planes de alimentación</p>
-  <img src="https://i.imgur.com/3qXz7wG.jpg" alt="Gerard Valls" class="photo" tabindex="0" />
+  <!-- Imagen con srcset para responsive y accesibilidad -->
+  <img
+    src="https://i.imgur.com/3qXz7wG.jpg"
+    srcset="https://i.imgur.com/3qXz7wG_480.jpg 480w,
+            https://i.imgur.com/3qXz7wG_800.jpg 800w"
+    sizes="(max-width: 600px) 100px, 120px"
+    alt="Gerard Valls"
+    class="photo"
+    tabindex="0" />
 </header>
 
 <section aria-labelledby="servicios">
@@ -253,17 +278,47 @@
 
 <section aria-labelledby="consulta">
   <h2 id="consulta">Consulta rápida</h2>
-  <form id="contactForm" novalidate aria-describedby="formErrors" aria-live="polite">
-    <div id="formErrors" class="error-message" role="alert"></div>
+  <form id="contactForm" novalidate aria-describedby="formErrors formSuccess" aria-live="polite">
+    <!-- Contenedores para mensajes generales -->
+    <div id="formErrors" role="alert" aria-live="assertive"></div>
+    <div id="formSuccess" aria-live="polite"></div>
 
     <label for="name">Nombre completo *</label>
-    <input type="text" id="name" name="name" required aria-required="true" minlength="3" placeholder="Tu nombre completo" />
+    <input
+      type="text"
+      id="name"
+      name="name"
+      required
+      aria-required="true"
+      minlength="3"
+      placeholder="Tu nombre completo"
+      aria-describedby="nameError"
+    />
+    <div id="nameError" class="error-message" role="alert" aria-live="assertive"></div>
 
     <label for="email">Correo electrónico *</label>
-    <input type="email" id="email" name="email" required aria-required="true" placeholder="correo@ejemplo.com" />
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      aria-required="true"
+      placeholder="correo@ejemplo.com"
+      aria-describedby="emailError"
+    />
+    <div id="emailError" class="error-message" role="alert" aria-live="assertive"></div>
 
     <label for="message">Mensaje *</label>
-    <textarea id="message" name="message" required aria-required="true" minlength="10" placeholder="Escribe tu consulta"></textarea>
+    <textarea
+      id="message"
+      name="message"
+      required
+      aria-required="true"
+      minlength="10"
+      placeholder="Escribe tu consulta"
+      aria-describedby="messageError"
+    ></textarea>
+    <div id="messageError" class="error-message" role="alert" aria-live="assertive"></div>
 
     <button type="submit">Enviar</button>
   </form>
@@ -304,38 +359,73 @@
     retina_detect: true
   });
 
-  // Form validation
+  // Form validation y accesibilidad mejorada
   const form = document.getElementById('contactForm');
-  const errorsDiv = document.getElementById('formErrors');
+  const formErrors = document.getElementById('formErrors');
+  const formSuccess = document.getElementById('formSuccess');
 
-  form.addEventListener('submit', function (e) {
+  // Campos e indicadores de error específicos
+  const fields = {
+    name: {
+      input: form.name,
+      errorDiv: document.getElementById('nameError'),
+      validator: value => value.length >= 3,
+      errorMsg: 'El nombre debe tener al menos 3 caracteres.'
+    },
+    email: {
+      input: form.email,
+      errorDiv: document.getElementById('emailError'),
+      validator: value => /^\S+@\S+\.\S+$/.test(value),
+      errorMsg: 'Por favor ingresa un correo electrónico válido.'
+    },
+    message: {
+      input: form.message,
+      errorDiv: document.getElementById('messageError'),
+      validator: value => value.length >= 10,
+      errorMsg: 'El mensaje debe tener al menos 10 caracteres.'
+    }
+  };
+
+  // Limpia errores específicos
+  function clearFieldErrors() {
+    for (const key in fields) {
+      fields[key].errorDiv.style.display = 'none';
+      fields[key].errorDiv.textContent = '';
+    }
+  }
+
+  // Validar todos los campos
+  function validateFields() {
+    let isValid = true;
+    clearFieldErrors();
+
+    for (const key in fields) {
+      const field = fields[key];
+      if (!field.validator(field.input.value.trim())) {
+        field.errorDiv.style.display = 'block';
+        field.errorDiv.textContent = field.errorMsg;
+        isValid = false;
+      }
+    }
+    return isValid;
+  }
+
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    errorsDiv.style.display = 'none';
-    errorsDiv.innerHTML = '';
+    formErrors.style.display = 'none';
+    formErrors.textContent = '';
+    formSuccess.style.display = 'none';
+    formSuccess.textContent = '';
 
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
-    let errors = [];
-
-    if (name.length < 3) {
-      errors.push('El nombre debe tener al menos 3 caracteres.');
-    }
-    if (!email.match(/^\S+@\S+\.\S+$/)) {
-      errors.push('Por favor ingresa un correo electrónico válido.');
-    }
-    if (message.length < 10) {
-      errors.push('El mensaje debe tener al menos 10 caracteres.');
-    }
-
-    if (errors.length > 0) {
-      errorsDiv.style.display = 'block';
-      errorsDiv.innerHTML = errors.join('<br>');
+    if (!validateFields()) {
+      // Si hay errores individuales, no mostrar error general
       return;
     }
 
-    // Aquí enviarías los datos a tu servidor o API
-    alert('¡Gracias por tu consulta! Me pondré en contacto contigo pronto.');
+    // Aquí iría la llamada a tu servidor o API
+    // Simulamos éxito:
+    formSuccess.style.display = 'block';
+    formSuccess.textContent = '¡Gracias por tu consulta! Me pondré en contacto contigo pronto.';
 
     form.reset();
   });
