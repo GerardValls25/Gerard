@@ -38,9 +38,12 @@
     }
     p {
       font-size: 1.3rem;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+      animation-delay: 1.5s;
     }
-    button {
+    button, .share-btn {
       color: #00ffcc;
       background-color: transparent;
       border: 2px solid #00ffcc;
@@ -50,13 +53,34 @@
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s, transform 0.2s;
       font-size: 1rem;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+      animation-delay: 3s;
+      margin: 5px;
+      text-decoration: none;
+      display: inline-block;
     }
-    button:hover {
+    button:hover, .share-btn:hover {
       background-color: #00ffcc;
       color: #0b0f2f;
       animation: pulse 1s infinite;
     }
-
+    button:focus, .share-btn:focus {
+      outline: 3px solid #00ffcc;
+      outline-offset: 2px;
+      animation: none;
+    }
+    #cancelRedirect {
+      background-color: #ff4444;
+      border-color: #ff4444;
+      margin-top: 20px;
+      animation-delay: 4.5s;
+    }
+    #cancelRedirect:hover {
+      background-color: #ff6666;
+      border-color: #ff6666;
+      animation: none;
+    }
     /* Animaciones */
     @keyframes fadeIn {
       to { opacity: 1; }
@@ -65,7 +89,6 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
-
     /* Responsive */
     @media (max-width: 480px) {
       h1 {
@@ -74,7 +97,7 @@
       p {
         font-size: 1.1rem;
       }
-      button {
+      button, .share-btn {
         padding: 10px 20px;
         font-size: 0.9rem;
       }
@@ -82,8 +105,33 @@
   </style>
 </head>
 <body>
-  <h1>¡Gracias!</h1>
-  <p>El formulario ha sido enviado con éxito.</p>
-  <button onclick="history.back()">Regresar a la página anterior</button>
+  <h1 role="heading" aria-level="1">¡Gracias!</h1>
+  <p id="message">El formulario ha sido enviado con éxito.</p>
+  <button onclick="history.back()" aria-label="Regresar a la página anterior">Regresar a la página anterior</button>
+
+  <div aria-label="Opciones para compartir esta página" role="region" style="margin-top:30px;">
+    <a href="https://twitter.com/intent/tweet?text=Gracias%20por%20enviar%20el%20formulario%20en%20Gerard%20Valls%20-%20https%3A%2F%2Fgerardvalls25.github.io%2FGerard%2F" 
+       target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en Twitter">Compartir en Twitter</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgerardvalls25.github.io%2FGerard%2F" 
+       target="_blank" rel="noopener" class="share-btn" aria-label="Compartir en Facebook">Compartir en Facebook</a>
+  </div>
+
+  <button id="cancelRedirect" aria-live="polite" aria-label="Cancelar redirección automática">Cancelar redirección automática (10s)</button>
+
+  <script>
+    // Temporizador para redirigir automáticamente a la página original después de 10 segundos
+    let redirectTimeout = setTimeout(() => {
+      window.location.href = "https://gerardvalls25.github.io/Gerard/";
+    }, 10000);
+
+    // Cancelar redirección al pulsar el botón
+    const cancelBtn = document.getElementById('cancelRedirect');
+    cancelBtn.addEventListener('click', () => {
+      clearTimeout(redirectTimeout);
+      cancelBtn.textContent = 'Redirección cancelada';
+      cancelBtn.disabled = true;
+      cancelBtn.style.cursor = 'default';
+    });
+  </script>
 </body>
 </html>
