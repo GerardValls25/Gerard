@@ -94,6 +94,9 @@
     form {
       margin-top: 20px;
       margin-bottom: 40px;
+      opacity: 0; /* inicial para animación */
+      animation: fadeInUp 1.2s ease forwards;
+      animation-delay: 0.5s;
     }
 
     label {
@@ -119,6 +122,22 @@
 
     button:hover {
       background-color: #005f47;
+    }
+
+    /* Animaciones */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header h1, header p {
+      animation: fadeInUp 1s ease forwards;
     }
   </style>
 </head>
