@@ -222,124 +222,6 @@
         max-width: 100px;
       }
     }
-
-    /* Chatbot estilos */
-    #chatbot-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #007b5e;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 30px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: background-color 0.3s ease;
-      z-index: 1000;
-    }
-
-    #chatbot-btn:hover,
-    #chatbot-btn:focus {
-      background-color: #005f47;
-      outline: none;
-    }
-
-    #chatbot-window {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 320px;
-      max-width: 90vw;
-      height: 400px;
-      background: rgba(11, 15, 47, 0.95);
-      border-radius: 8px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      display: none;
-      flex-direction: column;
-      z-index: 1000;
-    }
-
-    #chatbot-header {
-      background-color: #007b5e;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px 8px 0 0;
-      font-weight: bold;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #chatbot-close {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 1.3rem;
-      cursor: pointer;
-    }
-
-    #chatbot-messages {
-      flex: 1;
-      padding: 10px 15px;
-      overflow-y: auto;
-      color: #eee;
-      font-size: 0.95rem;
-    }
-
-    #chatbot-input-container {
-      display: flex;
-      border-top: 1px solid #00ffcc;
-    }
-
-    #chatbot-input {
-      flex: 1;
-      border: none;
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 0 0 0 8px;
-      outline: none;
-      color: #000;
-    }
-
-    #chatbot-send {
-      background-color: #00ffcc;
-      border: none;
-      padding: 0 15px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      border-radius: 0 0 8px 0;
-      transition: background-color 0.3s ease;
-    }
-
-    #chatbot-send:hover,
-    #chatbot-send:focus {
-      background-color: #00e6b8;
-      outline: none;
-    }
-
-    .chatbot-message {
-      margin-bottom: 10px;
-      line-height: 1.3;
-      padding: 6px 10px;
-      border-radius: 12px;
-      max-width: 80%;
-      word-wrap: break-word;
-    }
-
-    .chatbot-message.bot {
-      background-color: #005f47;
-      align-self: flex-start;
-    }
-
-    .chatbot-message.user {
-      background-color: #00ffcc;
-      color: #000;
-      align-self: flex-end;
-    }
   </style>
 </head>
 <body>
@@ -391,20 +273,6 @@
   &copy; 2025 Gerard Valls - Todos los derechos reservados.
 </footer>
 
-<button id="chatbot-btn" aria-label="Abrir chat de ayuda" title="Chat de ayuda">💬</button>
-
-<div id="chatbot-window" role="region" aria-live="polite" aria-label="Chatbot de ayuda">
-  <div id="chatbot-header">
-    <span>Ayuda Nutricional</span>
-    <button id="chatbot-close" aria-label="Cerrar chat">×</button>
-  </div>
-  <div id="chatbot-messages" tabindex="0"></div>
-  <div id="chatbot-input-container">
-    <input id="chatbot-input" type="text" aria-label="Escribe tu mensaje" autocomplete="off" />
-    <button id="chatbot-send" aria-label="Enviar mensaje">➡️</button>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
   // Particles.js config
@@ -424,120 +292,52 @@
     },
     interactivity: {
       detect_on: "canvas",
-      events: {
-        onhover: { enable: true, mode: "grab" },
-        onclick: { enable: true, mode: "push" }
-      },
+      events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" }, resize: true },
       modes: {
         grab: { distance: 140, line_linked: { opacity: 1 } },
-        push: { particles_nb: 4 }
+        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+        repulse: { distance: 200, duration: 0.4 },
+        push: { particles_nb: 4 },
+        remove: { particles_nb: 2 }
       }
     },
     retina_detect: true
   });
 
-  // Form validation y envío simulado
+  // Form validation
   const form = document.getElementById('contactForm');
-  const formErrors = document.getElementById('formErrors');
+  const errorsDiv = document.getElementById('formErrors');
 
-  function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.toLowerCase());
-  }
-
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', function (e) {
     e.preventDefault();
-    formErrors.style.display = 'none';
-    formErrors.textContent = '';
+    errorsDiv.style.display = 'none';
+    errorsDiv.innerHTML = '';
 
     const name = form.name.value.trim();
     const email = form.email.value.trim();
     const message = form.message.value.trim();
     let errors = [];
 
-    if (name.length < 3) errors.push('El nombre debe tener al menos 3 caracteres.');
-    if (!validateEmail(email)) errors.push('El correo electrónico no es válido.');
-    if (message.length < 10) errors.push('El mensaje debe tener al menos 10 caracteres.');
+    if (name.length < 3) {
+      errors.push('El nombre debe tener al menos 3 caracteres.');
+    }
+    if (!email.match(/^\S+@\S+\.\S+$/)) {
+      errors.push('Por favor ingresa un correo electrónico válido.');
+    }
+    if (message.length < 10) {
+      errors.push('El mensaje debe tener al menos 10 caracteres.');
+    }
 
     if (errors.length > 0) {
-      formErrors.style.display = 'block';
-      formErrors.innerHTML = errors.join('<br>');
-      formErrors.focus();
+      errorsDiv.style.display = 'block';
+      errorsDiv.innerHTML = errors.join('<br>');
       return;
     }
 
-    // Simular envío
-    alert('Gracias por tu mensaje, ' + name + '. Te responderé pronto.');
+    // Aquí enviarías los datos a tu servidor o API
+    alert('¡Gracias por tu consulta! Me pondré en contacto contigo pronto.');
+
     form.reset();
-  });
-
-  // Chatbot funcionalidad básica
-  const chatbotBtn = document.getElementById('chatbot-btn');
-  const chatbotWindow = document.getElementById('chatbot-window');
-  const chatbotClose = document.getElementById('chatbot-close');
-  const chatbotMessages = document.getElementById('chatbot-messages');
-  const chatbotInput = document.getElementById('chatbot-input');
-  const chatbotSend = document.getElementById('chatbot-send');
-
-  chatbotBtn.addEventListener('click', () => {
-    chatbotWindow.style.display = 'flex';
-    chatbotInput.focus();
-    addBotMessage("Hola! Soy tu asistente de nutrición. ¿En qué puedo ayudarte?");
-  });
-
-  chatbotClose.addEventListener('click', () => {
-    chatbotWindow.style.display = 'none';
-    chatbotMessages.innerHTML = '';
-    chatbotInput.value = '';
-  });
-
-  function addBotMessage(text) {
-    const div = document.createElement('div');
-    div.className = 'chatbot-message bot';
-    div.textContent = text;
-    chatbotMessages.appendChild(div);
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-  }
-
-  function addUserMessage(text) {
-    const div = document.createElement('div');
-    div.className = 'chatbot-message user';
-    div.textContent = text;
-    chatbotMessages.appendChild(div);
-    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-  }
-
-  function botResponse(message) {
-    // Respuestas simples predefinidas
-    const msg = message.toLowerCase();
-
-    if (msg.includes('hola') || msg.includes('buenos')) {
-      addBotMessage("¡Hola! ¿Quieres saber sobre planes de alimentación o asesoría?");
-    } else if (msg.includes('plan') || msg.includes('alimentación')) {
-      addBotMessage("Ofrezco planes personalizados según tu objetivo y actividad física.");
-    } else if (msg.includes('peso') || msg.includes('adelgazar')) {
-      addBotMessage("Puedo ayudarte a perder peso con un plan saludable y sostenible.");
-    } else if (msg.includes('contacto')) {
-      addBotMessage("Puedes contactarme por email: gerardvalls@gmail.com o WhatsApp: +34 612 345 678");
-    } else {
-      addBotMessage("Disculpa, no entiendo tu pregunta. Por favor intenta con otra.");
-    }
-  }
-
-  function sendMessage() {
-    const text = chatbotInput.value.trim();
-    if (text === '') return;
-    addUserMessage(text);
-    chatbotInput.value = '';
-    setTimeout(() => botResponse(text), 600);
-  }
-
-  chatbotSend.addEventListener('click', sendMessage);
-  chatbotInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      sendMessage();
-    }
   });
 </script>
 
