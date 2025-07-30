@@ -284,57 +284,34 @@
 
     #chatbot-messages {
       flex: 1;
-      padding: 10px;
+      padding: 10px 15px;
       overflow-y: auto;
-      font-size: 0.95rem;
       color: #eee;
-    }
-
-    .chatbot-message {
-      margin-bottom: 12px;
-      padding: 8px 12px;
-      border-radius: 12px;
-      max-width: 75%;
-      clear: both;
-    }
-
-    .chatbot-message.bot {
-      background-color: #005f47;
-      float: left;
-    }
-
-    .chatbot-message.user {
-      background-color: #00ffcc;
-      color: #00372d;
-      float: right;
+      font-size: 0.95rem;
     }
 
     #chatbot-input-container {
-      padding: 10px 15px;
-      border-top: 1px solid #004136;
       display: flex;
-      gap: 8px;
-      background-color: #00372d;
-      border-radius: 0 0 8px 8px;
+      border-top: 1px solid #00ffcc;
     }
 
     #chatbot-input {
       flex: 1;
-      padding: 8px 10px;
-      border-radius: 4px;
       border: none;
+      padding: 10px;
       font-size: 1rem;
-      font-family: inherit;
+      border-radius: 0 0 0 8px;
+      outline: none;
+      color: #000;
     }
 
     #chatbot-send {
       background-color: #00ffcc;
       border: none;
-      padding: 8px 15px;
-      border-radius: 4px;
-      font-weight: bold;
+      padding: 0 15px;
+      font-size: 1.2rem;
       cursor: pointer;
-      color: #00372d;
+      border-radius: 0 0 8px 0;
       transition: background-color 0.3s ease;
     }
 
@@ -344,304 +321,225 @@
       outline: none;
     }
 
-    /* Screen reader only */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
+    .chatbot-message {
+      margin-bottom: 10px;
+      line-height: 1.3;
+      padding: 6px 10px;
+      border-radius: 12px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .chatbot-message.bot {
+      background-color: #005f47;
+      align-self: flex-start;
+    }
+
+    .chatbot-message.user {
+      background-color: #00ffcc;
+      color: #000;
+      align-self: flex-end;
     }
   </style>
 </head>
 <body>
 
-  <!-- Partículas fondo -->
-  <div id="particles-js" aria-hidden="true"></div>
+<div id="particles-js"></div>
 
-  <header role="banner">
-    <h1 tabindex="0">Gerard Valls</h1>
-    <p tabindex="0"><em>Tu nutricionista personalizado de confianza</em></p>
-    <img src="https://i.postimg.cc/DwMgGvXG/gerard-valls.png" alt="Foto de Gerard Valls, nutricionista" class="photo" tabindex="0" />
-  </header>
+<header>
+  <h1>Gerard Valls</h1>
+  <p>Nutrición personalizada y planes de alimentación</p>
+  <img src="https://i.imgur.com/3qXz7wG.jpg" alt="Gerard Valls" class="photo" tabindex="0" />
+</header>
 
-  <section>
-    <h2 tabindex="0">Servicios</h2>
-    <ul>
-      <li>Planes de alimentación personalizados.</li>
-      <li>Asesoría para deportistas.</li>
-      <li>Seguimiento y motivación constante.</li>
-      <li>Orientación en pérdida de peso saludable.</li>
-    </ul>
-  </section>
+<section aria-labelledby="servicios">
+  <h2 id="servicios">Servicios</h2>
+  <ul>
+    <li>Planes de alimentación para deportistas</li>
+    <li>Asesoría para pérdida de peso</li>
+    <li>Evaluaciones nutricionales</li>
+  </ul>
+</section>
 
-  <section>
-    <h2 tabindex="0">Contacto</h2>
-    <p class="contact">
-      Teléfono: <a href="tel:+34123456789" aria-label="Llamar a Gerard Valls al teléfono 34 123 456 789">+34 123 456 789</a><br />
-      Email: <a href="mailto:gerardvalls@gmail.com" aria-label="Enviar email a Gerard Valls">gerardvalls@gmail.com</a><br />
-      WhatsApp: <a href="https://wa.me/34123456789" target="_blank" rel="noopener noreferrer" aria-label="Enviar mensaje por WhatsApp a Gerard Valls">Enviar mensaje</a>
-    </p>
-  </section>
+<section aria-labelledby="contacto">
+  <h2 id="contacto">Contacto</h2>
+  <p class="contact">
+    Email: <a href="mailto:gerardvalls@gmail.com" tabindex="0">gerardvalls@gmail.com</a><br/>
+    WhatsApp: <a href="https://wa.me/34612345678" target="_blank" rel="noopener" tabindex="0">+34 612 345 678</a>
+  </p>
+</section>
 
-  <section aria-labelledby="contact-form-title">
-    <h2 id="contact-form-title" tabindex="0">Formulario de contacto</h2>
-    <p id="form-instructions" class="sr-only">Por favor, rellena todos los campos antes de enviar el formulario.</p>
+<section aria-labelledby="consulta">
+  <h2 id="consulta">Consulta rápida</h2>
+  <form id="contactForm" novalidate aria-describedby="formErrors" aria-live="polite">
+    <div id="formErrors" class="error-message" role="alert"></div>
 
-    <form id="contact-form" novalidate aria-describedby="form-instructions">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" aria-describedby="nombre-error" required autocomplete="name" />
-      <div id="nombre-error" class="error-message" aria-live="assertive"></div>
+    <label for="name">Nombre completo *</label>
+    <input type="text" id="name" name="name" required aria-required="true" minlength="3" placeholder="Tu nombre completo" />
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" aria-describedby="email-error" required autocomplete="email" />
-      <div id="email-error" class="error-message" aria-live="assertive"></div>
+    <label for="email">Correo electrónico *</label>
+    <input type="email" id="email" name="email" required aria-required="true" placeholder="correo@ejemplo.com" />
 
-      <label for="mensaje">Mensaje:</label>
-      <textarea id="mensaje" name="mensaje" rows="4" aria-describedby="mensaje-error" required></textarea>
-      <div id="mensaje-error" class="error-message" aria-live="assertive"></div>
+    <label for="message">Mensaje *</label>
+    <textarea id="message" name="message" required aria-required="true" minlength="10" placeholder="Escribe tu consulta"></textarea>
 
-      <button type="submit">Enviar</button>
-    </form>
-  </section>
+    <button type="submit">Enviar</button>
+  </form>
+</section>
 
-  <footer role="contentinfo">
-    <p>© 2024 Gerard Valls. Todos los derechos reservados.</p>
-  </footer>
+<footer>
+  &copy; 2025 Gerard Valls - Todos los derechos reservados.
+</footer>
 
-  <!-- Botón y ventana chatbot -->
-  <button id="chatbot-btn" aria-expanded="false" aria-controls="chatbot-window" aria-label="Abrir chat con Gerard Valls">💬</button>
+<button id="chatbot-btn" aria-label="Abrir chat de ayuda" title="Chat de ayuda">💬</button>
 
-  <div id="chatbot-window" role="dialog" aria-modal="true" aria-labelledby="chatbot-header" tabindex="-1">
-    <div id="chatbot-header">
-      <span id="chatbot-title">Chat con Gerard Valls</span>
-      <button id="chatbot-close" aria-label="Cerrar chat">×</button>
-    </div>
-    <div id="chatbot-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
-    <div id="chatbot-input-container">
-      <input type="text" id="chatbot-input" aria-label="Escribe tu mensaje aquí" />
-      <button id="chatbot-send" aria-label="Enviar mensaje">Enviar</button>
-    </div>
+<div id="chatbot-window" role="region" aria-live="polite" aria-label="Chatbot de ayuda">
+  <div id="chatbot-header">
+    <span>Ayuda Nutricional</span>
+    <button id="chatbot-close" aria-label="Cerrar chat">×</button>
   </div>
+  <div id="chatbot-messages" tabindex="0"></div>
+  <div id="chatbot-input-container">
+    <input id="chatbot-input" type="text" aria-label="Escribe tu mensaje" autocomplete="off" />
+    <button id="chatbot-send" aria-label="Enviar mensaje">➡️</button>
+  </div>
+</div>
 
-  <script>
-    // Partículas de fondo - reduce cantidad en móvil
-    (function () {
-      const canvas = document.createElement('canvas');
-      const container = document.getElementById('particles-js');
-      container.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-      let width, height;
-      let particles = [];
-      let maxParticles = window.innerWidth <= 600 ? 30 : 70;
-
-      function resize() {
-        width = container.offsetWidth;
-        height = container.offsetHeight;
-        canvas.width = width;
-        canvas.height = height;
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+  // Particles.js config
+  particlesJS('particles-js', {
+    particles: {
+      number: { value: 80, density: { enable: true, value_area: 800 } },
+      color: { value: "#00ffcc" },
+      shape: {
+        type: "circle",
+        stroke: { width: 0, color: "#000000" },
+        polygon: { nb_sides: 5 }
+      },
+      opacity: { value: 0.5, random: false, anim: { enable: false } },
+      size: { value: 3, random: true, anim: { enable: false } },
+      line_linked: { enable: true, distance: 150, color: "#00ffcc", opacity: 0.4, width: 1 },
+      move: { enable: true, speed: 3, direction: "none", random: false, straight: false, out_mode: "out" }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: { enable: true, mode: "grab" },
+        onclick: { enable: true, mode: "push" }
+      },
+      modes: {
+        grab: { distance: 140, line_linked: { opacity: 1 } },
+        push: { particles_nb: 4 }
       }
+    },
+    retina_detect: true
+  });
 
-      class Particle {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = Math.random() * width;
-          this.y = Math.random() * height;
-          this.vx = (Math.random() - 0.5) * 0.7;
-          this.vy = (Math.random() - 0.5) * 0.7;
-          this.size = Math.random() * 2 + 1;
-          this.opacity = Math.random() * 0.5 + 0.3;
-        }
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.x < 0 || this.x > width) this.vx *= -1;
-          if (this.y < 0 || this.y > height) this.vy *= -1;
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0,255,204,${this.opacity})`;
-          ctx.fill();
-        }
-      }
+  // Form validation y envío simulado
+  const form = document.getElementById('contactForm');
+  const formErrors = document.getElementById('formErrors');
 
-      function init() {
-        particles = [];
-        for (let i = 0; i < maxParticles; i++) {
-          particles.push(new Particle());
-        }
-      }
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.toLowerCase());
+  }
 
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-          p.update();
-          p.draw();
-        });
-        requestAnimationFrame(animate);
-      }
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    formErrors.style.display = 'none';
+    formErrors.textContent = '';
 
-      window.addEventListener('resize', () => {
-        resize();
-        init();
-      });
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+    let errors = [];
 
-      resize();
-      init();
-      animate();
-    })();
+    if (name.length < 3) errors.push('El nombre debe tener al menos 3 caracteres.');
+    if (!validateEmail(email)) errors.push('El correo electrónico no es válido.');
+    if (message.length < 10) errors.push('El mensaje debe tener al menos 10 caracteres.');
 
-    // Formulario con validación y mensajes accesibles
-    const form = document.getElementById('contact-form');
-    const nombre = document.getElementById('nombre');
-    const email = document.getElementById('email');
-    const mensaje = document.getElementById('mensaje');
-
-    const nombreError = document.getElementById('nombre-error');
-    const emailError = document.getElementById('email-error');
-    const mensajeError = document.getElementById('mensaje-error');
-
-    function validateNombre() {
-      if (nombre.value.trim() === '') {
-        nombre.setCustomValidity('Por favor, ingresa tu nombre.');
-        nombreError.textContent = 'Por favor, ingresa tu nombre.';
-        nombreError.style.display = 'block';
-        return false;
-      } else {
-        nombre.setCustomValidity('');
-        nombreError.textContent = '';
-        nombreError.style.display = 'none';
-        return true;
-      }
+    if (errors.length > 0) {
+      formErrors.style.display = 'block';
+      formErrors.innerHTML = errors.join('<br>');
+      formErrors.focus();
+      return;
     }
 
-    function validateEmail() {
-      const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (email.value.trim() === '') {
-        email.setCustomValidity('Por favor, ingresa tu email.');
-        emailError.textContent = 'Por favor, ingresa tu email.';
-        emailError.style.display = 'block';
-        return false;
-      } else if (!regexEmail.test(email.value)) {
-        email.setCustomValidity('Por favor, ingresa un email válido.');
-        emailError.textContent = 'Por favor, ingresa un email válido.';
-        emailError.style.display = 'block';
-        return false;
-      } else {
-        email.setCustomValidity('');
-        emailError.textContent = '';
-        emailError.style.display = 'none';
-        return true;
-      }
+    // Simular envío
+    alert('Gracias por tu mensaje, ' + name + '. Te responderé pronto.');
+    form.reset();
+  });
+
+  // Chatbot funcionalidad básica
+  const chatbotBtn = document.getElementById('chatbot-btn');
+  const chatbotWindow = document.getElementById('chatbot-window');
+  const chatbotClose = document.getElementById('chatbot-close');
+  const chatbotMessages = document.getElementById('chatbot-messages');
+  const chatbotInput = document.getElementById('chatbot-input');
+  const chatbotSend = document.getElementById('chatbot-send');
+
+  chatbotBtn.addEventListener('click', () => {
+    chatbotWindow.style.display = 'flex';
+    chatbotInput.focus();
+    addBotMessage("Hola! Soy tu asistente de nutrición. ¿En qué puedo ayudarte?");
+  });
+
+  chatbotClose.addEventListener('click', () => {
+    chatbotWindow.style.display = 'none';
+    chatbotMessages.innerHTML = '';
+    chatbotInput.value = '';
+  });
+
+  function addBotMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'chatbot-message bot';
+    div.textContent = text;
+    chatbotMessages.appendChild(div);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'chatbot-message user';
+    div.textContent = text;
+    chatbotMessages.appendChild(div);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  }
+
+  function botResponse(message) {
+    // Respuestas simples predefinidas
+    const msg = message.toLowerCase();
+
+    if (msg.includes('hola') || msg.includes('buenos')) {
+      addBotMessage("¡Hola! ¿Quieres saber sobre planes de alimentación o asesoría?");
+    } else if (msg.includes('plan') || msg.includes('alimentación')) {
+      addBotMessage("Ofrezco planes personalizados según tu objetivo y actividad física.");
+    } else if (msg.includes('peso') || msg.includes('adelgazar')) {
+      addBotMessage("Puedo ayudarte a perder peso con un plan saludable y sostenible.");
+    } else if (msg.includes('contacto')) {
+      addBotMessage("Puedes contactarme por email: gerardvalls@gmail.com o WhatsApp: +34 612 345 678");
+    } else {
+      addBotMessage("Disculpa, no entiendo tu pregunta. Por favor intenta con otra.");
     }
+  }
 
-    function validateMensaje() {
-      if (mensaje.value.trim() === '') {
-        mensaje.setCustomValidity('Por favor, ingresa un mensaje.');
-        mensajeError.textContent = 'Por favor, ingresa un mensaje.';
-        mensajeError.style.display = 'block';
-        return false;
-      } else {
-        mensaje.setCustomValidity('');
-        mensajeError.textContent = '';
-        mensajeError.style.display = 'none';
-        return true;
-      }
-    }
+  function sendMessage() {
+    const text = chatbotInput.value.trim();
+    if (text === '') return;
+    addUserMessage(text);
+    chatbotInput.value = '';
+    setTimeout(() => botResponse(text), 600);
+  }
 
-    nombre.addEventListener('input', validateNombre);
-    email.addEventListener('input', validateEmail);
-    mensaje.addEventListener('input', validateMensaje);
-
-    form.addEventListener('submit', (e) => {
+  chatbotSend.addEventListener('click', sendMessage);
+  chatbotInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
       e.preventDefault();
-      const isValid = validateNombre() && validateEmail() && validateMensaje();
-      if (isValid) {
-        form.submit();
-      }
-    });
-
-    // Chatbot funcionalidad
-    const chatbotBtn = document.getElementById('chatbot-btn');
-    const chatbotWindow = document.getElementById('chatbot-window');
-    const chatbotClose = document.getElementById('chatbot-close');
-    const chatbotMessages = document.getElementById('chatbot-messages');
-    const chatbotInput = document.getElementById('chatbot-input');
-    const chatbotSend = document.getElementById('chatbot-send');
-
-    function addMessage(text, sender) {
-      const message = document.createElement('div');
-      message.classList.add('chatbot-message', sender);
-      message.textContent = text;
-      chatbotMessages.appendChild(message);
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      sendMessage();
     }
+  });
+</script>
 
-    function botReply(userText) {
-      const text = userText.toLowerCase();
-      let reply = "Disculpa, no entiendo. ¿Podrías reformular tu pregunta?";
-
-      if (text.includes('hola') || text.includes('buenas')) {
-        reply = "¡Hola! ¿En qué puedo ayudarte hoy?";
-      } else if (text.includes('horario')) {
-        reply = "Mi horario de atención es de lunes a viernes de 9 a 18 horas.";
-      } else if (text.includes('plan') && text.includes('alimentación')) {
-        reply = "Ofrezco planes de alimentación personalizados según tus necesidades.";
-      } else if (text.includes('precio')) {
-        reply = "Los precios varían según el servicio, contáctame para más información.";
-      } else if (text.includes('gracias')) {
-        reply = "¡De nada! Estoy aquí para ayudarte.";
-      }
-
-      setTimeout(() => addMessage(reply, 'bot'), 600);
-    }
-
-    function openChat() {
-      chatbotWindow.style.display = 'flex';
-      chatbotBtn.setAttribute('aria-expanded', 'true');
-      chatbotInput.focus();
-      addMessage("¡Hola! Soy Gerard Valls, tu asistente virtual. ¿Cómo puedo ayudarte?", 'bot');
-    }
-
-    function closeChat() {
-      chatbotWindow.style.display = 'none';
-      chatbotBtn.setAttribute('aria-expanded', 'false');
-      chatbotBtn.focus();
-      chatbotMessages.innerHTML = ''; // limpiar mensajes
-    }
-
-    chatbotBtn.addEventListener('click', () => {
-      if (chatbotWindow.style.display === 'flex') {
-        closeChat();
-      } else {
-        openChat();
-      }
-    });
-
-    chatbotClose.addEventListener('click', closeChat);
-
-    chatbotSend.addEventListener('click', () => {
-      const text = chatbotInput.value.trim();
-      if (text === '') return;
-      addMessage(text, 'user');
-      chatbotInput.value = '';
-      botReply(text);
-    });
-
-    chatbotInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        chatbotSend.click();
-      }
-    });
-
-  </script>
 </body>
 </html>
