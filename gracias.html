@@ -4,6 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gracias - Gerard Valls</title>
+  
+  <!-- Metadatos SEO -->
+  <meta name="description" content="Gracias por enviar el formulario. Gerard Valls agradece tu contacto." />
+  <meta name="author" content="Gerard Valls" />
+  
+  <!-- Open Graph para redes sociales -->
+  <meta property="og:title" content="Gracias - Gerard Valls" />
+  <meta property="og:description" content="Gracias por enviar el formulario. Gerard Valls agradece tu contacto." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gerardvalls25.github.io/Gerard/" />
+  <meta property="og:image" content="https://gerardvalls25.github.io/Gerard/imagen-compartir.jpg" />
+  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -21,29 +33,57 @@
     h1 {
       font-size: 3rem;
       margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
     }
     p {
       font-size: 1.3rem;
       margin-bottom: 40px;
     }
-    a {
+    button {
       color: #00ffcc;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 12px 30px;
+      background-color: transparent;
       border: 2px solid #00ffcc;
       border-radius: 6px;
-      transition: background-color 0.3s, color 0.3s;
+      font-weight: bold;
+      padding: 12px 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.2s;
+      font-size: 1rem;
     }
-    a:hover {
+    button:hover {
       background-color: #00ffcc;
       color: #0b0f2f;
+      animation: pulse 1s infinite;
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 1.1rem;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 <body>
   <h1>¡Gracias!</h1>
   <p>El formulario ha sido enviado con éxito.</p>
-  <a href="https://gerardvalls25.github.io/Gerard/">Regresar al sitio original</a>
+  <button onclick="history.back()">Regresar a la página anterior</button>
 </body>
 </html>
