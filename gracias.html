@@ -5,17 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gracias - Gerard Valls</title>
   
-  <!-- Metadatos SEO -->
-  <meta name="description" content="Gracias por enviar el formulario. Gerard Valls agradece tu contacto." />
-  <meta name="author" content="Gerard Valls" />
-  
-  <!-- Open Graph para redes sociales -->
-  <meta property="og:title" content="Gracias - Gerard Valls" />
-  <meta property="og:description" content="Gracias por enviar el formulario. Gerard Valls agradece tu contacto." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://gerardvalls25.github.io/Gerard/" />
-  <meta property="og:image" content="https://gerardvalls25.github.io/Gerard/imagen-compartir.jpg" />
-  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -33,15 +22,10 @@
     h1 {
       font-size: 3rem;
       margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeIn 1.5s forwards;
     }
     p {
       font-size: 1.3rem;
       margin-bottom: 30px;
-      opacity: 0;
-      animation: fadeIn 1.5s forwards;
-      animation-delay: 1.5s;
     }
     button, .share-btn {
       color: #00ffcc;
@@ -51,45 +35,73 @@
       font-weight: bold;
       padding: 12px 30px;
       cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.2s;
       font-size: 1rem;
-      opacity: 0;
-      animation: fadeIn 1.5s forwards;
-      animation-delay: 3s;
       margin: 5px;
       text-decoration: none;
       display: inline-block;
+      
+      /* Animación suave de brillo */
+      animation: pulseGlow 2.5s ease-in-out infinite;
+      transition: none; /* sin transición que cambie colores */
     }
     button:hover, .share-btn:hover {
-      background-color: transparent;
-      color: #00ffcc;
-      border-color: #00ffcc;
-      animation: pulse 1s infinite;
+      /* No cambiar nada al hover para que no se apague */
+      background-color: transparent !important;
+      color: #00ffcc !important;
+      border-color: #00ffcc !important;
+      opacity: 1 !important;
+      filter: none !important;
+      box-shadow: none !important;
+      animation-play-state: running !important; /* animación sigue igual */
+      cursor: pointer;
     }
     button:focus, .share-btn:focus {
       outline: 3px solid #00ffcc;
       outline-offset: 2px;
-      animation: none;
+      animation-play-state: running !important;
     }
+    
     #cancelRedirect {
       background-color: #ff4444;
       border-color: #ff4444;
       margin-top: 20px;
-      animation-delay: 4.5s;
+      animation: pulseGlowRed 2.5s ease-in-out infinite;
     }
     #cancelRedirect:hover {
-      background-color: #ff6666;
-      border-color: #ff6666;
-      animation: none;
+      background-color: #ff4444 !important; /* sin cambio */
+      border-color: #ff4444 !important;
+      animation-play-state: running !important;
+      cursor: pointer;
     }
-    /* Animaciones */
-    @keyframes fadeIn {
-      to { opacity: 1; }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 6px 0 #00ffcc;
+        color: #00ffcc;
+        border-color: #00ffcc;
+      }
+      50% {
+        box-shadow: 0 0 15px 6px #00ffcc;
+        color: #00fff0;
+        border-color: #00fff0;
+      }
     }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+    
+    @keyframes pulseGlowRed {
+      0%, 100% {
+        box-shadow: 0 0 6px 0 #ff4444;
+        background-color: #ff4444;
+        border-color: #ff4444;
+        color: white;
+      }
+      50% {
+        box-shadow: 0 0 15px 6px #ff6666;
+        background-color: #ff4444;
+        border-color: #ff6666;
+        color: white;
+      }
     }
+
     /* Responsive */
     @media (max-width: 480px) {
       h1 {
@@ -106,8 +118,8 @@
   </style>
 </head>
 <body>
-  <h1 role="heading" aria-level="1">¡Gracias!</h1>
-  <p id="message">El formulario ha sido enviado con éxito.</p>
+  <h1>¡Gracias!</h1>
+  <p>El formulario ha sido enviado con éxito.</p>
   <button onclick="history.back()" aria-label="Regresar a la página anterior">Regresar a la página anterior</button>
 
   <div aria-label="Opciones para compartir esta página" role="region" style="margin-top:30px;">
@@ -120,12 +132,10 @@
   <button id="cancelRedirect" aria-live="polite" aria-label="Cancelar redirección automática">Cancelar redirección automática (10s)</button>
 
   <script>
-    // Temporizador para redirigir automáticamente a la página original después de 10 segundos
     let redirectTimeout = setTimeout(() => {
       window.location.href = "https://gerardvalls25.github.io/Gerard/";
     }, 10000);
 
-    // Cancelar redirección al pulsar el botón
     const cancelBtn = document.getElementById('cancelRedirect');
     cancelBtn.addEventListener('click', () => {
       clearTimeout(redirectTimeout);
