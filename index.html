@@ -132,21 +132,22 @@
 </header>
 
 <style>
-  .logo {
-    height: 100px;
-    width: auto;
-  }
-
   .encabezado {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 30px; /* ← controla la separación entre imagen y texto */
     background-color: #ffffffdd;
     padding: 15px 25px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 800px;
-    margin: 20px auto;
+    margin: 40px auto;
+  }
+
+  .logo {
+    height: 40px;
+    width: auto;
+    flex-shrink: 0; /* evita que la imagen se reduzca al mínimo en pantallas pequeñas */
   }
 
   .encabezado h1 {
