@@ -6,21 +6,140 @@
   <title>Gerard Valls - Nutrición Personalizada</title>
   <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
   <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
-  <link rel="canonical" href="https://tu-sitio-ejemplo.com" />
-  <meta name="robots" content="index,follow" />
 
   <!-- Meta tags sociales -->
   <meta property="og:title" content="Gerard Valls - Nutrición Personalizada" />
   <meta property="og:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas." />
-  <meta property="og:image" content="https://i.imgur.com/3qXz7wG.jpg" />
+  <meta property="og:image" content="https://i.imgur.com/gerard.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://tu-sitio-ejemplo.com" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Gerard Valls - Nutrición Personalizada" />
   <meta name="twitter:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas." />
-  <meta name="twitter:image" content="https://i.imgur.com/3qXz7wG.jpg" />
+  <meta name="twitter:image" content="https://i.imgur.com/gerard.jpg" />
 
-  Opción B: Estilo deportivo y potente (negro + naranja)
+  <style>
+    /* Fondo animado */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #0b0f2f;
+      z-index: -1;
+      top: 0;
+      left: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      position: relative;
+      scroll-behavior: smooth;
+      background: transparent;
+      outline-offset: 3px;
+    }
+
+    /* Enfoque visible para accesibilidad */
+    a:focus,
+    button:focus,
+    input:focus,
+    textarea:focus {
+      outline: 3px solid #00ffcc;
+      outline-offset: 2px;
+    }
+
+    header {
+      background-color: rgba(0, 123, 94, 0.95);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-style: italic;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    section {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      color: #00ffcc;
+      border-bottom: 2px solid #00ffcc;
+      padding-bottom: 5px;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    ul {
+      list-style: disc inside;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .contact {
+      font-size: 1.1rem;
+    }
+
+    .contact a {
+      position: relative;
+      color: #00ffcc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #00ffcc;
+      transition: width 0.3s ease;
+    }
+
+    .contact a:hover,
+    .contact a:focus {
+      color: #00e6b8;
+    }
+
+    .contact a:hover::after,
+    .contact a:focus::after {
+      width: 100%;
+    }
+
+    footer {
+      background-color: rgba(0, 123, 94, 0.95);
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+    }
+
+    .photo {
+      display: block;
+      max-width: 120px;
+      margin: 30px auto 20px auto;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: fadeInUp 1.2s ease forwards;
+    }
+
     .photo:hover,
     .photo:focus {
       transform: scale(1.05);
@@ -51,12 +170,6 @@
       font-family: inherit;
       font-size: 1rem;
       box-sizing: border-box;
-      transition: border-color 0.3s ease;
-    }
-
-    input[aria-invalid="true"],
-    textarea[aria-invalid="true"] {
-      border-color: #ff6b6b;
     }
 
     button {
@@ -184,33 +297,24 @@
       background-color: #005f47;
       outline: none;
     }
-
-    /* Prefers-reduced-motion para accesibilidad */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.001s !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.001s !important;
-      }
-    }
   </style>
 </head>
 <body>
 
-<div id="particles-js" aria-hidden="true"></div>
+<div id="particles-js"></div>
 
 <header>
   <h1>Gerard Valls</h1>
   <p>Nutrición personalizada y planes de alimentación</p>
-  <!-- Imagen sin tabindex, ya tiene alt -->
+  <!-- Imagen con srcset para responsive y accesibilidad -->
   <img
-    src="https://i.imgur.com/3qXz7wG.jpg"
+    src="https://i.imgur.com/gerard.jpg"
     srcset="https://i.imgur.com/3qXz7wG_480.jpg 480w,
             https://i.imgur.com/3qXz7wG_800.jpg 800w"
     sizes="(max-width: 600px) 100px, 120px"
     alt="Gerard Valls"
     class="photo"
-  />
+    tabindex="0" />
 </header>
 
 <section aria-labelledby="servicios">
@@ -222,229 +326,212 @@
   </ul>
 </section>
 
-<section class="contact">
-  <h2>Contacto</h2>
-  <p>
-    <strong>Email:</strong>
-    <a href="mailto:gerardvalls25@gmail.com">gerardvalls25@gmail.com</a><br />
-    <strong>WhatsApp:</strong>
-    <a href="https://wa.me/34612345678" target="_blank" rel="noopener noreferrer">
-      <i class="fab fa-whatsapp" style="color: #25D366; margin-right: 6px;"></i>
-      +34 612 345 678
-    </a>
+<section aria-labelledby="contacto">
+  <h2 id="contacto">Contacto</h2>
+  <p class="contact">
+    Email: <a href="mailto:gerardvalls25@gmail.com" tabindex="0">gerardvalls25@gmail.com</a><br/>
+    WhatsApp: <a href="https://wa.me/34612345678" target="_blank" rel="noopener" tabindex="0">+34 612 345 678</a>
   </p>
 </section>
 
 <section aria-labelledby="consulta">
   <h2 id="consulta">Consulta rápida</h2>
-  <form id="contactForm" novalidate aria-describedby="formErrors" aria-live="polite">
-    <div id="formErrors" tabindex="-1" role="alert"></div>
-    <div id="formSuccess" role="status"></div>
+  <form id="contactForm" novalidate aria-describedby="formErrors formSuccess" aria-live="polite">
+    <!-- Contenedores para mensajes generales -->
+    <div id="formErrors" role="alert" aria-live="assertive" tabindex="-1"></div>
+    <div id="formSuccess" aria-live="polite"></div>
 
-    <label for="nombre">Nombre completo</label>
+    <label for="name">Nombre completo *</label>
     <input
       type="text"
-      id="nombre"
-      name="nombre"
+      id="name"
+      name="name"
       required
       aria-required="true"
-      aria-describedby="nombreError"
+      minlength="3"
       placeholder="Tu nombre completo"
-      autocomplete="name"
-      aria-invalid="false"
+      aria-describedby="nameError"
     />
-    <div id="nombreError" class="error-message" aria-live="assertive"></div>
+    <div id="nameError" class="error-message" role="alert" aria-live="assertive"></div>
 
-    <label for="email">Correo electrónico</label>
+    <label for="email">Correo electrónico *</label>
     <input
       type="email"
       id="email"
       name="email"
       required
       aria-required="true"
-      aria-describedby="emailError"
       placeholder="correo@ejemplo.com"
-      pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-      autocomplete="email"
-      aria-invalid="false"
+      aria-describedby="emailError"
     />
-    <div id="emailError" class="error-message" aria-live="assertive"></div>
+    <div id="emailError" class="error-message" role="alert" aria-live="assertive"></div>
 
-    <label for="consultaTexto">Consulta</label>
+    <label for="message">Mensaje *</label>
     <textarea
-      id="consultaTexto"
-      name="consultaTexto"
-      rows="4"
+      id="message"
+      name="message"
       required
       aria-required="true"
-      aria-describedby="consultaError"
-      placeholder="Escribe tu consulta aquí"
-      aria-invalid="false"
+      minlength="10"
+      placeholder="Escribe tu consulta"
+      aria-describedby="messageError"
     ></textarea>
-    <div id="consultaError" class="error-message" aria-live="assertive"></div>
+    <div id="messageError" class="error-message" role="alert" aria-live="assertive"></div>
 
     <button type="submit">Enviar</button>
   </form>
 </section>
 
+<!-- Ventana modal de agradecimiento -->
+<div id="thankYouModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+  <div class="modal-content">
+    <h2 id="modalTitle">¡Gracias por tu consulta!</h2>
+    <p>Me pondré en contacto contigo pronto.</p>
+    <button id="closeModalBtn">Cerrar</button>
+  </div>
+</div>
+
 <footer>
   &copy; 2025 Gerard Valls - Todos los derechos reservados.
 </footer>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
-  <div class="modal-content">
-    <h2 id="modalTitle">Consulta recibida</h2>
-    <p id="modalDesc">Gracias por tu consulta, nos pondremos en contacto contigo pronto.</p>
-    <button id="closeModalBtn" aria-label="Cerrar ventana de confirmación">Cerrar</button>
-  </div>
-</div>
-
-<!-- Particles.js (Cargado local para evitar dependencia externa) -->
-<script src="particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-  // Particles.js configuración
+  // Particles.js config
   particlesJS('particles-js', {
-    "particles": {
-      "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
-      "color": { "value": "#00ffcc" },
-      "shape": {
-        "type": "circle",
-        "stroke": { "width": 0, "color": "#000000" }
+    particles: {
+      number: { value: 80, density: { enable: true, value_area: 800 } },
+      color: { value: "#00ffcc" },
+      shape: {
+        type: "circle",
+        stroke: { width: 0, color: "#000000" },
+        polygon: { nb_sides: 5 }
       },
-      "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
-      "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 5, "size_min": 0.5, "sync": false } },
-      "line_linked": { "enable": true, "distance": 120, "color": "#00ffcc", "opacity": 0.3, "width": 1 },
-      "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": { "enable": true, "mode": "grab" },
-        "onclick": { "enable": true, "mode": "push" }
+      opacity: { value: 0.5, random: false, anim: { enable: false } },
+      size: { value: 3, random: true, anim: { enable: false } },
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: "#00ffcc",
+        opacity: 0.4,
+        width: 1
       },
-      "modes": {
-        "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
-        "push": { "particles_nb": 4 }
+      move: {
+        enable: true,
+        speed: 4,
+        direction: "none",
+        random: false,
+        straight: false,
+        out_mode: "out",
+        bounce: false,
+        attract: { enable: false }
       }
     },
-    "retina_detect": true
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: { enable: true, mode: "grab" },
+        onclick: { enable: true, mode: "push" },
+        resize: true
+      },
+      modes: {
+        grab: { distance: 140, line_linked: { opacity: 1 } },
+        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+        repulse: { distance: 200, duration: 0.4 },
+        push: { particles_nb: 4 },
+        remove: { particles_nb: 2 }
+      }
+    },
+    retina_detect: true
   });
 
-  // Validación y manejo del formulario
-  (function() {
-    const form = document.getElementById('contactForm');
-    const errorsContainer = document.getElementById('formErrors');
-    const successContainer = document.getElementById('formSuccess');
-    const modal = document.getElementById('modal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
+  // Validación y manejo formulario
 
-    // Guardar el elemento que tenía el foco antes de abrir modal
-    let lastFocusedElement;
+  const form = document.getElementById('contactForm');
+  const formErrors = document.getElementById('formErrors');
+  const formSuccess = document.getElementById('formSuccess');
 
-    function setError(input, message) {
-      const errorDiv = document.getElementById(input.id + 'Error');
-      errorDiv.textContent = message;
-      errorDiv.style.display = 'block';
-      input.setAttribute('aria-invalid', 'true');
+  const fields = {
+    name: {
+      input: document.getElementById('name'),
+      errorDiv: document.getElementById('nameError'),
+      validator: value => value.length >= 3,
+      errorMsg: 'El nombre debe tener al menos 3 caracteres.'
+    },
+    email: {
+      input: document.getElementById('email'),
+      errorDiv: document.getElementById('emailError'),
+      validator: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+      errorMsg: 'Introduce un correo electrónico válido.'
+    },
+    message: {
+      input: document.getElementById('message'),
+      errorDiv: document.getElementById('messageError'),
+      validator: value => value.length >= 10,
+      errorMsg: 'El mensaje debe tener al menos 10 caracteres.'
+    }
+  };
+
+  function clearFieldErrors() {
+    formErrors.style.display = 'none';
+    formErrors.textContent = '';
+    formSuccess.style.display = 'none';
+    formSuccess.textContent = '';
+    for (const key in fields) {
+      fields[key].errorDiv.style.display = 'none';
+      fields[key].errorDiv.textContent = '';
+    }
+  }
+
+  // Modal manejo
+  const modal = document.getElementById('thankYouModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  function openModal() {
+    modal.classList.add('active');
+    modal.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    form.querySelector('button[type="submit"]').focus();
+  }
+
+  closeModalBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    clearFieldErrors();
+
+    let isValid = true;
+
+    for (const key in fields) {
+      const field = fields[key];
+      const value = field.input.value.trim();
+      if (!field.validator(value)) {
+        field.errorDiv.style.display = 'block';
+        field.errorDiv.textContent = field.errorMsg;
+        isValid = false;
+      }
     }
 
-    function clearError(input) {
-      const errorDiv = document.getElementById(input.id + 'Error');
-      errorDiv.textContent = '';
-      errorDiv.style.display = 'none';
-      input.setAttribute('aria-invalid', 'false');
+    if (!isValid) {
+      formErrors.textContent = 'Por favor corrige los errores indicados.';
+      formErrors.style.display = 'block';
+      formErrors.focus();
+      return;
     }
 
-    function validate() {
-      let valid = true;
-      errorsContainer.style.display = 'none';
-      errorsContainer.textContent = '';
-      successContainer.style.display = 'none';
-      successContainer.textContent = '';
-
-      const nombre = form.nombre;
-      const email = form.email;
-      const consultaTexto = form.consultaTexto;
-
-      // Validar nombre
-      if (nombre.value.trim() === '') {
-        setError(nombre, 'Por favor, introduce tu nombre completo.');
-        valid = false;
-      } else {
-        clearError(nombre);
-      }
-
-      // Validar email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (email.value.trim() === '') {
-        setError(email, 'Por favor, introduce tu correo electrónico.');
-        valid = false;
-      } else if (!emailRegex.test(email.value.trim())) {
-        setError(email, 'Por favor, introduce un correo válido.');
-        valid = false;
-      } else {
-        clearError(email);
-      }
-
-      // Validar consulta
-      if (consultaTexto.value.trim() === '') {
-        setError(consultaTexto, 'Por favor, escribe tu consulta.');
-        valid = false;
-      } else {
-        clearError(consultaTexto);
-      }
-
-      return valid;
-    }
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      if (validate()) {
-        // Simular envío - aquí podrías integrar backend o AJAX real
-        successContainer.textContent = 'Enviando consulta...';
-        successContainer.style.display = 'block';
-
-        // Guardar foco actual para restaurar después modal
-        lastFocusedElement = document.activeElement;
-
-        // Mostrar modal tras pequeño delay simulando envío
-        setTimeout(() => {
-          successContainer.style.display = 'none';
-          modal.classList.add('active');
-          modal.focus();
-          form.reset();
-        }, 1000);
-      } else {
-        errorsContainer.textContent = 'Por favor corrige los errores indicados.';
-        errorsContainer.style.display = 'block';
-        errorsContainer.focus();
-      }
-    });
-
-    // Cerrar modal al hacer clic en botón o tecla Escape
-    closeModalBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeModal();
-      }
-    });
-
-    function closeModal() {
-      modal.classList.remove('active');
-      // Restaurar foco al elemento previo
-      if (lastFocusedElement) {
-        lastFocusedElement.focus();
-      } else {
-        form.nombre.focus();
-      }
-    }
-  })();
+    // Abrir modal de gracias en vez de mensaje inline
+    openModal();
+    form.reset();
+  });
 </script>
 
 </body>
