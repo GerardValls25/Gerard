@@ -66,7 +66,7 @@
       background-color: var(--overlay-color);
       max-width: 700px;
       margin: 30px auto;
-      padding: 30px 20px;
+      padding: 30px 20px 80px 20px; /* padding-bottom extra para footer */
       border-radius: 10px;
       text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     }
@@ -100,7 +100,8 @@
     .photo:focus {
       transform: scale(1.05);
       box-shadow: 0 0 16px rgba(0, 255, 204, 1);
-      outline: none;
+      outline: 3px solid #00ffcc; /* foco visible */
+      outline-offset: 3px;
     }
 
     section { margin-bottom: 25px; }
@@ -118,7 +119,8 @@
     .contact a:hover,
     .contact a:focus {
       color: var(--link-hover);
-      outline: none;
+      outline: 2px solid var(--link-hover);
+      outline-offset: 2px;
     }
 
     form label {
@@ -152,7 +154,8 @@
     form button:focus {
       background-color: var(--button-hover);
       transform: scale(1.05);
-      outline: none;
+      outline: 3px solid #00ffcc;
+      outline-offset: 3px;
     }
 
     #form-message {
@@ -187,8 +190,12 @@
     }
 
     .toggle-anim:hover,
-    .toggle-theme:hover {
+    .toggle-theme:hover,
+    .toggle-anim:focus,
+    .toggle-theme:focus {
       background-color: var(--button-hover);
+      outline: 3px solid #00ffcc;
+      outline-offset: 3px;
     }
   </style>
 </head>
@@ -204,6 +211,7 @@
         src="https://i.imgur.com/gerard.jpg"
         alt="Foto de Gerard Valls"
         class="photo"
+        loading="lazy"
         tabindex="0"
       />
       <button class="toggle-anim" id="toggle-anim">Desactivar animación</button>
@@ -230,8 +238,7 @@
 
     <section aria-labelledby="consulta">
       <h2 id="consulta">Formulario de contacto</h2>
-      <!-- Pega aquí tu endpoint de Formspree en el action -->
-      <form id="contact-form" action="https://formspree.io/f/TU_ENDPOINT" method="POST">
+      <form id="contact-form" action="https://formspree.io/f/TU_ENDPOINT" method="POST" novalidate>
         <label for="name">Nombre completo</label>
         <input type="text" id="name" name="name" required />
 
@@ -239,10 +246,10 @@
         <input type="email" id="email" name="email" required />
 
         <label for="message">Mensaje</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
+        <textarea id="message" name="message" rows="5" required minlength="10"></textarea>
 
         <button type="submit" aria-label="Enviar formulario de contacto">Enviar</button>
-        <p id="form-message"></p>
+        <p id="form-message" aria-live="polite"></p>
       </form>
     </section>
   </div>
@@ -256,9 +263,10 @@
 
   <script>
     function initParticles() {
+      const particleCount = window.innerWidth < 600 ? 40 : 80; // menos partículas en móviles
       particlesJS("particles-js", {
         particles: {
-          number: { value: 80, density: { enable: true, value_area: 800 } },
+          number: { value: particleCount, density: { enable: true, value_area: 800 } },
           color: { value: "#00ffcc" },
           shape: { type: "circle" },
           opacity: { value: 0.6 },
@@ -316,6 +324,7 @@
     const toggleButton = document.getElementById("toggle-anim");
     toggleButton.addEventListener("click", () => {
       const canvas = document.querySelector("#particles-js canvas");
+      if (!canvas) return;
       if (animActive) {
         canvas.style.display = "none";
         toggleButton.textContent = "Activar animación";
@@ -326,7 +335,6 @@
       animActive = !animActive;
     });
 
-    // Toggle tema claro/oscuro manual
     const toggleTheme = document.getElementById("toggle-theme");
     let darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
