@@ -177,12 +177,16 @@ document.addEventListener("DOMContentLoaded", function() {
   const form = document.getElementById('contact-form');
   const feedback = document.getElementById('form-feedback');
 
-  // Limpiar formulario al cargar la página
-  form.reset();
-  document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-  feedback.textContent = '';
+  // Limpiar formulario cuando se vuelve desde historial
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      form.reset();
+      document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+      feedback.textContent = '';
+    }
+  });
 
-  // Envío de formulario mejorado
+  // Envío de formulario
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     let valid = true;
