@@ -177,14 +177,18 @@ document.addEventListener("DOMContentLoaded", function() {
   const form = document.getElementById('contact-form');
   const feedback = document.getElementById('form-feedback');
 
-  // Limpiar formulario cuando se vuelve desde historial
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted) {
-      form.reset();
-      document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-      feedback.textContent = '';
-    }
-  });
+  // Función para limpiar el formulario
+  function resetForm() {
+    form.reset();
+    document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+    feedback.textContent = '';
+  }
+
+  // Limpiar al cargar la página normalmente
+  document.addEventListener('DOMContentLoaded', resetForm);
+
+  // Limpiar también si se carga desde historial (botón atrás)
+  window.addEventListener('pageshow', resetForm);
 
   // Envío de formulario
   form.addEventListener('submit', function(e) {
