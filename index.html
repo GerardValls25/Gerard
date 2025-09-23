@@ -83,7 +83,6 @@
   .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-  /* Elemento para notificación accesible */
   #theme-status { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 </style>
 </head>
@@ -158,7 +157,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const initParticles = () => {
     const isMobile = window.innerWidth < 600;
     if(window.innerWidth < 400) return; // desactiva partículas en pantallas muy pequeñas
-
     particlesJS("particles-js", {
       particles: {
         number: { value: isMobile ? 25 : 80, density: { enable: true, value_area: 800 } },
@@ -188,7 +186,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
     feedback.textContent = '';
   };
-
   window.addEventListener('pageshow', resetForm);
 
   form.addEventListener('submit', function(e) {
@@ -203,68 +200,50 @@ document.addEventListener("DOMContentLoaded", function() {
     const message = document.getElementById('message');
     const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-    if(name.value.trim() === '') {
-      document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.';
-      valid = false;
-      firstErrorField = firstErrorField || name;
-    }
-
-    if(email.value.trim() === '') {
-      document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.';
-      valid = false;
-      firstErrorField = firstErrorField || email;
-    } else if(!emailPattern.test(email.value.trim())) {
-      document.getElementById('error-email').textContent = 'Correo no válido.';
-      valid = false;
-      firstErrorField = firstErrorField || email;
-    }
-
-    if(message.value.trim().length < 10) {
-      document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.';
-      valid = false;
-      firstErrorField = firstErrorField || message;
-    }
+    if(name.value.trim() === '') { document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.'; valid = false; firstErrorField = firstErrorField || name; }
+    if(email.value.trim() === '') { document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.'; valid = false; firstErrorField = firstErrorField || email; }
+    else if(!emailPattern.test(email.value.trim())) { document.getElementById('error-email').textContent = 'Correo no válido.'; valid = false; firstErrorField = firstErrorField || email; }
+    if(message.value.trim().length < 10) { document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.'; valid = false; firstErrorField = firstErrorField || message; }
 
     if(!valid && firstErrorField) firstErrorField.focus();
 
     if(valid){
       feedback.textContent = 'Enviando...';
-      const nombreEncode = encodeURIComponent(name.value.trim());
-      setTimeout(() => window.location.href = `gracias.html?nombre=${nombreEncode}`, 500);
+      // Simulación de envío AJAX
+      setTimeout(() => {
+        feedback.textContent = '¡Mensaje enviado correctamente!';
+        resetForm();
+      }, 800);
     }
   });
 
-  // --- TOGGLE TEMA ---
+  // --- TOGGLE TEMA CON LOCALSTORAGE ---
   const toggleBtn = document.getElementById('toggle-theme');
   const themeStatus = document.getElementById('theme-status');
-  let darkMode = true;
+  let darkMode = localStorage.getItem('darkMode') === null ? true : localStorage.getItem('darkMode') === 'true';
 
   const updateTheme = () => {
     document.body.classList.toggle('light', !darkMode);
     toggleBtn.setAttribute('aria-pressed', String(!darkMode));
     toggleBtn.textContent = darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
     themeStatus.textContent = darkMode ? 'Modo oscuro activado' : 'Modo claro activado';
+    localStorage.setItem('darkMode', darkMode);
   };
 
-  toggleBtn.addEventListener('click', () => {
-    darkMode = !darkMode;
-    updateTheme();
-  });
+  toggleBtn.addEventListener('click', () => { darkMode = !darkMode; updateTheme(); });
 
-  if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){
+  // Preferencia inicial
+  if(localStorage.getItem('darkMode') === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){
     darkMode = false;
-    updateTheme();
   }
+  updateTheme();
 
   // --- ANIMACIONES SCROLL ---
   const faders = document.querySelectorAll('.fade-in');
   const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
   const appearOnScroll = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
+      if(entry.isIntersecting){ entry.target.classList.add('visible'); observer.unobserve(entry.target); }
     });
   }, appearOptions);
   faders.forEach(fader => appearOnScroll.observe(fader));
