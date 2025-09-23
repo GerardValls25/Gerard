@@ -8,22 +8,20 @@
   <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png" />
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    * { box-sizing: border-box; margin:0; padding:0; }
     body, html {
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height:100%;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(-45deg, #0b0f2f, #003333, #001122, #004444);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       color: var(--text-color);
       transition: background 0.4s ease, color 0.4s ease;
     }
-
     @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
     }
 
     :root {
@@ -52,37 +50,35 @@
 
     .content-wrapper {
       background-color: var(--overlay-color);
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 30px 20px 80px 20px;
-      border-radius: 10px;
-      text-shadow: 0 0 5px rgba(0,0,0,0.2);
+      max-width:700px;
+      margin:30px auto;
+      padding:30px 20px 80px 20px;
+      border-radius:10px;
+      text-shadow:0 0 5px rgba(0,0,0,0.2);
     }
 
     h1,h2,h3,p,label,li { color: var(--text-color); }
 
-    header { text-align: center; margin-bottom: 30px; }
-    header p { font-style: italic; font-size: 1.1rem; margin-bottom: 20px; }
-    .photo { display: block; max-width: 120px; margin: 0 auto 20px auto; border-radius: 50%; box-shadow: 0 0 12px rgba(0,255,204,0.8); transition: transform 0.4s, box-shadow 0.4s; }
-    .photo:hover, .photo:focus { transform: scale(1.05); box-shadow: 0 0 16px rgba(0,255,204,1); outline: 3px solid #00ffcc; outline-offset: 3px; }
+    header { text-align:center; margin-bottom:30px; }
+    header p { font-style:italic; font-size:1.1rem; margin-bottom:20px; }
+    .photo { display:block; max-width:120px; margin:0 auto 20px auto; border-radius:50%; box-shadow:0 0 12px rgba(0,255,204,0.8); transition: transform 0.4s, box-shadow 0.4s; }
+    .photo:hover, .photo:focus { transform:scale(1.05); box-shadow:0 0 16px rgba(0,255,204,1); outline:3px solid #00ffcc; outline-offset:3px; }
 
-    section { margin-bottom: 25px; }
-    ul { padding-left: 20px; }
-    .contact { font-size: 1rem; }
-    .contact a { color: var(--link-color); text-decoration: none; transition: color 0.3s ease; }
-    .contact a:hover, .contact a:focus { color: var(--link-hover); outline: 2px solid var(--link-hover); outline-offset: 2px; }
+    section { margin-bottom:25px; }
+    ul { padding-left:20px; }
+    .contact { font-size:1rem; }
+    .contact a { color: var(--link-color); text-decoration:none; transition: color 0.3s ease; }
+    .contact a:hover, .contact a:focus { color: var(--link-hover); outline:2px solid var(--link-hover); outline-offset:2px; }
 
-    form label { display: block; font-weight: bold; margin-bottom: 6px; }
-    form input, form textarea { width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: none; font-size: 1rem; }
-    form button { background-color: var(--button-bg); color: white; border: none; padding: 12px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; transition: background-color 0.3s, transform 0.2s; }
-    form button:hover, form button:focus { background-color: var(--button-hover); transform: scale(1.05); outline: 3px solid #00ffcc; outline-offset: 3px; }
+    form label { display:block; font-weight:bold; margin-bottom:6px; }
+    form input, form textarea { width:100%; padding:8px; margin-bottom:15px; border-radius:5px; border:none; font-size:1rem; }
+    form button { background-color: var(--button-bg); color:white; border:none; padding:12px 20px; font-weight:bold; cursor:pointer; border-radius:5px; transition: background-color 0.3s, transform 0.2s; }
+    form button:hover, form button:focus { background-color: var(--button-hover); transform: scale(1.05); outline:3px solid #00ffcc; outline-offset:3px; }
 
-    #form-message { font-weight: bold; margin-top: 10px; text-align: center; aria-live: polite; }
+    footer { text-align:center; padding:15px; font-size:0.9rem; background-color: rgba(0,0,0,0.6); color:#ccc; position:fixed; width:100%; bottom:0; left:0; }
 
-    footer { text-align: center; padding: 15px; font-size: 0.9rem; background-color: rgba(0,0,0,0.6); color: #ccc; position: fixed; width: 100%; bottom: 0; left: 0; }
-
-    .toggle-anim, .toggle-theme { display: inline-block; background-color: var(--button-bg); color:white; border:none; padding:8px 12px; border-radius:5px; font-size:0.9rem; cursor:pointer; margin-top:10px; }
-    .toggle-anim:hover,.toggle-theme:hover,.toggle-anim:focus,.toggle-theme:focus { background-color: var(--button-hover); outline: 3px solid #00ffcc; outline-offset:3px; }
+    .toggle-theme { display:inline-block; background-color:var(--button-bg); color:white; border:none; padding:8px 12px; border-radius:5px; font-size:0.9rem; cursor:pointer; margin-top:10px; }
+    .toggle-theme:hover, .toggle-theme:focus { background-color: var(--button-hover); outline:3px solid #00ffcc; outline-offset:3px; }
   </style>
 </head>
 <body>
@@ -122,7 +118,6 @@
         <label for="message">Mensaje</label>
         <textarea id="message" name="message" rows="5" required minlength="10"></textarea>
         <button type="submit" aria-label="Enviar formulario de contacto">Enviar</button>
-        <p id="form-message" aria-live="polite"></p>
       </form>
     </section>
   </div>
@@ -132,28 +127,29 @@
   </footer>
 
   <script>
+    // Manejo del formulario con redirección
     const form = document.getElementById("contact-form");
-    const formMessage = document.getElementById("form-message");
-
     form.addEventListener("submit", async e => {
       e.preventDefault();
       const formData = new FormData(form);
       try {
-        const response = await fetch(form.action, { method:"POST", body:formData, headers:{'Accept':'application/json'} });
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: formData,
+          headers: { 'Accept':'application/json' }
+        });
         if (response.ok) {
-          formMessage.textContent = "¡Mensaje enviado! Gracias por contactarnos.";
-          formMessage.style.color = getComputedStyle(document.documentElement).getPropertyValue('--form-message-ok');
-          form.reset();
+          // Redirige al archivo gracias.html
+          window.location.href = "gracias.html";
         } else {
-          formMessage.textContent = "Hubo un error al enviar. Intenta de nuevo.";
-          formMessage.style.color = getComputedStyle(document.documentElement).getPropertyValue('--form-message-error');
+          alert("Hubo un error al enviar. Intenta de nuevo.");
         }
       } catch {
-        formMessage.textContent = "Error de conexión. Intenta de nuevo.";
-        formMessage.style.color = getComputedStyle(document.documentElement).getPropertyValue('--form-message-error');
+        alert("Error de conexión. Intenta de nuevo.");
       }
     });
 
+    // Toggle tema claro/oscuro
     let darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
     document.getElementById("toggle-theme").addEventListener("click", () => {
       darkMode = !darkMode;
@@ -164,8 +160,6 @@
         document.documentElement.style.setProperty("--link-hover","#00e6b8");
         document.documentElement.style.setProperty("--button-bg","#007b5e");
         document.documentElement.style.setProperty("--button-hover","#005f47");
-        document.documentElement.style.setProperty("--form-message-ok","#00ffcc");
-        document.documentElement.style.setProperty("--form-message-error","red");
         document.getElementById("toggle-theme").textContent="Cambiar a modo claro";
       } else {
         document.documentElement.style.setProperty("--text-color","#222");
@@ -174,8 +168,6 @@
         document.documentElement.style.setProperty("--link-hover","#005f47");
         document.documentElement.style.setProperty("--button-bg","#007b5e");
         document.documentElement.style.setProperty("--button-hover","#005f47");
-        document.documentElement.style.setProperty("--form-message-ok","#007b5e");
-        document.documentElement.style.setProperty("--form-message-error","#c00");
         document.getElementById("toggle-theme").textContent="Cambiar a modo oscuro";
       }
     });
