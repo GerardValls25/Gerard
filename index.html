@@ -174,10 +174,15 @@ document.addEventListener("DOMContentLoaded", function() {
     retina_detect: true
   });
 
-  // Envío de formulario mejorado
   const form = document.getElementById('contact-form');
   const feedback = document.getElementById('form-feedback');
 
+  // Limpiar formulario al cargar la página
+  form.reset();
+  document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+  feedback.textContent = '';
+
+  // Envío de formulario mejorado
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     let valid = true;
