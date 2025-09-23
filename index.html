@@ -64,6 +64,10 @@
 
   .toggle-theme { display:inline-block; background-color: var(--button-bg); color:white; border:none; padding:8px 12px; border-radius:5px; font-size:0.9rem; cursor:pointer; margin-top:10px; }
   .toggle-theme:hover, .toggle-theme:focus { background-color: var(--button-hover); outline:3px solid #00ffcc; outline-offset:3px; }
+
+  /* Animaciones scroll */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -71,14 +75,14 @@
 <div id="particles-js"></div>
 
 <div class="content-wrapper" role="main">
-  <header>
+  <header class="fade-in">
     <h1>Gerard Valls</h1>
     <p>Nutrición personalizada para deportistas y personas activas</p>
     <img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls" class="photo" loading="lazy" tabindex="0" />
     <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
   </header>
 
-  <section aria-labelledby="servicios">
+  <section class="fade-in" aria-labelledby="servicios">
     <h2 id="servicios">Servicios</h2>
     <ul>
       <li>Planes de alimentación personalizados</li>
@@ -88,7 +92,7 @@
     </ul>
   </section>
 
-  <section aria-labelledby="contacto">
+  <section class="fade-in" aria-labelledby="contacto">
     <h2 id="contacto">Contacto</h2>
     <p class="contact">
       Teléfono: +34 666 555 667<br />
@@ -96,7 +100,7 @@
     </p>
   </section>
 
-  <section aria-labelledby="consulta">
+  <section class="fade-in" aria-labelledby="consulta">
     <h2 id="consulta">Formulario de contacto</h2>
     <form id="contact-form" novalidate>
       <label for="name">Nombre completo</label>
@@ -113,7 +117,7 @@
   </section>
 </div>
 
-<footer>
+<footer class="fade-in">
   &copy; 2025 Gerard Valls - Todos los derechos reservados.
 </footer>
 
@@ -167,6 +171,20 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleBtn.setAttribute('aria-pressed', 'true');
     toggleBtn.textContent = 'Cambiar a modo oscuro';
   }
+
+  // Scroll reveal animaciones
+  const faders = document.querySelectorAll('.fade-in');
+  const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+  const appearOnScroll = new IntersectionObserver(function(entries, observer){
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, appearOptions);
+
+  faders.forEach(fader => appearOnScroll.observe(fader));
 });
 </script>
 
