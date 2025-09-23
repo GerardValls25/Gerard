@@ -5,10 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gracias - Gerard Valls</title>
 <style>
+  :root {
+    --bg-gradient: linear-gradient(135deg, #0b0f2f, #001f3f);
+    --text-color: #00ffcc;
+    --button-bg: #007b5e;
+    --button-hover: #005f47;
+    --cancel-bg: #ff4444;
+    --cancel-hover: #ff5555;
+  }
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0b0f2f, #001f3f);
-    color: #00ffcc;
+    background: var(--bg-gradient);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,18 +25,19 @@
     text-align: center;
     padding: 1rem;
     margin: 0;
+    transition: background 0.4s, color 0.4s;
   }
   h1 { font-size: 3rem; text-shadow: 0 0 10px #00ffccaa; margin-bottom: 0.5rem; }
   p { font-size: 1.4rem; margin: 0.3rem 0 1.5rem; }
   #personal-msg { font-style: italic; color: #66fff2; margin-bottom: 1rem; min-height: 1.5rem; }
-  #countdown { font-weight: bold; font-size: 1.2rem; margin-bottom: 1.5rem; color:#00fff0; font-family: monospace; }
+  #countdown { font-weight: bold; font-size: 1.2rem; margin-bottom: 1.5rem; font-family: monospace; }
   button {
-    background-color:#007b5e; color:white; border:none; padding:12px 20px; border-radius:5px;
-    cursor:pointer; font-weight:bold; margin:0.3rem; transition: background 0.3s;
+    background-color: var(--button-bg); color:white; border:none; padding:12px 20px; border-radius:5px;
+    cursor:pointer; font-weight:bold; margin:0.3rem; transition: background 0.3s, color 0.3s;
   }
-  button:hover { background-color:#005f47; }
-  #cancelRedirect { background-color:#ff4444; }
-  #cancelRedirect:hover { background-color:#ff5555; }
+  button:hover { background-color: var(--button-hover); }
+  #cancelRedirect { background-color: var(--cancel-bg); }
+  #cancelRedirect:hover { background-color: var(--cancel-hover); }
 </style>
 </head>
 <body>
@@ -39,24 +48,24 @@
 
 <button onclick="history.back()">Regresar a la página anterior</button>
 <button id="cancelRedirect">Cancelar redirección automática</button>
+<br>
+<button id="toggle-theme">Cambiar modo claro/oscuro</button>
 
 <script>
-  // Mostrar nombre desde URL
+  // Nombre desde URL
   const params = new URLSearchParams(window.location.search);
   const nombre = params.get('nombre');
-  const personalMsg = document.getElementById('personal-msg');
-  personalMsg.textContent = nombre ? `Hola ${nombre}, ¡tu envío fue exitoso!` : "Tu envío fue exitoso!";
+  document.getElementById('personal-msg').textContent = nombre ? `Hola ${nombre}, ¡tu envío fue exitoso!` : "Tu envío fue exitoso!";
 
-  // Contador y redirección
+  // Contador
   let seconds = 10;
   const countdownEl = document.getElementById('countdown');
   const cancelBtn = document.getElementById('cancelRedirect');
-
   let interval = setInterval(() => {
     seconds--;
     if(seconds <= 0){
       clearInterval(interval);
-      window.location.href = "index.html"; // Cambiar a tu página principal
+      window.location.href = "index.html";
     } else {
       countdownEl.textContent = `Redireccionando en ${seconds} segundo${seconds !== 1 ? 's' : ''}...`;
     }
@@ -67,6 +76,27 @@
     countdownEl.textContent = "Redirección cancelada";
     cancelBtn.disabled = true;
     cancelBtn.style.cursor = 'default';
+  });
+
+  // Modo claro/oscuro
+  let darkMode = true;
+  document.getElementById('toggle-theme').addEventListener('click', () => {
+    darkMode = !darkMode;
+    if(darkMode){
+      document.documentElement.style.setProperty('--bg-gradient', 'linear-gradient(135deg, #0b0f2f, #001f3f)');
+      document.documentElement.style.setProperty('--text-color', '#00ffcc');
+      document.documentElement.style.setProperty('--button-bg', '#007b5e');
+      document.documentElement.style.setProperty('--button-hover', '#005f47');
+      document.documentElement.style.setProperty('--cancel-bg', '#ff4444');
+      document.documentElement.style.setProperty('--cancel-hover', '#ff5555');
+    } else {
+      document.documentElement.style.setProperty('--bg-gradient', '#f5f5f5');
+      document.documentElement.style.setProperty('--text-color', '#222');
+      document.documentElement.style.setProperty('--button-bg', '#007b5e');
+      document.documentElement.style.setProperty('--button-hover', '#005f47');
+      document.documentElement.style.setProperty('--cancel-bg', '#ff4444');
+      document.documentElement.style.setProperty('--cancel-hover', '#ff5555');
+    }
   });
 </script>
 
