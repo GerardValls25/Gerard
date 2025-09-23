@@ -66,7 +66,6 @@
     box-sizing: border-box;
   }
 
-  /* Ajuste del textarea para no salirse del contenedor */
   form textarea {
     min-height: 80px;
     max-height: 200px;
@@ -77,12 +76,15 @@
   form button { background-color: var(--button-bg); color:white; border:none; padding:12px 20px; font-weight:bold; cursor:pointer; border-radius:5px; transition: background-color 0.3s, transform 0.2s; }
   form button:hover, form button:focus { background-color: var(--button-hover); transform:scale(1.05); outline:3px solid #00ffcc; outline-offset:3px; }
 
+  .error-message { color: #ff4d4d; font-size: 0.9rem; display:block; min-height:1.2em; margin-top:2px; }
+  .form-feedback { display:block; margin-top:10px; color: #00ffcc; font-weight:bold; }
+  .form-group { margin-bottom:15px; }
+
   footer { text-align:center; padding:15px; font-size:0.9rem; background-color: rgba(0,0,0,0.6); color:#ccc; position:fixed; width:100%; bottom:0; left:0; }
 
   .toggle-theme { display:inline-block; background-color: var(--button-bg); color:white; border:none; padding:8px 12px; border-radius:5px; font-size:0.9rem; cursor:pointer; margin-top:10px; }
   .toggle-theme:hover, .toggle-theme:focus { background-color: var(--button-hover); outline:3px solid #00ffcc; outline-offset:3px; }
 
-  /* Animaciones scroll */
   .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 </style>
@@ -120,16 +122,26 @@
   <section class="fade-in" aria-labelledby="consulta">
     <h2 id="consulta">Formulario de contacto</h2>
     <form id="contact-form" novalidate>
-      <label for="name">Nombre completo</label>
-      <input type="text" id="name" name="name" required aria-required="true" />
+      <div class="form-group">
+        <label for="name">Nombre completo</label>
+        <input type="text" id="name" name="name" required aria-required="true" />
+        <span class="error-message" id="error-name" aria-live="polite"></span>
+      </div>
 
-      <label for="email">Correo electrónico</label>
-      <input type="email" id="email" name="email" required aria-required="true" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required aria-required="true" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+        <span class="error-message" id="error-email" aria-live="polite"></span>
+      </div>
 
-      <label for="message">Mensaje</label>
-      <textarea id="message" name="message" rows="5" required minlength="10" aria-required="true"></textarea>
+      <div class="form-group">
+        <label for="message">Mensaje</label>
+        <textarea id="message" name="message" rows="5" required minlength="10" aria-required="true"></textarea>
+        <span class="error-message" id="error-message" aria-live="polite"></span>
+      </div>
 
       <button type="submit">Enviar</button>
+      <span class="form-feedback" id="form-feedback" aria-live="polite"></span>
     </form>
   </section>
 </div>
@@ -162,13 +174,48 @@ document.addEventListener("DOMContentLoaded", function() {
     retina_detect: true
   });
 
-  // Envío de formulario
+  // Envío de formulario mejorado
   const form = document.getElementById('contact-form');
+  const feedback = document.getElementById('form-feedback');
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    const nombre = document.getElementById('name').value.trim();
-    if(!nombre) return alert("Por favor, introduce tu nombre.");
-    window.location.href = `gracias.html?nombre=${encodeURIComponent(nombre)}`;
+    let valid = true;
+    document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+    feedback.textContent = '';
+
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const message = document.getElementById('message');
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+    if(name.value.trim() === '') {
+      document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.';
+      valid = false;
+      name.focus();
+    }
+
+    if(email.value.trim() === '') {
+      document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.';
+      valid = false;
+      if(valid) email.focus();
+    } else if(!emailPattern.test(email.value.trim())) {
+      document.getElementById('error-email').textContent = 'Correo no válido.';
+      valid = false;
+      if(valid) email.focus();
+    }
+
+    if(message.value.trim().length < 10) {
+      document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.';
+      valid = false;
+      if(valid) message.focus();
+    }
+
+    if(valid){
+      feedback.textContent = 'Enviando...';
+      const nombreEncode = encodeURIComponent(name.value.trim());
+      setTimeout(() => window.location.href = `gracias.html?nombre=${nombreEncode}`, 500);
+    }
   });
 
   // Toggle tema claro/oscuro
@@ -181,7 +228,6 @@ document.addEventListener("DOMContentLoaded", function() {
     toggleBtn.textContent = darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
   });
 
-  // Detectar preferencia de color del sistema
   if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){
     darkMode = false;
     document.body.classList.add('light');
