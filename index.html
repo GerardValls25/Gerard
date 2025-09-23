@@ -3,556 +3,327 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gerard Valls - Nutrición Personalizada</title>
-  <meta name="description" content="Gerard Valls - Nutrición personalizada, planes de alimentación y asesoría para deportistas." />
-  <meta name="keywords" content="nutrición, dietas, pérdida de peso, salud, Gerard Valls, nutricionista" />
-
-  <!-- Meta tags sociales -->
-  <meta property="og:title" content="Gerard Valls - Nutrición Personalizada" />
-  <meta property="og:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas." />
-  <meta property="og:image" content="https://i.imgur.com/gerard.jpg" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://tu-sitio-ejemplo.com" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Gerard Valls - Nutrición Personalizada" />
-  <meta name="twitter:description" content="Planes de alimentación y asesoría nutricional personalizada para deportistas." />
-  <meta name="twitter:image" content="https://i.imgur.com/gerard.jpg" />
-
+  <meta name="description" content="Nutrición personalizada para deportistas y personas activas con Gerard Valls. Planes de alimentación y asesoría nutricional." />
+  <title>Gerard Valls - Nutrición personalizada</title>
   <style>
-    /* Fondo animado */
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Variables modo claro/oscuro */
+    :root {
+      --bg-color: #0b0f2f;
+      --text-color: #fff;
+      --overlay-color: rgba(0, 0, 0, 0.65);
+      --link-color: #00ffcc;
+      --link-hover: #00e6b8;
+      --button-bg: #007b5e;
+      --button-hover: #005f47;
+      --form-message-ok: #00ffcc;
+      --form-message-error: red;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-color: #f5f5f5;
+        --text-color: #222;
+        --overlay-color: rgba(255, 255, 255, 0.85);
+        --link-color: #007b5e;
+        --link-hover: #005f47;
+        --button-bg: #007b5e;
+        --button-hover: #005f47;
+        --form-message-ok: #007b5e;
+        --form-message-error: #c00;
+      }
+    }
+
+    /* Fondo partículas */
     #particles-js {
       position: fixed;
       width: 100%;
       height: 100%;
-      background: #0b0f2f;
+      background: var(--bg-color);
+      filter: brightness(0.5);
       z-index: -1;
       top: 0;
       left: 0;
-      opacity: 0.4; /* Fondo menos intenso para mejor lectura */
+      transition: background 0.4s ease;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      color: #fff;
-      position: relative;
-      scroll-behavior: smooth;
-      background: transparent;
-      outline-offset: 3px;
-    }
-
-    main {
-      background: rgba(0, 0, 0, 0.55); /* Fondo oscuro semitransparente */
-      padding: 20px 25px 40px 25px;
-      border-radius: 15px;
-      max-width: 720px;
-      margin: 30px auto;
-      box-sizing: border-box;
-    }
-
-    /* Enfoque visible para accesibilidad */
-    a:focus,
-    button:focus,
-    input:focus,
-    textarea:focus {
-      outline: 3px solid #00ffcc;
-      outline-offset: 2px;
-    }
-
-    h1, h2, p, li, label {
-      text-shadow: 0 0 6px rgba(0, 0, 0, 0.85); /* Sombra para mejorar contraste */
-    }
-
-    header {
-      background-color: rgba(0, 123, 94, 0.95);
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-      animation: fadeInDown 1s ease forwards;
-      border-radius: 10px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      margin-top: 10px;
-      font-style: italic;
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    section {
+    /* Contenedor oscuro/claro para texto */
+    .content-wrapper {
+      background-color: var(--overlay-color);
       max-width: 700px;
       margin: 30px auto;
-      padding: 0 20px;
+      padding: 30px 20px;
+      border-radius: 10px;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     }
 
-    h2 {
-      color: #00ffcc;
-      border-bottom: 2px solid #00ffcc;
-      padding-bottom: 5px;
-      animation: fadeInUp 1s ease forwards;
+    h1, h2, h3, p, label, li {
+      color: var(--text-color);
     }
 
-    ul {
-      list-style: disc inside;
-      margin-top: 10px;
+    /* Encabezado */
+    header {
+      text-align: center;
       margin-bottom: 30px;
     }
 
-    .contact {
+    header p {
+      font-style: italic;
       font-size: 1.1rem;
+      margin-top: -10px;
+      margin-bottom: 20px;
     }
 
-    .contact a {
-      position: relative;
-      color: #00ffcc;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .contact a::after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      bottom: -2px;
-      left: 0;
-      background-color: #00ffcc;
-      transition: width 0.3s ease;
-    }
-
-    .contact a:hover,
-    .contact a:focus {
-      color: #00e6b8;
-    }
-
-    .contact a:hover::after,
-    .contact a:focus::after {
-      width: 100%;
-    }
-
-    footer {
-      background-color: rgba(0, 123, 94, 0.95);
-      color: white;
-      text-align: center;
-      padding: 15px 10px;
-      font-size: 0.9rem;
-      border-radius: 0 0 10px 10px;
-      max-width: 720px;
-      margin: 0 auto 30px auto;
-    }
-
+    /* Foto */
     .photo {
       display: block;
       max-width: 120px;
-      margin: 30px auto 20px auto;
+      margin: 0 auto 20px auto;
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.8);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
-      animation: fadeInUp 1.2s ease forwards;
     }
 
     .photo:hover,
     .photo:focus {
       transform: scale(1.05);
-      box-shadow: 0 0 12px rgba(0,255,204,0.6);
+      box-shadow: 0 0 16px rgba(0, 255, 204, 1);
+      outline: none;
     }
 
-    form {
-      margin-top: 20px;
-      margin-bottom: 40px;
-      opacity: 0;
-      animation: fadeInUp 1.2s ease forwards;
-      animation-delay: 0.5s;
+    section {
+      margin-bottom: 25px;
     }
 
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
+    ul {
+      padding-left: 20px;
     }
 
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-family: inherit;
+    /* Contacto */
+    .contact {
       font-size: 1rem;
-      box-sizing: border-box;
     }
 
-    button {
-      background-color: #007b5e;
+    .contact a {
+      color: var(--link-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact a:hover,
+    .contact a:focus {
+      color: var(--link-hover);
+      outline: none;
+    }
+
+    /* Formulario */
+    form label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    form button {
+      background-color: var(--button-bg);
       color: white;
       border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      padding: 12px 20px;
       font-weight: bold;
-      margin-top: 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    button:hover,
-    button:focus {
-      background-color: #005f47;
+    form button:hover,
+    form button:focus {
+      background-color: var(--button-hover);
       transform: scale(1.05);
       outline: none;
     }
 
-    /* Estilos para mensajes de error por campo */
-    .error-message {
-      color: #ff6b6b;
-      font-size: 0.9rem;
-      margin-top: 3px;
-      display: none;
-    }
-
-    /* Contenedor general de errores */
-    #formErrors {
-      color: #ff6b6b;
-      font-size: 1rem;
-      margin-bottom: 10px;
-      display: none;
-    }
-
-    /* Contenedor mensaje éxito */
-    #formSuccess {
-      color: #00ffcc;
-      font-size: 1rem;
-      margin-bottom: 10px;
-      display: none;
-    }
-
-    /* Animaciones */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInDown {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Media queries para móviles */
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2rem;
-      }
-      header p {
-        font-size: 1rem;
-      }
-      section {
-        padding: 0 15px;
-      }
-      .photo {
-        max-width: 100px;
-      }
-    }
-
-    /* Estilos para ventana modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: #0b0f2f;
-      color: #00ffcc;
-      padding: 25px 30px;
-      border-radius: 10px;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 0 15px #00ffcc;
-    }
-
-    .modal-content button {
-      margin-top: 20px;
-      background-color: #007b5e;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
+    /* Mensaje feedback */
+    #form-message {
       font-weight: bold;
-      transition: background-color 0.3s ease;
+      margin-top: 10px;
+      text-align: center;
     }
 
-    .modal-content button:hover,
-    .modal-content button:focus {
-      background-color: #005f47;
-      outline: none;
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #ccc;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+    }
+
+    /* Botón toggle animación */
+    .toggle-anim {
+      display: inline-block;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .toggle-anim:hover {
+      background-color: var(--button-hover);
     }
   </style>
 </head>
 <body>
 
-<div id="particles-js"></div>
+  <div id="particles-js"></div>
 
-<main>
-  <header>
-    <h1>Gerard Valls</h1>
-    <p>Nutrición personalizada y planes de alimentación</p>
-    <!-- Imagen con srcset para responsive y accesibilidad -->
-    <img
-      src="https://i.imgur.com/gerard.jpg"
-      srcset="https://i.imgur.com/3qXz7wG_480.jpg 480w,
-              https://i.imgur.com/3qXz7wG_800.jpg 800w"
-      sizes="(max-width: 600px) 100px, 120px"
-      alt="Gerard Valls"
-      class="photo"
-      tabindex="0" />
-  </header>
+  <div class="content-wrapper" role="main">
+    <header>
+      <h1>Gerard Valls</h1>
+      <p>Nutrición personalizada para deportistas y personas activas</p>
+      <img
+        src="https://i.imgur.com/gerard.jpg"
+        alt="Foto de Gerard Valls"
+        class="photo"
+        tabindex="0"
+      />
+      <button class="toggle-anim" id="toggle-anim">Desactivar animación</button>
+    </header>
 
-  <section aria-labelledby="servicios">
-    <h2 id="servicios">Servicios</h2>
-    <ul>
-      <li>Planes de alimentación para deportistas</li>
-      <li>Asesoría para pérdida de peso</li>
-      <li>Evaluaciones nutricionales</li>
-    </ul>
-  </section>
+    <section aria-labelledby="servicios">
+      <h2 id="servicios">Servicios</h2>
+      <ul>
+        <li>Planes de alimentación personalizados</li>
+        <li>Asesoría nutricional para deportistas</li>
+        <li>Programas para pérdida de peso saludable</li>
+        <li>Consultas en línea y presenciales</li>
+      </ul>
+    </section>
 
-  <section aria-labelledby="contacto">
-    <h2 id="contacto">Contacto</h2>
-    <p class="contact">
-      Email: <a href="mailto:gerardvalls25@gmail.com" tabindex="0">gerardvalls25@gmail.com</a><br/>
-      WhatsApp: <a href="https://wa.me/34612345678" target="_blank" rel="noopener" tabindex="0">+34 612 345 678</a>
-    </p>
-  </section>
+    <section aria-labelledby="contacto">
+      <h2 id="contacto">Contacto</h2>
+      <p class="contact">
+        Teléfono: +34 666 555 667<br />
+        Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
+      </p>
+    </section>
 
-  <section aria-labelledby="consulta">
-    <h2 id="consulta">Consulta rápida</h2>
-    <form id="contactForm" novalidate aria-describedby="formErrors formSuccess" aria-live="polite">
-      <!-- Contenedores para mensajes generales -->
-      <div id="formErrors" role="alert" aria-live="assertive" tabindex="-1"></div>
-      <div id="formSuccess" aria-live="polite"></div>
+    <section aria-labelledby="consulta">
+      <h2 id="consulta">Formulario de contacto</h2>
+      <form id="contact-form" action="#" method="post">
+        <label for="name">Nombre completo</label>
+        <input type="text" id="name" name="name" required />
 
-      <label for="name">Nombre completo *</label>
-      <input type="text" id="name" name="name" required aria-required="true" aria-describedby="nameError" />
-      <div id="nameError" class="error-message"></div>
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required />
 
-      <label for="email">Correo electrónico *</label>
-      <input type="email" id="email" name="email" required aria-required="true" aria-describedby="emailError" />
-      <div id="emailError" class="error-message"></div>
+        <label for="message">Mensaje</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
 
-      <label for="message">Mensaje *</label>
-      <textarea id="message" name="message" rows="5" required aria-required="true" aria-describedby="messageError"></textarea>
-      <div id="messageError" class="error-message"></div>
-
-      <button type="submit">Enviar</button>
-    </form>
-  </section>
-</main>
-
-<footer>
-  &copy; 2025 Gerard Valls - Todos los derechos reservados.
-</footer>
-
-<!-- Modal para confirmación -->
-<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
-  <div class="modal-content">
-    <h3 id="modalTitle">¡Mensaje enviado!</h3>
-    <p id="modalDesc">Gracias por contactarme. Te responderé lo antes posible.</p>
-    <button id="closeModal" aria-label="Cerrar diálogo">Cerrar</button>
+        <button type="submit" aria-label="Enviar formulario de contacto">Enviar</button>
+        <p id="form-message"></p>
+      </form>
+    </section>
   </div>
-</div>
 
-<!-- Particles.js -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script>
-  // Inicializar Particles.js
-  particlesJS('particles-js', {
-    "particles": {
-      "number": {
-        "value": 70,
-        "density": {
-          "enable": true,
-          "value_area": 800
-        }
-      },
-      "color": { "value": "#00ffcc" },
-      "shape": {
-        "type": "circle",
-        "stroke": { "width": 0, "color": "#000000" }
-      },
-      "opacity": {
-        "value": 0.2,
-        "random": true,
-        "anim": {
-          "enable": true,
-          "speed": 1,
-          "opacity_min": 0.05,
-          "sync": false
-        }
-      },
-      "size": {
-        "value": 3,
-        "random": true,
-        "anim": {
-          "enable": true,
-          "speed": 4,
-          "size_min": 0.3,
-          "sync": false
-        }
-      },
-      "move": {
-        "enable": true,
-        "speed": 1,
-        "direction": "none",
-        "random": true,
-        "straight": false,
-        "out_mode": "out",
-        "bounce": false,
-        "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 }
+  <footer>
+    &copy; 2025 Gerard Valls - Todos los derechos reservados.
+  </footer>
+
+  <!-- Particles.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
+
+  <script>
+    // Inicializar partículas
+    function initParticles() {
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: "#00ffcc" },
+          shape: { type: "circle" },
+          opacity: { value: 0.6 },
+          size: { value: 4, random: true },
+          line_linked: { enable: true, distance: 150, color: "#00ffcc", opacity: 0.4, width: 1 },
+          move: { enable: true, speed: 3, out_mode: "out" }
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: true, mode: "grab" },
+            onclick: { enable: true, mode: "push" },
+            resize: true
+          },
+          modes: {
+            grab: { distance: 140, line_linked: { opacity: 1 } },
+            push: { particles_nb: 4 }
+          }
+        },
+        retina_detect: true
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", initParticles);
+
+    // Validación formulario con feedback elegante
+    const form = document.getElementById("contact-form");
+    const formMessage = document.getElementById("form-message");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!form.name.value.trim() || !form.email.value.trim() || !form.message.value.trim()) {
+        formMessage.textContent = "Por favor, completa todos los campos.";
+        formMessage.style.color = getComputedStyle(document.documentElement).getPropertyValue('--form-message-error');
+        return;
       }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": { "enable": true, "mode": "repulse" },
-        "onclick": { "enable": true, "mode": "push" },
-        "resize": true
-      },
-      "modes": {
-        "repulse": { "distance": 100, "duration": 0.4 },
-        "push": { "particles_nb": 4 }
-      }
-    },
-    "retina_detect": true
-  });
-
-  // Formulario con validación accesible
-  const form = document.getElementById('contactForm');
-  const formErrors = document.getElementById('formErrors');
-  const formSuccess = document.getElementById('formSuccess');
-  const modal = document.getElementById('modal');
-  const closeModalBtn = document.getElementById('closeModal');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Limpiar mensajes
-    formErrors.style.display = 'none';
-    formErrors.textContent = '';
-    formSuccess.style.display = 'none';
-    formSuccess.textContent = '';
-
-    // Campos
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
-
-    // Resetear errores por campo
-    ['name', 'email', 'message'].forEach(field => {
-      const errorDiv = document.getElementById(field + 'Error');
-      errorDiv.style.display = 'none';
-      errorDiv.textContent = '';
-      form[field].setAttribute('aria-invalid', 'false');
+      formMessage.textContent = "¡Mensaje enviado! Gracias por contactarnos.";
+      formMessage.style.color = getComputedStyle(document.documentElement).getPropertyValue('--form-message-ok');
+      form.reset();
     });
 
-    let hasError = false;
-
-    if (!name) {
-      showError('name', 'Por favor, introduce tu nombre completo.');
-      hasError = true;
-    }
-
-    if (!email) {
-      showError('email', 'Por favor, introduce tu correo electrónico.');
-      hasError = true;
-    } else if (!validateEmail(email)) {
-      showError('email', 'El correo electrónico no es válido.');
-      hasError = true;
-    }
-
-    if (!message) {
-      showError('message', 'Por favor, escribe un mensaje.');
-      hasError = true;
-    }
-
-    if (hasError) {
-      formErrors.style.display = 'block';
-      formErrors.textContent = 'Por favor, corrige los errores en el formulario.';
-      formErrors.focus();
-      return;
-    }
-
-    // Aquí podrías hacer una petición AJAX para enviar el formulario o simplemente simular el envío
-    formSuccess.style.display = 'block';
-    formSuccess.textContent = 'Enviando mensaje...';
-
-    setTimeout(() => {
-      form.reset();
-      formSuccess.textContent = '';
-      showModal();
-    }, 1500);
-  });
-
-  function showError(field, message) {
-    const errorDiv = document.getElementById(field + 'Error');
-    errorDiv.style.display = 'block';
-    errorDiv.textContent = message;
-    form[field].setAttribute('aria-invalid', 'true');
-  }
-
-  function validateEmail(email) {
-    // Expresión regular simple para email
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.toLowerCase());
-  }
-
-  // Modal
-  function showModal() {
-    modal.classList.add('active');
-    closeModalBtn.focus();
-  }
-
-  closeModalBtn.addEventListener('click', () => {
-    modal.classList.remove('active');
-    form.name.focus();
-  });
-
-  // Cerrar modal con tecla Esc
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      modal.classList.remove('active');
-      form.name.focus();
-    }
-  });
-</script>
-
+    // Toggle animación partículas
+    let animActive = true;
+    const toggleButton = document.getElementById("toggle-anim");
+    toggleButton.addEventListener("click", () => {
+      const canvas = document.querySelector("#particles-js canvas");
+      if (animActive) {
+        canvas.style.display = "none";
+        toggleButton.textContent = "Activar animación";
+      } else {
+        canvas.style.display = "block";
+        toggleButton.textContent = "Desactivar animación";
+      }
+      animActive = !animActive;
+    });
+  </script>
 </body>
 </html>
