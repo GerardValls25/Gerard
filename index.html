@@ -372,164 +372,162 @@
       name="message"
       required
       aria-required="true"
-      minlength="10"
-      placeholder="Escribe tu consulta"
+      rows="5"
+      placeholder="Escribe aquí tu consulta"
       aria-describedby="messageError"
     ></textarea>
     <div id="messageError" class="error-message" role="alert" aria-live="assertive"></div>
 
-    <button type="submit">Enviar</button>
+    <button type="submit" aria-label="Enviar consulta">Enviar</button>
   </form>
 </section>
 
-<!-- Ventana modal de agradecimiento -->
-<div id="thankYouModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+<footer>
+  <p>© 2025 Gerard Valls. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
   <div class="modal-content">
-    <h2 id="modalTitle">¡Gracias por tu consulta!</h2>
-    <p>Me pondré en contacto contigo pronto.</p>
-    <button id="closeModalBtn">Cerrar</button>
+    <h3 id="modalTitle">¡Gracias por tu mensaje!</h3>
+    <p id="modalDesc">Nos pondremos en contacto contigo pronto.</p>
+    <button id="closeModalBtn" aria-label="Cerrar ventana de mensaje">Cerrar</button>
   </div>
 </div>
 
-<footer>
-  &copy; 2025 Gerard Valls - Todos los derechos reservados.
-</footer>
-
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-  // Particles.js config
-  particlesJS('particles-js', {
-    particles: {
-      number: { value: 80, density: { enable: true, value_area: 800 } },
-      color: { value: "#00ffcc" },
-      shape: {
-        type: "circle",
-        stroke: { width: 0, color: "#000000" },
-        polygon: { nb_sides: 5 }
-      },
-      opacity: { value: 0.5, random: false, anim: { enable: false } },
-      size: { value: 3, random: true, anim: { enable: false } },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: "#00ffcc",
-        opacity: 0.4,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 4,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-        attract: { enable: false }
-      }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: { enable: true, mode: "grab" },
-        onclick: { enable: true, mode: "push" },
-        resize: true
-      },
-      modes: {
-        grab: { distance: 140, line_linked: { opacity: 1 } },
-        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
-        repulse: { distance: 200, duration: 0.4 },
-        push: { particles_nb: 4 },
-        remove: { particles_nb: 2 }
-      }
-    },
-    retina_detect: true
+  // Inicializar partículas
+  particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js/particles.json', function() {
+    console.log('Particles.js cargado');
   });
 
-  // Validación y manejo formulario
-
+  const modal = document.getElementById('modal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
   const form = document.getElementById('contactForm');
-  const formErrors = document.getElementById('formErrors');
-  const formSuccess = document.getElementById('formSuccess');
 
-  const fields = {
-    name: {
-      input: document.getElementById('name'),
-      errorDiv: document.getElementById('nameError'),
-      validator: value => value.length >= 3,
-      errorMsg: 'El nombre debe tener al menos 3 caracteres.'
-    },
-    email: {
-      input: document.getElementById('email'),
-      errorDiv: document.getElementById('emailError'),
-      validator: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-      errorMsg: 'Introduce un correo electrónico válido.'
-    },
-    message: {
-      input: document.getElementById('message'),
-      errorDiv: document.getElementById('messageError'),
-      validator: value => value.length >= 10,
-      errorMsg: 'El mensaje debe tener al menos 10 caracteres.'
-    }
-  };
+  // Función para activar focus trap en el modal
+  function trapFocus(element) {
+    const focusableElements = element.querySelectorAll(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
 
-  function clearFieldErrors() {
-    formErrors.style.display = 'none';
-    formErrors.textContent = '';
-    formSuccess.style.display = 'none';
-    formSuccess.textContent = '';
-    for (const key in fields) {
-      fields[key].errorDiv.style.display = 'none';
-      fields[key].errorDiv.textContent = '';
+    function handleKeyDown(e) {
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        }
+      } else if (e.key === 'Escape') {
+        closeModal();
+      }
     }
+
+    element.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      element.removeEventListener('keydown', handleKeyDown);
+    };
   }
 
-  // Modal manejo
-  const modal = document.getElementById('thankYouModal');
-  const closeModalBtn = document.getElementById('closeModalBtn');
+  // Variables para trapFocus remover
+  let removeTrapFocus = null;
 
+  // Abrir modal con focus trap
   function openModal() {
     modal.classList.add('active');
-    modal.focus();
+    closeModalBtn.focus();
+    removeTrapFocus = trapFocus(modal);
   }
 
+  // Cerrar modal y eliminar trap
   function closeModal() {
     modal.classList.remove('active');
     form.querySelector('button[type="submit"]').focus();
+    if (removeTrapFocus) {
+      removeTrapFocus();
+      removeTrapFocus = null;
+    }
   }
 
+  // Escuchar botón cerrar modal
   closeModalBtn.addEventListener('click', closeModal);
 
-  modal.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+  // Escuchar clic fuera contenido para cerrar modal
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
       closeModal();
     }
   });
 
-  form.addEventListener('submit', e => {
+  // Validación del formulario
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
-    clearFieldErrors();
 
-    let isValid = true;
+    // Ocultar mensajes previos
+    document.getElementById('formErrors').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'none';
 
-    for (const key in fields) {
-      const field = fields[key];
-      const value = field.input.value.trim();
-      if (!field.validator(value)) {
-        field.errorDiv.style.display = 'block';
-        field.errorDiv.textContent = field.errorMsg;
-        isValid = false;
-      }
+    const nameInput = form.name;
+    const emailInput = form.email;
+    const messageInput = form.message;
+
+    let valid = true;
+
+    // Limpiar errores previos
+    ['nameError', 'emailError', 'messageError'].forEach(id => {
+      const el = document.getElementById(id);
+      el.textContent = '';
+      el.style.display = 'none';
+    });
+
+    // Validar nombre
+    if (!nameInput.value.trim() || nameInput.value.trim().length < 3) {
+      const errorEl = document.getElementById('nameError');
+      errorEl.textContent = 'Por favor, ingresa al menos 3 caracteres en el nombre.';
+      errorEl.style.display = 'block';
+      valid = false;
     }
 
-    if (!isValid) {
-      formErrors.textContent = 'Por favor corrige los errores indicados.';
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
+      const errorEl = document.getElementById('emailError');
+      errorEl.textContent = 'Por favor, ingresa un correo electrónico válido.';
+      errorEl.style.display = 'block';
+      valid = false;
+    }
+
+    // Validar mensaje
+    if (!messageInput.value.trim() || messageInput.value.trim().length < 10) {
+      const errorEl = document.getElementById('messageError');
+      errorEl.textContent = 'Por favor, ingresa al menos 10 caracteres en el mensaje.';
+      errorEl.style.display = 'block';
+      valid = false;
+    }
+
+    if (!valid) {
+      const formErrors = document.getElementById('formErrors');
+      formErrors.textContent = 'Por favor corrige los errores antes de enviar.';
       formErrors.style.display = 'block';
       formErrors.focus();
       return;
     }
 
-    // Abrir modal de gracias en vez de mensaje inline
+    // Aquí puedes enviar el formulario con fetch o XMLHttpRequest
+    // Simulamos envío exitoso:
     openModal();
+
+    // Limpiar form
     form.reset();
   });
 </script>
