@@ -1,120 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Nutrición personalizada para deportistas y personas activas con Gerard Valls. Planes de alimentación y asesoría nutricional." />
-  <title>Gerard Valls - Nutrición personalizada</title>
-  <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png" />
-
-  <style>
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body, html {
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(-45deg, #0b0f2f, #003333, #001122, #004444);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: var(--text-color, #fff);
-      transition: background 0.4s ease, color 0.4s ease;
-    }
-    @keyframes gradientBG { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
-    .content-wrapper {
-      background-color: rgba(0,0,0,0.65);
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 30px 20px 80px 20px;
-      border-radius: 10px;
-      text-shadow: 0 0 5px rgba(0,0,0,0.2);
-    }
-    h1,h2,h3,p,label,li { color: #fff; }
-    header { text-align:center; margin-bottom:30px; }
-    header p { font-style:italic; font-size:1.1rem; margin-bottom:20px; }
-    .photo { display:block; max-width:120px; margin:0 auto 20px auto; border-radius:50%; box-shadow:0 0 12px rgba(0,255,204,0.8); transition:transform 0.4s, box-shadow 0.4s; }
-    .photo:hover, .photo:focus { transform:scale(1.05); box-shadow:0 0 16px rgba(0,255,204,1); outline:3px solid #00ffcc; outline-offset:3px; }
-    section { margin-bottom:25px; }
-    ul { padding-left:20px; }
-    .contact { font-size:1rem; }
-    .contact a { color:#00ffcc; text-decoration:none; transition:color 0.3s; }
-    .contact a:hover, .contact a:focus { color:#00e6b8; outline:2px solid #00e6b8; outline-offset:2px; }
-    form label { display:block; font-weight:bold; margin-bottom:6px; }
-    form input, form textarea { width:100%; padding:8px; margin-bottom:15px; border-radius:5px; border:none; font-size:1rem; }
-    form button { background-color:#007b5e; color:white; border:none; padding:12px 20px; font-weight:bold; cursor:pointer; border-radius:5px; transition:background-color 0.3s, transform 0.2s; }
-    form button:hover, form button:focus { background-color:#005f47; transform:scale(1.05); outline:3px solid #00ffcc; outline-offset:3px; }
-    footer { text-align:center; padding:15px; font-size:0.9rem; background-color: rgba(0,0,0,0.6); color:#ccc; position:fixed; width:100%; bottom:0; left:0; }
-    .toggle-theme { display:inline-block; background-color:#007b5e; color:white; border:none; padding:8px 12px; border-radius:5px; font-size:0.9rem; cursor:pointer; margin-top:10px; }
-    .toggle-theme:hover, .toggle-theme:focus { background-color:#005f47; outline:3px solid #00ffcc; outline-offset:3px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gracias - Gerard Valls</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0b0f2f, #001f3f);
+    color: #00ffcc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 1rem;
+    margin: 0;
+  }
+  h1 { font-size: 3rem; text-shadow: 0 0 10px #00ffccaa; margin-bottom: 0.5rem; }
+  p { font-size: 1.4rem; margin: 0.3rem 0 1.5rem; }
+  #personal-msg { font-style: italic; color: #66fff2; margin-bottom: 1rem; min-height: 1.5rem; }
+  #countdown { font-weight: bold; font-size: 1.2rem; margin-bottom: 1.5rem; color:#00fff0; font-family: monospace; }
+  button {
+    background-color:#007b5e; color:white; border:none; padding:12px 20px; border-radius:5px;
+    cursor:pointer; font-weight:bold; margin:0.3rem; transition: background 0.3s;
+  }
+  button:hover { background-color:#005f47; }
+  #cancelRedirect { background-color:#ff4444; }
+  #cancelRedirect:hover { background-color:#ff5555; }
+</style>
 </head>
 <body>
-  <div class="content-wrapper" role="main">
-    <header>
-      <h1>Gerard Valls</h1>
-      <p>Nutrición personalizada para deportistas y personas activas</p>
-      <img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls" class="photo" loading="lazy" tabindex="0" />
-      <button class="toggle-theme" id="toggle-theme">Cambiar a modo claro</button>
-    </header>
 
-    <section aria-labelledby="servicios">
-      <h2 id="servicios">Servicios</h2>
-      <ul>
-        <li>Planes de alimentación personalizados</li>
-        <li>Asesoría nutricional para deportistas</li>
-        <li>Programas para pérdida de peso saludable</li>
-        <li>Consultas en línea y presenciales</li>
-      </ul>
-    </section>
+<h1>¡Gracias!</h1>
+<p id="personal-msg" aria-live="polite"></p>
+<div id="countdown" aria-live="polite">Redireccionando en 10 segundos...</div>
 
-    <section aria-labelledby="contacto">
-      <h2 id="contacto">Contacto</h2>
-      <p class="contact">
-        Teléfono: +34 666 555 667<br />
-        Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
-      </p>
-    </section>
+<button onclick="history.back()">Regresar a la página anterior</button>
+<button id="cancelRedirect">Cancelar redirección automática</button>
 
-    <section aria-labelledby="consulta">
-      <h2 id="consulta">Formulario de contacto</h2>
-      <form id="contact-form" novalidate>
-        <label for="name">Nombre completo</label>
-        <input type="text" id="name" name="name" required />
-        <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" required />
-        <label for="message">Mensaje</label>
-        <textarea id="message" name="message" rows="5" required minlength="10"></textarea>
-        <button type="submit" aria-label="Enviar formulario de contacto">Enviar</button>
-      </form>
-    </section>
-  </div>
+<script>
+  // Mostrar nombre desde URL
+  const params = new URLSearchParams(window.location.search);
+  const nombre = params.get('nombre');
+  const personalMsg = document.getElementById('personal-msg');
+  personalMsg.textContent = nombre ? `Hola ${nombre}, ¡tu envío fue exitoso!` : "Tu envío fue exitoso!";
 
-  <footer>
-    &copy; 2025 Gerard Valls - Todos los derechos reservados.
-  </footer>
+  // Contador y redirección
+  let seconds = 10;
+  const countdownEl = document.getElementById('countdown');
+  const cancelBtn = document.getElementById('cancelRedirect');
 
-  <script>
-    // Redirigir a gracias.html al enviar el formulario
-    const form = document.getElementById('contact-form');
-    form.addEventListener('submit', function(e){
-      e.preventDefault(); // Evita envío real
-      const nombre = document.getElementById('name').value;
-      // Redirige con parámetro opcional para personalizar
-      window.location.href = `gracias.html?nombre=${encodeURIComponent(nombre)}`;
-    });
+  let interval = setInterval(() => {
+    seconds--;
+    if(seconds <= 0){
+      clearInterval(interval);
+      window.location.href = "index.html"; // Cambiar a tu página principal
+    } else {
+      countdownEl.textContent = `Redireccionando en ${seconds} segundo${seconds !== 1 ? 's' : ''}...`;
+    }
+  }, 1000);
 
-    // Cambiar tema claro/oscuro
-    let darkMode = true;
-    document.getElementById('toggle-theme').addEventListener('click', () => {
-      darkMode = !darkMode;
-      if(darkMode){
-        document.documentElement.style.setProperty('--text-color','#fff');
-        document.documentElement.style.setProperty('--overlay-color','rgba(0,0,0,0.65)');
-        document.getElementById('toggle-theme').textContent='Cambiar a modo claro';
-      } else {
-        document.documentElement.style.setProperty('--text-color','#222');
-        document.documentElement.style.setProperty('--overlay-color','rgba(255,255,255,0.85)');
-        document.getElementById('toggle-theme').textContent='Cambiar a modo oscuro';
-      }
-    });
-  </script>
+  cancelBtn.addEventListener('click', () => {
+    clearInterval(interval);
+    countdownEl.textContent = "Redirección cancelada";
+    cancelBtn.disabled = true;
+    cancelBtn.style.cursor = 'default';
+  });
+</script>
+
 </body>
 </html>
