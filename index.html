@@ -14,7 +14,7 @@
 <style>
   * { box-sizing: border-box; margin:0; padding:0; }
   html, body { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.4s, color 0.4s; }
-  
+
   :root {
     --bg-color: #0b0f2f;
     --text-color: #fff;
@@ -25,7 +25,7 @@
     --button-hover: #005f47;
   }
 
-  body.light { 
+  body.light {
     --bg-color: #f5f5f5;
     --text-color: #222;
     --overlay-color: rgba(255,255,255,0.85);
@@ -66,12 +66,7 @@
     box-sizing: border-box;
   }
 
-  form textarea {
-    min-height: 80px;
-    max-height: 200px;
-    overflow-y: auto;
-    resize: vertical;
-  }
+  form textarea { min-height: 80px; max-height: 200px; overflow-y: auto; resize: vertical; }
 
   form button { background-color: var(--button-bg); color:white; border:none; padding:12px 20px; font-weight:bold; cursor:pointer; border-radius:5px; transition: background-color 0.3s, transform 0.2s; }
   form button:hover, form button:focus { background-color: var(--button-hover); transform:scale(1.05); outline:3px solid #00ffcc; outline-offset:3px; }
@@ -87,6 +82,9 @@
 
   .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* Elemento para notificación accesible */
+  #theme-status { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 </style>
 </head>
 <body>
@@ -99,6 +97,7 @@
     <p>Nutrición personalizada para deportistas y personas activas</p>
     <img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls" class="photo" loading="lazy" tabindex="0" />
     <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
+    <span id="theme-status" aria-live="polite"></span>
   </header>
 
   <section class="fade-in" aria-labelledby="servicios">
@@ -154,49 +153,51 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Inicializar partículas
-  const isMobile = window.innerWidth < 600;
-  particlesJS("particles-js", {
-    particles: {
-      number: { value: isMobile ? 25 : 80, density: { enable: true, value_area: 800 } },
-      color: { value: "#00ffcc" },
-      shape: { type: "circle" },
-      opacity: { value: 0.5 },
-      size: { value: isMobile ? 2 : 4, random: true },
-      line_linked: { enable: !isMobile, distance:100, color:"#00ffcc", opacity:0.3, width:1 },
-      move: { enable: true, speed: isMobile ? 1.5 : 3, out_mode: "out" }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: { onhover:{ enable:!isMobile, mode:"grab" }, onclick:{ enable:true, mode:"push" }, resize:true },
-      modes: { grab:{ distance:100, line_linked:{ opacity:0.8 } }, push:{ particles_nb:3 } }
-    },
-    retina_detect: true
-  });
 
+  // --- PARTICULAS ---
+  const initParticles = () => {
+    const isMobile = window.innerWidth < 600;
+    if(window.innerWidth < 400) return; // desactiva partículas en pantallas muy pequeñas
+
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: isMobile ? 25 : 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#00ffcc" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: isMobile ? 2 : 4, random: true },
+        line_linked: { enable: !isMobile, distance:100, color:"#00ffcc", opacity:0.3, width:1 },
+        move: { enable: true, speed: isMobile ? 1.5 : 3, out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover:{ enable:!isMobile, mode:"grab" }, onclick:{ enable:true, mode:"push" }, resize:true },
+        modes: { grab:{ distance:100, line_linked:{ opacity:0.8 } }, push:{ particles_nb:3 } }
+      },
+      retina_detect: true
+    });
+  };
+  initParticles();
+
+  // --- FORMULARIO ---
   const form = document.getElementById('contact-form');
   const feedback = document.getElementById('form-feedback');
 
-  // Función para limpiar el formulario
-  function resetForm() {
+  const resetForm = () => {
     form.reset();
     document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
     feedback.textContent = '';
-  }
+  };
 
-  // Limpiar al cargar la página normalmente
-  document.addEventListener('DOMContentLoaded', resetForm);
-
-  // Limpiar también si se carga desde historial (botón atrás)
   window.addEventListener('pageshow', resetForm);
 
-  // Envío de formulario
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    let valid = true;
     document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
     feedback.textContent = '';
 
+    let valid = true;
+    let firstErrorField = null;
     const name = document.getElementById('name');
     const email = document.getElementById('email');
     const message = document.getElementById('message');
@@ -205,24 +206,26 @@ document.addEventListener("DOMContentLoaded", function() {
     if(name.value.trim() === '') {
       document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.';
       valid = false;
-      name.focus();
+      firstErrorField = firstErrorField || name;
     }
 
     if(email.value.trim() === '') {
       document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.';
       valid = false;
-      if(valid) email.focus();
+      firstErrorField = firstErrorField || email;
     } else if(!emailPattern.test(email.value.trim())) {
       document.getElementById('error-email').textContent = 'Correo no válido.';
       valid = false;
-      if(valid) email.focus();
+      firstErrorField = firstErrorField || email;
     }
 
     if(message.value.trim().length < 10) {
       document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.';
       valid = false;
-      if(valid) message.focus();
+      firstErrorField = firstErrorField || message;
     }
+
+    if(!valid && firstErrorField) firstErrorField.focus();
 
     if(valid){
       feedback.textContent = 'Enviando...';
@@ -231,27 +234,32 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Toggle tema claro/oscuro
+  // --- TOGGLE TEMA ---
   const toggleBtn = document.getElementById('toggle-theme');
+  const themeStatus = document.getElementById('theme-status');
   let darkMode = true;
-  toggleBtn.addEventListener('click', () => {
-    darkMode = !darkMode;
+
+  const updateTheme = () => {
     document.body.classList.toggle('light', !darkMode);
     toggleBtn.setAttribute('aria-pressed', String(!darkMode));
     toggleBtn.textContent = darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+    themeStatus.textContent = darkMode ? 'Modo oscuro activado' : 'Modo claro activado';
+  };
+
+  toggleBtn.addEventListener('click', () => {
+    darkMode = !darkMode;
+    updateTheme();
   });
 
   if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){
     darkMode = false;
-    document.body.classList.add('light');
-    toggleBtn.setAttribute('aria-pressed', 'true');
-    toggleBtn.textContent = 'Cambiar a modo oscuro';
+    updateTheme();
   }
 
-  // Scroll reveal animaciones
+  // --- ANIMACIONES SCROLL ---
   const faders = document.querySelectorAll('.fade-in');
   const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-  const appearOnScroll = new IntersectionObserver(function(entries, observer){
+  const appearOnScroll = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
         entry.target.classList.add('visible');
@@ -259,8 +267,8 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   }, appearOptions);
-
   faders.forEach(fader => appearOnScroll.observe(fader));
+
 });
 </script>
 
