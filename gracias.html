@@ -1,163 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
 <style>
-  * { box-sizing: border-box; margin:0; padding:0; }
-  body, html {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(-45deg, #0b0f2f, #003333, #001122, #004444);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    color:#fff;
-    height:100%;
-  }
-  @keyframes gradientBG {
-    0% { background-position:0% 50%; }
-    50% { background-position:100% 50%; }
-    100% { background-position:0% 50%; }
-  }
-  .content-wrapper {
-    max-width:700px;
-    margin:30px auto;
-    padding:30px 20px 80px 20px;
-    border-radius:10px;
-    text-shadow:0 0 5px rgba(0,0,0,0.2);
-    background-color: rgba(0,0,0,0.65);
-  }
-  h1,h2,p,label,li { color:#fff; }
-  header { text-align:center; margin-bottom:30px; }
-  header p { font-style:italic; font-size:1.1rem; margin-bottom:20px; }
-  .photo { display:block; max-width:120px; margin:0 auto 20px auto; border-radius:50%; box-shadow:0 0 12px rgba(0,255,204,0.8); transition: transform 0.4s, box-shadow 0.4s; }
-  .photo:hover,.photo:focus { transform:scale(1.05); box-shadow:0 0 16px rgba(0,255,204,1); outline:3px solid #00ffcc; outline-offset:3px; }
-  section { margin-bottom:25px; }
-  form label { display:block; font-weight:bold; margin-bottom:6px; }
-  form input, form textarea { width:100%; padding:8px; margin-bottom:15px; border-radius:5px; border:none; font-size:1rem; }
-  form button { background-color:#007b5e; color:white; border:none; padding:12px 20px; font-weight:bold; cursor:pointer; border-radius:5px; transition:0.3s; }
-  form button:hover, form button:focus { background-color:#005f47; transform:scale(1.05); outline:3px solid #00ffcc; outline-offset:3px; }
-
-  /* Gracias section */
-  #gracias {
-    display:none;
-    text-align:center;
-    animation: fadeIn 1.5s forwards;
-  }
-  @keyframes fadeIn { to { opacity:1; } }
-  #personal-msg { font-style:italic; color:#66fff2; margin:1rem 0; font-size:1.2rem; min-height:2.4rem; }
-  #countdown { font-weight:bold; color:#00fff0; margin-bottom:1rem; }
-  #cancelRedirect { padding:10px 20px; background:#ff4444; color:white; border:none; border-radius:5px; cursor:pointer; margin-bottom:1rem; }
-
-  /* Share buttons */
-  .share-btn {
-    background: transparent; border:2px solid #00ffcc; color:#00ffcc;
-    padding:10px 20px; margin:5px; border-radius:5px; text-decoration:none; cursor:pointer;
-    transition:0.3s; display:inline-block;
-  }
-  .share-btn:hover { background:#00fff0; color:#000; border-color:#00fff0; }
-
-  /* Responsive */
-  @media(max-width:480px) {
-    h1 { font-size:2rem; }
-    p, #personal-msg, #countdown { font-size:1rem; }
-    form button, .share-btn, #cancelRedirect { padding:8px 16px; font-size:0.9rem; }
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0b0f2f; color: #fff; }
+  .content-wrapper { max-width: 700px; margin: 40px auto; padding: 30px; background: rgba(0,0,0,0.6); border-radius: 10px; }
+  h1,h2,p,label,li { margin-bottom: 15px; }
+  input, textarea { width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: none; font-size: 1rem; }
+  button { background-color: #007b5e; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+  button:hover { background-color: #005f47; }
+  #thanks { display: none; text-align: center; }
 </style>
 </head>
 <body>
-<div class="content-wrapper">
-  <header>
-    <h1>Gerard Valls</h1>
-    <p>Nutrición personalizada para deportistas y personas activas</p>
-    <img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls" class="photo" loading="lazy" tabindex="0" />
-  </header>
 
-  <section id="form-section">
-    <h2>Formulario de contacto</h2>
+<div class="content-wrapper">
+  <div id="form-section">
+    <h1>Formulario de contacto</h1>
     <form id="contact-form">
       <label for="name">Nombre completo</label>
-      <input type="text" id="name" name="name" required />
+      <input type="text" id="name" name="name" required>
       <label for="email">Correo electrónico</label>
-      <input type="email" id="email" name="email" required />
+      <input type="email" id="email" name="email" required>
       <label for="message">Mensaje</label>
-      <textarea id="message" name="message" rows="5" required minlength="10"></textarea>
+      <textarea id="message" name="message" rows="5" required></textarea>
       <button type="submit">Enviar</button>
     </form>
-  </section>
+  </div>
 
-  <section id="gracias">
+  <div id="thanks">
     <h1>¡Gracias!</h1>
-    <p id="personal-msg"></p>
-    <div id="countdown">Redireccionando en 10 segundos...</div>
-    <button id="cancelRedirect">Cancelar redirección</button>
-    <div>
-      <a href="#" class="share-btn" id="share-twitter">Twitter</a>
-      <a href="#" class="share-btn" id="share-facebook">Facebook</a>
-      <a href="#" class="share-btn" id="share-whatsapp">WhatsApp</a>
-      <a href="#" class="share-btn" id="share-linkedin">LinkedIn</a>
-    </div>
-  </section>
+    <p id="personal-msg">Tu formulario fue enviado con éxito.</p>
+    <p id="countdown">Redireccionando en 10 segundos...</p>
+    <button onclick="history.back()">Regresar a la página anterior</button>
+  </div>
 </div>
 
-<audio id="clickSound" src="https://actions.google.com/sounds/v1/ui/click.ogg" preload="auto"></audio>
-
 <script>
-  const form = document.getElementById("contact-form");
-  const formSection = document.getElementById("form-section");
-  const graciasSection = document.getElementById("gracias");
-  const personalMsg = document.getElementById("personal-msg");
-  const countdownEl = document.getElementById("countdown");
-  const cancelBtn = document.getElementById("cancelRedirect");
-  const clickSound = document.getElementById("clickSound");
+const form = document.getElementById('contact-form');
+const formSection = document.getElementById('form-section');
+const thanksSection = document.getElementById('thanks');
+const personalMsg = document.getElementById('personal-msg');
+const countdownEl = document.getElementById('countdown');
 
-  const shareTwitter = document.getElementById("share-twitter");
-  const shareFacebook = document.getElementById("share-facebook");
-  const shareWhatsApp = document.getElementById("share-whatsapp");
-  const shareLinkedIn = document.getElementById("share-linkedin");
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  
+  // Leer nombre para mensaje personalizado
+  const name = document.getElementById('name').value.trim();
+  if(name) personalMsg.innerHTML = `Hola <strong>${name}</strong>, tu envío fue exitoso!`;
 
-  const pageURL = encodeURIComponent(window.location.href);
-  const msg = encodeURIComponent("¡Gracias por enviar el formulario en Gerard Valls!");
+  // Mostrar sección de gracias
+  formSection.style.display = 'none';
+  thanksSection.style.display = 'block';
 
-  shareTwitter.href = `https://twitter.com/intent/tweet?text=${msg}&url=${pageURL}`;
-  shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${pageURL}`;
-  shareWhatsApp.href = `https://api.whatsapp.com/send?text=${msg}%20${pageURL}`;
-  shareLinkedIn.href = `https://www.linkedin.com/sharing/share-offsite/?url=${pageURL}`;
-
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const nombre = document.getElementById("name").value.trim();
-    personalMsg.textContent = nombre ? `Hola ${nombre}, ¡tu envío fue exitoso!` : "¡Tu envío fue exitoso!";
-    formSection.style.display = "none";
-    graciasSection.style.display = "block";
-
-    let secondsLeft = 10;
-    const redirectURL = "https://gerardvalls25.github.io/Gerard/";
-    let redirectTimeout = setTimeout(()=>window.location.href=redirectURL, secondsLeft*1000);
-    let interval = setInterval(()=>{
-      secondsLeft--;
-      countdownEl.textContent = `Redireccionando en ${secondsLeft} segundo${secondsLeft!==1?'s':''}...`;
-      if(secondsLeft<=0) clearInterval(interval);
-    },1000);
-
-    cancelBtn.addEventListener('click',()=>{
-      clearTimeout(redirectTimeout);
+  // Contador y redirección
+  let seconds = 10;
+  countdownEl.textContent = `Redireccionando en ${seconds} segundos...`;
+  const interval = setInterval(() => {
+    seconds--;
+    countdownEl.textContent = `Redireccionando en ${seconds} segundo${seconds !== 1 ? 's' : ''}...`;
+    if(seconds <= 0) {
       clearInterval(interval);
-      countdownEl.textContent="Redirección cancelada";
-      cancelBtn.disabled=true;
-      cancelBtn.style.cursor="default";
-      playClickSound();
-    });
-
-    playClickSound();
-  });
-
-  function playClickSound(){
-    clickSound.currentTime=0;
-    clickSound.play();
-  }
-
-  document.querySelectorAll('.share-btn').forEach(btn => btn.addEventListener('click', playClickSound));
+      window.location.href = "/"; // Cambia esto a tu página principal si quieres
+    }
+  }, 1000);
+});
 </script>
+
 </body>
 </html>
