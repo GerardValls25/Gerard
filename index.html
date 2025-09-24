@@ -115,10 +115,10 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 <section id="servicios">
 <h2>Servicios</h2>
 <div class="services">
-<div class="service"><i class="fas fa-apple-alt"></i><canvas></canvas><h3>Planes Personalizados</h3><p>Planes adaptados a ti.</p></div>
-<div class="service"><i class="fas fa-dumbbell"></i><canvas></canvas><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento.</p></div>
-<div class="service"><i class="fas fa-weight"></i><canvas></canvas><h3>Pérdida de Peso</h3><p>Programas sostenibles.</p></div>
-<div class="service"><i class="fas fa-laptop"></i><canvas></canvas><h3>Consultas Online</h3><p>Desde cualquier lugar.</p></div>
+<div class="service"><i class="fa-solid fa-apple-whole"></i><canvas></canvas><h3>Planes Personalizados</h3><p>Planes adaptados a ti.</p></div>
+<div class="service"><i class="fa-solid fa-dumbbell"></i><canvas></canvas><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento.</p></div>
+<div class="service"><i class="fa-solid fa-weight-scale"></i><canvas></canvas><h3>Pérdida de Peso</h3><p>Programas sostenibles.</p></div>
+<div class="service"><i class="fa-solid fa-laptop"></i><canvas></canvas><h3>Consultas Online</h3><p>Desde cualquier lugar.</p></div>
 </div>
 </section>
 
@@ -196,7 +196,7 @@ gsap.utils.toArray('section').forEach(sec=>{gsap.from(sec,{opacity:0,y:60,durati
 gsap.to("header h1",{yPercent:20, ease:"none", scrollTrigger:{trigger:"header", start:"top top", end:"bottom top", scrub:1}});
 gsap.to("header p",{yPercent:40, ease:"none", scrollTrigger:{trigger:"header", start:"top top", end:"bottom top", scrub:1}});
 
-// Partículas con efecto red
+// Partículas
 const canvas=document.getElementById('headerParticles'); const ctx=canvas.getContext('2d'); 
 let w,h,particles=[],mouse={x:null,y:null};
 function resize(){w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight; particles=[]; for(let i=0;i<120;i++){particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,vx:(Math.random()-0.5)*1,vy:(Math.random()-0.5)*1});}}
