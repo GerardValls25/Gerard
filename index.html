@@ -6,6 +6,17 @@
 <meta name="description" content="Gerard Valls - Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría nutricional y consultas online y presenciales.">
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
+
+<!-- Script inline para aplicar tema e idioma antes de renderizar -->
+<script>
+  (function(){
+    const darkMode = localStorage.getItem('darkMode') !== 'false';
+    if(!darkMode) document.documentElement.classList.add('light');
+    const lang = localStorage.getItem('lang') || 'es';
+    document.documentElement.lang = lang;
+  })();
+</script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
@@ -67,7 +78,12 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 <header class="fade-in">
 <h1 id="main-title">Gerard Valls - Nutrición personalizada</h1>
 <p id="tagline">Nutrición personalizada para deportistas y personas activas</p>
-<img src="https://i.imgur.com/gerard.jpg" alt="Gerard Valls sonriendo, nutricionista" class="photo" loading="lazy"/>
+<img 
+  src="https://i.imgur.com/gerard.jpg" 
+  srcset="https://i.imgur.com/gerard.jpg 1x, https://i.imgur.com/gerard.webp 2x" 
+  alt="Gerard Valls sonriendo, nutricionista" 
+  class="photo" 
+  loading="lazy"/>
 
 <div>
   <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
@@ -219,10 +235,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
   updateLanguage(currentLang);
 
-  // --- VALIDACIÓN FORMULARIO ---
+  // --- VALIDACIÓN FORMULARIO CON DEBOUNCE ---
   const form = document.getElementById('contact-form');
   const name = form.name, email = form.email, message = form.message;
   const feedback = document.getElementById('form-feedback');
+
+  const debounce = (fn, delay=300) => { let timer; return (...args)=>{ clearTimeout(timer); timer=setTimeout(()=>fn(...args), delay); }; }
 
   const validateField = (field) => {
     const t = translations[currentLang].form;
@@ -242,7 +260,8 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   };
 
-  [name,email,message].forEach(f=>f.addEventListener('input',()=>validateField(f)));
+  [name,email,message].forEach(f=>f.addEventListener('input',debounce(()=>validateField(f),300)));
+
   form.addEventListener('submit', (e)=>{
     e.preventDefault();
     [name,email,message].forEach(f=>validateField(f));
