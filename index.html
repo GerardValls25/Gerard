@@ -6,7 +6,6 @@
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
 <style>
-/* Estilos igual que antes */
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
 :root{
@@ -61,7 +60,7 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 
 <main class="content-wrapper" role="main">
 <header class="fade-in">
-<h1>Gerard Valls</h1>
+<h1 id="main-title">Gerard Valls - Nutrición personalizada</h1>
 <p id="tagline">Nutrición personalizada para deportistas y personas activas</p>
 <img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls sonriendo" class="photo" loading="lazy"/>
 
@@ -144,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   const translations = {
     es: { 
+      title: "Gerard Valls - Nutrición personalizada",
       tagline: "Nutrición personalizada para deportistas y personas activas",
       servicios: [
         "Planes de alimentación personalizados",
@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function(){
       }
     },
     ca: {
+      title: "Gerard Valls - Nutrició personalitzada",
       tagline: "Nutrició personalitzada per a esportistes i persones actives",
       servicios: [
         "Plans d'alimentació personalitzats",
@@ -185,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   const updateLanguage = () => {
     const t = translations[currentLang];
+    document.getElementById('main-title').textContent = t.title; // cambia <h1>
     document.getElementById('tagline').textContent = t.tagline;
     document.getElementById('services-list').innerHTML = t.servicios.map(item => `<li>${item}</li>`).join('');
     document.querySelector('.contact').innerHTML = t.contacto.replace(/\n/g,'<br/>');
@@ -193,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('label[for="message"]').textContent = t.form.message;
     document.querySelector('#contact-form button').textContent = t.form.submit;
     document.documentElement.lang = currentLang; 
-    langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català'; // 👈 cambia texto del botón
+    langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català';
     localStorage.setItem('lang', currentLang);
   };
 
