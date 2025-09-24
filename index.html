@@ -72,7 +72,7 @@
   form button:hover, form button:focus { background-color: var(--button-hover); transform:scale(1.05); outline:3px solid #00ffcc; outline-offset:3px; }
 
   .error-message { color: #ff4d4d; font-size: 0.9rem; display:block; min-height:1.2em; margin-top:2px; }
-  .form-feedback { display:block; margin-top:10px; color: #00ffcc; font-weight:bold; text-align:center; }
+  .form-feedback { display:none; }
   .form-group { margin-bottom:10px; }
 
   footer { text-align:center; padding:15px; font-size:0.9rem; background-color: rgba(0,0,0,0.6); color:#ccc; position:fixed; width:100%; bottom:0; left:0; }
@@ -180,18 +180,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // --- FORMULARIO ---
   const form = document.getElementById('contact-form');
-  const feedback = document.getElementById('form-feedback');
-  const resetForm = () => {
-    form.reset();
-    document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-    feedback.textContent = '';
-  };
-  window.addEventListener('pageshow', resetForm);
-
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-    feedback.textContent = '';
 
     let valid = true;
     let firstErrorField = null;
@@ -200,16 +191,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const message = document.getElementById('message');
     const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-    if(name.value.trim() === '') { document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.'; valid = false; firstErrorField = firstErrorField || name; }
-    if(email.value.trim() === '') { document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.'; valid = false; firstErrorField = firstErrorField || email; }
-    else if(!emailPattern.test(email.value.trim())) { document.getElementById('error-email').textContent = 'Correo no válido.'; valid = false; firstErrorField = firstErrorField || email; }
-    if(message.value.trim().length < 10) { document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.'; valid = false; firstErrorField = firstErrorField || message; }
+    if(name.value.trim() === '') { 
+        document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.'; 
+        valid = false; firstErrorField = firstErrorField || name; 
+    }
+    if(email.value.trim() === '') { 
+        document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.'; 
+        valid = false; firstErrorField = firstErrorField || email; 
+    }
+    else if(!emailPattern.test(email.value.trim())) { 
+        document.getElementById('error-email').textContent = 'Correo no válido.'; 
+        valid = false; firstErrorField = firstErrorField || email; 
+    }
+    if(message.value.trim().length < 10) { 
+        document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.'; 
+        valid = false; firstErrorField = firstErrorField || message; 
+    }
 
     if(!valid && firstErrorField) firstErrorField.focus();
 
     if(valid){
-      // Redirige inmediatamente a gracias.html
-      window.location.href = "gracias.html";
+        // Redirige inmediatamente a gracias.html
+        window.location.href = "gracias.html";
     }
   });
 
