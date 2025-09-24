@@ -4,51 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
+<meta name="description" content="Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría y consultas online y presenciales con Gerard Valls.">
+<meta property="og:title" content="Gerard Valls - Nutrición personalizada">
+<meta property="og:description" content="Planes de alimentación personalizados y asesoría nutricional para deportistas y personas activas.">
+<meta property="og:image" content="https://i.imgur.com/gerard.jpg">
+<meta property="og:type" content="website">
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
 :root{
---bg:#2a3760;--text:#e6e6e6;--overlay:rgba(42,55,96,0.7);
---link:#00ffc0;--linkHover:#00e6b8;--btn:#007b5e;--btnHover:#005f47;
+--bg-color:#2a3760;
+--text-color:#e6e6e6;
+--overlay-color:rgba(42,55,96,0.7);
+--link-color:#00ffc0;
+--link-hover:#00e6b8;
+--button-bg:#007b5e;
+--button-hover:#005f47;
 }
-body.light{--bg:#f5f5f5;--text:#222;--overlay:rgba(255,255,255,0.95);--link:#007b5e;--linkHover:#005f47;}
-body{font-family:'Segoe UI',Tahoma,Verdana,sans-serif;background:var(--bg);color:var(--text);transition:0.4s;}
-#particles-js{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;background:var(--bg);}
-main{background:var(--overlay);max-width:700px;margin:30px auto;padding:30px 20px 60px;border-radius:10px;text-align:center;}
-.photo{width:120px;border-radius:50%;margin:0 auto 20px;box-shadow:0 0 12px var(--link);transition:0.4s;}
-.photo:hover{transform:scale(1.05);box-shadow:0 0 16px var(--link);}
-ul{padding-left:20px;text-align:left;}
-a{color:var(--link);text-decoration:none;transition:0.3s;}
-a:hover{color:var(--linkHover);}
-form input,textarea,button,select{width:100%;padding:8px;margin:5px 0;border-radius:5px;border:1px solid #ccc;font-size:0.95rem;}
-button,select{background:var(--btn);color:#fff;border:none;cursor:pointer;}
-button:hover,select:hover{background:var(--btnHover);}
-.error{color:#ff4d4d;font-size:0.9rem;min-height:1.2em;}
-footer{text-align:center;padding:10px;font-size:0.9rem;background:rgba(0,0,0,0.6);color:#ccc;position:fixed;width:100%;bottom:0;}
-.fade{opacity:0;transform:translateY(20px);transition:0.8s;}
-.fade.visible{opacity:1;transform:translateY(0);}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
-@media(max-width:500px){main{margin:15px;padding:20px;}}
+body.light{
+--bg-color:#f5f5f5;
+--text-color:#222;
+--overlay-color:rgba(255,255,255,0.95);
+--link-color:#007b5e;
+--link-hover:#005f47;
+--button-bg:#007b5e;
+--button-hover:#005f47;
+}
+body{background:var(--bg-color);color:var(--text-color);}
+#particles-js{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;background:var(--bg-color);filter:brightness(0.5);transition:background 0.4s;}
+main.content-wrapper{background-color:var(--overlay-color);max-width:700px;margin:30px auto;padding:30px 20px 60px;border-radius:10px;text-shadow:0 0 5px rgba(0,0,0,0.2);}
+h1,h2,h3,p,label,li{color:var(--text-color);}
+header{text-align:center;margin-bottom:25px;}
+.photo{display:block;max-width:120px;width:100%;height:auto;margin:0 auto 20px;border-radius:50%;box-shadow:0 0 12px rgba(0,255,204,0.8);transition:transform 0.4s,box-shadow 0.4s;}
+.photo:hover,.photo:focus{transform:scale(1.05);box-shadow:0 0 16px rgba(0,255,204,1);outline:3px solid #00ffcc;outline-offset:3px;}
+section{margin-bottom:20px;}
+ul{padding-left:20px;}
+.contact a{color:var(--link-color);text-decoration:none;transition:color 0.3s;}
+.contact a:hover,.contact a:focus{color:var(--link-hover);outline:2px solid var(--link-hover);outline-offset:2px;}
+form label{display:block;font-weight:bold;margin-bottom:4px;}
+form input,form textarea{width:100%;padding:6px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc;font-size:0.95rem;box-sizing:border-box;}
+form input[aria-invalid="true"],form textarea[aria-invalid="true"]{border-color:#ff4d4d;outline:none;}
+form textarea{min-height:70px;max-height:180px;overflow-y:auto;resize:vertical;}
+form button{background-color:var(--button-bg);color:white;border:none;padding:10px 18px;font-weight:bold;cursor:pointer;border-radius:5px;transition:background-color 0.3s, transform 0.2s;}
+form button:hover,form button:focus{background-color:var(--button-hover);transform:scale(1.05);outline:3px solid #00ffcc;outline-offset:3px;}
+.error-message{color:#ff4d4d;font-size:0.9rem;display:block;min-height:1.2em;margin-top:2px;}
+.form-feedback{display:block;margin-top:10px;font-weight:bold;text-align:center;}
+.form-feedback[role="alert"]{outline:0;}
+.form-group{margin-bottom:10px;}
+footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0,0,0.6);color:#ccc;position:fixed;width:100%;bottom:0;left:0;}
+.toggle-theme, #language-select{display:inline-block;margin:5px;padding:8px 12px;border-radius:5px;border:none;font-size:0.9rem;cursor:pointer;transition:background-color 0.3s;}
+.toggle-theme{background-color:var(--button-bg);color:white;}
+.toggle-theme:hover,.toggle-theme:focus{background-color:var(--button-hover);outline:3px solid #00ffcc;outline-offset:3px;}
+#language-select{background-color:var(--button-bg);color:white;}
+#language-select:hover,#language-select:focus{background-color:var(--button-hover);outline:3px solid #00ffcc;outline-offset:3px;}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out, transform 0.8s ease-out;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+#theme-status,#language-status{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+@media(max-width:500px){main.content-wrapper{margin:15px;padding:20px;}}
 </style>
 </head>
 <body>
-<div id="particles-js"></div>
-<main>
-<h1 class="fade">Gerard Valls</h1>
-<p class="fade">Nutrición personalizada para deportistas y personas activas</p>
-<img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls" class="photo fade"/>
 
-<div class="fade">
-  <button id="toggle-theme">Cambiar a modo claro</button>
-  <label class="sr-only" for="lang">Seleccionar idioma</label>
-  <select id="lang">
+<div id="particles-js"></div>
+
+<main class="content-wrapper" role="main">
+<header class="fade-in">
+<h1>Gerard Valls</h1>
+<p>Nutrición personalizada para deportistas y personas activas</p>
+<img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls sonriendo" class="photo" loading="lazy" tabindex="0"/>
+
+<div>
+  <!-- Botón para cambiar tema -->
+  <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
+
+  <!-- Selector desplegable de idioma -->
+  <label for="language-select" class="sr-only">Seleccionar idioma</label>
+  <select id="language-select" aria-label="Seleccionar idioma">
     <option value="es">Español</option>
     <option value="en">English</option>
   </select>
 </div>
 
-<section class="fade" id="services">
-<h2>Servicios</h2>
+<span id="theme-status" aria-live="polite"></span>
+<span id="language-status" aria-live="polite"></span>
+</header>
+
+<section class="fade-in" aria-labelledby="servicios">
+<h2 id="servicios">Servicios</h2>
 <ul>
 <li>Planes de alimentación personalizados</li>
 <li>Asesoría nutricional para deportistas</li>
@@ -57,91 +102,188 @@ footer{text-align:center;padding:10px;font-size:0.9rem;background:rgba(0,0,0,0.6
 </ul>
 </section>
 
-<section class="fade" id="contact">
-<h2>Contacto</h2>
-<p>Tel: +34 666 555 667<br>Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a></p>
+<section class="fade-in" aria-labelledby="contacto">
+<h2 id="contacto">Contacto</h2>
+<p class="contact">
+Teléfono: +34 666 555 667<br/>
+Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
+</p>
 </section>
 
-<section class="fade" id="form-section">
-<h2>Formulario de contacto</h2>
+<section class="fade-in" aria-labelledby="consulta">
+<h2 id="consulta">Formulario de contacto</h2>
 <form id="contact-form" novalidate>
-<input type="text" id="name" placeholder="Nombre completo" required>
-<div class="error" id="error-name"></div>
-<input type="email" id="email" placeholder="Correo electrónico" required>
-<div class="error" id="error-email"></div>
-<textarea id="message" placeholder="Mensaje" required minlength="10"></textarea>
-<div class="error" id="error-message"></div>
+<div class="form-group">
+<label for="name">Nombre completo</label>
+<input type="text" id="name" name="name" required aria-required="true" aria-describedby="error-name" aria-invalid="false"/>
+<span class="error-message" id="error-name" aria-live="polite"></span>
+</div>
+<div class="form-group">
+<label for="email">Correo electrónico</label>
+<input type="email" id="email" name="email" required aria-required="true" pattern="^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" aria-describedby="error-email" aria-invalid="false"/>
+<span class="error-message" id="error-email" aria-live="polite"></span>
+</div>
+<div class="form-group">
+<label for="message">Mensaje</label>
+<textarea id="message" name="message" rows="5" required minlength="10" aria-required="true" aria-describedby="error-message" aria-invalid="false"></textarea>
+<span class="error-message" id="error-message" aria-live="polite"></span>
+</div>
 <button type="submit">Enviar</button>
-<div class="error" id="form-feedback"></div>
+<span class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></span>
 </form>
 </section>
 </main>
-<footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
+<footer class="fade-in">&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
+
+<!-- EMAILJS -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>emailjs.init('aqYkHJy0lR8OX8uKh');</script>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
+  emailjs.init('aqYkHJy0lR8OX8uKh'); // Public Key
+</script>
 
-// --- PARTICLES (solo grandes) ---
-if(window.innerWidth>=500){
-  const color=getComputedStyle(document.body).getPropertyValue('--link').trim();
-  particlesJS("particles-js",{particles:{number:{value:80},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:4,random:true},line_linked:{enable:true,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:3,out_mode:"out"}},interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},retina_detect:true});
-}
+<!-- PARTICLES JS -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
 
-// --- TEMA ---
-const btnTheme=document.getElementById('toggle-theme');
-let darkMode=localStorage.getItem('darkMode')==='false'?false:true;
-const updateTheme=()=>{
-document.body.classList.toggle('light',!darkMode);
-btnTheme.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro';
-localStorage.setItem('darkMode',darkMode);
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+// --- PARTICLES ---
+const initParticles = () => {
+  const isMobile = window.innerWidth < 600;
+  if(window.innerWidth < 400) return;
+  const color = getComputedStyle(document.body).getPropertyValue('--link-color').trim();
+  particlesJS("particles-js",{
+    particles:{number:{value:isMobile?25:80,density:{enable:true,value_area:800}},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:isMobile?2:4,random:true},line_linked:{enable:!isMobile,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:isMobile?1.5:3,out_mode:"out"}},
+    interactivity:{detect_on:"canvas",events:{onhover:{enable:!isMobile,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},
+    retina_detect:true
+  });
 };
-btnTheme.addEventListener('click',()=>{darkMode=!darkMode;updateTheme();});
-updateTheme();
+initParticles();
 
-// --- IDIOMA ---
-const langSelect=document.getElementById('lang');
-let lang=localStorage.getItem('lang')||'es';
-langSelect.value=lang;
-const texts={
-es:{name:"Nombre completo",email:"Correo electrónico",message:"Mensaje",submit:"Enviar",services:["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],contact:"Tel: +34 666 555 667\nEmail: info@gerardvalls.com"},
-en:{name:"Full Name",email:"Email",message:"Message",submit:"Send",services:["Personalized meal plans","Nutritional advice for athletes","Healthy weight loss programs","Online and in-person consultations"],contact:"Phone: +34 666 555 667\nEmail: info@gerardvalls.com"}
+// --- VALIDACIÓN FORMULARIO ---
+const form = document.getElementById('contact-form');
+const [name,email,message] = [form.name,form.email,form.message];
+const feedback = document.getElementById('form-feedback');
+const validateField = (field) => {
+  const emailPattern = /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  switch(field){
+    case name:
+      if(name.value.trim()===''){document.getElementById('error-name').textContent='Por favor, introduce tu nombre.';name.setAttribute('aria-invalid','true');} 
+      else {document.getElementById('error-name').textContent='';name.setAttribute('aria-invalid','false');} break;
+    case email:
+      if(email.value.trim()===''){document.getElementById('error-email').textContent='Por favor, introduce tu correo.';email.setAttribute('aria-invalid','true');} 
+      else if(!emailPattern.test(email.value.trim())){document.getElementById('error-email').textContent='Correo no válido.';email.setAttribute('aria-invalid','true');} 
+      else {document.getElementById('error-email').textContent='';email.setAttribute('aria-invalid','false');} break;
+    case message:
+      if(message.value.trim().length<10){document.getElementById('error-message').textContent='El mensaje debe tener al menos 10 caracteres.';message.setAttribute('aria-invalid','true');} 
+      else {document.getElementById('error-message').textContent='';message.setAttribute('aria-invalid','false');} break;
+  }
 };
-const updateLang=()=>{
-document.getElementById('name').placeholder=texts[lang].name;
-document.getElementById('email').placeholder=texts[lang].email;
-document.getElementById('message').placeholder=texts[lang].message;
-document.querySelector('#contact-form button').textContent=texts[lang].submit;
-document.querySelector('#services ul').innerHTML=texts[lang].services.map(s=>`<li>${s}</li>`).join('');
-document.querySelector('#contact p').innerHTML=texts[lang].contact.replace(/\n/g,'<br>');
-localStorage.setItem('lang',lang);
-};
-langSelect.addEventListener('change',()=>{lang=langSelect.value;updateLang();});
-updateLang();
-
-// --- FORMULARIO ---
-const form=document.getElementById('contact-form');
-form.addEventListener('submit',(e)=>{
-e.preventDefault();
-let valid=true;
-document.getElementById('error-name').textContent=form.name.value.trim()?"":"Por favor introduce tu nombre.";
-document.getElementById('error-email').textContent=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value)?"":"Correo no válido.";
-document.getElementById('error-message').textContent=form.message.value.length>=10?"":"El mensaje debe tener al menos 10 caracteres.";
-valid=!document.querySelectorAll('.error').some(div=>div.textContent!=="");
-if(!valid) return;
-form.querySelector('button').disabled=true;
-emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{from_name:form.name.value,from_email:form.email.value,message:form.message.value}).then(()=>{
-const fb=document.getElementById('form-feedback'); fb.style.color='#00c853'; fb.textContent='¡Mensaje enviado!'; form.reset(); form.querySelector('button').disabled=false;
-}).catch(()=>{
-const fb=document.getElementById('form-feedback'); fb.style.color='#ff4d4d'; fb.textContent='Error al enviar'; form.querySelector('button').disabled=false;
+[name,email,message].forEach(field=>field.addEventListener('input',()=>validateField(field)));
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  [name,email,message].forEach(field=>validateField(field));
+  let valid = true, firstError = null;
+  [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
+  if(!valid && firstError){firstError.focus(); return;}
+  form.querySelector('button').disabled = true;
+  emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{
+    from_name: name.value,
+    from_email: email.value,
+    message: message.value
+  }).then(()=>{
+    feedback.style.color='#00c853';
+    feedback.textContent='¡Mensaje enviado correctamente!';
+    form.reset();
+    form.querySelector('button').disabled = false;
+  }).catch(()=>{
+    feedback.style.color='#ff4d4d';
+    feedback.textContent='Error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+    form.querySelector('button').disabled = false;
+  });
 });
 
-// --- ANIMACIONES ---
-const faders=document.querySelectorAll('.fade');
-const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}})}, {threshold:0.1});
-faders.forEach(f=>observer.observe(f));
+// --- TOGGLE TEMA ---
+const toggleBtn = document.getElementById('toggle-theme');
+const themeStatus = document.getElementById('theme-status');
+let darkMode = localStorage.getItem('darkMode') === null ? true : localStorage.getItem('darkMode') === 'true';
+const updateTheme = () => {
+  document.body.classList.toggle('light', !darkMode);
+  toggleBtn.setAttribute('aria-pressed', String(!darkMode));
+  toggleBtn.textContent = darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+  themeStatus.textContent = darkMode ? 'Modo oscuro activado' : 'Modo claro activado';
+  localStorage.setItem('darkMode', darkMode);
+  const newColor = getComputedStyle(document.body).getPropertyValue('--link-color').trim();
+  if(window.pJSDom && window.pJSDom.length){
+    window.pJSDom[0].pJS.particles.color.value = newColor;
+    window.pJSDom[0].pJS.particles.line_linked.color = newColor;
+    window.pJSDom[0].pJS.fn.particlesRefresh();
+  }
+};
+toggleBtn.addEventListener('click', () => { darkMode = !darkMode; updateTheme(); });
+if(localStorage.getItem('darkMode') === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){ darkMode = false; }
+updateTheme();
+
+// --- SELECTOR DE IDIOMA ---
+const langSelect = document.getElementById('language-select');
+const langStatus = document.getElementById('language-status');
+let currentLang = localStorage.getItem('lang') || 'es';
+langSelect.value = currentLang;
+
+const translations = {
+  es: {
+    name: "Nombre completo",
+    email: "Correo electrónico",
+    message: "Mensaje",
+    submit: "Enviar",
+    servicesTitle: "Servicios",
+    services: ["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],
+    contactTitle: "Contacto",
+    contactText: "Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com"
+  },
+  en: {
+    name: "Full Name",
+    email: "Email",
+    message: "Message",
+    submit: "Send",
+    servicesTitle: "Services",
+    services: ["Personalized meal plans","Nutritional advice for athletes","Healthy weight loss programs","Online and in-person consultations"],
+    contactTitle: "Contact",
+    contactText: "Phone: +34 666 555 667\nEmail: info@gerardvalls.com"
+  }
+};
+
+const updateLanguage = () => {
+  document.documentElement.lang = currentLang;
+  const t = translations[currentLang];
+  document.querySelector('label[for="name"]').textContent = t.name;
+  document.querySelector('label[for="email"]').textContent = t.email;
+  document.querySelector('label[for="message"]').textContent = t.message;
+  document.querySelector('#contact-form button').textContent = t.submit;
+  document.getElementById('servicios').textContent = t.servicesTitle;
+  document.querySelector('#servicios + ul').innerHTML = t.services.map(s => `<li>${s}</li>`).join('');
+  document.getElementById('contacto').textContent = t.contactTitle;
+  document.querySelector('.contact').innerHTML = t.contactText.replace(/\n/g,'<br/>');
+  localStorage.setItem('lang', currentLang);
+};
+
+langSelect.addEventListener('change', () => {
+  currentLang = langSelect.value;
+  updateLanguage();
+  langStatus.textContent = currentLang === 'es' ? 'Idioma cambiado a español' : 'Language changed to English';
+});
+
+updateLanguage();
+
+// --- ANIMACIONES SCROLL ---
+const faders = document.querySelectorAll('.fade-in');
+const appearOptions = {threshold:0.1, rootMargin:"0px 0px -50px 0px"};
+const appearOnScroll = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, appearOptions);
+faders.forEach(fader => appearOnScroll.observe(fader));
+
 });
 </script>
 </body>
