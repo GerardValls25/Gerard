@@ -3,59 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gerard Valls - Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría deportiva y consultas online.">
-<meta name="author" content="Gerard Valls">
 <title>Gerard Valls - Nutrición Profesional</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/Z7eQOK2z3Y9H1jsS8g+6x3l4AwE3Hc5D3N+xBBo6C3B3W3+hDJQ+gO6O1lDUiFfY8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-
-
 <style>
 :root{
---primary:#00ffc0;
---primary-hover:#00e6b8;
---dark:#2a3760;
---light:#f5f5f5;
---text-dark:#e6e6e6;
---text-light:#222;
---radius:12px;
---transition:.4s ease;
+  --primary:#00ffc0;
+  --primary-hover:#00e6b8;
+  --dark:#2a3760;
+  --light:#f5f5f5;
+  --text-dark:#e6e6e6;
+  --text-light:#222;
+  --radius:12px;
+  --transition:.4s ease;
 }
 
-
 body{
-margin:0;
-font-family:'Montserrat',sans-serif;
-background:linear-gradient(120deg,#2a3760,#1a1f3f,#2a3760);
-background-size:400% 400%;
-animation:gradientBG 30s ease infinite;
-color:var(--text-dark);
-overflow-x:hidden;
-line-height:1.6;
-transition:background var(--transition),color var(--transition);
+  margin:0;
+  font-family:'Montserrat',sans-serif;
+  background:linear-gradient(120deg,#2a3760,#1a1f3f,#2a3760);
+  background-size:400% 400%;
+  animation:gradientBG 30s ease infinite;
+  color:var(--text-dark);
+  overflow-x:hidden;
+  line-height:1.6;
 }
 body.light{background:var(--light); color:var(--text-light);}
 @keyframes gradientBG{0%{background-position:0 0;}50%{background-position:100% 100%;}100%{background-position:0 0;}}
 
+header{text-align:center;padding:120px 20px 80px;position:relative;}
+header h1{font-size:3rem;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
+  -webkit-background-clip:text;color:transparent;animation:gradMove 15s linear infinite;}
+@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+header p{font-size:1.2rem;margin-top:10px;position:relative;z-index:1;}
+#toggle-theme{margin-top:20px;background:var(--primary);color:#000;border:none;
+  padding:10px 20px;border-radius:var(--radius);cursor:pointer;font-weight:600;transition:.3s;}
+#toggle-theme:hover{background:var(--primary-hover);transform:translateY(-2px);}
 
-a{color:var(--primary); text-decoration:none; transition:.3s;}
-a:hover{color:var(--primary-hover);}
+nav{position:sticky;top:0;background:rgba(42,55,96,0.85);backdrop-filter:blur(10px);
+  display:flex;justify-content:center;gap:1rem;padding:12px;z-index:1000;}
+nav a{font-weight:600;color:inherit;text-decoration:none;}
 
+main.wrapper{max-width:1100px;margin:40px auto;padding:50px 30px 60px;border-radius:var(--radius);
+  backdrop-filter:blur(15px);background:rgba(42,55,96,0.85);text-align:center;}
+body.light main.wrapper{background:rgba(245,245,245,0.85);}
 
-header{
-text-align:center;
-padding:100px 20px 70px;
+h2{font-size:2rem;position:relative;display:inline-block;}
+h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;
+  border-radius:2px;background:var(--primary);transform:scaleX(0);animation:lineDraw 1s forwards;}
+@keyframes lineDraw{to{transform:scaleX(1);}}
+
+/* Servicios */
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;}
+.service{background:rgba(255,255,255,0.05);border-radius:var(--radius);padding:25px;cursor:pointer;
+  transition:.5s;text-align:center;}
+.service i{font-size:3rem;color:var(--primary);transition:.3s;}
+.service:hover{transform:translateY(-10px) scale(1.05);
+  box-shadow:0 20px 35px rgba(0,0,0,0.3);
+  background:linear-gradient(135deg,#00ffc0,#00bfff,#ff00c8);color:white;}
+.service:hover i{color:white;transform:scale(1.2);}
+
+/* Formulario */
+form{display:grid;gap:15px;margin-top:20px;padding:20px;background:rgba(255,255,255,0.05);
+  border-radius:var(--radius);box-shadow:0 0 10px rgba(0,255,192,0.1);}
+body.light form{background:rgba(0,0,0,0.05);}
+.input-group{position:relative;}
+.input-group input,.input-group textarea{
+  width:100%;padding:14px;border-radius:var(--radius);border:2px solid transparent;
+  background:rgba(255,255,255,0.1);color:inherit;font-size:1rem;transition:.3s;}
+.input-group input:focus,.input-group textarea:focus{border-color:var(--primary);
+  box-shadow:0 0 8px rgba(0,255,192,0.3);}
+.input-group label{position:absolute;left:15px;top:50%;transform:translateY(-50%);
+  color:#aaa;pointer-events:none;transition:.3s;}
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label,
+.input-group textarea:focus + label,
+.input-group textarea:not(:placeholder-shown) + label{
+  top:-8px;font-size:0.8rem;color:var(--primary);background:rgba(0,0,0,0.5);padding:0 6px;border-radius:6px;
 }
-header h1{
-font-size:3rem;
-background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
--webkit-background-clip:text;
-color:transparent;
-animation:gradMove 15s linear infinite;
-}
+
+.input-error{border-color:#ff4d4d !important;box-shadow:0 0 6px rgba(255,0,0,0.4);}
+.input-success{border-color:#00ffae !important;}
+#form-feedback{margin-top:10px;font-weight:600;}
+
+button{background:var(--primary);color:#000;border:none;padding:14px 24px;
+  border-radius:var(--radius);cursor:pointer;font-weight:600;transition:.3s;}
+button:hover{background:var(--primary-hover);transform:translateY(-2px);}
+
+#scrollTopBtn{position:fixed;bottom:60px;right:20px;z-index:1000;background:var(--primary);
+  color:white;border:none;padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;}
+#scrollTopBtn:hover{transform:scale(1.1);background:var(--primary-hover);}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Gerard Valls</h1>
+<p>Nutrición personalizada para deportistas y personas activas</p>
+<canvas id="headerParticles"></canvas>
+<button id="toggle-theme">Cambiar a modo claro</button>
+</header>
+
+<nav>
+<a href="#servicios">Servicios</a>
+<a href="#testimonios">Testimonios</a>
+<a href="#consulta">Formulario</a>
+</nav>
+
+<main class="wrapper">
+<section id="servicios">
+<h2>Servicios</h2>
+<div class="services">
+  <div class="service"><i class="fa-solid fa-apple-whole"></i><h3>Planes Personalizados</h3><p>Planes adaptados a ti.</p></div>
+  <div class="service"><i class="fa-solid fa-dumbbell"></i><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento.</p></div>
+  <div class="service"><i class="fa-solid fa-scale-balanced"></i><h3>Pérdida de Peso</h3><p>Programas sostenibles.</p></div>
+  <div class="service"><i class="fa-solid fa-laptop"></i><h3>Consultas Online</h3><p>Desde cualquier lugar.</p></div>
+</div>
+</section>
+
+<section id="consulta">
+<h2>Formulario de contacto</h2>
+<form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST">
+  <div class="input-group">
+    <input type="text" name="name" placeholder=" " required>
+    <label>Nombre completo</label>
+  </div>
+  <div class="input-group">
+    <input type="email" name="email" placeholder=" " required>
+    <label>Correo electrónico</label>
+  </div>
+  <div class="input-group">
+    <textarea name="message" placeholder=" " rows="5" required></textarea>
+    <label>Mensaje</label>
+  </div>
+  <button type="submit">Enviar</button>
+  <span id="form-feedback"></span>
+</form>
+</section>
+</main>
+
+<footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
+<button id="scrollTopBtn">↑</button>
+
+<script>
+// Tema
+const toggleBtn=document.getElementById('toggle-theme');
+let darkMode=localStorage.getItem('darkMode')!=='false';
+const setTheme=()=>{document.body.classList.toggle('light',!darkMode);
+  toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro';
+  localStorage.setItem('darkMode',darkMode);}
+toggleBtn.onclick=()=>{darkMode=!darkMode;setTheme();};setTheme();
+
+// Scroll top
+const scrollBtn=document.getElementById('scrollTopBtn');
+window.addEventListener('scroll',()=>scrollBtn.style.display=(window.scrollY>200)?"block":"none");
+scrollBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+
+// Validación en vivo
+const form=document.getElementById('contact-form');
+const feedback=document.getElementById('form-feedback');
+form.querySelectorAll('input,textarea').forEach(field=>{
+  field.addEventListener('input',()=>{
+    if(field.checkValidity()){field.classList.add('input-success');field.classList.remove('input-error');}
+    else{field.classList.add('input-error');field.classList.remove('input-success');}
+  });
+});
+
+// Envío
+form.addEventListener('submit',async e=>{
+  e.preventDefault();feedback.textContent="Enviando...";
+  try{await fetch(form.action,{method:'POST',body:new FormData(form)});
+    feedback.textContent="¡Mensaje enviado con éxito!";
+    form.reset();form.querySelectorAll('input,textarea').forEach(f=>f.classList.remove('input-success'));
+  }catch{feedback.textContent="Error al enviar, inténtalo de nuevo.";}
+});
+</script>
+</body>
 </html>
