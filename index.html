@@ -3,271 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gerard Valls - Nutrición profesional para deportistas y personas activas. Planes personalizados, asesoría deportiva y consultas online.">
 <title>Gerard Valls - Nutrición Profesional</title>
-
+<meta name="description" content="Gerard Valls - Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría deportiva y consultas online.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/Z7eQOK2z3Y9H1jsS8g+6x3l4AwE3Hc5D3N+xBBo6C3B3W3+hDJQ+gO6O1lDUiFfY8w==" crossorigin="anonymous" referrerpolicy="no-referrer">
-
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <style>
-:root{
-  --primary:#00ffc0;
-  --primary-hover:#00e6b8;
-  --dark:#2a3760;
-  --light:#f5f5f5;
-  --text-dark:#e6e6e6;
-  --text-light:#222;
-  --radius:12px;
-  --transition:.4s ease;
+:root {
+--primary: #00ffc0;
+--primary-hover: #00e6b8;
+--dark: #2a3760;
+--light: #f5f5f5;
+--text-dark: #e6e6e6;
+--text-light: #222;
+--radius: 12px;
+--transition: 0.5s ease;
 }
 
-body{
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background:linear-gradient(120deg,#2a3760,#1a1f3f,#2a3760);
-  background-size:400% 400%;
-  animation:gradientBG 30s ease infinite;
-  color:var(--text-dark);
-  overflow-x:hidden;
-  line-height:1.6;
-  transition:background var(--transition),color var(--transition);
+
+body {
+margin: 0;
+font-family: 'Montserrat', sans-serif;
+background: linear-gradient(120deg, #2a3760, #1a1f3f, #2a3760);
+background-size: 400% 400%;
+animation: gradientBG 30s ease infinite;
+color: var(--text-dark);
+line-height: 1.6;
+transition: background var(--transition), color var(--transition);
+overflow-x: hidden;
 }
-body.light{background:var(--light); color:var(--text-light);}
-@keyframes gradientBG{0%{background-position:0 0;}50%{background-position:100% 100%;}100%{background-position:0 0;}}
-
-a{color:var(--primary); text-decoration:none; transition:color .3s;}
-a:hover{color:var(--primary-hover);}
-
-header{
-  position:relative;
-  text-align:center;
-  padding:120px 20px 80px;
-  overflow:hidden;
+body.light { background: var(--light); color: var(--text-light); }
+@keyframes gradientBG {
+0% { background-position: 0 0; }
+50% { background-position: 100% 100%; }
+100% { background-position: 0 0; }
 }
-header h1{
-  font-size:3rem;
-  background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip:text;
-  color:transparent;
-  animation:gradMove 15s linear infinite;
+
+
+a { color: var(--primary); text-decoration: none; transition: .3s; }
+a:hover { color: var(--primary-hover); }
+
+
+header {
+position: relative;
+text-align: center;
+padding: 120px 20px 80px;
 }
-@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
-header p{font-size:1.2rem; margin-top:10px;}
-#toggle-theme{margin-top:20px; background:var(--primary); color:#000; border:none; padding:10px 20px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:var(--transition);}
-#toggle-theme:hover{background:var(--primary-hover); transform:translateY(-2px);}
-
-nav{position:sticky; top:0; background:rgba(42,55,96,0.85); backdrop-filter:blur(10px); display:flex; justify-content:center; gap:1rem; padding:12px; z-index:1000;}
-nav a{font-weight:600;}
-
-main.wrapper{max-width:1100px; margin:40px auto; padding:50px 30px 60px; border-radius:var(--radius); backdrop-filter:blur(15px); background:rgba(42,55,96,0.85); text-align:center;}
-body.light main.wrapper{background:rgba(245,245,245,0.85);}
-
-section{margin-bottom:60px; opacity:0; transform:translateY(50px);}
-h2{font-size:2rem; position:relative; display:inline-block;}
-h2::after{content:""; width:60px; height:3px; display:block; margin:8px auto 0; border-radius:2px; background:var(--primary); transform:scaleX(0); animation:lineDraw 1s forwards;}
-@keyframes lineDraw{to{transform:scaleX(1);}}
-
-/* Servicios */
-.services{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px;}
-.service{background:rgba(255,255,255,0.05); border-radius:var(--radius); padding:25px; transition:transform .4s,box-shadow .4s,background .4s; text-align:center;}
-.service i{font-size:3rem; color:var(--primary); transition:transform .4s;}
-.service:hover{transform:translateY(-8px) scale(1.03); box-shadow:0 20px 35px rgba(0,0,0,0.25); background:linear-gradient(135deg,#00ffc0,#00bfff,#ff00c8); color:white;}
-.service:hover i{transform:scale(1.2); color:white;}
-
-/* Testimonios */
-.testimonials{position:relative; max-width:800px; margin:0 auto; min-height:120px;}
-.testimonial{position:absolute; top:0; left:100%; width:100%; opacity:0; transition:all .8s ease; display:flex; flex-direction:column; align-items:center; text-align:center; padding:25px;}
-.testimonial.active{left:0; opacity:1;}
-.testimonial-btn{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; padding:10px 15px; font-size:1.5rem; cursor:pointer; border-radius:50%; transition:.3s;}
-.testimonial-btn:hover{background:var(--primary);}
-
-/* Formulario */
-form{display:grid; gap:15px; margin-top:20px; padding:20px; background:rgba(255,255,255,0.05); border-radius:var(--radius);}
-body.light form{background:rgba(0,0,0,0.05);}
-label{font-weight:600; text-align:left;}
-input,textarea{width:100%; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:1rem; background:rgba(255,255,255,0.1); color:inherit; transition:border-color .3s,box-shadow .3s;}
-input:focus,textarea:focus{outline:none; border-color:var(--primary); box-shadow:0 0 10px rgba(0,255,192,0.3);}
-button{background:var(--primary); color:#000; border:none; padding:14px 24px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:background .3s,transform .3s;}
-button:hover:not(:disabled){background:var(--primary-hover); transform:translateY(-2px);}
-button:disabled{opacity:.6; cursor:not-allowed;}
-#form-feedback{margin-top:10px; font-weight:600; min-height:20px;}
-
-/* Botón scroll */
-#scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--primary); color:#000; border:none; padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer;}
-#scrollTopBtn:hover{transform:scale(1.1); background:var(--primary-hover);}
-
-@media(max-width:600px){
-  header h1{font-size:2rem;}
-  header p{font-size:1rem;}
-  .services{grid-template-columns:1fr;}
+header h1 {
+font-size: 3rem;
+background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
+-webkit-background-clip: text;
+color: transparent;
+animation: gradMove 15s linear infinite;
 }
-</style>
-</head>
-<body>
+@keyframes gradMove {
+0% { background-position: 0 0; }
+50% { background-position: 100% 0; }
+100% { background-position: 0 0; }
+}
 
-<header>
-  <h1>Gerard Valls</h1>
-  <p>Nutrición personalizada para deportistas y personas activas</p>
-  <canvas id="headerParticles"></canvas>
-  <button id="toggle-theme" aria-label="Cambiar tema">Cambiar a modo claro</button>
-</header>
 
-<nav>
-  <a href="#servicios">Servicios</a>
-  <a href="#testimonios">Testimonios</a>
-  <a href="#consulta">Formulario</a>
-</nav>
+#toggle-theme {
+margin-top: 20px;
+background: var(--primary);
+color: #000;
+border: none;
+padding: 10px 20px;
+border-radius: var(--radius);
+cursor: pointer;
+font-weight: 600;
+transition: .4s;
+}
 
-<main class="wrapper">
 
-<section id="servicios" aria-labelledby="titulo-servicios">
-  <h2 id="titulo-servicios">Servicios</h2>
-  <div class="services">
-    <div class="service"><i class="fa-solid fa-apple-whole"></i><h3>Planes Personalizados</h3><p>Planes adaptados a ti.</p></div>
-    <div class="service"><i class="fa-solid fa-dumbbell"></i><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento.</p></div>
-    <div class="service"><i class="fa-solid fa-weight-scale"></i><h3>Pérdida de Peso</h3><p>Programas sostenibles.</p></div>
-    <div class="service"><i class="fa-solid fa-laptop"></i><h3>Consultas Online</h3><p>Desde cualquier lugar.</p></div>
-  </div>
-</section>
-
-<section id="testimonios" aria-labelledby="titulo-testimonios">
-  <h2 id="titulo-testimonios">Testimonios</h2>
-  <div class="testimonials">
-    <div class="testimonial active"><p>"Excelente nutricionista, logré mis objetivos."</p><span>- Laura G.</span></div>
-    <div class="testimonial"><p>"Atención profesional y personalizada."</p><span>- Carlos M.</span></div>
-    <div class="testimonial"><p>"Recomiendo sus planes a todos los deportistas."</p><span>- Ana R.</span></div>
-    <button class="testimonial-btn prev" aria-label="Anterior">‹</button>
-    <button class="testimonial-btn next" aria-label="Siguiente">›</button>
-  </div>
-</section>
-
-<section id="consulta" aria-labelledby="titulo-consulta">
-  <h2 id="titulo-consulta">Formulario de contacto</h2>
-  <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST">
-    <label for="name">Nombre completo</label>
-    <input id="name" type="text" name="name" placeholder="Tu nombre" required>
-    <label for="email">Correo electrónico</label>
-    <input id="email" type="email" name="email" placeholder="tucorreo@ejemplo.com" required>
-    <label for="message">Mensaje</label>
-    <textarea id="message" name="message" placeholder="Escribe tu mensaje..." rows="5" required></textarea>
-    <button type="submit">Enviar</button>
-    <span id="form-feedback"></span>
-  </form>
-</section>
-
-</main>
-
-<footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
-<button id="scrollTopBtn" aria-label="Volver arriba">↑</button>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Tema
-  const toggleBtn=document.getElementById('toggle-theme'); 
-  let darkMode=localStorage.getItem('darkMode')!=='false';
-  function setTheme(){document.body.classList.toggle('light',!darkMode); toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro'; localStorage.setItem('darkMode',darkMode);}
-  toggleBtn.onclick=()=>{darkMode=!darkMode; setTheme();}; setTheme();
-
-  // ScrollTop
-  const scrollBtn=document.getElementById('scrollTopBtn'); 
-  window.addEventListener('scroll',()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";});
-  scrollBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
-
-  // Scroll suave
-  document.querySelectorAll('nav a').forEach(link=>{
-    link.addEventListener('click',e=>{
-      e.preventDefault();
-      document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-    });
-  });
-
-  // Testimonios
-  const slides=document.querySelectorAll('.testimonial'); 
-  let current=0; 
-  let interval=setInterval(nextSlide,5000);
-  function showSlide(index){
-    slides.forEach((s,i)=>{s.classList.remove('active'); if(i===index) s.classList.add('active');});
-    current=index;
-  }
-  function nextSlide(){showSlide((current+1)%slides.length);}
-  function prevSlide(){showSlide((current-1+slides.length)%slides.length);}
-  document.querySelector('.testimonial-btn.next').onclick=()=>{nextSlide();resetInterval();}
-  document.querySelector('.testimonial-btn.prev').onclick=()=>{prevSlide();resetInterval();}
-  function resetInterval(){clearInterval(interval); interval=setInterval(nextSlide,5000);}
-
-  // Formulario
-  const form=document.getElementById('contact-form');
-  form.addEventListener('submit', async e=>{
-    e.preventDefault();
-    const feedback=document.getElementById('form-feedback');
-    const submitBtn=form.querySelector('button');
-    submitBtn.disabled=true;
-    feedback.textContent="Enviando...";
-    feedback.style.color="var(--primary)";
-    const formData=new FormData(form);
-    try{
-      await fetch(form.action,{method:'POST',body:formData});
-      feedback.textContent="¡Mensaje enviado con éxito!";
-      feedback.style.color="limegreen";
-      form.reset();
-    }catch{
-      feedback.textContent="Error al enviar. Intenta de nuevo.";
-      feedback.style.color="red";
-    }finally{
-      submitBtn.disabled=false;
-    }
-  });
-
-  // GSAP Animaciones
-  gsap.registerPlugin(ScrollTrigger);
-  gsap.utils.toArray('section').forEach(sec=>{
-    gsap.from(sec,{opacity:0,y:50,duration:1,scrollTrigger:{trigger:sec,start:'top 80%'}});
-  });
-
-  // Canvas partículas optimizado
-  const canvas=document.getElementById('headerParticles'),ctx=canvas.getContext('2d');
-  let w,h,particles=[],mouse={x:null,y:null};
-  const PARTICLE_COUNT=window.innerWidth<600?60:120;
-  function resize(){
-    w=canvas.width=canvas.offsetWidth;
-    h=canvas.height=canvas.offsetHeight;
-    particles=[];
-    for(let i=0;i<PARTICLE_COUNT;i++){
-      particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,vx:(Math.random()-0.5)*0.8,vy:(Math.random()-0.5)*0.8});
-    }
-  }
-  window.addEventListener('resize',()=>{clearTimeout(resize.t);resize.t=setTimeout(resize,150);});
-  resize();
-
-  canvas.addEventListener('mousemove',e=>{
-    const rect=canvas.getBoundingClientRect();
-    mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;
-  });
-  canvas.addEventListener('mouseleave',()=>{mouse.x=mouse.y=null;});
-
-  function animate(){
-    ctx.clearRect(0,0,w,h);
-    for(let p of particles){
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.7)'; ctx.fill();
-      for(let q of particles){
-        let dx=p.x-q.x,dy=p.y-q.y,dist=dx*dx+dy*dy;
-        if(dist<100*100){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
-          ctx.strokeStyle='rgba(0,255,192,'+(1-Math.sqrt(dist)/100)*0.3+')';ctx.stroke();}
-      }
-      if(mouse.x && mouse.y){
-        let dx=p.x-mouse.x,dy=p.y-mouse.y,dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<80){p.x-=dx*0.03;p.y-=dy*0.03;}
-      }
-    }
-    requestAnimationFrame(animate);
-  }
-  animate();
-});
-</script>
-</body>
 </html>
