@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   const updateLanguage = () => {
     const t = translations[currentLang];
-    document.getElementById('main-title').textContent = t.title; // cambia <h1>
+    document.getElementById('main-title').textContent = t.title;
     document.getElementById('tagline').textContent = t.tagline;
     document.getElementById('services-list').innerHTML = t.servicios.map(item => `<li>${item}</li>`).join('');
     document.querySelector('.contact').innerHTML = t.contacto.replace(/\n/g,'<br/>');
@@ -194,13 +194,13 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('label[for="email"]').textContent = t.form.email;
     document.querySelector('label[for="message"]').textContent = t.form.message;
     document.querySelector('#contact-form button').textContent = t.form.submit;
-    document.documentElement.lang = currentLang; 
+    document.documentElement.lang = currentLang;
     langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català';
     localStorage.setItem('lang', currentLang);
   };
 
   // Mostrar/ocultar menú de idiomas
-  langBtn.addEventListener('click', ()=> {
+  langBtn.addEventListener('click', () => {
     langDropdown.classList.toggle('show');
     langBtn.setAttribute('aria-expanded', langDropdown.classList.contains('show'));
   });
@@ -213,6 +213,22 @@ document.addEventListener("DOMContentLoaded", function(){
       langDropdown.classList.remove('show');
       langBtn.setAttribute('aria-expanded', 'false');
     });
+  });
+
+  // Cerrar dropdown al hacer clic fuera
+  document.addEventListener('click', (e) => {
+    if (!langDropdown.contains(e.target)) {
+      langDropdown.classList.remove('show');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Cerrar dropdown con tecla Esc
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      langDropdown.classList.remove('show');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
   });
 
   updateLanguage();
