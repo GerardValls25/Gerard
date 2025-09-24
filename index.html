@@ -6,8 +6,10 @@
 <title>Gerard Valls - Nutrición Profesional</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <style>
-:root {
+:root{
   --primary:#00ffc0;
   --primary-hover:#00e6b8;
   --dark:#2a3760;
@@ -18,7 +20,6 @@
   --transition:.5s ease;
 }
 
-/* Reset & body */
 body{
   margin:0;
   font-family:'Montserrat',sans-serif;
@@ -30,25 +31,16 @@ body{
   line-height:1.6;
   transition:background var(--transition),color var(--transition);
 }
-body.light {
-  background:var(--light);
-  color:var(--text-light);
-}
-@keyframes gradientBG{
-  0%{background-position:0 0;}
-  50%{background-position:100% 100%;}
-  100%{background-position:0 0;}
-}
+body.light{background:var(--light); color:var(--text-light);}
+@keyframes gradientBG{0%{background-position:0 0;}50%{background-position:100% 100%;}100%{background-position:0 0;}}
 
-/* Links */
 a{color:var(--primary); text-decoration:none; transition:.3s;}
 a:hover{color:var(--primary-hover);}
 
-/* Header */
 header{
   position:relative;
   text-align:center;
-  padding:140px 20px 100px;
+  padding:120px 20px 80px;
   overflow:hidden;
 }
 header h1{
@@ -59,177 +51,44 @@ header h1{
   animation:gradMove 15s linear infinite;
 }
 @keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
-header p{
-  font-size:1.2rem;
-  margin-top:10px;
-  z-index:1;
-  position:relative;
-}
-#toggle-theme{
-  margin-top:20px;
-  background:var(--primary);
-  color:#000;
-  border:none;
-  padding:10px 20px;
-  border-radius:var(--radius);
-  cursor:pointer;
-  font-weight:600;
-  transition:.4s;
-}
-#toggle-theme:hover{
-  background:var(--primary-hover);
-  transform:translateY(-2px);
-}
+header p{font-size:1.2rem; margin-top:10px; z-index:1; position:relative;}
+#toggle-theme{margin-top:20px; background:var(--primary); color:#000; border:none; padding:10px 20px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
+#toggle-theme:hover{background:var(--primary-hover); transform:translateY(-2px);}
 
-/* Nav */
-nav{
-  position:sticky;
-  top:0;
-  background:rgba(42,55,96,0.85);
-  backdrop-filter:blur(10px);
-  display:flex;
-  justify-content:center;
-  gap:1rem;
-  padding:12px;
-  z-index:1000;
-  transition:var(--transition);
-}
+nav{position:sticky; top:0; background:rgba(42,55,96,0.85); backdrop-filter:blur(10px); display:flex; justify-content:center; gap:1rem; padding:12px; z-index:1000; transition:var(--transition);}
 nav a{font-weight:600; cursor:pointer;}
 
-/* Wrapper */
-main.wrapper{
-  max-width:1100px;
-  margin:40px auto;
-  padding:50px 30px 60px;
-  border-radius:var(--radius);
-  backdrop-filter:blur(15px);
-  background:rgba(42,55,96,0.85);
-  text-align:center;
-  transition:var(--transition);
-}
-body.light main.wrapper{
-  background:rgba(245,245,245,0.85);
-}
+main.wrapper{max-width:1100px; margin:40px auto; padding:50px 30px 60px; border-radius:var(--radius); backdrop-filter:blur(15px); background:rgba(42,55,96,0.85); text-align:center; transition:var(--transition);}
+body.light main.wrapper{background:rgba(245,245,245,0.85);}
 
-/* Sections */
-section{
-  margin-bottom:60px;
-  opacity:0;
-  transform:translateY(40px);
-  transition:.8s ease;
-}
+section{margin-bottom:60px; opacity:0; transform:translateY(60px);}
 
-/* Titles */
-h2{
-  font-size:2rem;
-  position:relative;
-  display:inline-block;
-}
-h2::after{
-  content:"";
-  width:60px;
-  height:3px;
-  display:block;
-  margin:8px auto 0;
-  border-radius:2px;
-  background:var(--primary);
-  animation:lineDraw 1s forwards;
-}
-@keyframes lineDraw{from{width:0;} to{width:60px;}}
+h2{font-size:2rem; position:relative; display:inline-block;}
+h2::after{content:""; width:60px; height:3px; display:block; margin:8px auto 0; border-radius:2px; background:var(--primary); transform:scaleX(0); animation:lineDraw 1s forwards;}
+@keyframes lineDraw{to{transform:scaleX(1);}}
 
-/* Services */
-.services{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:30px;
-  position:relative;
-}
-.service{
-  position:relative;
-  background:rgba(255,255,255,0.05);
-  border-radius:var(--radius);
-  padding:25px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:transform .5s, box-shadow .5s, background .5s;
-  text-align:center;
-  z-index:0;
-}
-.service i{
-  font-size:3rem;
-  color:var(--primary);
-  transition:transform .5s;
-}
-.service:hover{
-  transform:translateY(-10px) scale(1.05);
-  box-shadow:0 20px 35px rgba(0,0,0,0.25);
-  background:linear-gradient(135deg,#00ffc0,#00bfff,#ff00c8);
-  color:white;
-}
+.services{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px; position:relative;}
+.service{position:relative; background:rgba(255,255,255,0.05); border-radius:var(--radius); padding:25px; overflow:hidden; cursor:pointer; transition:transform .5s, box-shadow .5s, background .5s; text-align:center; z-index:0;}
+.service i{font-size:3rem; color:var(--primary); transition:transform .5s;}
+.service:hover{transform:translateY(-10px) scale(1.05); box-shadow:0 20px 35px rgba(0,0,0,0.25); background:linear-gradient(135deg,#00ffc0,#00bfff,#ff00c8); color:white;}
 .service:hover i{transform:scale(1.3); color:white;}
 .service h3, .service p{transition:color .5s;}
 .service canvas{position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;}
 
-/* Testimonials */
-.testimonials{
-  position:relative;
-  max-width:800px;
-  margin:0 auto;
-  min-height:120px;
-}
-.testimonial{
-  position:absolute;
-  top:0;
-  left:100%;
-  width:100%;
-  opacity:0;
-  transition:all .8s ease;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:25px;
-}
+.testimonials{position:relative; max-width:800px; margin:0 auto; min-height:120px;}
+.testimonial{position:absolute; top:0; left:100%; width:100%; opacity:0; transition:all .8s ease; display:flex; flex-direction:column; align-items:center; text-align:center; padding:25px;}
 .testimonial.active{left:0; opacity:1;}
 .testimonial.prev{left:-100%; opacity:0;}
-.testimonial-btn{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(0,0,0,0.5);
-  color:white;
-  border:none;
-  padding:10px 15px;
-  font-size:1.5rem;
-  cursor:pointer;
-  border-radius:50%;
-  z-index:10;
-  transition:.3s;
-}
+.testimonial-btn{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; padding:10px 15px; font-size:1.5rem; cursor:pointer; border-radius:50%; z-index:10; transition:.3s;}
 .testimonial-btn:hover{background:var(--primary);}
 
-/* Form */
 form{display:grid; gap:15px; margin-top:20px; position:relative; z-index:1;}
-input,textarea{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  font-size:1rem;
-  transition:var(--transition);
-  background:rgba(255,255,255,0.1);
-  color:white;
-}
-input:focus,textarea:focus{
-  outline:none;
-  border-color:var(--primary);
-  box-shadow:0 0 15px rgba(0,255,192,0.3);
-}
+input,textarea{width:100%; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:1rem; transition:var(--transition); background:rgba(255,255,255,0.1); color:white;}
+input:focus,textarea:focus{outline:none; border-color:var(--primary); box-shadow:0 0 15px rgba(0,255,192,0.3);}
 button{background:var(--primary); color:white; border:none; padding:14px 24px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
 button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 #form-feedback{margin-top:10px; font-weight:600;}
 
-/* ScrollTop */
 #scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--primary); color:white; border:none; padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; transition:.3s;}
 #scrollTopBtn:hover{transform:scale(1.1); background:var(--primary-hover);}
 
@@ -291,7 +150,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 <button id="scrollTopBtn">↑</button>
 
 <script>
-// Modo claro/oscuro
+// Tema
 const toggleBtn=document.getElementById('toggle-theme'); 
 let darkMode=localStorage.getItem('darkMode')!=='false';
 const setTheme=()=>{document.body.classList.toggle('light',!darkMode); toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro'; localStorage.setItem('darkMode',darkMode);}
@@ -314,76 +173,46 @@ document.querySelectorAll('nav a').forEach(link=>{
 const slides=document.querySelectorAll('.testimonial'); 
 let current=0; 
 let interval=setInterval(nextSlide,5000);
-function showSlide(index){
-  slides.forEach((s,i)=>{
-    s.classList.remove('active','prev');
-    if(i===index) s.classList.add('active');
-    if(i===current) s.classList.add('prev');
-  });
-  current=index;
-}
+function showSlide(index){slides.forEach((s,i)=>{s.classList.remove('active','prev'); if(i===index) s.classList.add('active'); if(i===current) s.classList.add('prev');}); current=index;}
 function nextSlide(){showSlide((current+1)%slides.length);}
 function prevSlide(){showSlide((current-1+slides.length)%slides.length);}
 document.querySelector('.testimonial-btn.next').onclick=()=>{nextSlide(); resetInterval();}
 document.querySelector('.testimonial-btn.prev').onclick=()=>{prevSlide(); resetInterval();}
 function resetInterval(){clearInterval(interval); interval=setInterval(nextSlide,5000);}
 
-// Intersection Observer
-const sections=document.querySelectorAll('section'); 
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.style.opacity=1;
-      entry.target.style.transform='translateY(0)';
-    }
-  });
-},{threshold:0.2});
-sections.forEach(s=>observer.observe(s));
-
-// Header partículas
-const canvas=document.getElementById('headerParticles'); 
-const ctx=canvas.getContext('2d'); 
-let w,h,particles=[];
-function resize(){w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight; particles=[]; for(let i=0;i<100;i++){particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,speed:Math.random()*0.5+0.2})}}
-window.addEventListener('resize',resize); resize();
-function animate(){ctx.clearRect(0,0,w,h); particles.forEach(p=>{p.y-=p.speed; if(p.y<0)p.y=h; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.7)'; ctx.fill();}); requestAnimationFrame(animate);}
-animate();
-
-// Partículas servicios (una animación global para todos)
-document.querySelectorAll('.service').forEach(s=>{
-  const canvas=s.querySelector('canvas'); 
-  const ctx=canvas.getContext('2d'); 
-  canvas.width=s.offsetWidth; canvas.height=s.offsetHeight; 
-  let particles=[];
-  for(let i=0;i<30;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5});}
-  function animateService(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
-      if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.5)'; ctx.fill();
-    });
-    requestAnimationFrame(animateService);
-  }
-  s.addEventListener('mouseenter',animateService);
-});
-
-// Formulario con feedback
+// Formulario
 document.getElementById('contact-form').addEventListener('submit', async e=>{
   e.preventDefault();
   const feedback=document.getElementById('form-feedback');
   feedback.textContent="Enviando...";
   const formData=new FormData(e.target);
-  try{
-    await fetch(e.target.action,{method:'POST',body:formData});
-    feedback.textContent="¡Mensaje enviado con éxito!";
-    e.target.reset();
-  }catch{
-    feedback.textContent="Error al enviar, inténtalo de nuevo.";
-  }
+  try{await fetch(e.target.action,{method:'POST',body:formData}); feedback.textContent="¡Mensaje enviado con éxito!"; e.target.reset();}
+  catch{feedback.textContent="Error al enviar, inténtalo de nuevo.";}
 });
-</script>
 
+// GSAP Animaciones
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('section').forEach(sec=>{gsap.from(sec,{opacity:0,y:60,duration:1,scrollTrigger:{trigger:sec, start:'top 80%', toggleActions:'play none none none'}});});
+gsap.to("header h1",{yPercent:20, ease:"none", scrollTrigger:{trigger:"header", start:"top top", end:"bottom top", scrub:1}});
+gsap.to("header p",{yPercent:40, ease:"none", scrollTrigger:{trigger:"header", start:"top top", end:"bottom top", scrub:1}});
+
+// Partículas con efecto red
+const canvas=document.getElementById('headerParticles'); const ctx=canvas.getContext('2d'); 
+let w,h,particles=[],mouse={x:null,y:null};
+function resize(){w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight; particles=[]; for(let i=0;i<120;i++){particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,vx:(Math.random()-0.5)*1,vy:(Math.random()-0.5)*1});}}
+window.addEventListener('resize',resize); resize();
+canvas.addEventListener('mousemove',e=>{const rect=canvas.getBoundingClientRect(); mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;});
+canvas.addEventListener('mouseleave',()=>{mouse.x=null; mouse.y=null;});
+function animate(){
+  ctx.clearRect(0,0,w,h);
+  for(let p of particles){p.x+=p.vx; p.y+=p.vy; if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.7)'; ctx.fill();
+    for(let q of particles){let dx=p.x-q.x; let dy=p.y-q.y; let dist=Math.sqrt(dx*dx+dy*dy); if(dist<100){ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.strokeStyle='rgba(0,255,192,'+(1-dist/100)*0.3+')'; ctx.lineWidth=1; ctx.stroke();}}
+    if(mouse.x && mouse.y){let dx=p.x-mouse.x; let dy=p.y-mouse.y; let dist=Math.sqrt(dx*dx+dy*dy); if(dist<80){p.x-=dx*0.03; p.y-=dy*0.03;}}
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
 </body>
 </html>
