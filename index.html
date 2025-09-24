@@ -5,15 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
-
-<!-- Aplicar idioma guardado antes de cargar contenido -->
-<script>
-  const savedLang = localStorage.getItem('lang') || 'es';
-  document.documentElement.lang = savedLang;
-</script>
-
 <style>
-/* --- Estilos --- */
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
 :root{
@@ -206,20 +198,30 @@ document.addEventListener("DOMContentLoaded", function(){
     localStorage.setItem('lang', currentLang);
   };
 
-  // Mostrar/ocultar menú de idiomas
-  langBtn.addEventListener('click', ()=> {
+  // Mostrar/ocultar menú
+  langBtn.addEventListener('click', (e) => {
     langDropdown.classList.toggle('show');
     langBtn.setAttribute('aria-expanded', langDropdown.classList.contains('show'));
+    e.stopPropagation();
   });
 
-  // Cambiar idioma al hacer clic
+  // Cambiar idioma
   langOptions.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
       currentLang = btn.dataset.lang;
       updateLanguage();
       langDropdown.classList.remove('show');
       langBtn.setAttribute('aria-expanded', 'false');
+      e.stopPropagation();
     });
+  });
+
+  // Cerrar dropdown al hacer clic fuera
+  document.addEventListener('click', () => {
+    if(langDropdown.classList.contains('show')){
+      langDropdown.classList.remove('show');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
   });
 
   updateLanguage();
