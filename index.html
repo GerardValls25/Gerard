@@ -4,55 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Gerard Valls - Nutrición personalizada para deportistas y personas activas.">
+<meta name="robots" content="index, follow">
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
 
-<script>
-(() => {
-  const darkMode = localStorage.getItem('darkMode') !== 'false';
-  if (!darkMode) document.documentElement.classList.add('light');
-  document.documentElement.lang = localStorage.getItem('lang') || 'es';
-})();
-</script>
-
 <style>
-:root{
-  --bg:#2a3760; --text:#e6e6e6; --overlay:rgba(42,55,96,0.7);
-  --link:#00ffc0; --link-hover:#00e6b8; --btn:#007b5e; --btn-hover:#005f47;
+:root {
+  --bg-dark: #2a3760;
+  --bg-light: #f5f5f5;
+  --text-dark: #e6e6e6;
+  --text-light: #222;
+  --overlay-dark: rgba(42, 55, 96, 0.6);
+  --overlay-light: rgba(255, 255, 255, 0.85);
+  --link: #00ffc0;
+  --link-hover: #00e6b8;
+  --btn: #007b5e;
+  --btn-hover: #005f47;
+  --shadow: rgba(0, 0, 0, 0.25);
+  --radius: 10px;
 }
-body.light{
-  --bg:#f5f5f5; --text:#222; --overlay:rgba(255,255,255,0.95);
-  --link:#007b5e; --link-hover:#005f47; --btn:#007b5e; --btn-hover:#005f47;
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-dark);
+  transition: background 0.5s, color 0.5s;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;font-family:Segoe UI,Tahoma,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
-body{background:var(--bg);color:var(--text);}
-main.wrapper{max-width:700px;margin:30px auto;padding:30px 20px 60px;border-radius:10px;background:var(--overlay);text-shadow:0 0 5px rgba(0,0,0,0.2);}
-header{text-align:center;margin-bottom:25px;display:grid;gap:1rem;}
-.photo{width:120px;height:120px;border-radius:50%;margin:0 auto;box-shadow:0 0 12px rgba(0,255,204,0.8);transition:transform 0.4s,box-shadow 0.4s;}
-.photo:hover{transform:scale(1.05);box-shadow:0 0 16px rgba(0,255,204,1);}
-section{margin-bottom:20px;}
-ul{padding-left:20px;}
-a{color:var(--link);text-decoration:none;transition:color 0.3s;}
-a:hover{color:var(--link-hover);}
-form{display:grid;gap:10px;}
-input,textarea{width:100%;padding:8px;border-radius:5px;border:1px solid #ccc;font-size:0.95rem;}
-input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#ff4d4d;}
-button{background:var(--btn);color:white;border:none;padding:10px 18px;border-radius:5px;cursor:pointer;transition:background 0.3s;}
-button:hover{background:var(--btn-hover);}
-.error-msg{color:#ff4d4d;font-size:0.9rem;min-height:1.2em;}
-.form-feedback{font-weight:bold;text-align:center;margin-top:10px;}
-footer{text-align:center;padding:15px;font-size:0.9rem;background:rgba(0,0,0,0.6);color:#ccc;position:fixed;width:100%;bottom:0;}
-.toggle-theme,.language-dropdown button{padding:8px 12px;border-radius:5px;border:none;cursor:pointer;background:var(--btn);color:white;}
-.toggle-theme:hover,.language-dropdown button:hover{background:var(--btn-hover);}
-.language-dropdown{position:relative;display:inline-block;}
-.language-dropdown-content{display:none;position:absolute;background:var(--bg);border-radius:5px;top:100%;left:0;min-width:120px;z-index:10;}
-.language-dropdown-content button{width:100%;padding:8px;background:none;border:none;color:var(--text);text-align:left;cursor:pointer;}
-.language-dropdown-content button:hover{background:var(--btn-hover);}
-.language-dropdown.show .language-dropdown-content{display:block;}
-.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s, transform 0.8s;}
-.fade-in.visible{opacity:1;transform:translateY(0);}
-@media(max-width:500px){main.wrapper{margin:20px;padding:20px 15px 40px;} .toggle-theme,.language-dropdown button{width:100%;}}
+body.light {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+a { color: var(--link); text-decoration: none; transition: color 0.3s; }
+a:hover { color: var(--link-hover); }
+main.wrapper {
+  max-width: 720px;
+  margin: 40px auto 80px;
+  padding: 30px 25px 50px;
+  border-radius: var(--radius);
+  background: var(--overlay-dark);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px var(--shadow);
+  text-align: center;
+  transition: background 0.5s, color 0.5s;
+}
+body.light main.wrapper {
+  background: var(--overlay-light);
+}
+header { display: grid; gap: 1rem; margin-bottom: 30px; }
+.photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: 0 0 12px var(--link);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+.photo:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--link); }
+
+section { margin-bottom: 30px; text-align: left; }
+h1, h2 { margin-bottom: 15px; }
+ul { padding-left: 20px; }
+form { display: grid; gap: 15px; }
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+input[aria-invalid="true"], textarea[aria-invalid="true"] {
+  border-color: #ff4d4d;
+}
+button {
+  background: var(--btn);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+button:hover { background: var(--btn-hover); transform: translateY(-2px); }
+.error-msg { color: #ff4d4d; font-size: 0.9rem; min-height: 1.2em; }
+.form-feedback { font-weight: bold; text-align: center; margin-top: 10px; }
+
+footer {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  background: rgba(0,0,0,0.6);
+  color: #ccc;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  backdrop-filter: blur(5px);
+}
+
+.toggle-theme, .language-dropdown button {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: var(--btn);
+  color: white;
+}
+.toggle-theme:hover, .language-dropdown button:hover { background: var(--btn-hover); }
+
+.language-dropdown { position: relative; display: inline-block; }
+.language-dropdown-content {
+  display: none;
+  position: absolute;
+  background: var(--bg-dark);
+  border-radius: 5px;
+  top: 100%;
+  left: 0;
+  min-width: 120px;
+  z-index: 10;
+}
+.language-dropdown-content button {
+  width: 100%;
+  padding: 8px;
+  background: none;
+  border: none;
+  color: var(--text-dark);
+  text-align: left;
+  cursor: pointer;
+}
+.language-dropdown-content button:hover { background: var(--btn-hover); }
+.language-dropdown.show .language-dropdown-content { display: block; }
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s, transform 0.8s; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@media(max-width:500px){
+  main.wrapper { margin: 20px; padding: 25px 15px 50px; }
+  .toggle-theme, .language-dropdown button { width: 100%; margin-top: 5px; }
+}
 </style>
 </head>
 <body>
@@ -86,7 +174,10 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background:rgba(0,0,0,0.6
 
 <section class="fade-in" aria-labelledby="contacto">
 <h2 id="contacto">Contacto</h2>
-<p class="contact">Teléfono: +34 666 555 667<br>Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a></p>
+<p class="contact">
+<a href="tel:+34666555667">Teléfono: +34 666 555 667</a><br>
+<a href="mailto:info@gerardvalls.com">Email: info@gerardvalls.com</a>
+</p>
 </section>
 
 <section class="fade-in" aria-labelledby="consulta">
@@ -134,8 +225,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       contacto:"Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com",
       form:{name:"Nom complet",email:"Correu electrònic",message:"Missatge",submit:"Enviar",errorName:"Si us plau, introdueix el teu nom.",errorEmail:"Correu no vàlid.",errorMessage:"El missatge ha de tenir almenys 10 caràcters."}}
   };
-  const setLang=(lang)=>{
-    currentLang=lang; const t=translations[lang];
+  const setLang=(lang)=>{currentLang=lang; const t=translations[lang];
     document.getElementById('main-title').textContent=t.title;
     document.getElementById('tagline').textContent=t.tagline;
     document.getElementById('services-list').innerHTML=t.servicios.map(i=>`<li>${i}</li>`).join('');
@@ -155,11 +245,16 @@ document.addEventListener("DOMContentLoaded",()=>{
   // Formulario
   const form=document.getElementById('contact-form'), name=form.name, email=form.email, message=form.message, feedback=document.getElementById('form-feedback');
   const debounce=(fn,delay=300)=>{let t; return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),delay);};};
-  const validate=(f)=>{const t=translations[currentLang].form; if(f===name){name.value.trim()===""?name.setAttribute('aria-invalid','true')&&(document.getElementById('error-name').textContent=t.errorName):name.setAttribute('aria-invalid','false')&&(document.getElementById('error-name').textContent="");}
-  if(f===email){const p=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;(!email.value.trim()||!p.test(email.value.trim()))?email.setAttribute('aria-invalid','true')&&(document.getElementById('error-email').textContent=t.errorEmail):email.setAttribute('aria-invalid','false')&&(document.getElementById('error-email').textContent="");}
-  if(f===message){message.value.trim().length<10?message.setAttribute('aria-invalid','true')&&(document.getElementById('error-message').textContent=t.errorMessage):message.setAttribute('aria-invalid','false')&&(document.getElementById('error-message').textContent="");}}
+  const validate=(f)=>{const t=translations[currentLang].form;
+    if(f===name){name.value.trim()===""?name.setAttribute('aria-invalid','true')&&(document.getElementById('error-name').textContent=t.errorName):name.setAttribute('aria-invalid','false')&&(document.getElementById('error-name').textContent="");}
+    if(f===email){const p=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;(!email.value.trim()||!p.test(email.value.trim()))?email.setAttribute('aria-invalid','true')&&(document.getElementById('error-email').textContent=t.errorEmail):email.setAttribute('aria-invalid','false')&&(document.getElementById('error-email').textContent="");}
+    if(f===message){message.value.trim().length<10?message.setAttribute('aria-invalid','true')&&(document.getElementById('error-message').textContent=t.errorMessage):message.setAttribute('aria-invalid','false')&&(document.getElementById('error-message').textContent="");}}
   [name,email,message].forEach(f=>f.addEventListener('input',debounce(()=>validate(f),300)));
-  form.onsubmit=e=>{e.preventDefault();[name,email,message].forEach(f=>validate(f));if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true'))return;feedback.style.color='#00c853';feedback.textContent=currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';form.reset();setTimeout(()=>feedback.textContent='',5000);}
+  form.onsubmit=e=>{e.preventDefault();[name,email,message].forEach(f=>validate(f));
+    if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true'))return;
+    feedback.style.color='#00c853';
+    feedback.textContent=currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';
+    form.reset();setTimeout(()=>feedback.textContent='',5000);}
 
   // Animación scroll
   const faders=document.querySelectorAll('.fade-in');
