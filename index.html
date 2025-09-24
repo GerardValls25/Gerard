@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   };
 
-  const updateLanguage = (lang) => {
+  function updateLanguage(lang){
     currentLang = lang;
     const t = translations[currentLang];
     document.getElementById('main-title').textContent = t.title;
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.documentElement.lang = currentLang;
     langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català';
     localStorage.setItem('lang', currentLang);
-  };
+  }
 
   langBtn.addEventListener('click', ()=> {
     langDropdown.classList.toggle('show');
