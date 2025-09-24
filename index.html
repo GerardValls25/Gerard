@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Gerard Valls - Nutrición personalizada profesional para deportistas y personas activas.">
-<meta name="keywords" content="nutrición, deportistas, dietas, planes de alimentación, salud, fitness">
-<meta name="author" content="Gerard Valls">
 <title>Gerard Valls - Nutrición Profesional</title>
-
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -21,74 +17,55 @@
   --color-light:#f5f5f5;
   --text-dark:#e6e6e6;
   --text-light:#222;
-  --overlay-dark:rgba(31,41,55,0.85);
-  --overlay-light:rgba(245,245,245,0.95);
+  --shadow:rgba(0,0,0,0.3);
+  --radius:16px;
+  --transition:all 0.4s ease;
   --btn:#00b894;
   --btn-hover:#008f6b;
-  --radius:16px;
-  --shadow:rgba(0,0,0,0.3);
-  --transition:all 0.4s ease;
 }
 
-body{
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background:var(--color-dark);
-  color:var(--text-dark);
-  transition:var(--transition);
-  scroll-behavior:smooth;
-}
+/* Reset y Body */
+*{margin:0; padding:0; box-sizing:border-box;}
+body{font-family:'Montserrat',sans-serif; background:var(--color-dark); color:var(--text-dark); transition:var(--transition); overflow-x:hidden; scroll-behavior:smooth;}
 body.light{background:var(--color-light); color:var(--text-light);}
-a{color:var(--color-primary); text-decoration:none; transition:0.3s;}
-a:hover{color:var(--color-primary-hover);}
-nav{
-  position:sticky; top:0; background:rgba(31,41,55,0.9);
-  backdrop-filter:blur(10px); display:flex; justify-content:center; gap:2rem;
-  padding:14px 20px; z-index:1000; transition:var(--transition);
-}
+
+/* Navegación */
+nav{position:sticky; top:0; background:rgba(31,41,55,0.9); backdrop-filter:blur(10px); display:flex; justify-content:center; gap:2rem; padding:14px 20px; z-index:1000; transition:var(--transition);}
 body.light nav{background:rgba(245,245,245,0.95);}
-nav a{font-weight:600; font-size:1rem;}
+nav a{font-weight:600; color:white; text-decoration:none; transition:0.3s;}
+body.light nav a{color:var(--text-light);}
+nav a:hover{color:var(--color-primary-hover);}
 
-header{
-  position:relative; text-align:center; padding:160px 20px 120px; overflow:hidden; color:white;
-}
+/* Hero */
+header{position:relative; text-align:center; padding:180px 20px 140px; overflow:hidden; color:white; perspective:2000px;}
 header canvas{position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;}
-header h1, header p, header .toggle-theme{position:relative; z-index:1;}
-header h1{font-size:3rem; margin-bottom:20px; font-weight:700;}
-header p{font-size:1.3rem; margin-bottom:30px;}
-header .cta-btn{
-  background:var(--btn); color:white; padding:15px 30px; border-radius:var(--radius); font-size:1.1rem;
-  border:none; cursor:pointer; transition:0.3s; font-weight:600;
-}
-header .cta-btn:hover{background:var(--btn-hover); transform:translateY(-3px);}
+header h1,header p,header .cta-btn,header .toggle-theme{position:relative; z-index:1;}
+header h1{font-size:3rem; margin-bottom:20px; font-weight:700; transform:translateZ(50px);}
+header p{font-size:1.3rem; margin-bottom:30px; transform:translateZ(40px);}
+header .cta-btn{background:var(--btn); color:white; padding:16px 32px; border-radius:var(--radius); border:none; font-weight:600; cursor:pointer; transition:0.4s; transform:translateZ(30px);}
+header .cta-btn:hover{background:var(--btn-hover); transform:translateZ(30px) translateY(-4px);}
+header .toggle-theme{margin-left:15px; padding:10px 20px; border-radius:12px; background:rgba(0,0,0,0.4); cursor:pointer; transition:0.4s;}
+header .toggle-theme:hover{background:rgba(0,0,0,0.6);}
 
-main.wrapper{
-  max-width:1200px; margin:50px auto; padding:50px 30px 70px;
-  border-radius:var(--radius); background:var(--overlay-dark);
-  backdrop-filter:blur(15px); box-shadow:0 15px 45px var(--shadow);
-  text-align:center; transition:var(--transition);
-}
-body.light main.wrapper{background:var(--overlay-light);}
+/* Main */
+main.wrapper{max-width:1200px; margin:50px auto; padding:50px 30px 70px; border-radius:var(--radius); background:rgba(31,41,55,0.85); backdrop-filter:blur(15px); box-shadow:0 15px 45px var(--shadow); text-align:center; transition:var(--transition);}
+body.light main.wrapper{background:rgba(245,245,245,0.95);}
 
+/* Secciones */
 section{margin-bottom:80px;}
 h2{font-size:2.2rem; margin-bottom:35px; position:relative;}
 h2::after{content:""; width:70px; height:4px; background:var(--color-primary); display:block; margin:10px auto 0; border-radius:2px;}
 
-.services{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:40px;
-}
-.service{
-  background:rgba(255,255,255,0.07); padding:30px; border-radius:var(--radius);
-  display:flex; flex-direction:column; align-items:center; text-align:center;
-  cursor:pointer; transition:transform 0.5s, box-shadow 0.5s;
-}
-body.light .service{background:rgba(0,0,0,0.05);}
+/* Servicios con Neumorfismo */
+.services{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:40px;}
+.service{padding:30px; border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; transition:transform 0.5s, box-shadow 0.5s;
+background:var(--color-dark); box-shadow: 8px 8px 20px rgba(0,0,0,0.3), -8px -8px 20px rgba(255,255,255,0.05);}
+body.light .service{background:var(--color-light); box-shadow: 8px 8px 20px rgba(0,0,0,0.1), -8px -8px 20px rgba(255,255,255,0.6);}
 .service i{font-size:3.5rem; margin-bottom:18px; color:var(--color-primary); transition:transform 0.5s;}
-.service:hover{transform:translateY(-10px) scale(1.03); box-shadow:0 15px 35px var(--shadow);}
-.service:hover i{transform:scale(1.25);}
+.service:hover{transform:translateY(-12px);}
 
-/* Slider testimonios avanzado */
-.testimonials{position:relative; overflow:hidden; max-width:850px; margin:0 auto; min-height:140px; transition:height 0.6s ease;}
+/* Testimonios avanzado */
+.testimonials{position:relative; overflow:hidden; max-width:850px; margin:0 auto; min-height:140px;}
 .testimonial{position:absolute; top:0; left:100%; width:100%; opacity:0; display:flex; flex-direction:column; align-items:center; text-align:center; padding:30px; transition:all 0.8s ease;}
 .testimonial.active{left:0; opacity:1;}
 .testimonial.prev{left:-100%; opacity:0;}
@@ -97,19 +74,21 @@ body.light .service{background:rgba(0,0,0,0.05);}
 .testimonial-btn.prev{left:10px;}
 .testimonial-btn.next{right:10px;}
 .testimonial-indicators{display:flex; justify-content:center; gap:10px; margin-top:20px;}
-.testimonial-indicators span{width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,0.3); display:inline-block; cursor:pointer; transition:0.3s;}
+.testimonial-indicators span{width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,0.3); cursor:pointer; transition:0.3s;}
 .testimonial-indicators span.active{background:var(--btn);}
 
-/* Formulario premium */
+/* Formulario neumorfismo */
 form{display:grid; gap:15px; margin-top:20px; max-width:600px; margin-left:auto; margin-right:auto;}
-input,textarea{width:100%; padding:15px; border-radius:12px; border:1px solid #ccc; font-size:1rem; transition:var(--transition);}
-input:focus,textarea:focus{outline:none; border-color:var(--color-primary);}
-input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#ff4d4d;}
-button{background:var(--btn); color:white; border:none; padding:14px 22px; border-radius:var(--radius); cursor:pointer; transition:var(--transition);}
+input,textarea{padding:15px; border-radius:16px; border:none; font-size:1rem; background:var(--color-dark); box-shadow: 6px 6px 15px rgba(0,0,0,0.3), -6px -6px 15px rgba(255,255,255,0.05); transition:0.3s; color:white;}
+body.light input,body.light textarea{background:var(--color-light); box-shadow: 6px 6px 15px rgba(0,0,0,0.1), -6px -6px 15px rgba(255,255,255,0.6); color:var(--text-light);}
+input:focus,textarea:focus{outline:none; box-shadow: inset 3px 3px 8px rgba(0,0,0,0.3), inset -3px -3px 8px rgba(255,255,255,0.1);}
+input[aria-invalid="true"],textarea[aria-invalid="true"]{box-shadow: 0 0 0 3px #ff4d4d;}
+button{background:var(--btn); color:white; border:none; padding:16px 26px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:0.3s;}
 button:hover{background:var(--btn-hover); transform:translateY(-2px);}
 
+/* Footer y ScrollTop */
 footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,0.6); color:#ccc; backdrop-filter:blur(5px);}
-#scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--btn); color:white; border:none; padding:16px 20px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; transition:var(--transition);}
+#scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--btn); color:white; border:none; padding:16px 20px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; transition:0.3s;}
 #scrollTopBtn:hover{transform:scale(1.1); background:var(--btn-hover);}
 
 @media(max-width:700px){header h1{font-size:2.2rem;} header p{font-size:1rem;} .services{grid-template-columns:1fr;}}
@@ -170,7 +149,7 @@ footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,
 <span class="error-msg" id="error-email" aria-live="polite"></span>
 
 <label for="message">Mensaje</label>
-<textarea name="message" id="message" required aria-describedby="error-message" rows="5"></textarea>
+<textarea name="message" id="message" required rows="5" aria-describedby="error-message"></textarea>
 <span class="error-msg" id="error-message" aria-live="polite"></span>
 
 <button type="submit">Enviar</button>
@@ -184,43 +163,26 @@ footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
+// AOS
 AOS.init({duration:800,easing:'ease-out',once:true,mirror:false});
+
 // Tema
-const toggleBtn=document.getElementById('toggle-theme'); let darkMode=localStorage.getItem('darkMode')!=='false';
-const setTheme=()=>{document.body.classList.toggle('light',!darkMode); toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro'; localStorage.setItem('darkMode',darkMode);}
-toggleBtn.onclick=()=>{darkMode=!darkMode; setTheme();}; setTheme();
+const toggleBtn=document.getElementById('toggle-theme');
+let darkMode=localStorage.getItem('darkMode')!=='false';
+const setTheme=()=>{document.body.classList.toggle('light',!darkMode);toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro';localStorage.setItem('darkMode',darkMode);}
+toggleBtn.onclick=()=>{darkMode=!darkMode;setTheme();};
+setTheme();
 
 // ScrollTop
-const scrollBtn=document.getElementById('scrollTopBtn'); window.onscroll=()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";};
+const scrollBtn=document.getElementById('scrollTopBtn');
+window.onscroll=()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";};
 scrollBtn.onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});};
 
-// Formulario
-const form=document.getElementById('contact-form'), name=form.name,email=form.email,message=form.message,feedback=document.getElementById('form-feedback');
-const debounce=(fn,d=300)=>{let t;return(...a)=>{clearTimeout(t); t=setTimeout(()=>fn(...a),d);};};
-const validate=(f)=>{if(f===name){name.value.trim()===""?name.setAttribute('aria-invalid','true')&&(document.getElementById('error-name').textContent="Por favor, introduce tu nombre."):name.setAttribute('aria-invalid','false')&&(document.getElementById('error-name').textContent="");}
-if(f===email){const p=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;(!email.value.trim()||!p.test(email.value.trim()))?email.setAttribute('aria-invalid','true')&&(document.getElementById('error-email').textContent="Correo no válido."):email.setAttribute('aria-invalid','false')&&(document.getElementById('error-email').textContent="");}
-if(f===message){message.value.trim().length<10?message.setAttribute('aria-invalid','true')&&(document.getElementById('error-message').textContent="El mensaje debe tener al menos 10 caracteres."):message.setAttribute('aria-invalid','false')&&(document.getElementById('error-message').textContent="");}};
-[name,email,message].forEach(f=>f.addEventListener('input',debounce(()=>validate(f),300)));
-form.onsubmit=async e=>{e.preventDefault();[name,email,message].forEach(f=>validate(f)); if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true')) return;
-const data=new FormData(form); try{const res=await fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}}); if(res.ok){feedback.style.color='#00c853'; feedback.textContent='¡Mensaje enviado correctamente!'; form.reset(); setTimeout(()=>feedback.textContent='',5000);}else{throw new Error('Error');} }catch(err){feedback.style.color='#ff4d4d'; feedback.textContent='Error al enviar el mensaje';}};
-
-// Slider avanzado
-const slides=document.querySelectorAll('.testimonial'); let current=0; const indicators=document.querySelectorAll('.testimonial-indicators span'); const container=document.querySelector('.testimonials'); let interval=setInterval(nextSlide,5000);
-function updateHeight(){const a=document.querySelector('.testimonial.active'); if(a) container.style.height=a.offsetHeight+'px';}
-function showSlide(i){slides.forEach((s,j)=>{s.classList.remove('active','prev'); if(j===i) s.classList.add('active'); if(j===current) s.classList.add('prev');}); current=i; updateHeight(); indicators.forEach((ind,j)=>{ind.classList.toggle('active',j===i);});}
-function nextSlide(){showSlide((current+1)%slides.length);}
-function prevSlide(){showSlide((current-1+slides.length)%slides.length);}
-document.querySelector('.testimonial-btn.next').addEventListener('click',()=>{nextSlide(); resetInterval();});
-document.querySelector('.testimonial-btn.prev').addEventListener('click',()=>{prevSlide(); resetInterval();});
-indicators.forEach((ind,i)=>{ind.addEventListener('click',()=>{showSlide(i); resetInterval();});});
-function resetInterval(){clearInterval(interval); interval=setInterval(nextSlide,5000);}
-window.addEventListener('load',updateHeight); window.addEventListener('resize',updateHeight);
-
-// Partículas animadas
-const canvas=document.getElementById('particles'); const ctx=canvas.getContext('2d'); let w,h,particles=[];
-function resize(){w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight; particles=[]; const count=w<700?30:60; for(let i=0;i<count;i++){particles.push({x:Math.random()*w, y:Math.random()*h, radius:Math.random()*2+0.8, speed:Math.random()*0.4+0.1});}}
-window.addEventListener('resize',resize); resize();
-function animate(){ctx.clearRect(0,0,w,h); particles.forEach(p=>{p.y-=p.speed; if(p.y<0)p.y=h; ctx.beginPath(); ctx.arc(p.x,p.y,p.radius,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.5)'; ctx.fill();}); requestAnimationFrame(animate);}
+// Partículas conectadas
+const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let w,h,particles=[];
+function resize(){w=canvas.width=canvas.offsetWidth;h=canvas.height=canvas.offsetHeight;particles=[];let count=w<700?30:60;for(let i=0;i<count;i++){particles.push({x:Math.random()*w,y:Math.random()*h, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5, r:Math.random()*2+1});}}
+window.addEventListener('resize',resize);resize();
+function animate(){ctx.clearRect(0,0,w,h);for(let p of particles){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,255,192,0.6)';ctx.fill();}for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){let dx=particles[i].x-particles[j].x;let dy=particles[i].y-particles[j].y;let dist=Math.sqrt(dx*dx+dy*dy);if(dist<80){ctx.beginPath();ctx.strokeStyle='rgba(0,255,192,'+(1-dist/80)*0.3+')';ctx.lineWidth=1;ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();}}}requestAnimationFrame(animate);}
 animate();
 </script>
 </body>
