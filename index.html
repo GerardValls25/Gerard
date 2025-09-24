@@ -27,7 +27,6 @@
 }
 
 *{box-sizing:border-box;}
-
 body{
   margin:0;
   font-family:'Montserrat',sans-serif;
@@ -93,7 +92,6 @@ header p{
   z-index:1;
 }
 #toggle-theme:hover{background:var(--primary-hover); transform:translateY(-2px);}
-
 @keyframes gradMove{
   0%{background-position:0 0;}
   50%{background-position:100% 0;}
@@ -147,7 +145,11 @@ h2::after{
   transition:transform .5s, box-shadow .5s, background .5s;
   text-align:center;
 }
-.service i{font-size:3rem; color:var(--primary); transition:transform .5s, text-shadow .5s;}
+.service i {
+  font-size:3rem;
+  color:var(--primary);
+  transition: transform .5s, color .5s, text-shadow .5s;
+}
 .service:hover{
   transform:translateY(-10px) scale(1.05);
   box-shadow:0 0 30px var(--primary),0 20px 35px rgba(0,0,0,0.25);
@@ -155,9 +157,9 @@ h2::after{
   color:white;
 }
 .service:hover i{
-  transform:scale(1.3);
+  transform: scale(1.3) rotate(5deg);
   color:white;
-  text-shadow:0 0 20px rgba(255,255,255,0.6);
+  text-shadow:0 0 15px rgba(255,255,255,0.7);
 }
 
 .testimonials{position:relative; max-width:800px; margin:0 auto; min-height:140px; perspective:1200px;}
@@ -236,22 +238,24 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 </nav>
 
 <main class="wrapper">
+
+<!-- Sección Servicios con iconos nuevos -->
 <section id="servicios">
-<h2>Servicios</h2>
-<div class="services">
-<div class="service"><i class="fas fa-apple-alt"></i><h3>Planes Personalizados</h3><p>Planes adaptados a ti.</p></div>
-<div class="service"><i class="fas fa-dumbbell"></i><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento.</p></div>
-<div class="service"><i class="fas fa-weight"></i><h3>Pérdida de Peso</h3><p>Programas sostenibles.</p></div>
-<div class="service"><i class="fas fa-laptop"></i><h3>Consultas Online</h3><p>Desde cualquier lugar.</p></div>
-</div>
+  <h2>Servicios</h2>
+  <div class="services">
+    <div class="service"><i class="fas fa-notes-medical"></i><h3>Planes Personalizados</h3><p>Planes adaptados a ti.</p></div>
+    <div class="service"><i class="fas fa-person-running"></i><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento.</p></div>
+    <div class="service"><i class="fas fa-scale-balanced"></i><h3>Pérdida de Peso</h3><p>Programas sostenibles.</p></div>
+    <div class="service"><i class="fas fa-video"></i><h3>Consultas Online</h3><p>Desde cualquier lugar.</p></div>
+  </div>
 </section>
 
 <section id="testimonios">
 <h2>Testimonios</h2>
 <div class="testimonials">
-<div class="testimonial active"><p>"Excelente nutricionista, logré mis objetivos."</p><span>- Laura G.</span></div>
-<div class="testimonial"><p>"Atención profesional y personalizada."</p><span>- Carlos M.</span></div>
-<div class="testimonial"><p>"Recomiendo sus planes a todos los deportistas."</p><span>- Ana R.</span></div>
+<div class="testimonial active"><i class="fas fa-star"></i><p>"Excelente nutricionista, logré mis objetivos."</p><span>- Laura G.</span></div>
+<div class="testimonial"><i class="fas fa-heart"></i><p>"Atención profesional y personalizada."</p><span>- Carlos M.</span></div>
+<div class="testimonial"><i class="fas fa-thumbs-up"></i><p>"Recomiendo sus planes a todos los deportistas."</p><span>- Ana R.</span></div>
 <button class="testimonial-btn prev">‹</button>
 <button class="testimonial-btn next">›</button>
 </div>
@@ -267,6 +271,7 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 <span id="form-feedback"></span>
 </form>
 </section>
+
 </main>
 
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
@@ -300,7 +305,7 @@ document.querySelectorAll('nav a').forEach(link=>{
   });
 });
 
-// Testimonios 3D
+// Testimonios
 const slides=document.querySelectorAll('.testimonial');
 let current=0;
 let interval=setInterval(nextSlide,5000);
@@ -318,7 +323,7 @@ document.querySelector('.testimonial-btn.next').onclick=()=>{nextSlide(); resetI
 document.querySelector('.testimonial-btn.prev').onclick=()=>{prevSlide(); resetInterval();}
 function resetInterval(){clearInterval(interval); interval=setInterval(nextSlide,5000);}
 
-// Formulario con toast
+// Formulario
 document.getElementById('contact-form').addEventListener('submit', async e=>{
   e.preventDefault();
   const feedback=document.getElementById('form-feedback');
@@ -342,35 +347,22 @@ gsap.utils.toArray('section').forEach(sec=>{
   gsap.from(sec,{opacity:0,y:60,duration:1,stagger:0.2,scrollTrigger:{trigger:sec,start:'top 80%',toggleActions:'play none none none'}});
 });
 gsap.utils.toArray('.service').forEach((s,i)=>{
-  gsap.from(s,{opacity:0,scale:0.8,duration:0.8,delay:i*0.1,scrollTrigger:{trigger:s,start:'top 90%'}});
+  gsap.from(s.querySelector('i'), {opacity:0, y:-20, scale:0, duration:0.8, delay:i*0.2, ease:"back.out(1.7)", scrollTrigger:{trigger:s,start:"top 90%"}});
 });
 gsap.to("header h1",{yPercent:20,ease:"none",scrollTrigger:{trigger:"header",start:"top top",end:"bottom top",scrub:1}});
 gsap.to("header p",{yPercent:40,ease:"none",scrollTrigger:{trigger:"header",start:"top top",end:"bottom top",scrub:1}});
 
-// Partículas 3D con gradiente y luz
+// Partículas
 const canvas=document.getElementById('headerParticles');
 const ctx=canvas.getContext('2d');
 let w,h,particles=[],mouse={x:null,y:null};
-function resize(){
-  w=canvas.width=canvas.offsetWidth;
-  h=canvas.height=canvas.offsetHeight;
-  particles=[];
-  const count=Math.floor(w*h/3500);
-  for(let i=0;i<count;i++){
-    particles.push({x:Math.random()*w,y:Math.random()*h,z:Math.random()*1.5+0.5,r:Math.random()*2+1,vx:(Math.random()-0.5)*0.6,vy:(Math.random()-0.5)*0.6,colorOffset:Math.random()*360});
-  }
+function resize(){w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight;
+  particles=[]; const count=Math.floor(w*h/3500);
+  for(let i=0;i<count;i++){particles.push({x:Math.random()*w,y:Math.random()*h,z:Math.random()*1.5+0.5,r:Math.random()*2+1,vx:(Math.random()-0.5)*0.6,vy:(Math.random()-0.5)*0.6,colorOffset:Math.random()*360});}
 }
-window.addEventListener('resize',resize);
-resize();
-canvas.addEventListener('mousemove',e=>{
-  const rect=canvas.getBoundingClientRect();
-  mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;
-  const h1=document.querySelector('header h1');
-  const dx=e.clientX - window.innerWidth/2;
-  const dy=e.clientY - 120;
-  h1.style.textShadow=`${-dx/30}px ${-dy/30}px 30px rgba(0,255,192,0.8)`;
-});
-canvas.addEventListener('mouseleave',()=>{mouse.x=null; mouse.y=null; document.querySelector('header h1').style.textShadow='0 0 20px rgba(0,255,192,0.5)';});
+window.addEventListener('resize',resize); resize();
+canvas.addEventListener('mousemove',e=>{const rect=canvas.getBoundingClientRect(); mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;});
+canvas.addEventListener('mouseleave',()=>{mouse.x=null; mouse.y=null;});
 function animate(){
   ctx.clearRect(0,0,w,h);
   const time=Date.now()*0.002;
@@ -388,14 +380,12 @@ function animate(){
       if(dist<100){ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
         ctx.strokeStyle=`hsla(${hue},100%,50%,${(1-dist/100)*0.3})`; ctx.lineWidth=1; ctx.stroke();}
     }
-    if(mouse.x && mouse.y){
-      let dx=p.x-mouse.x; let dy=p.y-mouse.y; let dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<80){p.x-=dx*0.03; p.y-=dy*0.03;}
-    }
+    if(mouse.x && mouse.y){let dx=p.x-mouse.x, dy=p.y-mouse.y, dist=Math.sqrt(dx*dx+dy*dy); if(dist<80){p.x-=dx*0.03; p.y-=dy*0.03;}}
   }
   requestAnimationFrame(animate);
 }
 animate();
 </script>
+
 </body>
 </html>
