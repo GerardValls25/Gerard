@@ -51,7 +51,6 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 .language-dropdown-content{display:none;position:absolute;background-color:var(--bg-color);border-radius:5px;top:100%;left:0;min-width:120px;z-index:10;}
 .language-dropdown-content button{width:100%;padding:8px;background:none;border:none;color:var(--text-color);cursor:pointer;text-align:left;}
 .language-dropdown-content button:hover{background-color:var(--button-hover);}
-.language-dropdown.show .language-dropdown-content{display:block;}
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out, transform 0.8s ease-out;}
 .fade-in.visible{opacity:1;transform:translateY(0);}
 </style>
@@ -68,8 +67,8 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
   <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
 
   <!-- Selector de idiomas -->
-  <div class="language-dropdown" id="language-dropdown">
-    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español</button>
+  <div class="language-dropdown">
+    <button id="language-btn">Español ▼</button>
     <div class="language-dropdown-content" id="lang-options">
       <button data-lang="es">Español</button>
       <button data-lang="ca">Català</button>
@@ -136,7 +135,6 @@ document.addEventListener("DOMContentLoaded", function(){
   updateTheme();
 
   // --- SELECTOR DE IDIOMA ---
-  const langDropdown = document.getElementById('language-dropdown');
   const langBtn = document.getElementById('language-btn');
   const langOptions = document.getElementById('lang-options');
   let currentLang = localStorage.getItem('lang') || 'es';
@@ -152,15 +150,9 @@ document.addEventListener("DOMContentLoaded", function(){
         "Consultas en línea y presenciales"
       ],
       contacto: "Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form: { 
-        name:"Nombre completo", 
-        email:"Correo electrónico", 
-        message:"Mensaje", 
-        submit:"Enviar", 
-        errorName:"Por favor, introduce tu nombre.", 
-        errorEmail:"Correo no válido.", 
-        errorMessage:"El mensaje debe tener al menos 10 caracteres." 
-      }
+      form: { name:"Nombre completo", email:"Correo electrónico", message:"Mensaje", submit:"Enviar",
+              errorName:"Por favor, introduce tu nombre.", errorEmail:"Correo no válido.",
+              errorMessage:"El mensaje debe tener al menos 10 caracteres." }
     },
     ca: {
       title: "Gerard Valls - Nutrició personalitzada",
@@ -172,20 +164,15 @@ document.addEventListener("DOMContentLoaded", function(){
         "Consultes en línia i presencials"
       ],
       contacto: "Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form: { 
-        name:"Nom complet", 
-        email:"Correu electrònic", 
-        message:"Missatge", 
-        submit:"Enviar", 
-        errorName:"Si us plau, introdueix el teu nom.", 
-        errorEmail:"Correu no vàlid.", 
-        errorMessage:"El missatge ha de tenir almenys 10 caràcters." 
-      }
+      form: { name:"Nom complet", email:"Correu electrònic", message:"Missatge", submit:"Enviar",
+              errorName:"Si us plau, introdueix el teu nom.", errorEmail:"Correu no vàlid.",
+              errorMessage:"El missatge ha de tenir almenys 10 caràcters." }
     }
   };
 
-  const updateLanguage = () => {
-    const t = translations[currentLang];
+  const updateLanguage = (lang) => {
+    currentLang = lang;
+    const t = translations[lang];
     document.getElementById('main-title').textContent = t.title;
     document.getElementById('tagline').textContent = t.tagline;
     document.getElementById('services-list').innerHTML = t.servicios.map(item => `<li>${item}</li>`).join('');
@@ -194,37 +181,23 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('label[for="email"]').textContent = t.form.email;
     document.querySelector('label[for="message"]').textContent = t.form.message;
     document.querySelector('#contact-form button').textContent = t.form.submit;
-    langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català';
-    localStorage.setItem('lang', currentLang);
+    document.documentElement.lang = lang;
+    langBtn.textContent = lang === 'es' ? 'Español ▼' : 'Català ▼';
+    localStorage.setItem('lang', lang);
   };
 
-  // Mostrar/ocultar menú
-  langBtn.addEventListener('click', (e) => {
-    langDropdown.classList.toggle('show');
-    langBtn.setAttribute('aria-expanded', langDropdown.classList.contains('show'));
-    e.stopPropagation();
+  langBtn.addEventListener('click', () => {
+    langOptions.style.display = langOptions.style.display === 'block' ? 'none' : 'block';
   });
 
-  // Cambiar idioma
   langOptions.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      currentLang = btn.dataset.lang;
-      updateLanguage();
-      langDropdown.classList.remove('show');
-      langBtn.setAttribute('aria-expanded', 'false');
-      e.stopPropagation();
+    btn.addEventListener('click', () => {
+      updateLanguage(btn.dataset.lang);
+      langOptions.style.display = 'none';
     });
   });
 
-  // Cerrar dropdown al hacer clic fuera
-  document.addEventListener('click', () => {
-    if(langDropdown.classList.contains('show')){
-      langDropdown.classList.remove('show');
-      langBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  updateLanguage();
+  updateLanguage(currentLang);
 
   // --- VALIDACIÓN FORMULARIO ---
   const form = document.getElementById('contact-form');
