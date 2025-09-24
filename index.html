@@ -182,17 +182,17 @@ footer {
 
 <section class="fade-in" aria-labelledby="consulta">
 <h2 id="consulta">Formulario de contacto</h2>
-<form id="contact-form" novalidate>
+<form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST">
 <label for="name">Nombre completo</label>
-<input type="text" id="name" required aria-describedby="error-name"/>
+<input type="text" name="name" id="name" required aria-describedby="error-name"/>
 <span class="error-msg" id="error-name" aria-live="polite"></span>
 
 <label for="email">Correo electrónico</label>
-<input type="email" id="email" required aria-describedby="error-email"/>
+<input type="email" name="email" id="email" required aria-describedby="error-email"/>
 <span class="error-msg" id="error-email" aria-live="polite"></span>
 
 <label for="message">Mensaje</label>
-<textarea id="message" required aria-describedby="error-message"></textarea>
+<textarea name="message" id="message" required aria-describedby="error-message"></textarea>
 <span class="error-msg" id="error-message" aria-live="polite"></span>
 
 <button type="submit">Enviar</button>
@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   langOptions.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{setLang(btn.dataset.lang);langDropdown.classList.remove('show');langBtn.setAttribute('aria-expanded','false');});
   setLang(currentLang);
 
-  // Formulario
+  // Formulario con Formspree
   const form=document.getElementById('contact-form'), name=form.name, email=form.email, message=form.message, feedback=document.getElementById('form-feedback');
   const debounce=(fn,delay=300)=>{let t; return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),delay);};};
   const validate=(f)=>{const t=translations[currentLang].form;
@@ -250,11 +250,27 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(f===email){const p=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;(!email.value.trim()||!p.test(email.value.trim()))?email.setAttribute('aria-invalid','true')&&(document.getElementById('error-email').textContent=t.errorEmail):email.setAttribute('aria-invalid','false')&&(document.getElementById('error-email').textContent="");}
     if(f===message){message.value.trim().length<10?message.setAttribute('aria-invalid','true')&&(document.getElementById('error-message').textContent=t.errorMessage):message.setAttribute('aria-invalid','false')&&(document.getElementById('error-message').textContent="");}}
   [name,email,message].forEach(f=>f.addEventListener('input',debounce(()=>validate(f),300)));
-  form.onsubmit=e=>{e.preventDefault();[name,email,message].forEach(f=>validate(f));
-    if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true'))return;
-    feedback.style.color='#00c853';
-    feedback.textContent=currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';
-    form.reset();setTimeout(()=>feedback.textContent='',5000);}
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+    [name,email,message].forEach(f => validate(f));
+    if ([name,email,message].some(f => f.getAttribute('aria-invalid') === 'true')) return;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+      if (res.ok) {
+        feedback.style.color = '#00c853';
+        feedback.textContent = currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';
+        form.reset();
+        setTimeout(()=>feedback.textContent='',5000);
+      } else {
+        throw new Error('Error al enviar');
+      }
+    } catch(err) {
+      feedback.style.color = '#ff4d4d';
+      feedback.textContent = currentLang==='es'?'Error al enviar el mensaje':'Error al enviar el missatge';
+    }
+  };
 
   // Animación scroll
   const faders=document.querySelectorAll('.fade-in');
