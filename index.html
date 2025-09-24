@@ -6,6 +6,9 @@
 <title>Gerard Valls - Nutrición Profesional</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <style>
 :root {
   --primary:#00ffc0;
@@ -48,7 +51,7 @@ a:hover{color:var(--primary-hover);}
 header{
   position:relative;
   text-align:center;
-  padding:140px 20px 100px;
+  padding:120px 20px 80px;
   overflow:hidden;
 }
 header h1{
@@ -115,8 +118,7 @@ body.light main.wrapper{
 section{
   margin-bottom:60px;
   opacity:0;
-  transform:translateY(40px);
-  transition:.8s ease;
+  transform:translateY(60px);
 }
 
 /* Titles */
@@ -133,11 +135,11 @@ h2::after{
   margin:8px auto 0;
   border-radius:2px;
   background:var(--primary);
+  transform:scaleX(0);
   animation:lineDraw 1s forwards;
 }
-@keyframes lineDraw{from{width:0;} to{width:60px;}}
+@keyframes lineDraw{to{transform:scaleX(1);}}
 
-/* Services */
 .services{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -291,7 +293,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 <button id="scrollTopBtn">↑</button>
 
 <script>
-// Modo claro/oscuro
+// Modo oscuro/claro
 const toggleBtn=document.getElementById('toggle-theme'); 
 let darkMode=localStorage.getItem('darkMode')!=='false';
 const setTheme=()=>{document.body.classList.toggle('light',!darkMode); toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro'; localStorage.setItem('darkMode',darkMode);}
@@ -328,47 +330,6 @@ document.querySelector('.testimonial-btn.next').onclick=()=>{nextSlide(); resetI
 document.querySelector('.testimonial-btn.prev').onclick=()=>{prevSlide(); resetInterval();}
 function resetInterval(){clearInterval(interval); interval=setInterval(nextSlide,5000);}
 
-// Intersection Observer
-const sections=document.querySelectorAll('section'); 
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.style.opacity=1;
-      entry.target.style.transform='translateY(0)';
-    }
-  });
-},{threshold:0.2});
-sections.forEach(s=>observer.observe(s));
-
-// Header partículas
-const canvas=document.getElementById('headerParticles'); 
-const ctx=canvas.getContext('2d'); 
-let w,h,particles=[];
-function resize(){w=canvas.width=canvas.offsetWidth; h=canvas.height=canvas.offsetHeight; particles=[]; for(let i=0;i<100;i++){particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,speed:Math.random()*0.5+0.2})}}
-window.addEventListener('resize',resize); resize();
-function animate(){ctx.clearRect(0,0,w,h); particles.forEach(p=>{p.y-=p.speed; if(p.y<0)p.y=h; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.7)'; ctx.fill();}); requestAnimationFrame(animate);}
-animate();
-
-// Partículas servicios (una animación global para todos)
-document.querySelectorAll('.service').forEach(s=>{
-  const canvas=s.querySelector('canvas'); 
-  const ctx=canvas.getContext('2d'); 
-  canvas.width=s.offsetWidth; canvas.height=s.offsetHeight; 
-  let particles=[];
-  for(let i=0;i<30;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5});}
-  function animateService(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
-      if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.5)'; ctx.fill();
-    });
-    requestAnimationFrame(animateService);
-  }
-  s.addEventListener('mouseenter',animateService);
-});
-
 // Formulario con feedback
 document.getElementById('contact-form').addEventListener('submit', async e=>{
   e.preventDefault();
@@ -383,7 +344,29 @@ document.getElementById('contact-form').addEventListener('submit', async e=>{
     feedback.textContent="Error al enviar, inténtalo de nuevo.";
   }
 });
-</script>
 
+// GSAP Animaciones
+gsap.registerPlugin(ScrollTrigger);
+
+// Secciones
+gsap.utils.toArray('section').forEach(sec=>{
+  gsap.from(sec,{opacity:0,y:60,duration:1,scrollTrigger:{trigger:sec, start:'top 80%', toggleActions:'play none none none'}});
+});
+
+// H1 parallax
+gsap.to("header h1",{yPercent:20, ease:"none", scrollTrigger:{trigger:"header", start:"top top", end:"bottom top", scrub:1}});
+gsap.to("header p",{yPercent:40, ease:"none", scrollTrigger:{trigger:"header", start:"top top", end:"bottom top", scrub:1}});
+
+// Servicios hover partículas con cursor
+document.querySelectorAll('.service').forEach(s=>{
+  const canvas=s.querySelector('canvas'); const ctx=canvas.getContext('2d'); 
+  let particles=[];
+  function resizeCanvas(){canvas.width=s.offsetWidth; canvas.height=s.offsetHeight;}
+  resizeCanvas(); window.addEventListener('resize',resizeCanvas);
+  for(let i=0;i<30;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,vx:(Math.random()-0.5)*0.7,vy:(Math.random()-0.5)*0.7});}
+  function draw(){ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.x+=p.vx; p.y+=p.vy; if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(0,255,192,0.5)'; ctx.fill();}); requestAnimationFrame(draw);}
+  s.addEventListener('mouseenter',draw);
+});
+</script>
 </body>
 </html>
