@@ -5,203 +5,185 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Gerard Valls - Nutrición personalizada para deportistas y personas activas.">
 <meta name="robots" content="index, follow">
-<title>Gerard Valls - Nutrición personalizada</title>
+<title>Gerard Valls - Nutrición profesional</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg-dark: #2a3760;
-  --bg-light: #f5f5f5;
+  --color-primary: #00ffc0;
+  --color-primary-hover: #00e6b8;
+  --color-dark: #2a3760;
+  --color-light: #f5f5f5;
   --text-dark: #e6e6e6;
   --text-light: #222;
-  --overlay-dark: rgba(42, 55, 96, 0.6);
-  --overlay-light: rgba(255, 255, 255, 0.85);
-  --link: #00ffc0;
-  --link-hover: #00e6b8;
+  --overlay-dark: rgba(42,55,96,0.6);
+  --overlay-light: rgba(255,255,255,0.85);
   --btn: #007b5e;
   --btn-hover: #005f47;
-  --shadow: rgba(0, 0, 0, 0.25);
-  --radius: 10px;
+  --radius: 12px;
+  --shadow: rgba(0,0,0,0.25);
+  --transition: all 0.4s ease;
 }
 body {
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
-  background: var(--bg-dark);
+  font-family: 'Montserrat', sans-serif;
+  background: var(--color-dark);
   color: var(--text-dark);
-  transition: background 0.5s, color 0.5s;
+  transition: var(--transition);
 }
 body.light {
-  background: var(--bg-light);
+  background: var(--color-light);
   color: var(--text-light);
 }
-a { color: var(--link); text-decoration: none; transition: color 0.3s; }
-a:hover { color: var(--link-hover); }
+a { color: var(--color-primary); text-decoration: none; transition: color 0.3s; }
+a:hover { color: var(--color-primary-hover); }
+header, section, footer { opacity: 0; transform: translateY(20px); transition: 0.8s ease; }
+header.visible, section.visible, footer.visible { opacity: 1; transform: translateY(0); }
+
+nav {
+  position: sticky;
+  top: 0;
+  background: rgba(42,55,96,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 12px;
+  z-index: 1000;
+}
+nav a {
+  color: var(--text-dark);
+  font-weight: 600;
+  transition: color 0.3s;
+}
+body.light nav { background: rgba(245,245,245,0.85); }
+body.light nav a { color: var(--text-light); }
+
 main.wrapper {
-  max-width: 720px;
-  margin: 40px auto 80px;
-  padding: 30px 25px 50px;
+  max-width: 900px;
+  margin: 60px auto 80px;
+  padding: 40px 30px 60px;
   border-radius: var(--radius);
   background: var(--overlay-dark);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px var(--shadow);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 12px 30px var(--shadow);
   text-align: center;
-  transition: background 0.5s, color 0.5s;
+  transition: var(--transition);
 }
-body.light main.wrapper {
-  background: var(--overlay-light);
-}
-header { display: grid; gap: 1rem; margin-bottom: 30px; }
+body.light main.wrapper { background: var(--overlay-light); }
+
+h1 { font-size: 2.2rem; margin-bottom: 10px; }
+h2 { font-size: 1.5rem; margin-bottom: 15px; }
+p { line-height: 1.6; }
+ul { padding-left: 20px; text-align: left; }
+
 .photo {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
-  margin: 0 auto;
-  box-shadow: 0 0 12px var(--link);
+  margin: 20px auto;
+  box-shadow: 0 0 16px var(--color-primary);
   transition: transform 0.4s, box-shadow 0.4s;
 }
-.photo:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--link); }
+.photo:hover { transform: scale(1.08); box-shadow: 0 0 25px var(--color-primary); }
 
-section { margin-bottom: 30px; text-align: left; }
-h1, h2 { margin-bottom: 15px; }
-ul { padding-left: 20px; }
-form { display: grid; gap: 15px; }
+form { display: grid; gap: 15px; margin-top: 10px; }
 input, textarea {
   width: 100%;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 12px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
-  transition: border 0.3s;
+  transition: var(--transition);
 }
-input[aria-invalid="true"], textarea[aria-invalid="true"] {
-  border-color: #ff4d4d;
-}
-button {
+input:focus, textarea:focus { outline: none; border-color: var(--color-primary); }
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #ff4d4d; }
+
+button, .toggle-theme, .language-dropdown button {
   background: var(--btn);
   color: white;
   border: none;
   padding: 12px 20px;
   border-radius: var(--radius);
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: var(--transition);
 }
-button:hover { background: var(--btn-hover); transform: translateY(-2px); }
+button:hover, .toggle-theme:hover, .language-dropdown button:hover { background: var(--btn-hover); transform: translateY(-2px); }
+
 .error-msg { color: #ff4d4d; font-size: 0.9rem; min-height: 1.2em; }
 .form-feedback { font-weight: bold; text-align: center; margin-top: 10px; }
 
 footer {
   text-align: center;
-  padding: 15px;
+  padding: 20px;
   font-size: 0.9rem;
   background: rgba(0,0,0,0.6);
   color: #ccc;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
   backdrop-filter: blur(5px);
+  position: relative;
 }
-
-.toggle-theme, .language-dropdown button {
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  background: var(--btn);
-  color: white;
-}
-.toggle-theme:hover, .language-dropdown button:hover { background: var(--btn-hover); }
-
-.language-dropdown { position: relative; display: inline-block; }
-.language-dropdown-content {
-  display: none;
-  position: absolute;
-  background: var(--bg-dark);
-  border-radius: 5px;
-  top: 100%;
-  left: 0;
-  min-width: 120px;
-  z-index: 10;
-}
-.language-dropdown-content button {
-  width: 100%;
-  padding: 8px;
-  background: none;
-  border: none;
-  color: var(--text-dark);
-  text-align: left;
-  cursor: pointer;
-}
-.language-dropdown-content button:hover { background: var(--btn-hover); }
-.language-dropdown.show .language-dropdown-content { display: block; }
-
-.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s, transform 0.8s; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
 
 #scrollTopBtn {
   position: fixed;
   bottom: 60px;
   right: 20px;
-  z-index: 100;
+  z-index: 1000;
   background: var(--btn);
   color: white;
   border: none;
-  padding: 12px 16px;
+  padding: 14px 18px;
   border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   display: none;
-  transition: background 0.3s, transform 0.3s, opacity 0.3s;
+  cursor: pointer;
+  transition: var(--transition);
 }
-#scrollTopBtn:hover {
-  background: var(--btn-hover);
-  transform: scale(1.1);
-}
+#scrollTopBtn:hover { transform: scale(1.1); background: var(--btn-hover); }
 
-@media(max-width:500px){
-  main.wrapper { margin: 20px; padding: 25px 15px 50px; }
-  .toggle-theme, .language-dropdown button { width: 100%; margin-top: 5px; }
+@media(max-width:600px){
+  main.wrapper { padding: 30px 20px 50px; }
+  nav { flex-direction: column; }
+  button, .toggle-theme, .language-dropdown button { width: 100%; }
 }
 </style>
 </head>
 <body>
 
-<main class="wrapper" role="main">
-<header class="fade-in">
-<h1 id="main-title">Gerard Valls - Nutrición personalizada</h1>
+<nav>
+  <a href="#servicios">Servicios</a>
+  <a href="#contacto">Contacto</a>
+  <a href="#consulta">Formulario</a>
+</nav>
+
+<main class="wrapper">
+<header>
+<h1 id="main-title">Gerard Valls - Nutrición profesional</h1>
 <p id="tagline">Nutrición personalizada para deportistas y personas activas</p>
-<img src="https://i.imgur.com/gerard.jpg" alt="Gerard Valls sonriendo" class="photo" width="120" height="120" loading="lazy"/>
-<div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+<img src="https://i.imgur.com/gerard.jpg" alt="Gerard Valls sonriendo" class="photo" loading="lazy"/>
+<div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap; margin-top:10px;">
   <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
-  <div class="language-dropdown" id="language-dropdown">
-    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español</button>
-    <div class="language-dropdown-content" id="lang-options">
-      <button data-lang="es">Español</button>
-      <button data-lang="ca">Català</button>
-    </div>
-  </div>
 </div>
 </header>
 
-<section class="fade-in" aria-labelledby="servicios">
-<h2 id="servicios">Servicios</h2>
-<ul id="services-list">
-<li>Planes de alimentación personalizados</li>
-<li>Asesoría nutricional para deportistas</li>
-<li>Programas para pérdida de peso saludable</li>
-<li>Consultas en línea y presenciales</li>
+<section id="servicios">
+<h2>Servicios</h2>
+<ul>
+<li>Planes de alimentación personalizados con seguimiento profesional</li>
+<li>Asesoría nutricional para deportistas y rendimiento físico</li>
+<li>Programas para pérdida de peso saludable y sostenible</li>
+<li>Consultas en línea y presenciales según necesidad</li>
 </ul>
 </section>
 
-<section class="fade-in" aria-labelledby="contacto">
-<h2 id="contacto">Contacto</h2>
-<p class="contact">
-<a href="tel:+34666555667">Teléfono: +34 666 555 667</a><br>
-<a href="mailto:info@gerardvalls.com">Email: info@gerardvalls.com</a>
-</p>
+<section id="contacto">
+<h2>Contacto</h2>
+<p><a href="tel:+34666555667">Teléfono: +34 666 555 667</a><br>
+<a href="mailto:info@gerardvalls.com">Email: info@gerardvalls.com</a></p>
 </section>
 
-<section class="fade-in" aria-labelledby="consulta">
-<h2 id="consulta">Formulario de contacto</h2>
+<section id="consulta">
+<h2>Formulario de contacto</h2>
 <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST">
 <label for="name">Nombre completo</label>
 <input type="text" name="name" id="name" required aria-describedby="error-name"/>
@@ -219,10 +201,10 @@ footer {
 <span class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></span>
 </form>
 </section>
+</main>
 
-<footer class="fade-in">&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
+<footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
-<!-- Botón Volver arriba -->
 <button id="scrollTopBtn" title="Volver arriba">↑</button>
 
 <script>
@@ -234,82 +216,34 @@ document.addEventListener("DOMContentLoaded",()=>{
   toggleBtn.onclick=()=>{darkMode=!darkMode;setTheme();}
   setTheme();
 
-  // Idioma
-  const langBtn=document.getElementById('language-btn'), langDropdown=document.getElementById('language-dropdown');
-  const langOptions=document.getElementById('lang-options');
-  let currentLang=localStorage.getItem('lang')||'es';
-  const translations={
-    es:{title:"Gerard Valls - Nutrición personalizada",tagline:"Nutrición personalizada para deportistas y personas activas",
-      servicios:["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],
-      contacto:"Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form:{name:"Nombre completo",email:"Correo electrónico",message:"Mensaje",submit:"Enviar",errorName:"Por favor, introduce tu nombre.",errorEmail:"Correo no válido.",errorMessage:"El mensaje debe tener al menos 10 caracteres."}},
-    ca:{title:"Gerard Valls - Nutrició personalitzada",tagline:"Nutrició personalitzada per a esportistes i persones actives",
-      servicios:["Plans d'alimentació personalitzats","Assessorament nutricional per a esportistes","Programes de pèrdua de pes saludable","Consultes en línia i presencials"],
-      contacto:"Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form:{name:"Nom complet",email:"Correu electrònic",message:"Missatge",submit:"Enviar",errorName:"Si us plau, introdueix el teu nom.",errorEmail:"Correu no vàlid.",errorMessage:"El missatge ha de tenir almenys 10 caràcters."}}
-  };
-  const setLang=(lang)=>{currentLang=lang; const t=translations[lang];
-    document.getElementById('main-title').textContent=t.title;
-    document.getElementById('tagline').textContent=t.tagline;
-    document.getElementById('services-list').innerHTML=t.servicios.map(i=>`<li>${i}</li>`).join('');
-    document.querySelector('.contact').innerHTML=t.contacto.replace(/\n/g,'<br/>');
-    document.querySelector('label[for="name"]').textContent=t.form.name;
-    document.querySelector('label[for="email"]').textContent=t.form.email;
-    document.querySelector('label[for="message"]').textContent=t.form.message;
-    document.querySelector('#contact-form button').textContent=t.form.submit;
-    document.documentElement.lang=lang;
-    langBtn.textContent=lang==='es'?'Español':'Català';
-    localStorage.setItem('lang',lang);
-  }
-  langBtn.onclick=()=>{langDropdown.classList.toggle('show');langBtn.setAttribute('aria-expanded',langDropdown.classList.contains('show'));}
-  langOptions.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{setLang(btn.dataset.lang);langDropdown.classList.remove('show');langBtn.setAttribute('aria-expanded','false');});
-  setLang(currentLang);
-
-  // Formulario con Formspree
-  const form=document.getElementById('contact-form'), name=form.name, email=form.email, message=form.message, feedback=document.getElementById('form-feedback');
-  const debounce=(fn,delay=300)=>{let t; return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),delay);};};
-  const validate=(f)=>{const t=translations[currentLang].form;
-    if(f===name){name.value.trim()===""?name.setAttribute('aria-invalid','true')&&(document.getElementById('error-name').textContent=t.errorName):name.setAttribute('aria-invalid','false')&&(document.getElementById('error-name').textContent="");}
-    if(f===email){const p=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;(!email.value.trim()||!p.test(email.value.trim()))?email.setAttribute('aria-invalid','true')&&(document.getElementById('error-email').textContent=t.errorEmail):email.setAttribute('aria-invalid','false')&&(document.getElementById('error-email').textContent="");}
-    if(f===message){message.value.trim().length<10?message.setAttribute('aria-invalid','true')&&(document.getElementById('error-message').textContent=t.errorMessage):message.setAttribute('aria-invalid','false')&&(document.getElementById('error-message').textContent="");}}
-  [name,email,message].forEach(f=>f.addEventListener('input',debounce(()=>validate(f),300)));
-
-  form.onsubmit = async (e) => {
-    e.preventDefault();
-    [name,email,message].forEach(f => validate(f));
-    if ([name,email,message].some(f => f.getAttribute('aria-invalid') === 'true')) return;
-    const data = new FormData(form);
-    try {
-      const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
-      if (res.ok) {
-        feedback.style.color = '#00c853';
-        feedback.textContent = currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';
-        form.reset();
-        setTimeout(()=>feedback.textContent='',5000);
-      } else {
-        throw new Error('Error al enviar');
-      }
-    } catch(err) {
-      feedback.style.color = '#ff4d4d';
-      feedback.textContent = currentLang==='es'?'Error al enviar el mensaje':'Error al enviar el missatge';
-    }
-  };
-
   // Animación scroll
-  const faders=document.querySelectorAll('.fade-in');
-  const obs=new IntersectionObserver((e,o)=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');o.unobserve(x.target);}})},{threshold:0.1});
+  const faders=document.querySelectorAll('header, section, footer');
+  const obs=new IntersectionObserver((entries, observer)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}
+    });
+  },{threshold:0.1});
   faders.forEach(f=>obs.observe(f));
 
-  // Botón "Volver arriba"
-  const scrollBtn = document.getElementById('scrollTopBtn');
-  window.onscroll = () => {
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-      scrollBtn.style.display = "block";
-    } else {
-      scrollBtn.style.display = "none";
-    }
-  };
-  scrollBtn.onclick = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  // Botón volver arriba
+  const scrollBtn=document.getElementById('scrollTopBtn');
+  window.onscroll=()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";}
+  scrollBtn.onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});}
+
+  // Formulario
+  const form=document.getElementById('contact-form'), name=form.name, email=form.email, message=form.message, feedback=document.getElementById('form-feedback');
+  const debounce=(fn,delay=300)=>{let t; return(...a)=>{clearTimeout(t); t=setTimeout(()=>fn(...a),delay);};};
+  const validate=(f)=>{if(f===name){name.value.trim()===""?name.setAttribute('aria-invalid','true')&&(document.getElementById('error-name').textContent="Por favor, introduce tu nombre."):name.setAttribute('aria-invalid','false')&&(document.getElementById('error-name').textContent="");}
+    if(f===email){const p=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;(!email.value.trim()||!p.test(email.value.trim()))?email.setAttribute('aria-invalid','true')&&(document.getElementById('error-email').textContent="Correo no válido."):email.setAttribute('aria-invalid','false')&&(document.getElementById('error-email').textContent="");}
+    if(f===message){message.value.trim().length<10?message.setAttribute('aria-invalid','true')&&(document.getElementById('error-message').textContent="El mensaje debe tener al menos 10 caracteres."):message.setAttribute('aria-invalid','false')&&(document.getElementById('error-message').textContent="");}};
+  [name,email,message].forEach(f=>f.addEventListener('input',debounce(()=>validate(f),300)));
+  form.onsubmit=async e=>{e.preventDefault();[name,email,message].forEach(f=>validate(f));
+    if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true'))return;
+    const data=new FormData(form);
+    try{const res=await fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}});
+      if(res.ok){feedback.style.color='#00c853';feedback.textContent='¡Mensaje enviado correctamente!';form.reset();setTimeout(()=>feedback.textContent='',5000);}
+      else{throw new Error('Error');}
+    }catch(err){feedback.style.color='#ff4d4d';feedback.textContent='Error al enviar el mensaje';}};
 });
 </script>
 
