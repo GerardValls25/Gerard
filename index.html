@@ -116,7 +116,10 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 <!-- EMAILJS -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-(function(){ emailjs.init('aqYkHJy0lR8OX8uKh'); })(); // User ID EmailJS
+  // Inicializa EmailJS con tu Public Key
+  (function(){
+    emailjs.init('aqYkHJy0lR8OX8uKh'); // Public Key
+  })();
 </script>
 
 <!-- PARTICLES JS -->
@@ -138,7 +141,7 @@ const initParticles = () => {
 };
 initParticles();
 
-// --- VALIDACIÓN FORM ---
+// --- VALIDACIÓN FORMULARIO ---
 const form = document.getElementById('contact-form');
 const [name,email,message] = [form.name,form.email,form.message];
 const feedback = document.getElementById('form-feedback');
@@ -170,6 +173,7 @@ form.addEventListener('submit', function(e){
   [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
   if(!valid && firstError){firstError.focus(); return;}
 
+  // ENVÍO EmailJS
   emailjs.send('TU_SERVICE_ID','TU_TEMPLATE_ID',{
     from_name: name.value,
     from_email: email.value,
