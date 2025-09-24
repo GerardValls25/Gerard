@@ -48,11 +48,11 @@ form button:hover,form button:focus{background-color:var(--button-hover);transfo
 .form-feedback{display:block;margin-top:10px;font-weight:bold;text-align:center;}
 .form-group{margin-bottom:10px;}
 footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0,0,0.6);color:#ccc;position:fixed;width:100%;bottom:0;left:0;}
-.toggle-theme{display:inline-block;background-color:var(--button-bg);color:white;border:none;padding:8px 12px;border-radius:5px;font-size:0.9rem;cursor:pointer;margin-top:10px;}
-.toggle-theme:hover,.toggle-theme:focus{background-color:var(--button-hover);outline:3px solid #00ffcc;outline-offset:3px;}
+.toggle-theme,.toggle-lang{display:inline-block;background-color:var(--button-bg);color:white;border:none;padding:8px 12px;border-radius:5px;font-size:0.9rem;cursor:pointer;margin:5px;}
+.toggle-theme:hover,.toggle-theme:focus,.toggle-lang:hover,.toggle-lang:focus{background-color:var(--button-hover);outline:3px solid #00ffcc;outline-offset:3px;}
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out, transform 0.8s ease-out;}
 .fade-in.visible{opacity:1;transform:translateY(0);}
-#theme-status{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+#theme-status,#language-status{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
 @media(max-width:500px){main.content-wrapper{margin:15px;padding:20px;}}
 </style>
 </head>
@@ -64,9 +64,13 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 <header class="fade-in">
 <h1>Gerard Valls</h1>
 <p>Nutrición personalizada para deportistas y personas activas</p>
-<img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls" class="photo" loading="lazy" tabindex="0"/>
-<button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
+<img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls sonriendo" class="photo" loading="lazy" tabindex="0"/>
+<div>
+  <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
+  <button class="toggle-lang" id="toggle-language" aria-pressed="false">English</button>
+</div>
 <span id="theme-status" aria-live="polite"></span>
+<span id="language-status" aria-live="polite"></span>
 </header>
 
 <section class="fade-in" aria-labelledby="servicios">
@@ -170,6 +174,7 @@ form.addEventListener('submit', function(e){
   if(!valid && firstError){firstError.focus(); return;}
 
   // ENVÍO EmailJS
+  form.querySelector('button').disabled = true;
   emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{
     from_name: name.value,
     from_email: email.value,
@@ -178,9 +183,11 @@ form.addEventListener('submit', function(e){
     feedback.style.color='#00c853';
     feedback.textContent='¡Mensaje enviado correctamente!';
     form.reset();
+    form.querySelector('button').disabled = false;
   }).catch(err=>{
     feedback.style.color='#ff4d4d';
     feedback.textContent='Error al enviar: '+err.text;
+    form.querySelector('button').disabled = false;
   });
 });
 
@@ -205,6 +212,64 @@ toggleBtn.addEventListener('click',()=>{darkMode=!darkMode;updateTheme();});
 if(localStorage.getItem('darkMode')===null&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){darkMode=false;}
 updateTheme();
 
+// --- CAMBIO DE IDIOMA ---
+const langBtn = document.getElementById('toggle-language');
+const langStatus = document.getElementById('language-status');
+let currentLang = localStorage.getItem('lang') || 'es';
+
+const translations = {
+  es: {
+    name: "Nombre completo",
+    email: "Correo electrónico",
+    message: "Mensaje",
+    submit: "Enviar",
+    servicesTitle: "Servicios",
+    services: [
+      "Planes de alimentación personalizados",
+      "Asesoría nutricional para deportistas",
+      "Programas para pérdida de peso saludable",
+      "Consultas en línea y presenciales"
+    ],
+    contactTitle: "Contacto",
+    contactText: "Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com"
+  },
+  en: {
+    name: "Full Name",
+    email: "Email",
+    message: "Message",
+    submit: "Send",
+    servicesTitle: "Services",
+    services: [
+      "Personalized meal plans",
+      "Nutritional advice for athletes",
+      "Healthy weight loss programs",
+      "Online and in-person consultations"
+    ],
+    contactTitle: "Contact",
+    contactText: "Phone: +34 666 555 667\nEmail: info@gerardvalls.com"
+  }
+};
+
+const updateLanguage = () => {
+  const t = translations[currentLang];
+  document.querySelector('label[for="name"]').textContent = t.name;
+  document.querySelector('label[for="email"]').textContent = t.email;
+  document.querySelector('label[for="message"]').textContent = t.message;
+  document.querySelector('#contact-form button').textContent = t.submit;
+  document.getElementById('servicios').textContent = t.servicesTitle;
+  document.querySelector('#servicios + ul').innerHTML = t.services.map(s => `<li>${s}</li>`).join('');
+  document.getElementById('contacto').textContent = t.contactTitle;
+  document.querySelector('.contact').innerHTML = t.contactText.replace(/\n/g,'<br/>');
+  langBtn.textContent = currentLang === 'es' ? 'English' : 'Español';
+  localStorage.setItem('lang', currentLang);
+};
+langBtn.addEventListener('click', () => {
+  currentLang = currentLang === 'es' ? 'en' : 'es';
+  updateLanguage();
+  langStatus.textContent = currentLang === 'es' ? 'Idioma cambiado a español' : 'Language changed to English';
+});
+updateLanguage();
+
 // --- ANIMACIONES SCROLL ---
 const faders=document.querySelectorAll('.fade-in');
 const appearOptions={threshold:0.1,rootMargin:"0px 0px -50px 0px"};
@@ -213,6 +278,5 @@ faders.forEach(fader=>appearOnScroll.observe(fader));
 
 });
 </script>
-
 </body>
 </html>
