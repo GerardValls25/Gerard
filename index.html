@@ -7,7 +7,6 @@
 
 <!-- Fuente -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Font Awesome gratuito -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <!-- GSAP -->
@@ -27,12 +26,10 @@
 }
 *{box-sizing:border-box;}
 body{
-  margin:0;
-  font-family:'Montserrat',sans-serif;
+  margin:0; font-family:'Montserrat',sans-serif;
   background:var(--dark-bg);
   color:var(--text-dark);
-  overflow-x:hidden;
-  line-height:1.6;
+  overflow-x:hidden; line-height:1.6;
   transition:background var(--transition),color var(--transition);
 }
 body.light{background:var(--light-bg); color:var(--text-light);}
@@ -41,7 +38,7 @@ a:hover{color:var(--primary-hover);}
 header{
   position:relative;
   text-align:center;
-  padding:100px 20px 80px;
+  padding:120px 20px 100px;
   overflow:hidden;
 }
 header h1{
@@ -50,36 +47,38 @@ header h1{
   -webkit-background-clip:text;
   color:transparent;
   text-shadow:0 0 20px rgba(0,255,192,0.5);
-  z-index:1;
-  position:relative;
+  z-index:1; position:relative;
+  animation:gradMove 10s linear infinite;
 }
 header p{margin-top:10px;font-size:1.2rem; z-index:1; position:relative;}
 #toggle-theme{
   margin-top:20px;
-  background:var(--primary);
-  color:#000;
-  border:none;
-  padding:10px 20px;
-  border-radius:var(--radius);
-  cursor:pointer;
-  font-weight:600;
-  transition:.4s;
-  position:relative;
-  z-index:1;
+  background:var(--primary); color:#000;
+  border:none; padding:10px 20px;
+  border-radius:var(--radius); cursor:pointer;
+  font-weight:600; transition:.4s;
+  position:relative; z-index:1;
 }
 #toggle-theme:hover{background:var(--primary-hover); transform:translateY(-2px);}
+@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+
+/* Navegación */
 nav{
   position:sticky; top:0; background:rgba(42,55,96,0.85); backdrop-filter:blur(10px);
   display:flex; justify-content:center; gap:1rem; padding:12px; z-index:1000; transition:var(--transition);
 }
 body.light nav{background:rgba(245,245,245,0.9);}
 nav a{font-weight:600; cursor:pointer;}
+
+/* Main wrapper */
 main.wrapper{
   max-width:1100px; margin:40px auto; padding:50px 30px 60px;
   border-radius:var(--radius); backdrop-filter:blur(15px); background:rgba(42,55,96,0.85); text-align:center;
   transition:var(--transition);
 }
 body.light main.wrapper{background:rgba(245,245,245,0.9);}
+
+/* Secciones */
 h2{font-size:2rem; margin-bottom:20px; position:relative; display:inline-block;}
 h2::after{
   content:""; width:60px; height:3px; display:block; margin:8px auto 0; border-radius:2px; background:var(--primary);
@@ -126,6 +125,15 @@ body.light .glass-form label{color: rgba(0,0,0,0.6);}
 button{background:var(--primary); color:#000; border:none; padding:14px 24px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
 button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 
+/* Botón WhatsApp flotante */
+#whatsapp-btn{
+  position:fixed; bottom:140px; right:20px; z-index:1000;
+  background:#25D366; color:white; border:none; border-radius:50%;
+  width:60px; height:60px; font-size:1.8rem; display:flex;
+  align-items:center; justify-content:center; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition:.3s;
+}
+#whatsapp-btn:hover{transform:scale(1.1);}
+
 /* Scroll top */
 #scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--primary); color:white; border:none; padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; transition:.3s, opacity .5s, transform .3s; opacity:0;}
 #scrollTopBtn.show{display:block; opacity:1;}
@@ -150,7 +158,6 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 </nav>
 
 <main class="wrapper">
-
 <section id="servicios">
 <h2>Servicios</h2>
 <div class="services">
@@ -194,14 +201,15 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
   <span id="form-feedback"></span>
 </form>
 </section>
-
 </main>
 
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
+
 <button id="scrollTopBtn">↑</button>
+<a href="https://wa.me/1234567890" target="_blank" id="whatsapp-btn"><i class="fab fa-whatsapp"></i></a>
 
 <script>
-// Tema oscuro/claro
+// Modo oscuro/claro
 const toggleBtn=document.getElementById('toggle-theme');
 let darkMode=localStorage.getItem('darkMode')!=='false';
 const setTheme=()=>{document.body.classList.toggle('light',!darkMode); toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro'; localStorage.setItem('darkMode',darkMode);}
@@ -236,7 +244,7 @@ document.getElementById('contact-form').addEventListener('submit', async e=>{
   catch{feedback.textContent="Error al enviar, inténtalo de nuevo."; setTimeout(()=>{feedback.classList.remove('show');},3000);}
 });
 
-// GSAP animaciones
+// GSAP Animaciones
 gsap.registerPlugin(ScrollTrigger);
 gsap.utils.toArray('section').forEach(sec=>{gsap.from(sec,{opacity:0,y:60,duration:1,stagger:0.2,scrollTrigger:{trigger:sec,start:'top 80%',toggleActions:'play none none none'}});});
 gsap.utils.toArray('.service').forEach((s,i)=>{gsap.from(s.querySelector('i'),{opacity:0, y:-30, scale:0.7, rotationY:180, duration:0.8, delay:i*0.2, ease:"back.out(1.7)", scrollTrigger:{trigger:s,start:"top 90%"}});});
