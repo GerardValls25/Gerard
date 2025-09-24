@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Gerard Valls - Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría nutricional y consultas online y presenciales.">
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
 <style>
@@ -37,7 +38,7 @@ ul{padding-left:20px;}
 .contact a{color:var(--link-color);text-decoration:none;transition:color 0.3s;}
 .contact a:hover,.contact a:focus{color:var(--link-hover);}
 form label{display:block;font-weight:bold;margin-bottom:4px;}
-form input,form textarea{width:100%;padding:6px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc;font-size:0.95rem;}
+form input,form textarea{width:100%;padding:8px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc;font-size:0.95rem;}
 form input[aria-invalid="true"],form textarea[aria-invalid="true"]{border-color:#ff4d4d;}
 form button{background-color:var(--button-bg);color:white;border:none;padding:10px 18px;font-weight:bold;cursor:pointer;border-radius:5px;transition:background-color 0.3s;}
 form button:hover,form button:focus{background-color:var(--button-hover);}
@@ -54,6 +55,10 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 .language-dropdown.show .language-dropdown-content{display:block;}
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out, transform 0.8s ease-out;}
 .fade-in.visible{opacity:1;transform:translateY(0);}
+@media(max-width:500px){
+  main.content-wrapper{margin:20px;padding:20px 15px 40px;}
+  .toggle-theme,.language-dropdown button{width:100%;text-align:center;}
+}
 </style>
 </head>
 <body>
@@ -62,12 +67,11 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 <header class="fade-in">
 <h1 id="main-title">Gerard Valls - Nutrición personalizada</h1>
 <p id="tagline">Nutrición personalizada para deportistas y personas activas</p>
-<img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls sonriendo" class="photo" loading="lazy"/>
+<img src="https://i.imgur.com/gerard.jpg" alt="Gerard Valls sonriendo, nutricionista" class="photo" loading="lazy"/>
 
 <div>
   <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
 
-  <!-- Selector de idiomas -->
   <div class="language-dropdown" id="language-dropdown">
     <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español</button>
     <div class="language-dropdown-content" id="lang-options">
@@ -124,7 +128,7 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-  // --- TOGGLE TEMA ---
+  // --- TEMA ---
   const toggleBtn = document.getElementById('toggle-theme');
   let darkMode = localStorage.getItem('darkMode') !== 'false';
   const updateTheme = () => {
@@ -135,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function(){
   toggleBtn.addEventListener('click', ()=>{ darkMode = !darkMode; updateTheme(); });
   updateTheme();
 
-  // --- SELECTOR DE IDIOMA ---
+  // --- IDIOMA ---
   const langDropdown = document.getElementById('language-dropdown');
   const langBtn = document.getElementById('language-btn');
   const langOptions = document.getElementById('lang-options');
@@ -246,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function(){
     feedback.style.color='#00c853';
     feedback.textContent=currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';
     form.reset();
+    setTimeout(()=>feedback.textContent='',5000);
   });
 
   // --- ANIMACIÓN SCROLL ---
