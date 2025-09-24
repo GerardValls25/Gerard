@@ -6,6 +6,7 @@
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
 <style>
+/* Estilos igual que antes */
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
 :root{
@@ -69,10 +70,9 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 
   <!-- Selector de idiomas -->
   <div class="language-dropdown" id="language-dropdown">
-    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Idiomas</button>
+    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español</button>
     <div class="language-dropdown-content" id="lang-options">
       <button data-lang="es">Español</button>
-      <button data-lang="en">English</button>
       <button data-lang="ca">Català</button>
     </div>
   </div>
@@ -162,25 +162,6 @@ document.addEventListener("DOMContentLoaded", function(){
         errorMessage:"El mensaje debe tener al menos 10 caracteres." 
       }
     },
-    en: {
-      tagline: "Personalized nutrition for athletes and active people",
-      servicios: [
-        "Personalized meal plans",
-        "Nutritional advice for athletes",
-        "Healthy weight loss programs",
-        "Online and in-person consultations"
-      ],
-      contacto: "Phone: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form: { 
-        name:"Full Name", 
-        email:"Email", 
-        message:"Message", 
-        submit:"Send", 
-        errorName:"Please enter your name.", 
-        errorEmail:"Invalid email.", 
-        errorMessage:"Message must be at least 10 characters." 
-      }
-    },
     ca: {
       tagline: "Nutrició personalitzada per a esportistes i persones actives",
       servicios: [
@@ -211,7 +192,8 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('label[for="email"]').textContent = t.form.email;
     document.querySelector('label[for="message"]').textContent = t.form.message;
     document.querySelector('#contact-form button').textContent = t.form.submit;
-    document.documentElement.lang = currentLang; // 👈 línea añadida
+    document.documentElement.lang = currentLang; 
+    langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català'; // 👈 cambia texto del botón
     localStorage.setItem('lang', currentLang);
   };
 
@@ -262,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function(){
     [name,email,message].forEach(f=>validateField(f));
     if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true')) return;
     feedback.style.color='#00c853';
-    feedback.textContent=currentLang==='es'?'¡Mensaje enviado correctamente!':currentLang==='en'?'Message sent successfully!':'Missatge enviat correctament!';
+    feedback.textContent=currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';
     form.reset();
   });
 
