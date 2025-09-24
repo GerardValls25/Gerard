@@ -234,6 +234,33 @@ body.light .service{
   transform:scale(1);
 }
 
+.testimonial-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.testimonial-btn:hover {
+  background: var(--btn);
+}
+
+.testimonial-btn.prev {
+  left: 10px;
+}
+
+.testimonial-btn.next {
+  right: 10px;
+}
+
 form{
   display:grid;
   gap:15px;
@@ -340,9 +367,13 @@ footer{
 <section id="testimonios" data-aos="fade-up">
 <h2>Testimonios</h2>
 <div class="testimonials">
-<div class="testimonial active"><p>"Excelente nutricionista, logré mis objetivos."</p><span>- Laura G.</span></div>
-<div class="testimonial"><p>"Atención profesional y personalizada."</p><span>- Carlos M.</span></div>
-<div class="testimonial"><p>"Recomiendo sus planes a todos los deportistas."</p><span>- Ana R.</span></div>
+  <div class="testimonial active"><p>"Excelente nutricionista, logré mis objetivos."</p><span>- Laura G.</span></div>
+  <div class="testimonial"><p>"Atención profesional y personalizada."</p><span>- Carlos M.</span></div>
+  <div class="testimonial"><p>"Recomiendo sus planes a todos los deportistas."</p><span>- Ana R.</span></div>
+
+  <!-- Botones de control -->
+  <button class="testimonial-btn prev" aria-label="Anterior Testimonio">‹</button>
+  <button class="testimonial-btn next" aria-label="Siguiente Testimonio">›</button>
 </div>
 </section>
 
@@ -412,9 +443,36 @@ form.onsubmit=async e=>{
   }catch(err){feedback.style.color='#ff4d4d';feedback.textContent='Error al enviar el mensaje';}
 };
 
-// Slider testimonios
-const slides=document.querySelectorAll('.testimonial');let current=0;
-setInterval(()=>{slides[current].classList.remove('active');current=(current+1)%slides.length;slides[current].classList.add('active');},5000);
+// Slider testimonios con botones
+const slides = document.querySelectorAll('.testimonial');
+let current = 0;
+let slideInterval = setInterval(nextSlide, 5000);
+
+function showSlide(index) {
+  slides.forEach(slide => slide.classList.remove('active'));
+  slides[index].classList.add('active');
+}
+
+function nextSlide() {
+  current = (current + 1) % slides.length;
+  showSlide(current);
+}
+
+function prevSlide() {
+  current = (current - 1 + slides.length) % slides.length;
+  showSlide(current);
+}
+
+const btnNext = document.querySelector('.testimonial-btn.next');
+const btnPrev = document.querySelector('.testimonial-btn.prev');
+
+btnNext.addEventListener('click', () => { nextSlide(); resetInterval(); });
+btnPrev.addEventListener('click', () => { prevSlide(); resetInterval(); });
+
+function resetInterval() {
+  clearInterval(slideInterval);
+  slideInterval = setInterval(nextSlide, 5000);
+}
 
 // Partículas optimizadas
 const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let w,h,particles=[];
