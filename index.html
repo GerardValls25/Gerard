@@ -6,7 +6,6 @@
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
 <style>
-/* RESET Y VARIABLES */
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
 --bg:#2a3760;--text:#e6e6e6;--overlay:rgba(42,55,96,0.7);
@@ -14,7 +13,7 @@
 }
 body.light{--bg:#f5f5f5;--text:#222;--overlay:rgba(255,255,255,0.95);--link:#007b5e;--linkHover:#005f47;}
 body{font-family:'Segoe UI',Tahoma,Verdana,sans-serif;background:var(--bg);color:var(--text);transition:0.4s;}
-#particles-js{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;background:var(--bg);filter:brightness(0.5);}
+#particles-js{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;background:var(--bg);}
 main{background:var(--overlay);max-width:700px;margin:30px auto;padding:30px 20px 60px;border-radius:10px;text-align:center;}
 .photo{width:120px;border-radius:50%;margin:0 auto 20px;box-shadow:0 0 12px var(--link);transition:0.4s;}
 .photo:hover{transform:scale(1.05);box-shadow:0 0 16px var(--link);}
@@ -38,6 +37,7 @@ footer{text-align:center;padding:10px;font-size:0.9rem;background:rgba(0,0,0,0.6
 <h1 class="fade">Gerard Valls</h1>
 <p class="fade">Nutrición personalizada para deportistas y personas activas</p>
 <img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls" class="photo fade"/>
+
 <div class="fade">
   <button id="toggle-theme">Cambiar a modo claro</button>
   <label class="sr-only" for="lang">Seleccionar idioma</label>
@@ -78,22 +78,17 @@ footer{text-align:center;padding:10px;font-size:0.9rem;background:rgba(0,0,0,0.6
 </main>
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
-<!-- EmailJS -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>emailjs.init('aqYkHJy0lR8OX8uKh');</script>
-
-<!-- Particles JS -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded",()=>{
-// --- PARTICLES ---
-const initParticles=()=>{
-  if(window.innerWidth<400) return;
+
+// --- PARTICLES (solo grandes) ---
+if(window.innerWidth>=500){
   const color=getComputedStyle(document.body).getPropertyValue('--link').trim();
-  particlesJS("particles-js",{particles:{number:{value:window.innerWidth<600?25:80},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:window.innerWidth<600?2:4,random:true},line_linked:{enable:window.innerWidth>=600,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:window.innerWidth<600?1.5:3,out_mode:"out"}},interactivity:{detect_on:"canvas",events:{onhover:{enable:window.innerWidth>=600,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},retina_detect:true});
-};
-initParticles();
+  particlesJS("particles-js",{particles:{number:{value:80},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:4,random:true},line_linked:{enable:true,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:3,out_mode:"out"}},interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},retina_detect:true});
+}
 
 // --- TEMA ---
 const btnTheme=document.getElementById('toggle-theme');
@@ -128,21 +123,20 @@ updateLang();
 
 // --- FORMULARIO ---
 const form=document.getElementById('contact-form');
-const [name,email,message]=[form.name,form.email,form.message];
-const feedback=document.getElementById('form-feedback');
 form.addEventListener('submit',(e)=>{
 e.preventDefault();
 let valid=true;
-document.getElementById('error-name').textContent=name.value.trim()?"":"Por favor introduce tu nombre.";
-document.getElementById('error-email').textContent=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)?"":"Correo no válido.";
-document.getElementById('error-message').textContent=message.value.length>=10?"":"El mensaje debe tener al menos 10 caracteres.";
+document.getElementById('error-name').textContent=form.name.value.trim()?"":"Por favor introduce tu nombre.";
+document.getElementById('error-email').textContent=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value)?"":"Correo no válido.";
+document.getElementById('error-message').textContent=form.message.value.length>=10?"":"El mensaje debe tener al menos 10 caracteres.";
 valid=!document.querySelectorAll('.error').some(div=>div.textContent!=="");
-if(!valid)return;
+if(!valid) return;
 form.querySelector('button').disabled=true;
-emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{from_name:name.value,from_email:email.value,message:message.value}).then(()=>{
-feedback.style.color='#00c853';feedback.textContent='¡Mensaje enviado!';
-form.reset();form.querySelector('button').disabled=false;
-}).catch(()=>{feedback.style.color='#ff4d4d';feedback.textContent='Error al enviar';form.querySelector('button').disabled=false;});
+emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{from_name:form.name.value,from_email:form.email.value,message:form.message.value}).then(()=>{
+const fb=document.getElementById('form-feedback'); fb.style.color='#00c853'; fb.textContent='¡Mensaje enviado!'; form.reset(); form.querySelector('button').disabled=false;
+}).catch(()=>{
+const fb=document.getElementById('form-feedback'); fb.style.color='#ff4d4d'; fb.textContent='Error al enviar'; form.querySelector('button').disabled=false;
+});
 
 // --- ANIMACIONES ---
 const faders=document.querySelectorAll('.fade');
