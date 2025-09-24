@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
@@ -68,7 +67,7 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 <div>
   <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
 
-  <!-- Selector desplegable de idiomas -->
+  <!-- Selector de idiomas -->
   <div class="language-dropdown" id="language-dropdown">
     <button id="language-btn" aria-haspopup="true" aria-expanded="false">Idiomas</button>
     <div class="language-dropdown-content" id="lang-options">
@@ -146,28 +145,67 @@ document.addEventListener("DOMContentLoaded", function(){
   const translations = {
     es: { 
       tagline: "Nutrición personalizada para deportistas y personas activas",
-      servicios: ["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],
+      servicios: [
+        "Planes de alimentación personalizados",
+        "Asesoría nutricional para deportistas",
+        "Programas para pérdida de peso saludable",
+        "Consultas en línea y presenciales"
+      ],
       contacto: "Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form: { name:"Nombre completo", email:"Correo electrónico", message:"Mensaje", submit:"Enviar", errorName:"Por favor, introduce tu nombre.", errorEmail:"Correo no válido.", errorMessage:"El mensaje debe tener al menos 10 caracteres."}
+      form: { 
+        name:"Nombre completo", 
+        email:"Correo electrónico", 
+        message:"Mensaje", 
+        submit:"Enviar", 
+        errorName:"Por favor, introduce tu nombre.", 
+        errorEmail:"Correo no válido.", 
+        errorMessage:"El mensaje debe tener al menos 10 caracteres." 
+      }
     },
     en: {
       tagline: "Personalized nutrition for athletes and active people",
-      servicios: ["Personalized meal plans","Nutritional advice for athletes","Healthy weight loss programs","Online and in-person consultations"],
+      servicios: [
+        "Personalized meal plans",
+        "Nutritional advice for athletes",
+        "Healthy weight loss programs",
+        "Online and in-person consultations"
+      ],
       contacto: "Phone: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form: { name:"Full Name", email:"Email", message:"Message", submit:"Send", errorName:"Please enter your name.", errorEmail:"Invalid email.", errorMessage:"Message must be at least 10 characters."}
+      form: { 
+        name:"Full Name", 
+        email:"Email", 
+        message:"Message", 
+        submit:"Send", 
+        errorName:"Please enter your name.", 
+        errorEmail:"Invalid email.", 
+        errorMessage:"Message must be at least 10 characters." 
+      }
     },
     ca: {
       tagline: "Nutrició personalitzada per a esportistes i persones actives",
-      servicios: ["Plans d'alimentació personalitzats","Assessorament nutricional per a esportistes","Programes de pèrdua de pes saludable","Consultes en línia i presencials"],
+      servicios: [
+        "Plans d'alimentació personalitzats",
+        "Assessorament nutricional per a esportistes",
+        "Programes de pèrdua de pes saludable",
+        "Consultes en línia i presencials"
+      ],
       contacto: "Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form: { name:"Nom complet", email:"Correu electrònic", message:"Missatge", submit:"Enviar", errorName:"Si us plau, introdueix el teu nom.", errorEmail:"Correu no vàlid.", errorMessage:"El missatge ha de tenir almenys 10 caràcters."}
+      form: { 
+        name:"Nom complet", 
+        email:"Correu electrònic", 
+        message:"Missatge", 
+        submit:"Enviar", 
+        errorName:"Si us plau, introdueix el teu nom.", 
+        errorEmail:"Correu no vàlid.", 
+        errorMessage:"El missatge ha de tenir almenys 10 caràcters." 
+      }
     }
   };
 
   const updateLanguage = () => {
     const t = translations[currentLang];
     document.getElementById('tagline').textContent = t.tagline;
-    document.getElementById('services-list').innerHTML = t.servicios.map(s=>`<li>${s}</li>`).join('');
+    document.getElementById('services-list').innerHTML = t.servicios.map(item => `<li>${item}</li>`).join('');
     document.querySelector('.contact').innerHTML = t.contacto.replace(/\n/g,'<br/>');
     document.querySelector('label[for="name"]').textContent = t.form.name;
     document.querySelector('label[for="email"]').textContent = t.form.email;
@@ -176,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function(){
     localStorage.setItem('lang', currentLang);
   };
 
-  // Mostrar/ocultar menú
+  // Mostrar/ocultar menú de idiomas
   langBtn.addEventListener('click', ()=> {
     langDropdown.classList.toggle('show');
     langBtn.setAttribute('aria-expanded', langDropdown.classList.contains('show'));
