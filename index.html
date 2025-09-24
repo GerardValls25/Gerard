@@ -113,18 +113,19 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 
 <footer class="fade-in">&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
-<!-- EmailJS -->
+<!-- EMAILJS -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-(function(){ emailjs.init('TU_USER_ID'); })(); // Reemplaza con tu User ID de EmailJS
+(function(){ emailjs.init('aqYkHJy0lR8OX8uKh'); })(); // User ID EmailJS
 </script>
 
+<!-- PARTICLES JS -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-// --- PARTICULAS ---
+// --- PARTICLES ---
 const initParticles = () => {
   const isMobile = window.innerWidth < 600;
   if(window.innerWidth < 400) return;
@@ -137,37 +138,46 @@ const initParticles = () => {
 };
 initParticles();
 
-// --- VALIDACIÓN DE FORMULARIO ---
-const form=document.getElementById('contact-form');
+// --- VALIDACIÓN FORM ---
+const form = document.getElementById('contact-form');
 const [name,email,message] = [form.name,form.email,form.message];
-const feedback=document.getElementById('form-feedback');
+const feedback = document.getElementById('form-feedback');
 
-const validateField=(field)=>{
-  const emailPattern=/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const validateField = (field) => {
+  const emailPattern = /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   switch(field){
-    case name: if(name.value.trim()===''){document.getElementById('error-name').textContent='Por favor, introduce tu nombre.';name.setAttribute('aria-invalid','true');}else{document.getElementById('error-name').textContent='';name.setAttribute('aria-invalid','false');} break;
-    case email: if(email.value.trim()===''){document.getElementById('error-email').textContent='Por favor, introduce tu correo electrónico.';email.setAttribute('aria-invalid','true');} else if(!emailPattern.test(email.value.trim())){document.getElementById('error-email').textContent='Correo no válido.';email.setAttribute('aria-invalid','true');}else{document.getElementById('error-email').textContent='';email.setAttribute('aria-invalid','false');} break;
-    case message: if(message.value.trim().length<10){document.getElementById('error-message').textContent='El mensaje debe tener al menos 10 caracteres.';message.setAttribute('aria-invalid','true');}else{document.getElementById('error-message').textContent='';message.setAttribute('aria-invalid','false');} break;
+    case name:
+      if(name.value.trim()===''){document.getElementById('error-name').textContent='Por favor, introduce tu nombre.';name.setAttribute('aria-invalid','true');} 
+      else {document.getElementById('error-name').textContent='';name.setAttribute('aria-invalid','false');} break;
+    case email:
+      if(email.value.trim()===''){document.getElementById('error-email').textContent='Por favor, introduce tu correo.';email.setAttribute('aria-invalid','true');} 
+      else if(!emailPattern.test(email.value.trim())){document.getElementById('error-email').textContent='Correo no válido.';email.setAttribute('aria-invalid','true');} 
+      else {document.getElementById('error-email').textContent='';email.setAttribute('aria-invalid','false');} break;
+    case message:
+      if(message.value.trim().length<10){document.getElementById('error-message').textContent='El mensaje debe tener al menos 10 caracteres.';message.setAttribute('aria-invalid','true');} 
+      else {document.getElementById('error-message').textContent='';message.setAttribute('aria-invalid','false');} break;
   }
 };
 
 [name,email,message].forEach(field=>field.addEventListener('input',()=>validateField(field)));
 
-// --- ENVÍO FORMULARIO CON EMAILJS ---
+// --- ENVÍO FORMULARIO ---
 form.addEventListener('submit', function(e){
   e.preventDefault();
   [name,email,message].forEach(field=>validateField(field));
 
   let valid = true, firstError = null;
-  [name,email,message].forEach(f=>{ if(f.getAttribute('aria-invalid')==='true'){ valid=false; firstError=firstError||f; } });
-  if(!valid && firstError){ firstError.focus(); return; }
+  [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
+  if(!valid && firstError){firstError.focus(); return;}
 
-  emailjs.send('TU_SERVICE_ID','template_etyj9rk',{
+  emailjs.send('TU_SERVICE_ID','TU_TEMPLATE_ID',{
     from_name: name.value,
     from_email: email.value,
     message: message.value
   }).then(()=>{
-    window.location.href='gracias.html';
+    feedback.style.color='#00c853';
+    feedback.textContent='¡Mensaje enviado correctamente!';
+    form.reset();
   }).catch(err=>{
     feedback.style.color='#ff4d4d';
     feedback.textContent='Error al enviar: '+err.text;
