@@ -16,7 +16,7 @@
   html, body { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.4s, color 0.4s; }
 
   :root {
-    --bg-color: #2a3760; /* Modo oscuro más claro */
+    --bg-color: #2a3760;
     --text-color: #e6e6e6;
     --overlay-color: rgba(42,55,96,0.7);
     --link-color: #00ffc0;
@@ -36,10 +36,9 @@
   }
 
   body { background: var(--bg-color); color: var(--text-color); }
-
   #particles-js { position: fixed; width: 100%; height: 100%; top:0; left:0; z-index:-1; background: var(--bg-color); filter: brightness(0.5); transition: background 0.4s; }
 
-  .content-wrapper {
+  main.content-wrapper {
     background-color: var(--overlay-color);
     max-width: 700px; margin: 30px auto; padding: 30px 20px 60px 20px;
     border-radius: 10px; text-shadow: 0 0 5px rgba(0,0,0,0.2);
@@ -72,7 +71,7 @@
   form button:hover, form button:focus { background-color: var(--button-hover); transform:scale(1.05); outline:3px solid #00ffcc; outline-offset:3px; }
 
   .error-message { color: #ff4d4d; font-size: 0.9rem; display:block; min-height:1.2em; margin-top:2px; }
-  .form-feedback { display:block; margin-top:10px; color: #00ffcc; font-weight:bold; text-align:center; }
+  .form-feedback { display:block; margin-top:10px; font-weight:bold; text-align:center; }
   .form-group { margin-bottom:10px; }
 
   footer { text-align:center; padding:15px; font-size:0.9rem; background-color: rgba(0,0,0,0.6); color:#ccc; position:fixed; width:100%; bottom:0; left:0; }
@@ -90,7 +89,7 @@
 
 <div id="particles-js"></div>
 
-<div class="content-wrapper" role="main">
+<main class="content-wrapper" role="main">
   <header class="fade-in">
     <h1>Gerard Valls</h1>
     <p>Nutrición personalizada para deportistas y personas activas</p>
@@ -122,19 +121,19 @@
     <form id="contact-form" novalidate>
       <div class="form-group">
         <label for="name">Nombre completo</label>
-        <input type="text" id="name" name="name" required aria-required="true" />
+        <input type="text" id="name" name="name" required aria-required="true" aria-describedby="error-name" />
         <span class="error-message" id="error-name" aria-live="polite"></span>
       </div>
 
       <div class="form-group">
         <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" required aria-required="true" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+        <input type="email" id="email" name="email" required aria-required="true" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" aria-describedby="error-email" />
         <span class="error-message" id="error-email" aria-live="polite"></span>
       </div>
 
       <div class="form-group">
         <label for="message">Mensaje</label>
-        <textarea id="message" name="message" rows="5" required minlength="10" aria-required="true"></textarea>
+        <textarea id="message" name="message" rows="5" required minlength="10" aria-required="true" aria-describedby="error-message"></textarea>
         <span class="error-message" id="error-message" aria-live="polite"></span>
       </div>
 
@@ -142,7 +141,7 @@
       <span class="form-feedback" id="form-feedback" aria-live="polite"></span>
     </form>
   </section>
-</div>
+</main>
 
 <footer class="fade-in">
   &copy; 2025 Gerard Valls - Todos los derechos reservados.
@@ -178,28 +177,66 @@ document.addEventListener("DOMContentLoaded", function() {
   };
   initParticles();
 
-  // --- FORMULARIO ---
+  // --- FORMULARIO AJAX ---
   const form = document.getElementById('contact-form');
-  form.addEventListener('submit', function(e) {
+  const feedback = document.getElementById('form-feedback');
+
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
+
     document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
+    feedback.textContent = '';
+
     let valid = true;
     let firstErrorField = null;
+
     const name = document.getElementById('name');
     const email = document.getElementById('email');
     const message = document.getElementById('message');
     const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-    if(name.value.trim() === '') { document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.'; valid = false; firstErrorField = firstErrorField || name; }
-    if(email.value.trim() === '') { document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.'; valid = false; firstErrorField = firstErrorField || email; }
-    else if(!emailPattern.test(email.value.trim())) { document.getElementById('error-email').textContent = 'Correo no válido.'; valid = false; firstErrorField = firstErrorField || email; }
-    if(message.value.trim().length < 10) { document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.'; valid = false; firstErrorField = firstErrorField || message; }
+    if(name.value.trim() === '') {
+      document.getElementById('error-name').textContent = 'Por favor, introduce tu nombre.';
+      valid = false; firstErrorField = firstErrorField || name;
+    }
+    if(email.value.trim() === '') {
+      document.getElementById('error-email').textContent = 'Por favor, introduce tu correo electrónico.';
+      valid = false; firstErrorField = firstErrorField || email;
+    } else if(!emailPattern.test(email.value.trim())) {
+      document.getElementById('error-email').textContent = 'Correo no válido.';
+      valid = false; firstErrorField = firstErrorField || email;
+    }
+    if(message.value.trim().length < 10) {
+      document.getElementById('error-message').textContent = 'El mensaje debe tener al menos 10 caracteres.';
+      valid = false; firstErrorField = firstErrorField || message;
+    }
 
-    if(!valid && firstErrorField) firstErrorField.focus();
+    if(!valid && firstErrorField) {
+      firstErrorField.focus();
+      return;
+    }
 
-    if(valid){
-      // Redirigir a gracias.html
-      window.location.href = "gracias.html";
+    try {
+      const response = await fetch('https://tu-backend.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.value.trim(),
+          email: email.value.trim(),
+          message: message.value.trim()
+        })
+      });
+
+      if(response.ok){
+        feedback.style.color = '#00ffcc';
+        feedback.textContent = 'Mensaje enviado correctamente. ¡Gracias!';
+        form.reset();
+      } else {
+        throw new Error('Error al enviar. Intenta nuevamente.');
+      }
+    } catch(err){
+      feedback.style.color = '#ff4d4d';
+      feedback.textContent = err.message;
     }
   });
 
@@ -215,7 +252,6 @@ document.addEventListener("DOMContentLoaded", function() {
     themeStatus.textContent = darkMode ? 'Modo oscuro activado' : 'Modo claro activado';
     localStorage.setItem('darkMode', darkMode);
 
-    // Actualizar color partículas
     const newColor = getComputedStyle(document.body).getPropertyValue('--link-color').trim();
     if(window.pJSDom && window.pJSDom.length){
       window.pJSDom[0].pJS.particles.color.value = newColor;
