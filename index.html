@@ -16,10 +16,9 @@
   html, body { height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.4s, color 0.4s; }
 
   :root {
-    /* Modo oscuro más claro */
-    --bg-color: #1a234f; /* antes: #0b0f2f */
-    --text-color: #f0f0f0; /* antes: #fff */
-    --overlay-color: rgba(25, 35, 70, 0.7); /* antes: rgba(0,0,0,0.65) */
+    --bg-color: #2a3760; /* Modo oscuro más claro */
+    --text-color: #e6e6e6;
+    --overlay-color: rgba(42,55,96,0.7);
     --link-color: #00ffc0;
     --link-hover: #00e6b8;
     --button-bg: #007b5e;
@@ -27,7 +26,6 @@
   }
 
   body.light {
-    /* Modo claro */
     --bg-color: #f5f5f5;
     --text-color: #222;
     --overlay-color: rgba(255,255,255,0.85);
@@ -182,19 +180,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // --- FORMULARIO ---
   const form = document.getElementById('contact-form');
-  const feedback = document.getElementById('form-feedback');
-  const resetForm = () => {
-    form.reset();
-    document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-    feedback.textContent = '';
-  };
-  window.addEventListener('pageshow', resetForm);
-
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     document.querySelectorAll('.error-message').forEach(span => span.textContent = '');
-    feedback.textContent = '';
-
     let valid = true;
     let firstErrorField = null;
     const name = document.getElementById('name');
@@ -210,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if(!valid && firstErrorField) firstErrorField.focus();
 
     if(valid){
-      // Enviar a página gracias.html
+      // Redirigir a gracias.html
       window.location.href = "gracias.html";
     }
   });
