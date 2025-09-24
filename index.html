@@ -41,7 +41,8 @@ header .toggle-theme{margin-left:15px; padding:10px 20px; border-radius:12px; ba
 header .toggle-theme:hover{background:rgba(0,0,0,0.6);}
 main.wrapper{max-width:1200px; margin:50px auto; padding:50px 30px 70px; border-radius:var(--radius); background:rgba(31,41,55,0.85); backdrop-filter:blur(15px); box-shadow:0 15px 45px var(--shadow); text-align:center; transition:var(--transition);}
 body.light main.wrapper{background:rgba(245,245,245,0.95);}
-section{margin-bottom:80px;}
+section{margin-bottom:80px; opacity:0; transform:translateY(50px); transition:all 0.8s ease;}
+section.active{opacity:1; transform:translateY(0);}
 h2{font-size:2.2rem; margin-bottom:35px; position:relative;}
 h2::after{content:""; width:70px; height:4px; background:var(--color-primary); display:block; margin:10px auto 0; border-radius:2px;}
 .services{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:40px;}
@@ -80,7 +81,7 @@ footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,
 <h1 data-aos="fade-up" data-depth="0.5">Gerard Valls</h1>
 <p data-aos="fade-up" data-aos-delay="200" data-depth="0.3">Nutrición personalizada para deportistas y personas activas</p>
 <button class="cta-btn" data-aos="fade-up" data-aos-delay="400" data-depth="0.2">Solicita tu consulta</button>
-<button class="toggle-theme" id="toggle-theme" data-aos="fade-up" data-aos-delay="500">Cambiar a modo claro</button>
+<button class="toggle-theme" id="toggle-theme">Cambiar a modo claro</button>
 </header>
 
 <nav>
@@ -90,17 +91,18 @@ footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,
 </nav>
 
 <main class="wrapper">
-<section id="servicios" data-aos="fade-up">
+
+<section id="servicios">
 <h2>Servicios</h2>
 <div class="services">
-<div class="service" data-depth="0.1"><i class="fas fa-apple-alt"></i><h3>Planes Personalizados</h3><p>Planes adaptados a tus necesidades.</p></div>
-<div class="service" data-depth="0.2"><i class="fas fa-dumbbell"></i><h3>Asesoría Deportiva</h3><p>Mejora tu rendimiento físico.</p></div>
-<div class="service" data-depth="0.15"><i class="fas fa-weight"></i><h3>Pérdida de Peso</h3><p>Programas saludables y efectivos.</p></div>
-<div class="service" data-depth="0.18"><i class="fas fa-laptop"></i><h3>Consultas Online</h3><p>Desde cualquier lugar y momento.</p></div>
+<div class="service"><i class="fas fa-apple-alt"></i><h3>Planes Personalizados</h3><p>Planes de alimentación adaptados a cada persona.</p></div>
+<div class="service"><i class="fas fa-dumbbell"></i><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento con nutrición deportiva.</p></div>
+<div class="service"><i class="fas fa-weight"></i><h3>Pérdida de Peso</h3><p>Programas saludables y sostenibles.</p></div>
+<div class="service"><i class="fas fa-laptop"></i><h3>Consultas Online</h3><p>Consulta desde cualquier lugar del mundo.</p></div>
 </div>
 </section>
 
-<section id="testimonios" data-aos="fade-up">
+<section id="testimonios">
 <h2>Testimonios</h2>
 <div class="testimonials">
   <div class="testimonial active"><p>"Excelente nutricionista, logré mis objetivos."</p><span>- Laura G.</span></div>
@@ -108,28 +110,28 @@ footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,
   <div class="testimonial"><p>"Recomiendo sus planes a todos los deportistas."</p><span>- Ana R.</span></div>
   <button class="testimonial-btn prev">‹</button>
   <button class="testimonial-btn next">›</button>
-  <div class="testimonial-indicators">
-    <span class="active"></span><span></span><span></span>
-  </div>
+</div>
+<div class="testimonial-indicators">
+  <span class="active"></span>
+  <span></span>
+  <span></span>
 </div>
 </section>
 
-<section id="consulta" data-aos="fade-up">
+<section id="consulta">
 <h2>Formulario de contacto</h2>
 <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST">
-<label for="name">Nombre completo</label>
-<input type="text" name="name" id="name" required aria-describedby="error-name"/>
+<input type="text" name="name" placeholder="Nombre completo" required aria-describedby="error-name"/>
 <span class="error-msg" id="error-name" aria-live="polite"></span>
-<label for="email">Correo electrónico</label>
-<input type="email" name="email" id="email" required aria-describedby="error-email"/>
+<input type="email" name="email" placeholder="Correo electrónico" required aria-describedby="error-email"/>
 <span class="error-msg" id="error-email" aria-live="polite"></span>
-<label for="message">Mensaje</label>
-<textarea name="message" id="message" required rows="5" aria-describedby="error-message"></textarea>
+<textarea name="message" placeholder="Mensaje" required rows="5" aria-describedby="error-message"></textarea>
 <span class="error-msg" id="error-message" aria-live="polite"></span>
 <button type="submit">Enviar</button>
-<span class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></span>
+<span id="form-feedback" role="alert" aria-live="polite"></span>
 </form>
 </section>
+
 </main>
 
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
@@ -137,19 +139,18 @@ footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
+// AOS
 AOS.init({duration:800,easing:'ease-out',once:true,mirror:false});
 
 // Tema
-const toggleBtn=document.getElementById('toggle-theme');
-let darkMode=localStorage.getItem('darkMode')!=='false';
-const setTheme=()=>{document.body.classList.toggle('light',!darkMode); toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro'; localStorage.setItem('darkMode',darkMode);}
-toggleBtn.onclick=()=>{darkMode=!darkMode; setTheme();}
-setTheme();
+const toggleBtn=document.getElementById('toggle-theme');let darkMode=localStorage.getItem('darkMode')!=='false';
+const setTheme=()=>{document.body.classList.toggle('light',!darkMode);toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro';localStorage.setItem('darkMode',darkMode);}
+toggleBtn.onclick=()=>{darkMode=!darkMode;setTheme();};setTheme();
 
 // ScrollTop
 const scrollBtn=document.getElementById('scrollTopBtn');
-window.onscroll=()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";}
-scrollBtn.onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});}
+window.onscroll=()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";};
+scrollBtn.onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});};
 
 // Partículas con conexión
 const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let w,h,particles=[];
@@ -158,7 +159,7 @@ window.addEventListener('resize',resizeCanvas);resizeCanvas();
 function animateParticles(){ctx.clearRect(0,0,w,h); for(let p of particles){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,255,192,0.6)';ctx.fill();} for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){let dx=particles[i].x-particles[j].x;let dy=particles[i].y-particles[j].y;let dist=Math.sqrt(dx*dx+dy*dy); if(dist<80){ctx.beginPath();ctx.strokeStyle='rgba(0,255,192,'+(1-dist/80)*0.3+')';ctx.lineWidth=1;ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.stroke();}}} requestAnimationFrame(animateParticles);}
 animateParticles();
 
-// Microparallax en header y servicios
+// Microparallax
 document.addEventListener('mousemove',e=>{
   const x=e.clientX/window.innerWidth-0.5;
   const y=e.clientY/window.innerHeight-0.5;
@@ -200,6 +201,14 @@ form.onsubmit=async e=>{
     else{throw new Error('Error');}
   }catch(err){feedback.style.color='#ff4d4d';feedback.textContent='Error al enviar el mensaje';}
 };
+
+// Scroll reveal secciones
+const sections=document.querySelectorAll('section');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('active');}});
+},{threshold:0.2});
+sections.forEach(sec=>observer.observe(sec));
 </script>
+
 </body>
 </html>
