@@ -4,13 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
-<meta name="description" content="Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría y consultas online y presenciales con Gerard Valls.">
-<meta property="og:title" content="Gerard Valls - Nutrición personalizada">
-<meta property="og:description" content="Planes de alimentación personalizados y asesoría nutricional para deportistas y personas activas.">
-<meta property="og:image" content="https://i.imgur.com/gerard.jpg">
-<meta property="og:type" content="website">
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
@@ -56,36 +50,35 @@ form button:hover,form button:focus{background-color:var(--button-hover);transfo
 footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0,0,0.6);color:#ccc;position:fixed;width:100%;bottom:0;left:0;}
 .toggle-theme{display:inline-block;margin:5px;padding:8px 12px;border-radius:5px;border:none;font-size:0.9rem;cursor:pointer;background-color:var(--button-bg);color:white;transition:background-color 0.3s;}
 .toggle-theme:hover,.toggle-theme:focus{background-color:var(--button-hover);outline:3px solid #00ffcc;outline-offset:3px;}
-.language-dropdown{display:inline-block;position:relative;margin:5px;}
-.language-dropdown button{background-color:var(--button-bg);color:white;padding:8px 12px;border-radius:5px;border:none;cursor:pointer;transition:background-color 0.3s;}
+.language-dropdown{position:relative;display:inline-block;margin:5px;}
+.language-dropdown button{padding:8px 12px;border:none;border-radius:5px;background-color:var(--button-bg);color:white;font-size:0.9rem;cursor:pointer;transition:background-color 0.3s;}
 .language-dropdown button:hover,.language-dropdown button:focus{background-color:var(--button-hover);outline:3px solid #00ffcc;outline-offset:3px;}
-.language-dropdown-content{display:none;position:absolute;background-color:var(--overlay-color);min-width:120px;border-radius:5px;z-index:10;box-shadow:0 4px 8px rgba(0,0,0,0.2);}
-.language-dropdown-content button{display:block;width:100%;padding:8px 12px;text-align:left;background:none;border:none;color:var(--text-color);cursor:pointer;}
-.language-dropdown-content button:hover{background-color:rgba(0,255,204,0.2);}
+.language-dropdown-content{display:none;position:absolute;background-color:var(--overlay-color);min-width:120px;box-shadow:0 4px 8px rgba(0,0,0,0.2);border-radius:5px;z-index:10;}
+.language-dropdown-content button{width:100%;padding:8px 12px;background:none;border:none;color:var(--text-color);cursor:pointer;text-align:left;}
+.language-dropdown-content button:hover,.language-dropdown-content button:focus{background-color:var(--button-hover);color:white;}
 .language-dropdown-content.show{display:block;}
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out, transform 0.8s ease-out;}
 .fade-in.visible{opacity:1;transform:translateY(0);}
 #theme-status,#language-status{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-@media(max-width:500px){main.content-wrapper{margin:15px;padding:20px;}}
+@media(max-width:500px){
+  main.content-wrapper{margin:15px;padding:20px;}
+  .language-dropdown-content{position:static;box-shadow:none;margin-top:5px;border-radius:5px;}
+  .language-dropdown-content button{text-align:center;padding:10px 0;}
+}
 </style>
 </head>
 <body>
-
 <div id="particles-js"></div>
-
 <main class="content-wrapper" role="main">
 <header class="fade-in">
 <h1>Gerard Valls</h1>
 <p>Nutrición personalizada para deportistas y personas activas</p>
 <img src="https://i.imgur.com/gerard.jpg" alt="Foto de Gerard Valls sonriendo" class="photo" loading="lazy" tabindex="0"/>
-
 <div>
   <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
-
-  <!-- Selector desplegable de idiomas -->
   <div class="language-dropdown">
-    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español</button>
+    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Idiomas</button>
     <div class="language-dropdown-content" id="lang-options">
       <button data-lang="es">Español</button>
       <button data-lang="en">English</button>
@@ -93,14 +86,13 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
     </div>
   </div>
 </div>
-
 <span id="theme-status" aria-live="polite"></span>
 <span id="language-status" aria-live="polite"></span>
 </header>
 
 <section class="fade-in" aria-labelledby="servicios">
 <h2 id="servicios">Servicios</h2>
-<ul>
+<ul id="services-list">
 <li>Planes de alimentación personalizados</li>
 <li>Asesoría nutricional para deportistas</li>
 <li>Programas para pérdida de peso saludable</li>
@@ -110,10 +102,7 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 
 <section class="fade-in" aria-labelledby="contacto">
 <h2 id="contacto">Contacto</h2>
-<p class="contact">
-Teléfono: +34 666 555 667<br/>
-Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
-</p>
+<p class="contact">Teléfono: +34 666 555 667<br/>Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a></p>
 </section>
 
 <section class="fade-in" aria-labelledby="consulta">
@@ -146,99 +135,106 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>emailjs.init('aqYkHJy0lR8OX8uKh');</script>
 
-<!-- PARTICLES JS -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function(){
-
-// --- PARTICLES ---
-const initParticles = () => {
-  const isMobile = window.innerWidth < 600;
-  if(window.innerWidth < 400) return;
-  const color = getComputedStyle(document.body).getPropertyValue('--link-color').trim();
-  particlesJS("particles-js",{
-    particles:{number:{value:isMobile?25:80,density:{enable:true,value_area:800}},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:isMobile?2:4,random:true},line_linked:{enable:!isMobile,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:isMobile?1.5:3,out_mode:"out"}},
-    interactivity:{detect_on:"canvas",events:{onhover:{enable:!isMobile,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},
-    retina_detect:true
-  });
-};
-initParticles();
-
-// --- VALIDACIÓN FORMULARIO ---
-const form = document.getElementById('contact-form');
-const [name,email,message] = [form.name,form.email,form.message];
-const feedback = document.getElementById('form-feedback');
-const validateField = (field) => {
-  const emailPattern = /^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  switch(field){
-    case name: if(name.value.trim()===''){document.getElementById('error-name').textContent='Por favor, introduce tu nombre.';name.setAttribute('aria-invalid','true');} else {document.getElementById('error-name').textContent='';name.setAttribute('aria-invalid','false');} break;
-    case email: if(email.value.trim()===''){document.getElementById('error-email').textContent='Por favor, introduce tu correo.';email.setAttribute('aria-invalid','true');} else if(!emailPattern.test(email.value.trim())){document.getElementById('error-email').textContent='Correo no válido.';email.setAttribute('aria-invalid','true');} else {document.getElementById('error-email').textContent='';email.setAttribute('aria-invalid','false');} break;
-    case message: if(message.value.trim().length<10){document.getElementById('error-message').textContent='El mensaje debe tener al menos 10 caracteres.';message.setAttribute('aria-invalid','true');} else {document.getElementById('error-message').textContent='';message.setAttribute('aria-invalid','false');} break;
+document.addEventListener("DOMContentLoaded",function(){
+  // --- PARTICLES SOLO EN DESKTOP ---
+  if(window.innerWidth >= 600){
+    const color = getComputedStyle(document.body).getPropertyValue('--link-color').trim();
+    particlesJS("particles-js",{
+      particles:{number:{value:80,density:{enable:true,value_area:800}},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:4,random:true},line_linked:{enable:true,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:3,out_mode:"out"}},
+      interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},
+      retina_detect:true
+    });
   }
-};
-[name,email,message].forEach(f=>f.addEventListener('input',()=>validateField(f)));
-form.addEventListener('submit', function(e){
-  e.preventDefault();
-  [name,email,message].forEach(f=>validateField(f));
-  let valid=true,firstError=null;
-  [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
-  if(!valid && firstError){firstError.focus(); return;}
-  form.querySelector('button').disabled=true;
-  emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{from_name:name.value,from_email:email.value,message:message.value})
-  .then(()=>{feedback.style.color='#00c853';feedback.textContent='¡Mensaje enviado correctamente!';form.reset();form.querySelector('button').disabled=false;})
-  .catch(()=>{feedback.style.color='#ff4d4d';feedback.textContent='Error al enviar el mensaje. Por favor, inténtalo de nuevo.';form.querySelector('button').disabled=false;});
-});
 
-// --- TOGGLE TEMA ---
-const toggleBtn=document.getElementById('toggle-theme');
-const themeStatus=document.getElementById('theme-status');
-let darkMode=localStorage.getItem('darkMode')===null?true:localStorage.getItem('darkMode')==='true';
-const updateTheme=()=>{document.body.classList.toggle('light',!darkMode);toggleBtn.setAttribute('aria-pressed',String(!darkMode));toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro';themeStatus.textContent=darkMode?'Modo oscuro activado':'Modo claro activado';localStorage.setItem('darkMode',darkMode);const newColor=getComputedStyle(document.body).getPropertyValue('--link-color').trim();if(window.pJSDom && window.pJSDom.length){window.pJSDom[0].pJS.particles.color.value=newColor;window.pJSDom[0].pJS.particles.line_linked.color=newColor;window.pJSDom[0].pJS.fn.particlesRefresh();}};
-toggleBtn.addEventListener('click',()=>{darkMode=!darkMode;updateTheme();});
-if(localStorage.getItem('darkMode')===null && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){darkMode=false;}
-updateTheme();
+  // --- FORMULARIO ---
+  const form=document.getElementById('contact-form');
+  const [name,email,message]=[form.name,form.email,form.message];
+  const feedback=document.getElementById('form-feedback');
+  const validateField=(field)=>{
+    const emailPattern=/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    switch(field){
+      case name: if(name.value.trim()===''){document.getElementById('error-name').textContent='Por favor, introduce tu nombre.';name.setAttribute('aria-invalid','true');}else{document.getElementById('error-name').textContent='';name.setAttribute('aria-invalid','false');} break;
+      case email: if(email.value.trim()===''){document.getElementById('error-email').textContent='Por favor, introduce tu correo.';email.setAttribute('aria-invalid','true');}else if(!emailPattern.test(email.value.trim())){document.getElementById('error-email').textContent='Correo no válido.';email.setAttribute('aria-invalid','true');}else{document.getElementById('error-email').textContent='';email.setAttribute('aria-invalid','false');} break;
+      case message: if(message.value.trim().length<10){document.getElementById('error-message').textContent='El mensaje debe tener al menos 10 caracteres.';message.setAttribute('aria-invalid','true');}else{document.getElementById('error-message').textContent='';message.setAttribute('aria-invalid','false');} break;
+    }
+  };
+  [name,email,message].forEach(field=>field.addEventListener('input',()=>validateField(field)));
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    [name,email,message].forEach(field=>validateField(field));
+    let valid=true,firstError=null;
+    [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
+    if(!valid && firstError){firstError.focus(); return;}
+    form.querySelector('button').disabled=true;
+    emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{from_name:name.value,from_email:email.value,message:message.value}).then(()=>{
+      feedback.style.color='#00c853'; feedback.textContent='¡Mensaje enviado correctamente!';
+      form.reset(); form.querySelector('button').disabled=false;
+    }).catch(()=>{feedback.style.color='#ff4d4d'; feedback.textContent='Error al enviar el mensaje. Por favor, inténtalo de nuevo.'; form.querySelector('button').disabled=false;});
+  });
 
-// --- SELECTOR DE IDIOMA ---
-const langBtn=document.getElementById('language-btn');
-const langOptions=document.getElementById('lang-options');
-const langStatus=document.getElementById('language-status');
-let currentLang=localStorage.getItem('lang')||'es';
-const langNames={es:"Español",en:"English",ca:"Català"};
-langBtn.textContent=langNames[currentLang];
+  // --- TOGGLE TEMA ---
+  const toggleBtn=document.getElementById('toggle-theme');
+  const themeStatus=document.getElementById('theme-status');
+  let darkMode=localStorage.getItem('darkMode')===null?true:localStorage.getItem('darkMode')==='true';
+  const updateTheme=()=>{
+    document.body.classList.toggle('light',!darkMode);
+    toggleBtn.setAttribute('aria-pressed',String(!darkMode));
+    toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro';
+    themeStatus.textContent=darkMode?'Modo oscuro activado':'Modo claro activado';
+    localStorage.setItem('darkMode',darkMode);
+    const newColor=getComputedStyle(document.body).getPropertyValue('--link-color').trim();
+    if(window.pJSDom && window.pJSDom.length){window.pJSDom[0].pJS.particles.color.value=newColor; window.pJSDom[0].pJS.particles.line_linked.color=newColor; window.pJSDom[0].pJS.fn.particlesRefresh();}
+  };
+  toggleBtn.addEventListener('click',()=>{darkMode=!darkMode;updateTheme();});
+  if(localStorage.getItem('darkMode')===null&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){darkMode=false;}
+  updateTheme();
 
-const translations={
-es:{name:"Nombre completo",email:"Correo electrónico",message:"Mensaje",submit:"Enviar",servicesTitle:"Servicios",services:["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],contactTitle:"Contacto",contactText:"Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com"},
-en:{name:"Full Name",email:"Email",message:"Message",submit:"Send",servicesTitle:"Services",services:["Personalized meal plans","Nutritional advice for athletes","Healthy weight loss programs","Online and in-person consultations"],contactTitle:"Contact",contactText:"Phone: +34 666 555 667\nEmail: info@gerardvalls.com"},
-ca:{name:"Nom complet",email:"Correu electrònic",message:"Missatge",submit:"Enviar",servicesTitle:"Serveis",services:["Plans d'alimentació personalitzats","Assessorament nutricional per a esportistes","Programes per a pèrdua de pes saludable","Consultes en línia i presencials"],contactTitle:"Contacte",contactText:"Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com"}
-};
+  // --- MENÚ DE IDIOMAS ---
+  const langBtn=document.getElementById('language-btn');
+  const langOptions=document.getElementById('lang-options');
+  const langStatus=document.getElementById('language-status');
+  let currentLang=localStorage.getItem('lang')||'es';
+  const translations={
+    es:{name:"Nombre completo",email:"Correo electrónico",message:"Mensaje",submit:"Enviar",services:["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],contactTitle:"Contacto",contactText:"Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com"},
+    en:{name:"Full Name",email:"Email",message:"Message",submit:"Send",services:["Personalized meal plans","Nutritional advice for athletes","Healthy weight loss programs","Online and in-person consultations"],contactTitle:"Contact",contactText:"Phone: +34 666 555 667\nEmail: info@gerardvalls.com"},
+    ca:{name:"Nom complet",email:"Correu electrònic",message:"Missatge",submit:"Enviar",services:["Plans d'alimentació personalitzats","Assessorament nutricional per a esportistes","Programes de pèrdua de pes saludable","Consultes en línia i presencials"],contactTitle:"Contacte",contactText:"Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com"}
+  };
+  const updateLanguage=()=>{
+    document.documentElement.lang=currentLang;
+    const t=translations[currentLang];
+    document.querySelector('label[for="name"]').textContent=t.name;
+    document.querySelector('label[for="email"]').textContent=t.email;
+    document.querySelector('label[for="message"]').textContent=t.message;
+    document.querySelector('#contact-form button').textContent=t.submit;
+    document.getElementById('services-list').innerHTML=t.services.map(s=>`<li>${s}</li>`).join('');
+    document.getElementById('contacto').textContent=t.contactTitle;
+    document.querySelector('.contact').innerHTML=t.contactText.replace(/\n/g,'<br/>');
+    localStorage.setItem('lang',currentLang);
+  };
+  langOptions.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      currentLang=btn.dataset.lang;
+      updateLanguage();
+      langOptions.classList.remove('show');
+      langBtn.setAttribute('aria-expanded','false');
+      langStatus.textContent=currentLang==='es'?'Idioma cambiado a español':currentLang==='en'?'Language changed to English':'Idioma canviat a català';
+    });
+  });
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.language-dropdown')){langOptions.classList.remove('show'); langBtn.setAttribute('aria-expanded','false');}
+  });
+  updateLanguage();
 
-const updateLanguage=()=>{
-document.documentElement.lang=currentLang;
-const t=translations[currentLang];
-document.querySelector('label[for="name"]').textContent=t.name;
-document.querySelector('label[for="email"]').textContent=t.email;
-document.querySelector('label[for="message"]').textContent=t.message;
-document.querySelector('#contact-form button').textContent=t.submit;
-document.getElementById('servicios').textContent=t.servicesTitle;
-document.querySelector('#servicios + ul').innerHTML=t.services.map(s=>`<li>${s}</li>`).join('');
-document.getElementById('contacto').textContent=t.contactTitle;
-document.querySelector('.contact').innerHTML=t.contactText.replace(/\n/g,'<br/>');
-langBtn.textContent=langNames[currentLang];
-localStorage.setItem('lang',currentLang);
-};
-
-langBtn.addEventListener('click',()=>{langOptions.classList.toggle('show');langBtn.setAttribute('aria-expanded',langOptions.classList.contains('show'));});
-langOptions.querySelectorAll('button').forEach(btn=>{btn.addEventListener('click',()=>{currentLang=btn.dataset.lang;updateLanguage();langOptions.classList.remove('show');langBtn.setAttribute('aria-expanded','false');langStatus.textContent=currentLang==='es'?'Idioma cambiado a español':currentLang==='en'?'Language changed to English':'Idioma canviat a català';});});
-document.addEventListener('click',e=>{if(!e.target.closest('.language-dropdown')){langOptions.classList.remove('show');langBtn.setAttribute('aria-expanded','false');}});
-updateLanguage();
-
-// --- ANIMACIONES SCROLL ---
-const faders=document.querySelectorAll('.fade-in');
-const appearOptions={threshold:0.1, rootMargin:"0px 0px -50px 0px"};
-const appearOnScroll=new IntersectionObserver((entries,observer)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}});},appearOptions);
-faders.forEach(fader=>appearOnScroll.observe(fader));
-
+  // --- ANIMACIONES SCROLL ---
+  const faders=document.querySelectorAll('.fade-in');
+  const appearOptions={threshold:0.1, rootMargin:"0px 0px -50px 0px"};
+  const appearOnScroll=new IntersectionObserver((entries,observer)=>{
+    entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}});
+  },appearOptions);
+  faders.forEach(fader=>appearOnScroll.observe(fader));
 });
 </script>
 </body>
