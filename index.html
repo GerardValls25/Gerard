@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Nutrición personalizada para deportistas y personas activas con Gerard Valls. Planes de alimentación y asesoría nutricional." />
-<meta name="robots" content="index, follow" />
-<meta property="og:title" content="Gerard Valls - Nutrición personalizada" />
-<meta property="og:description" content="Planes de alimentación y asesoría nutricional para deportistas y personas activas." />
-<meta property="og:image" content="https://i.imgur.com/gerard.jpg" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
-<link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png" />
+<link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -118,17 +113,27 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 
 <footer class="fade-in">&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
+<!-- EmailJS -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+(function(){ emailjs.init('TU_USER_ID'); })(); // Reemplaza con tu User ID de EmailJS
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
 
 <script>
-document.addEventListener("DOMContentLoaded",function(){
+document.addEventListener("DOMContentLoaded", function(){
 
 // --- PARTICULAS ---
-const initParticles=()=>{
-  const isMobile=window.innerWidth<600;
-  if(window.innerWidth<400) return;
-  const color=getComputedStyle(document.body).getPropertyValue('--link-color').trim();
-  particlesJS("particles-js",{particles:{number:{value:isMobile?25:80,density:{enable:true,value_area:800}},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:isMobile?2:4,random:true},line_linked:{enable:!isMobile,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:isMobile?1.5:3,out_mode:"out"}},interactivity:{detect_on:"canvas",events:{onhover:{enable:!isMobile,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},retina_detect:true});
+const initParticles = () => {
+  const isMobile = window.innerWidth < 600;
+  if(window.innerWidth < 400) return;
+  const color = getComputedStyle(document.body).getPropertyValue('--link-color').trim();
+  particlesJS("particles-js",{
+    particles:{number:{value:isMobile?25:80,density:{enable:true,value_area:800}},color:{value:color},shape:{type:"circle"},opacity:{value:0.5},size:{value:isMobile?2:4,random:true},line_linked:{enable:!isMobile,distance:100,color:color,opacity:0.3,width:1},move:{enable:true,speed:isMobile?1.5:3,out_mode:"out"}},
+    interactivity:{detect_on:"canvas",events:{onhover:{enable:!isMobile,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:100,line_linked:{opacity:0.8}},push:{particles_nb:3}}},
+    retina_detect:true
+  });
 };
 initParticles();
 
@@ -140,36 +145,33 @@ const feedback=document.getElementById('form-feedback');
 const validateField=(field)=>{
   const emailPattern=/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   switch(field){
-    case name:
-      if(name.value.trim()===''){document.getElementById('error-name').textContent='Por favor, introduce tu nombre.';name.setAttribute('aria-invalid','true');}
-      else{document.getElementById('error-name').textContent='';name.setAttribute('aria-invalid','false');}
-      break;
-    case email:
-      if(email.value.trim()===''){document.getElementById('error-email').textContent='Por favor, introduce tu correo electrónico.';email.setAttribute('aria-invalid','true');}
-      else if(!emailPattern.test(email.value.trim())){document.getElementById('error-email').textContent='Correo no válido.';email.setAttribute('aria-invalid','true');}
-      else{document.getElementById('error-email').textContent='';email.setAttribute('aria-invalid','false');}
-      break;
-    case message:
-      if(message.value.trim().length<10){document.getElementById('error-message').textContent='El mensaje debe tener al menos 10 caracteres.';message.setAttribute('aria-invalid','true');}
-      else{document.getElementById('error-message').textContent='';message.setAttribute('aria-invalid','false');}
-      break;
+    case name: if(name.value.trim()===''){document.getElementById('error-name').textContent='Por favor, introduce tu nombre.';name.setAttribute('aria-invalid','true');}else{document.getElementById('error-name').textContent='';name.setAttribute('aria-invalid','false');} break;
+    case email: if(email.value.trim()===''){document.getElementById('error-email').textContent='Por favor, introduce tu correo electrónico.';email.setAttribute('aria-invalid','true');} else if(!emailPattern.test(email.value.trim())){document.getElementById('error-email').textContent='Correo no válido.';email.setAttribute('aria-invalid','true');}else{document.getElementById('error-email').textContent='';email.setAttribute('aria-invalid','false');} break;
+    case message: if(message.value.trim().length<10){document.getElementById('error-message').textContent='El mensaje debe tener al menos 10 caracteres.';message.setAttribute('aria-invalid','true');}else{document.getElementById('error-message').textContent='';message.setAttribute('aria-invalid','false');} break;
   }
 };
 
 [name,email,message].forEach(field=>field.addEventListener('input',()=>validateField(field)));
 
-// --- ENVÍO DEL FORMULARIO: REDIRIGIR A gracias.html ---
-form.addEventListener('submit',function(e){
+// --- ENVÍO FORMULARIO CON EMAILJS ---
+form.addEventListener('submit', function(e){
   e.preventDefault();
   [name,email,message].forEach(field=>validateField(field));
 
-  let valid=true;
-  let firstError=null;
-  [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
-  if(!valid && firstError){firstError.focus();return;}
+  let valid = true, firstError = null;
+  [name,email,message].forEach(f=>{ if(f.getAttribute('aria-invalid')==='true'){ valid=false; firstError=firstError||f; } });
+  if(!valid && firstError){ firstError.focus(); return; }
 
-  // REDIRIGE A gracias.html
-  window.location.href='gracias.html';
+  emailjs.send('TU_SERVICE_ID','template_etyj9rk',{
+    from_name: name.value,
+    from_email: email.value,
+    message: message.value
+  }).then(()=>{
+    window.location.href='gracias.html';
+  }).catch(err=>{
+    feedback.style.color='#ff4d4d';
+    feedback.textContent='Error al enviar: '+err.text;
+  });
 });
 
 // --- TOGGLE TEMA ---
