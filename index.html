@@ -153,25 +153,32 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
-  // --- PARTICULAS ---
+  // --- PARTICULAS OPTIMIZADAS ---
   const initParticles = () => {
-    const isMobile = window.innerWidth < 600;
-    if(window.innerWidth < 400) return;
+    const width = window.innerWidth;
+    const isMobile = width < 600;
+    if(width < 400) return; // pantallas muy pequeñas: sin partículas
+
     const color = getComputedStyle(document.body).getPropertyValue('--link-color').trim();
+
     particlesJS("particles-js", {
       particles: {
-        number: { value: isMobile ? 25 : 80, density: { enable: true, value_area: 800 } },
+        number: { value: isMobile ? 15 : 80, density: { enable: true, value_area: 800 } },
         color: { value: color },
         shape: { type: "circle" },
         opacity: { value: 0.5 },
         size: { value: isMobile ? 2 : 4, random: true },
-        line_linked: { enable: !isMobile, distance:100, color: color, opacity:0.3, width:1 },
-        move: { enable: true, speed: isMobile ? 1.5 : 3, out_mode: "out" }
+        line_linked: { enable: !isMobile, distance: 100, color: color, opacity: 0.3, width: 1 },
+        move: { enable: true, speed: isMobile ? 1 : 3, out_mode: "out" }
       },
       interactivity: {
         detect_on: "canvas",
-        events: { onhover:{ enable:!isMobile, mode:"grab" }, onclick:{ enable:true, mode:"push" }, resize:true },
-        modes: { grab:{ distance:100, line_linked:{ opacity:0.8 } }, push:{ particles_nb:3 } }
+        events: { 
+          onhover: { enable: !isMobile, mode: "grab" }, 
+          onclick: { enable: true, mode: "push" }, 
+          resize: true 
+        },
+        modes: { grab:{ distance: 100, line_linked: { opacity: 0.8 } }, push: { particles_nb: 3 } }
       },
       retina_detect: true
     });
