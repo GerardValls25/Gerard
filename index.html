@@ -69,7 +69,7 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 
   <!-- Selector de idiomas -->
   <div class="language-dropdown" id="language-dropdown">
-    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español ▼</button>
+    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español</button>
     <div class="language-dropdown-content" id="lang-options">
       <button data-lang="es">Español</button>
       <button data-lang="ca">Català</button>
@@ -124,59 +124,80 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
+  // --- TOGGLE TEMA ---
   const toggleBtn = document.getElementById('toggle-theme');
+  let darkMode = localStorage.getItem('darkMode') !== 'false';
+  const updateTheme = () => {
+    document.body.classList.toggle('light', !darkMode);
+    toggleBtn.textContent = darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+    localStorage.setItem('darkMode', darkMode);
+  };
+  toggleBtn.addEventListener('click', ()=>{ darkMode = !darkMode; updateTheme(); });
+  updateTheme();
+
+  // --- SELECTOR DE IDIOMA ---
   const langDropdown = document.getElementById('language-dropdown');
   const langBtn = document.getElementById('language-btn');
   const langOptions = document.getElementById('lang-options');
-  const form = document.getElementById('contact-form');
-  const name = form.name, email = form.email, message = form.message;
-  const feedback = document.getElementById('form-feedback');
-
-  let darkMode = localStorage.getItem('darkMode') !== 'false';
   let currentLang = localStorage.getItem('lang') || 'es';
 
   const translations = {
-    es:{ 
-      title:"Gerard Valls - Nutrición personalizada",
-      tagline:"Nutrición personalizada para deportistas y personas activas",
-      servicios:["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],
-      contacto:"Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form:{name:"Nombre completo",email:"Correo electrónico",message:"Mensaje",submit:"Enviar",errorName:"Por favor, introduce tu nombre.",errorEmail:"Correo no válido.",errorMessage:"El mensaje debe tener al menos 10 caracteres."},
-      feedback:"¡Mensaje enviado correctamente!"
+    es: { 
+      title: "Gerard Valls - Nutrición personalizada",
+      tagline: "Nutrición personalizada para deportistas y personas activas",
+      servicios: [
+        "Planes de alimentación personalizados",
+        "Asesoría nutricional para deportistas",
+        "Programas para pérdida de peso saludable",
+        "Consultas en línea y presenciales"
+      ],
+      contacto: "Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com",
+      form: { 
+        name:"Nombre completo", 
+        email:"Correo electrónico", 
+        message:"Mensaje", 
+        submit:"Enviar", 
+        errorName:"Por favor, introduce tu nombre.", 
+        errorEmail:"Correo no válido.", 
+        errorMessage:"El mensaje debe tener al menos 10 caracteres." 
+      }
     },
-    ca:{ 
-      title:"Gerard Valls - Nutrició personalitzada",
-      tagline:"Nutrició personalitzada per a esportistes i persones actives",
-      servicios:["Plans d'alimentació personalitzats","Assessorament nutricional per a esportistes","Programes de pèrdua de pes saludable","Consultes en línia i presencials"],
-      contacto:"Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com",
-      form:{name:"Nom complet",email:"Correu electrònic",message:"Missatge",submit:"Enviar",errorName:"Si us plau, introdueix el teu nom.",errorEmail:"Correu no vàlid.",errorMessage:"El missatge ha de tenir almenys 10 caràcters."},
-      feedback:"Missatge enviat correctament!"
+    ca: {
+      title: "Gerard Valls - Nutrició personalitzada",
+      tagline: "Nutrició personalitzada per a esportistes i persones actives",
+      servicios: [
+        "Plans d'alimentació personalitzats",
+        "Assessorament nutricional per a esportistes",
+        "Programes de pèrdua de pes saludable",
+        "Consultes en línia i presencials"
+      ],
+      contacto: "Telèfon: +34 666 555 667\nEmail: info@gerardvalls.com",
+      form: { 
+        name:"Nom complet", 
+        email:"Correu electrònic", 
+        message:"Missatge", 
+        submit:"Enviar", 
+        errorName:"Si us plau, introdueix el teu nom.", 
+        errorEmail:"Correu no vàlid.", 
+        errorMessage:"El missatge ha de tenir almenys 10 caràcters." 
+      }
     }
   };
 
-  const updateTheme = () => {
-    document.body.classList.toggle('light', !darkMode);
-    toggleBtn.textContent = darkMode ? (currentLang==='es'?'Cambiar a modo claro':'Canviar a mode clar') : (currentLang==='es'?'Cambiar a modo oscuro':'Canviar a mode fosc');
-    localStorage.setItem('darkMode', darkMode);
-  };
-
-  toggleBtn.addEventListener('click', ()=>{ darkMode = !darkMode; updateTheme(); });
-  
   const updateLanguage = (lang) => {
     currentLang = lang;
-    const t = translations[lang];
+    const t = translations[currentLang];
     document.getElementById('main-title').textContent = t.title;
     document.getElementById('tagline').textContent = t.tagline;
-    document.getElementById('services-list').innerHTML = t.servicios.map(i=>`<li>${i}</li>`).join('');
+    document.getElementById('services-list').innerHTML = t.servicios.map(item => `<li>${item}</li>`).join('');
     document.querySelector('.contact').innerHTML = t.contacto.replace(/\n/g,'<br/>');
     document.querySelector('label[for="name"]').textContent = t.form.name;
     document.querySelector('label[for="email"]').textContent = t.form.email;
     document.querySelector('label[for="message"]').textContent = t.form.message;
     document.querySelector('#contact-form button').textContent = t.form.submit;
-    document.documentElement.lang = lang;
-    langBtn.textContent = lang==='es'?'Español ▼':'Català ▼';
-    localStorage.setItem('lang', lang);
-    updateTheme();
+    document.documentElement.lang = currentLang;
+    langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català';
+    localStorage.setItem('lang', currentLang);
   };
 
   langBtn.addEventListener('click', ()=> {
@@ -185,38 +206,54 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
   langOptions.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', ()=> {
+    btn.addEventListener('click', () => {
       updateLanguage(btn.dataset.lang);
       langDropdown.classList.remove('show');
-      langBtn.setAttribute('aria-expanded','false');
+      langBtn.setAttribute('aria-expanded', 'false');
     });
   });
 
-  // Validación del formulario
-  const validateField = (f) => {
+  updateLanguage(currentLang);
+
+  // --- VALIDACIÓN FORMULARIO ---
+  const form = document.getElementById('contact-form');
+  const name = form.name, email = form.email, message = form.message;
+  const feedback = document.getElementById('form-feedback');
+
+  const validateField = (field) => {
     const t = translations[currentLang].form;
-    if(f===name){name.value.trim()===''?document.getElementById('error-name').textContent=t.errorName:name.setAttribute('aria-invalid','false');document.getElementById('error-name').textContent=name.value.trim()===''?t.errorName:'';}
-    if(f===email){const p=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;email.value.trim()===''||!p.test(email.value.trim())?document.getElementById('error-email').textContent=t.errorEmail:document.getElementById('error-email').textContent='';}
-    if(f===message){message.value.trim().length<10?document.getElementById('error-message').textContent=t.errorMessage:document.getElementById('error-message').textContent='';}
+    if(field === name){
+      if(name.value.trim() === ""){ document.getElementById('error-name').textContent=t.errorName; name.setAttribute('aria-invalid','true');}
+      else{ document.getElementById('error-name').textContent=""; name.setAttribute('aria-invalid','false');}
+    }
+    if(field === email){
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(email.value.trim()===""){ document.getElementById('error-email').textContent=t.errorEmail; email.setAttribute('aria-invalid','true'); }
+      else if(!pattern.test(email.value.trim())){ document.getElementById('error-email').textContent=t.errorEmail; email.setAttribute('aria-invalid','true'); }
+      else{ document.getElementById('error-email').textContent=""; email.setAttribute('aria-invalid','false'); }
+    }
+    if(field === message){
+      if(message.value.trim().length<10){ document.getElementById('error-message').textContent=t.errorMessage; message.setAttribute('aria-invalid','true');}
+      else{ document.getElementById('error-message').textContent=""; message.setAttribute('aria-invalid','false');}
+    }
   };
 
   [name,email,message].forEach(f=>f.addEventListener('input',()=>validateField(f)));
-  form.addEventListener('submit',(e)=>{
+  form.addEventListener('submit', (e)=>{
     e.preventDefault();
     [name,email,message].forEach(f=>validateField(f));
     if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true')) return;
     feedback.style.color='#00c853';
-    feedback.textContent = translations[currentLang].feedback;
+    feedback.textContent=currentLang==='es'?'¡Mensaje enviado correctamente!':'Missatge enviat correctament!';
     form.reset();
   });
 
+  // --- ANIMACIÓN SCROLL ---
   const faders = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver((entries, obs) => { entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('visible'); obs.unobserve(entry.target);} }); }, {threshold:0.1});
-  faders.forEach(f=>observer.observe(f));
-
-  // Inicializamos idioma y tema
-  updateLanguage(currentLang);
-  updateTheme();
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('visible'); obs.unobserve(entry.target); } });
+  }, {threshold:0.1});
+  faders.forEach(f => observer.observe(f));
 
 });
 </script>
