@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Gerard Valls - Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría nutricional y consultas online y presenciales.">
+<meta name="keywords" content="nutrición, dietas, deportistas, asesoría nutricional, planes alimentación, salud">
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
+<link rel="preconnect" href="https://i.imgur.com">
 
-<!-- Script inline para aplicar tema e idioma antes de renderizar -->
+<!-- Script inline para tema e idioma antes de renderizar -->
 <script>
   (function(){
     const darkMode = localStorage.getItem('darkMode') !== 'false';
@@ -66,6 +68,10 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 .language-dropdown.show .language-dropdown-content{display:block;}
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out, transform 0.8s ease-out;}
 .fade-in.visible{opacity:1;transform:translateY(0);}
+@media(prefers-reduced-motion: reduce){
+  *{transition:none !important;}
+  .fade-in{opacity:1;transform:none !important;}
+}
 @media(max-width:500px){
   main.content-wrapper{margin:20px;padding:20px 15px 40px;}
   .toggle-theme,.language-dropdown button{width:100%;text-align:center;}
@@ -86,7 +92,7 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
   loading="lazy"/>
 
 <div>
-  <button class="toggle-theme" id="toggle-theme" aria-pressed="false">Cambiar a modo claro</button>
+  <button class="toggle-theme" id="toggle-theme" aria-pressed="false" aria-label="Cambiar a modo claro">Cambiar a modo claro</button>
 
   <div class="language-dropdown" id="language-dropdown">
     <button id="language-btn" aria-haspopup="true" aria-expanded="false">Español</button>
@@ -150,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function(){
   const updateTheme = () => {
     document.body.classList.toggle('light', !darkMode);
     toggleBtn.textContent = darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro';
+    toggleBtn.setAttribute('aria-label', darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
     localStorage.setItem('darkMode', darkMode);
   };
   toggleBtn.addEventListener('click', ()=>{ darkMode = !darkMode; updateTheme(); });
@@ -235,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   updateLanguage(currentLang);
 
-  // --- VALIDACIÓN FORMULARIO CON DEBOUNCE ---
+  // --- VALIDACIÓN FORMULARIO ---
   const form = document.getElementById('contact-form');
   const name = form.name, email = form.email, message = form.message;
   const feedback = document.getElementById('form-feedback');
