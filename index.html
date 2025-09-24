@@ -36,15 +36,15 @@ nav a{font-weight:600; color:white; text-decoration:none; transition:0.3s;}
 body.light nav a{color:var(--text-light);}
 nav a:hover{color:var(--color-primary-hover);}
 
-/* Hero */
+/* Hero con parallax */
 header{position:relative; text-align:center; padding:180px 20px 140px; overflow:hidden; color:white; perspective:2000px;}
 header canvas{position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;}
-header h1,header p,header .cta-btn,header .toggle-theme{position:relative; z-index:1;}
+header h1,header p,header .cta-btn,header .toggle-theme{position:relative; z-index:1; transition:transform 0.6s ease;}
 header h1{font-size:3rem; margin-bottom:20px; font-weight:700; transform:translateZ(50px);}
 header p{font-size:1.3rem; margin-bottom:30px; transform:translateZ(40px);}
-header .cta-btn{background:var(--btn); color:white; padding:16px 32px; border-radius:var(--radius); border:none; font-weight:600; cursor:pointer; transition:0.4s; transform:translateZ(30px);}
-header .cta-btn:hover{background:var(--btn-hover); transform:translateZ(30px) translateY(-4px);}
-header .toggle-theme{margin-left:15px; padding:10px 20px; border-radius:12px; background:rgba(0,0,0,0.4); cursor:pointer; transition:0.4s;}
+header .cta-btn{background:var(--btn); color:white; padding:16px 32px; border-radius:var(--radius); border:none; font-weight:600; cursor:pointer;}
+header .cta-btn:hover{background:var(--btn-hover); transform:translateY(-4px);}
+header .toggle-theme{margin-left:15px; padding:10px 20px; border-radius:12px; background:rgba(0,0,0,0.4); cursor:pointer;}
 header .toggle-theme:hover{background:rgba(0,0,0,0.6);}
 
 /* Main */
@@ -56,13 +56,12 @@ section{margin-bottom:80px;}
 h2{font-size:2.2rem; margin-bottom:35px; position:relative;}
 h2::after{content:""; width:70px; height:4px; background:var(--color-primary); display:block; margin:10px auto 0; border-radius:2px;}
 
-/* Servicios con Neumorfismo */
+/* Servicios con efecto flotante */
 .services{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:40px;}
-.service{padding:30px; border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; transition:transform 0.5s, box-shadow 0.5s;
-background:var(--color-dark); box-shadow: 8px 8px 20px rgba(0,0,0,0.3), -8px -8px 20px rgba(255,255,255,0.05);}
+.service{padding:30px; border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; text-align:center; cursor:pointer; transition:transform 0.6s, box-shadow 0.6s; background:var(--color-dark); box-shadow: 8px 8px 20px rgba(0,0,0,0.3), -8px -8px 20px rgba(255,255,255,0.05);}
 body.light .service{background:var(--color-light); box-shadow: 8px 8px 20px rgba(0,0,0,0.1), -8px -8px 20px rgba(255,255,255,0.6);}
-.service i{font-size:3.5rem; margin-bottom:18px; color:var(--color-primary); transition:transform 0.5s;}
-.service:hover{transform:translateY(-12px);}
+.service i{font-size:3.5rem; margin-bottom:18px; color:var(--color-primary);}
+.service:hover{transform:translateY(-15px) scale(1.03);}
 
 /* Testimonios avanzado */
 .testimonials{position:relative; overflow:hidden; max-width:850px; margin:0 auto; min-height:140px;}
@@ -156,8 +155,8 @@ footer{text-align:center; padding:25px; font-size:0.9rem; background:rgba(0,0,0,
 <span class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></span>
 </form>
 </section>
-</main>
 
+</main>
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 <button id="scrollTopBtn" title="Volver arriba">↑</button>
 
@@ -178,9 +177,21 @@ const scrollBtn=document.getElementById('scrollTopBtn');
 window.onscroll=()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";};
 scrollBtn.onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});};
 
+// Slider testimonios
+const slides=document.querySelectorAll('.testimonial');
+const indicators=document.querySelectorAll('.testimonial-indicators span');
+let current=0;
+let interval=setInterval(nextSlide,5000);
+function showSlide(index){slides.forEach((s,i)=>{s.classList.remove('active','prev'); if(i===index)s.classList.add('active'); if(i===current)s.classList.add('prev'); indicators[i].classList.toggle('active',i===index);}); current=index;}
+function nextSlide(){showSlide((current+1)%slides.length);}
+function prevSlide(){showSlide((current-1+slides.length)%slides.length);}
+document.querySelector('.testimonial-btn.next').onclick=()=>{nextSlide(); resetInterval();}
+document.querySelector('.testimonial-btn.prev').onclick=()=>{prevSlide(); resetInterval();}
+function resetInterval(){clearInterval(interval); interval=setInterval(nextSlide,5000);}
+
 // Partículas conectadas
 const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let w,h,particles=[];
-function resize(){w=canvas.width=canvas.offsetWidth;h=canvas.height=canvas.offsetHeight;particles=[];let count=w<700?30:60;for(let i=0;i<count;i++){particles.push({x:Math.random()*w,y:Math.random()*h, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5, r:Math.random()*2+1});}}
+function resize(){w=canvas.width=canvas.offsetWidth;h=canvas.height=canvas.offsetHeight;particles=[];let count=w<700?30:60;for(let i=0;i<count;i++){particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,r:Math.random()*2+1});}}
 window.addEventListener('resize',resize);resize();
 function animate(){ctx.clearRect(0,0,w,h);for(let p of particles){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(0,255,192,0.6)';ctx.fill();}for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){let dx=particles[i].x-particles[j].x;let dy=particles[i].y-particles[j].y;let dist=Math.sqrt(dx*dx+dy*dy);if(dist<80){ctx.beginPath();ctx.strokeStyle='rgba(0,255,192,'+(1-dist/80)*0.3+')';ctx.lineWidth=1;ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();}}}requestAnimationFrame(animate);}
 animate();
