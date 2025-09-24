@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
+<meta name="description" content="Nutrición personalizada para deportistas y personas activas. Planes de alimentación, asesoría y consultas online y presenciales con Gerard Valls.">
+<meta property="og:title" content="Gerard Valls - Nutrición personalizada">
+<meta property="og:description" content="Planes de alimentación personalizados y asesoría nutricional para deportistas y personas activas.">
+<meta property="og:image" content="https://i.imgur.com/gerard.jpg">
+<meta property="og:type" content="website">
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
 
 <style>
@@ -46,6 +51,7 @@ form button{background-color:var(--button-bg);color:white;border:none;padding:10
 form button:hover,form button:focus{background-color:var(--button-hover);transform:scale(1.05);outline:3px solid #00ffcc;outline-offset:3px;}
 .error-message{color:#ff4d4d;font-size:0.9rem;display:block;min-height:1.2em;margin-top:2px;}
 .form-feedback{display:block;margin-top:10px;font-weight:bold;text-align:center;}
+.form-feedback[role="alert"]{outline:0;}
 .form-group{margin-bottom:10px;}
 footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0,0,0.6);color:#ccc;position:fixed;width:100%;bottom:0;left:0;}
 .toggle-theme,.toggle-lang{display:inline-block;background-color:var(--button-bg);color:white;border:none;padding:8px 12px;border-radius:5px;font-size:0.9rem;cursor:pointer;margin:5px;}
@@ -110,7 +116,7 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 <span class="error-message" id="error-message" aria-live="polite"></span>
 </div>
 <button type="submit">Enviar</button>
-<span class="form-feedback" id="form-feedback" aria-live="polite"></span>
+<span class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></span>
 </form>
 </section>
 </main>
@@ -120,7 +126,7 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 <!-- EMAILJS -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-  emailjs.init('aqYkHJy0lR8OX8uKh'); // Public Key
+  emailjs.init('aqYkHJy0lR8OX8uKh');
 </script>
 
 <!-- PARTICLES JS -->
@@ -173,7 +179,6 @@ form.addEventListener('submit', function(e){
   [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
   if(!valid && firstError){firstError.focus(); return;}
 
-  // ENVÍO EmailJS
   form.querySelector('button').disabled = true;
   emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{
     from_name: name.value,
@@ -186,7 +191,7 @@ form.addEventListener('submit', function(e){
     form.querySelector('button').disabled = false;
   }).catch(err=>{
     feedback.style.color='#ff4d4d';
-    feedback.textContent='Error al enviar: '+err.text;
+    feedback.textContent='Error al enviar el mensaje. Por favor, inténtalo de nuevo.';
     form.querySelector('button').disabled = false;
   });
 });
@@ -216,41 +221,12 @@ updateTheme();
 const langBtn = document.getElementById('toggle-language');
 const langStatus = document.getElementById('language-status');
 let currentLang = localStorage.getItem('lang') || 'es';
-
 const translations = {
-  es: {
-    name: "Nombre completo",
-    email: "Correo electrónico",
-    message: "Mensaje",
-    submit: "Enviar",
-    servicesTitle: "Servicios",
-    services: [
-      "Planes de alimentación personalizados",
-      "Asesoría nutricional para deportistas",
-      "Programas para pérdida de peso saludable",
-      "Consultas en línea y presenciales"
-    ],
-    contactTitle: "Contacto",
-    contactText: "Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com"
-  },
-  en: {
-    name: "Full Name",
-    email: "Email",
-    message: "Message",
-    submit: "Send",
-    servicesTitle: "Services",
-    services: [
-      "Personalized meal plans",
-      "Nutritional advice for athletes",
-      "Healthy weight loss programs",
-      "Online and in-person consultations"
-    ],
-    contactTitle: "Contact",
-    contactText: "Phone: +34 666 555 667\nEmail: info@gerardvalls.com"
-  }
+  es: {name:"Nombre completo",email:"Correo electrónico",message:"Mensaje",submit:"Enviar",servicesTitle:"Servicios",services:["Planes de alimentación personalizados","Asesoría nutricional para deportistas","Programas para pérdida de peso saludable","Consultas en línea y presenciales"],contactTitle:"Contacto",contactText:"Teléfono: +34 666 555 667\nEmail: info@gerardvalls.com"},
+  en: {name:"Full Name",email:"Email",message:"Message",submit:"Send",servicesTitle:"Services",services:["Personalized meal plans","Nutritional advice for athletes","Healthy weight loss programs","Online and in-person consultations"],contactTitle:"Contact",contactText:"Phone: +34 666 555 667\nEmail: info@gerardvalls.com"}
 };
-
 const updateLanguage = () => {
+  document.documentElement.lang=currentLang;
   const t = translations[currentLang];
   document.querySelector('label[for="name"]').textContent = t.name;
   document.querySelector('label[for="email"]').textContent = t.email;
