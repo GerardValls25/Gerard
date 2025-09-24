@@ -5,10 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerard Valls - Nutrición Profesional</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/Z7eQOK2z3Y9H1jsS8g+6x3l4AwE3Hc5D3N+xBBo6C3B3W3+hDJQ+gO6O1lDUiFfY8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-
 <style>
 :root{
   --primary:#00ffc0;
@@ -83,34 +82,9 @@ h2::after{content:""; width:60px; height:3px; display:block; margin:8px auto 0; 
 .testimonial-btn{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; padding:10px 15px; font-size:1.5rem; cursor:pointer; border-radius:50%; z-index:10; transition:.3s;}
 .testimonial-btn:hover{background:var(--primary);}
 
-/* === FORMULARIO ARREGLADO === */
-form {
-  display: grid;
-  gap: 15px;
-  margin-top: 20px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius);
-  box-shadow: 0 0 15px rgba(0, 255, 192, 0.1);
-}
-
-body.light form {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-input, textarea {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  transition: var(--transition);
-  background: rgba(255, 255, 255, 0.1);
-  color: inherit;
-}
-
+form{display:grid; gap:15px; margin-top:20px; position:relative; z-index:1;}
+input,textarea{width:100%; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:1rem; transition:var(--transition); background:rgba(255,255,255,0.1); color:white;}
 input:focus,textarea:focus{outline:none; border-color:var(--primary); box-shadow:0 0 15px rgba(0,255,192,0.3);}
-
 button{background:var(--primary); color:white; border:none; padding:14px 24px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
 button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 #form-feedback{margin-top:10px; font-weight:600;}
