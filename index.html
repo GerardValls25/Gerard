@@ -7,8 +7,9 @@
 
 <!-- Fuente -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Iconos -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Iconos Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pD8I2y5I3Jk6vVf1kJ8q+FfZxjLg9Wz2UBkI8pE3tT5smF0G6iH0qSvUgl+bUKB/nB9tR6q6U1RrWlI3r0U5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
@@ -24,6 +25,8 @@
   --radius:12px;
   --transition:.5s ease;
 }
+
+*{box-sizing:border-box;}
 
 body{
   margin:0;
@@ -42,13 +45,21 @@ body.light{background:var(--light); color:var(--text-light);}
   50%{background-position:100% 100%;}
   100%{background-position:0 0;}
 }
+
 a{color:var(--primary); text-decoration:none; transition:.3s;}
 a:hover{color:var(--primary-hover);}
+
 header{
   position:relative;
   text-align:center;
   padding:120px 20px 80px;
   overflow:hidden;
+}
+header canvas{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
 }
 header h1{
   font-size:3rem;
@@ -59,14 +70,15 @@ header h1{
   perspective:1000px;
   transform-style:preserve-3d;
   text-shadow: 0 0 20px rgba(0,255,192,0.5);
-  transition:text-shadow 0.3s ease;
+  position:relative;
+  z-index:1;
 }
-@keyframes gradMove{
-  0%{background-position:0 0;}
-  50%{background-position:100% 0;}
-  100%{background-position:0 0;}
+header p{
+  font-size:1.2rem;
+  margin-top:10px;
+  z-index:1;
+  position:relative;
 }
-header p{font-size:1.2rem; margin-top:10px; z-index:1; position:relative;}
 #toggle-theme{
   margin-top:20px;
   background:var(--primary);
@@ -77,8 +89,16 @@ header p{font-size:1.2rem; margin-top:10px; z-index:1; position:relative;}
   cursor:pointer;
   font-weight:600;
   transition:.4s;
+  position:relative;
+  z-index:1;
 }
 #toggle-theme:hover{background:var(--primary-hover); transform:translateY(-2px);}
+
+@keyframes gradMove{
+  0%{background-position:0 0;}
+  50%{background-position:100% 0;}
+  100%{background-position:0 0;}
+}
 
 nav{
   position:sticky;
@@ -158,11 +178,12 @@ h2::after{
 
 form{display:grid; gap:15px; margin-top:20px; position:relative; z-index:1;}
 input,textarea{
-  width:100%; padding:14px; border-radius:12px; border:1px solid #ccc;
+  width:100%; padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.5);
   font-size:1rem; transition:var(--transition);
   background:rgba(255,255,255,0.1); color:white;
 }
 body.light input, body.light textarea{
+  border:1px solid rgba(0,0,0,0.3);
   background:rgba(0,0,0,0.05); color:var(--text-light);
 }
 input:focus,textarea:focus{
@@ -200,6 +221,7 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 </style>
 </head>
 <body>
+
 <header>
   <h1>Gerard Valls</h1>
   <p>Nutrición personalizada para deportistas y personas activas</p>
@@ -325,7 +347,7 @@ gsap.utils.toArray('.service').forEach((s,i)=>{
 gsap.to("header h1",{yPercent:20,ease:"none",scrollTrigger:{trigger:"header",start:"top top",end:"bottom top",scrub:1}});
 gsap.to("header p",{yPercent:40,ease:"none",scrollTrigger:{trigger:"header",start:"top top",end:"bottom top",scrub:1}});
 
-// Partículas 3D con gradiente animado y luz dinámica
+// Partículas 3D con gradiente y luz
 const canvas=document.getElementById('headerParticles');
 const ctx=canvas.getContext('2d');
 let w,h,particles=[],mouse={x:null,y:null};
@@ -343,7 +365,6 @@ resize();
 canvas.addEventListener('mousemove',e=>{
   const rect=canvas.getBoundingClientRect();
   mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;
-  // Luz dinámica header
   const h1=document.querySelector('header h1');
   const dx=e.clientX - window.innerWidth/2;
   const dy=e.clientY - 120;
@@ -368,8 +389,8 @@ function animate(){
         ctx.strokeStyle=`hsla(${hue},100%,50%,${(1-dist/100)*0.3})`; ctx.lineWidth=1; ctx.stroke();}
     }
     if(mouse.x && mouse.y){
-      let dx=p.x-mouse.x,dy=p.y-mouse.y,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<120){p.x-=dx*0.03*p.z;p.y-=dy*0.03*p.z;}
+      let dx=p.x-mouse.x; let dy=p.y-mouse.y; let dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<80){p.x-=dx*0.03; p.y-=dy*0.03;}
     }
   }
   requestAnimationFrame(animate);
