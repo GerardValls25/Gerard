@@ -132,12 +132,12 @@ const initParticles=()=>{
 };
 initParticles();
 
-// --- FORMULARIO AJAX CON VALIDACIÓN EN TIEMPO REAL ---
+// --- VALIDACIÓN DE FORMULARIO ---
 const form=document.getElementById('contact-form');
+const [name,email,message] = [form.name,form.email,form.message];
 const feedback=document.getElementById('form-feedback');
 
 const validateField=(field)=>{
-  const name=form.name,email=form.email,message=form.message;
   const emailPattern=/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   switch(field){
     case name:
@@ -156,21 +156,20 @@ const validateField=(field)=>{
   }
 };
 
-[name=form.name,email=form.email,message=form.message].forEach(field=>field.addEventListener('input',()=>validateField(field)));
+[name,email,message].forEach(field=>field.addEventListener('input',()=>validateField(field)));
 
-form.addEventListener('submit',async function(e){
+// --- ENVÍO DEL FORMULARIO: REDIRIGIR A gracias.html ---
+form.addEventListener('submit',function(e){
   e.preventDefault();
-  [form.name,form.email,form.message].forEach(el=>validateField(el));
-  feedback.textContent='';
+  [name,email,message].forEach(field=>validateField(field));
+
   let valid=true;
-  let firstErrorField=null;
-  [form.name,form.email,form.message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstErrorField=firstErrorField||f;}});
-  if(!valid&&firstErrorField){firstErrorField.focus();return;}
-  try{
-    const response=await fetch('https://tu-backend.com/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:form.name.value.trim(),email:form.email.value.trim(),message:form.message.value.trim()})});
-    if(response.ok){feedback.style.color='#00ffcc';feedback.textContent='Mensaje enviado correctamente. ¡Gracias!';form.reset();}
-    else{throw new Error('Error al enviar. Intenta nuevamente.');}
-  }catch(err){feedback.style.color='#ff4d4d';feedback.textContent=err.message;}
+  let firstError=null;
+  [name,email,message].forEach(f=>{if(f.getAttribute('aria-invalid')==='true'){valid=false;firstError=firstError||f;}});
+  if(!valid && firstError){firstError.focus();return;}
+
+  // REDIRIGE A gracias.html
+  window.location.href='gracias.html';
 });
 
 // --- TOGGLE TEMA ---
