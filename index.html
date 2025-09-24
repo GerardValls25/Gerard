@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerard Valls - Nutrición Profesional</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Font Awesome (oficial) -->
+<!-- Font Awesome oficial -->
 <link href="https://use.fontawesome.com/releases/v6.4.0/css/all.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
@@ -30,7 +30,7 @@ body{
   color:var(--text-dark);
   overflow-x:hidden;
   line-height:1.6;
-  transition:background var(--transition),color var(--transition);
+  transition:background .6s ease,color .6s ease;
 }
 body.light{background:var(--light); color:var(--text-light);}
 @keyframes gradientBG{0%{background-position:0 0;}50%{background-position:100% 100%;}100%{background-position:0 0;}}
@@ -59,7 +59,7 @@ header p{font-size:1.2rem; margin-top:10px; z-index:1; position:relative;}
 nav{position:sticky; top:0; background:rgba(42,55,96,0.85); backdrop-filter:blur(10px); display:flex; justify-content:center; gap:1rem; padding:12px; z-index:1000; transition:var(--transition);}
 nav a{font-weight:600; cursor:pointer;}
 
-main.wrapper{max-width:1100px; margin:40px auto; padding:50px 30px 60px; border-radius:var(--radius); backdrop-filter:blur(15px); background:rgba(42,55,96,0.85); text-align:center; transition:var(--transition);}
+main.wrapper{max-width:1100px; margin:40px auto; padding:50px 30px 60px; border-radius:var(--radius); backdrop-filter:blur(15px); background:rgba(42,55,96,0.85); text-align:center; transition:background .6s ease;}
 body.light main.wrapper{background:rgba(245,245,245,0.85);}
 
 section{margin-bottom:60px; opacity:0; transform:translateY(60px);}
@@ -70,10 +70,14 @@ h2::after{content:""; width:60px; height:3px; display:block; margin:8px auto 0; 
 
 /* Servicios */
 .services{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px; position:relative;}
-.service{position:relative; background:rgba(255,255,255,0.05); border-radius:var(--radius); padding:25px; overflow:hidden; cursor:pointer; transition:transform .5s, box-shadow .5s, background .5s; text-align:center; z-index:0;}
+.service{position:relative; background:rgba(255,255,255,0.05); border-radius:var(--radius); padding:25px; overflow:hidden; cursor:pointer; text-align:center; z-index:0; transform:translateY(20px); opacity:0; transition:opacity .6s ease, transform .6s ease, box-shadow .5s, background .5s;}
+.service.visible{opacity:1; transform:translateY(0);}
 .service i, .service svg{font-size:3rem; color:var(--primary); transition:transform .5s;}
 .service:hover{transform:translateY(-10px) scale(1.05); box-shadow:0 20px 35px rgba(0,0,0,0.25); background:linear-gradient(135deg,#00ffc0,#00bfff,#ff00c8); color:white;}
 .service:hover i, .service:hover svg{transform:scale(1.3); color:white;}
+.fallback-icon{display:none; width:3rem; height:3rem;}
+.no-fa .fa-solid{display:none;}
+.no-fa .fallback-icon{display:inline-block;}
 .service h3, .service p{transition:color .5s;}
 .service canvas{position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;}
 
@@ -119,6 +123,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 <div class="services">
   <div class="service">
     <i class="fa-solid fa-apple-whole" aria-hidden="true"></i>
+    <svg class="fallback-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M349.2 0c-28.6 1.9-62.1 ..."/></svg>
     <canvas></canvas>
     <h3>Planes Personalizados</h3>
     <p>Planes adaptados a ti.</p>
@@ -126,6 +131,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 
   <div class="service">
     <i class="fa-solid fa-dumbbell" aria-hidden="true"></i>
+    <svg class="fallback-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M104 96H72c-13.3 ..."/></svg>
     <canvas></canvas>
     <h3>Asesoría Deportiva</h3>
     <p>Optimiza tu rendimiento.</p>
@@ -133,6 +139,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 
   <div class="service">
     <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+    <svg class="fallback-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M320 32c17.7 ..."/></svg>
     <canvas></canvas>
     <h3>Pérdida de Peso</h3>
     <p>Programas sostenibles.</p>
@@ -140,6 +147,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 
   <div class="service">
     <i class="fa-solid fa-laptop" aria-hidden="true"></i>
+    <svg class="fallback-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M64 64C64 ..."/></svg>
     <canvas></canvas>
     <h3>Consultas Online</h3>
     <p>Desde cualquier lugar.</p>
@@ -153,8 +161,8 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
   <div class="testimonial active"><p>"Excelente nutricionista, logré mis objetivos."</p><span>- Laura G.</span></div>
   <div class="testimonial"><p>"Atención profesional y personalizada."</p><span>- Carlos M.</span></div>
   <div class="testimonial"><p>"Recomiendo sus planes a todos los deportistas."</p><span>- Ana R.</span></div>
-  <button class="testimonial-btn prev">‹</button>
-  <button class="testimonial-btn next">›</button>
+  <button class="testimonial-btn prev" aria-label="Testimonio anterior">‹</button>
+  <button class="testimonial-btn next" aria-label="Siguiente testimonio">›</button>
 </div>
 </section>
 
@@ -165,16 +173,24 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 <input type="email" name="email" placeholder="Correo electrónico" required>
 <textarea name="message" placeholder="Mensaje" rows="5" required></textarea>
 <button type="submit">Enviar</button>
-<span id="form-feedback"></span>
+<span id="form-feedback" aria-live="polite"></span>
 </form>
 </section>
 
 </main>
 
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
-<button id="scrollTopBtn">↑</button>
+<button id="scrollTopBtn" aria-label="Volver arriba">↑</button>
 
 <script>
+// Fallback si Font Awesome no carga
+window.addEventListener('load',()=>{
+  const faTest=document.querySelector('.fa-solid');
+  if(!faTest || getComputedStyle(faTest).fontFamily.indexOf('Font Awesome')===-1){
+    document.body.classList.add('no-fa');
+  }
+});
+
 // Tema
 const toggleBtn=document.getElementById('toggle-theme'); 
 let darkMode=localStorage.getItem('darkMode')!=='false';
@@ -193,6 +209,15 @@ document.querySelectorAll('nav a').forEach(link=>{
     document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
   });
 });
+
+// Animación de servicios (microinteracción)
+const serviceCards=document.querySelectorAll('.service');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('visible'); observer.unobserve(entry.target);}
+  });
+},{threshold:0.3});
+serviceCards.forEach(card=>observer.observe(card));
 
 // Testimonios
 const slides=document.querySelectorAll('.testimonial'); 
