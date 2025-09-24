@@ -116,10 +116,7 @@ Email: <a href="mailto:info@gerardvalls.com">info@gerardvalls.com</a>
 <!-- EMAILJS -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-  // Inicializa EmailJS con tu Public Key
-  (function(){
-    emailjs.init('aqYkHJy0lR8OX8uKh'); // Public Key
-  })();
+  emailjs.init('aqYkHJy0lR8OX8uKh'); // Public Key
 </script>
 
 <!-- PARTICLES JS -->
@@ -141,7 +138,7 @@ const initParticles = () => {
 };
 initParticles();
 
-// --- VALIDACIÓN FORMULARIO ---
+// --- VALIDACIÓN FORM ---
 const form = document.getElementById('contact-form');
 const [name,email,message] = [form.name,form.email,form.message];
 const feedback = document.getElementById('form-feedback');
@@ -164,7 +161,6 @@ const validateField = (field) => {
 
 [name,email,message].forEach(field=>field.addEventListener('input',()=>validateField(field)));
 
-// --- ENVÍO FORMULARIO ---
 form.addEventListener('submit', function(e){
   e.preventDefault();
   [name,email,message].forEach(field=>validateField(field));
@@ -174,7 +170,7 @@ form.addEventListener('submit', function(e){
   if(!valid && firstError){firstError.focus(); return;}
 
   // ENVÍO EmailJS
-  emailjs.send('TU_SERVICE_ID','TU_TEMPLATE_ID',{
+  emailjs.send('service_7cqlkr5','TU_TEMPLATE_ID',{
     from_name: name.value,
     from_email: email.value,
     message: message.value
