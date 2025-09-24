@@ -5,7 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gerard Valls - Nutrición personalizada</title>
 <link rel="icon" href="https://i.imgur.com/bsWQ2lX.png" type="image/png">
+
+<!-- Aplicar idioma guardado antes de cargar contenido -->
+<script>
+  const savedLang = localStorage.getItem('lang') || 'es';
+  document.documentElement.lang = savedLang;
+</script>
+
 <style>
+/* --- Estilos --- */
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;transition:background 0.4s,color 0.4s;}
 :root{
@@ -194,13 +202,12 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('label[for="email"]').textContent = t.form.email;
     document.querySelector('label[for="message"]').textContent = t.form.message;
     document.querySelector('#contact-form button').textContent = t.form.submit;
-    document.documentElement.lang = currentLang;
     langBtn.textContent = currentLang === 'es' ? 'Español' : 'Català';
     localStorage.setItem('lang', currentLang);
   };
 
   // Mostrar/ocultar menú de idiomas
-  langBtn.addEventListener('click', () => {
+  langBtn.addEventListener('click', ()=> {
     langDropdown.classList.toggle('show');
     langBtn.setAttribute('aria-expanded', langDropdown.classList.contains('show'));
   });
@@ -213,22 +220,6 @@ document.addEventListener("DOMContentLoaded", function(){
       langDropdown.classList.remove('show');
       langBtn.setAttribute('aria-expanded', 'false');
     });
-  });
-
-  // Cerrar dropdown al hacer clic fuera
-  document.addEventListener('click', (e) => {
-    if (!langDropdown.contains(e.target)) {
-      langDropdown.classList.remove('show');
-      langBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  // Cerrar dropdown con tecla Esc
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      langDropdown.classList.remove('show');
-      langBtn.setAttribute('aria-expanded', 'false');
-    }
   });
 
   updateLanguage();
