@@ -69,7 +69,9 @@ footer{text-align:center;padding:15px;font-size:0.9rem;background-color:rgba(0,0
 
   <!-- Selector de idiomas -->
   <div class="language-dropdown" id="language-dropdown">
-    <button id="language-btn" aria-haspopup="true" aria-expanded="false">Idiomas</button>
+    <button id="language-btn" aria-haspopup="true" aria-expanded="false">
+      🌐 Idioma: <span id="current-language">Español</span>
+    </button>
     <div class="language-dropdown-content" id="lang-options">
       <button data-lang="es">Español</button>
       <button data-lang="en">English</button>
@@ -139,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function(){
   // --- SELECTOR DE IDIOMA ---
   const langDropdown = document.getElementById('language-dropdown');
   const langBtn = document.getElementById('language-btn');
+  const currentLangSpan = document.getElementById('current-language');
   const langOptions = document.getElementById('lang-options');
   let currentLang = localStorage.getItem('lang') || 'es';
 
@@ -211,16 +214,15 @@ document.addEventListener("DOMContentLoaded", function(){
     document.querySelector('label[for="email"]').textContent = t.form.email;
     document.querySelector('label[for="message"]').textContent = t.form.message;
     document.querySelector('#contact-form button').textContent = t.form.submit;
+    currentLangSpan.textContent = currentLang === 'es' ? 'Español' : currentLang === 'en' ? 'English' : 'Català';
     localStorage.setItem('lang', currentLang);
   };
 
-  // Mostrar/ocultar menú de idiomas
   langBtn.addEventListener('click', ()=> {
     langDropdown.classList.toggle('show');
     langBtn.setAttribute('aria-expanded', langDropdown.classList.contains('show'));
   });
 
-  // Cambiar idioma al hacer clic
   langOptions.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {
       currentLang = btn.dataset.lang;
