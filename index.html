@@ -24,9 +24,9 @@ nav{position:sticky;top:0;background:rgba(42,55,96,0.85);backdrop-filter:blur(10
 body.light nav{background:rgba(245,245,245,0.85);}
 body.light nav a{color:var(--text-light);}
 nav a{font-weight:600;transition:0.3s;}
-header{position:relative;text-align:center;padding:120px 20px 80px;color:white;overflow:hidden;}
-header canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
-header h1,header p,header .toggle-theme{position:relative;z-index:1;transition:transform 0.8s,opacity 0.8s;}
+header{position:relative;text-align:center;padding:100px 20px 80px;color:white;overflow:hidden;}
+header::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:url('https://i.imgur.com/gerard.jpg') center/cover no-repeat;filter:blur(4px) brightness(0.5);z-index:0;transform:translateY(0);transition:transform 0.5s;}
+header *{position:relative;z-index:1;transition:transform 0.5s;}
 header h1{font-size:3rem;margin-bottom:10px;opacity:0;transform:translateY(40px);}
 header p{font-size:1.3rem;opacity:0;transform:translateY(40px);}
 .toggle-theme{margin-top:20px;padding:10px 18px;background:var(--btn);}
@@ -40,11 +40,11 @@ h2::after{content:"";width:60px;height:3px;background:var(--color-primary);displ
 .service{background:rgba(255,255,255,0.05);padding:25px;border-radius:var(--radius);transition:0.4s;display:flex;flex-direction:column;align-items:center;text-align:center;cursor:pointer;}
 body.light .service{background:rgba(0,0,0,0.03);}
 .service i{font-size:3rem;margin-bottom:15px;color:var(--color-primary);transition:transform 0.4s;}
-.service:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 12px 30px var(--shadow);}
+.service:hover{transform:translateY(-8px);box-shadow:0 12px 30px var(--shadow);}
 .service:hover i{transform:scale(1.2);}
 .testimonials{position:relative;overflow:hidden;max-width:800px;margin:0 auto;}
-.testimonial{display:none;flex-direction:column;align-items:center;text-align:center;padding:25px;transition:opacity 0.8s,transform 0.8s;}
-.testimonial.active{display:flex;opacity:1;transform:scale(1);}
+.testimonial{display:none;flex-direction:column;align-items:center;text-align:center;padding:25px;transition:opacity 0.8s;}
+.testimonial.active{display:flex;opacity:1;}
 .testimonial p{font-style:italic;margin-bottom:10px;}
 .testimonial span{font-weight:600;}
 form{display:grid;gap:15px;margin-top:20px;}
@@ -70,7 +70,6 @@ footer{text-align:center;padding:25px;font-size:0.9rem;background:rgba(0,0,0,0.6
 </nav>
 
 <header>
-<canvas id="particles"></canvas>
 <h1>Gerard Valls</h1>
 <p>Nutrición personalizada para deportistas y personas activas</p>
 <button class="toggle-theme" id="toggle-theme">Cambiar a modo claro</button>
@@ -124,8 +123,9 @@ const toggleBtn=document.getElementById('toggle-theme');let darkMode=localStorag
 const setTheme=()=>{document.body.classList.toggle('light',!darkMode);toggleBtn.textContent=darkMode?'Cambiar a modo claro':'Cambiar a modo oscuro';localStorage.setItem('darkMode',darkMode);}
 toggleBtn.onclick=()=>{darkMode=!darkMode;setTheme();};setTheme();
 
-// Scroll animado (AOS-like)
-const faders=document.querySelectorAll('section, header');const obs=new IntersectionObserver((entries,o)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target);}});},{threshold:0.2});faders.forEach(f=>obs.observe(f));
+// Scroll animado y parallax header
+const faders=document.querySelectorAll('section, header');const obs=new IntersectionObserver((entries,o)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target);}});},{threshold:0.1});faders.forEach(f=>obs.observe(f));
+window.addEventListener('scroll',()=>{document.querySelector('header::before')?.style.transform=`translateY(${window.scrollY*0.3}px)`;});
 
 // Botón volver arriba
 const scrollBtn=document.getElementById('scrollTopBtn');window.onscroll=()=>{scrollBtn.style.display=(window.scrollY>200)?"block":"none";};scrollBtn.onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});};
@@ -140,11 +140,8 @@ if(f===message){message.value.trim().length<10?message.setAttribute('aria-invali
 form.onsubmit=async e=>{e.preventDefault();[name,email,message].forEach(f=>validate(f));if([name,email,message].some(f=>f.getAttribute('aria-invalid')==='true'))return;const data=new FormData(form);try{const res=await fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}});if(res.ok){feedback.style.color='#00c853';feedback.textContent='¡Mensaje enviado correctamente!';form.reset();setTimeout(()=>feedback.textContent='',5000);}else{throw new Error('Error');}}catch(err){feedback.style.color='#ff4d4d';feedback.textContent='Error al enviar el mensaje';}};
 
 // Slider testimonios
-const slides=document.querySelectorAll('.testimonial');let current=0;setInterval(()=>{slides[current].classList.remove('active');current=(current+1)%slides.length;slides[current].classList.add('active');},5000);
-
-// Partículas hero
-const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let w, h, particles=[];function resize(){w=canvas.width=canvas.offsetWidth;h=canvas.height=canvas.offsetHeight;particles=[];for(let i=0;i<80;i++){particles.push({x:Math.random()*w,y:Math.random()*h,radius:Math.random()*2+1,speed:Math.random()*0.5+0.2})}};window.addEventListener('resize',resize);resize();
-function animate(){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.y-=p.speed;if(p.y<0)p.y=h;ctx.beginPath();ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);ctx.fillStyle='rgba(0,255,192,0.7)';ctx.fill();});requestAnimationFrame(animate);}animate();
+const slides=document.querySelectorAll('.testimonial');let current=0;
+setInterval(()=>{slides[current].classList.remove('active');current=(current+1)%slides.length;slides[current].classList.add('active');},5000);
 </script>
 
 </body>
