@@ -13,14 +13,12 @@
   --card-bg: rgba(255,255,255,0.08);
   --accent-color: #00ffc0;
 }
-
 body.light {
   --bg-color: #f9f9f9;
   --text-color: #222;
   --card-bg: rgba(0,0,0,0.05);
   --accent-color: #007b6e;
 }
-
 body {
   font-family: 'Montserrat', sans-serif;
   background: var(--bg-color);
@@ -34,12 +32,10 @@ body {
   padding: 20px;
   transition: background 0.3s ease, color 0.3s ease;
 }
-
 @keyframes aparecer {
   0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 h1 {
   color: var(--accent-color);
   margin-bottom: 20px;
@@ -48,7 +44,6 @@ h1 {
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.2s;
 }
-
 .theme-toggle {
   position: absolute;
   top: 15px;
@@ -63,7 +58,6 @@ h1 {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 .theme-toggle:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
-
 form {
   background: var(--card-bg);
   backdrop-filter: blur(12px);
@@ -79,7 +73,6 @@ form {
   animation-delay: 0.6s;
   transition: background 0.3s ease;
 }
-
 input, select {
   padding: 12px;
   border-radius: 8px;
@@ -96,17 +89,12 @@ input:focus, select:focus {
   transform: scale(1.02);
   box-shadow: 0 0 10px var(--accent-color);
 }
-
 select {
   background: rgba(0,0,0,0.3) url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;
   background-size: 20px;
   padding-right: 40px;
 }
-select option {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
-
+select option { background-color: var(--bg-color); color: var(--text-color); }
 .chart-container {
   margin-top: 20px;
   max-width: 350px;
@@ -115,7 +103,6 @@ select option {
   animation: aparecer 0.8s ease forwards;
   animation-delay: 1s;
 }
-
 button {
   background: var(--accent-color);
   color: black;
@@ -127,13 +114,7 @@ button {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 button:hover { background: #00e6b8; transform: scale(1.02); }
-
-#resultado {
-  margin-top: 15px;
-  font-weight: bold;
-  text-align: center;
-}
-
+#resultado { margin-top: 15px; font-weight: bold; text-align: center; }
 .cerrar-btn, .limpiar-btn {
   margin-top: 20px;
   background: #ffffff33;
@@ -149,16 +130,12 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   animation: aparecer 0.8s ease forwards;
   animation-delay: 1.3s;
 }
-.cerrar-btn:hover, .limpiar-btn:hover {
-  background: #ffffff55;
-  transform: scale(1.05);
-}
+.cerrar-btn:hover, .limpiar-btn:hover { background: #ffffff55; transform: scale(1.05); }
 </style>
 </head>
 <body>
 <button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
 <h1>Calculadora Profesional de Calorías y Macros</h1>
-
 <form id="macro-form">
   <input type="number" id="peso" placeholder="Peso (kg)" required>
   <input type="number" id="altura" placeholder="Altura (cm)" required>
@@ -185,18 +162,14 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   <button type="submit">Calcular</button>
   <div id="resultado"></div>
 </form>
-
 <div class="chart-container">
   <canvas id="macrosChart"></canvas>
 </div>
-
 <a href="#" class="limpiar-btn" onclick="limpiarDatos()">🗑️ Limpiar Datos</a>
 <a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
-
 <script>
 let chart = null;
 
-// 🔄 Restaurar datos guardados
 document.addEventListener('DOMContentLoaded', () => {
   const saved = JSON.parse(localStorage.getItem('macroData'));
   if (saved) {
@@ -213,37 +186,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// 🎨 Cambio de tema
 function toggleTheme() {
   document.body.classList.toggle('light');
   const isLight = document.body.classList.contains('light');
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
   document.querySelector('.theme-toggle').textContent = isLight ? '🌞 Modo Claro' : '🌙 Modo Oscuro';
+  if (chart) {
+    chart.options.plugins.legend.labels.color = getComputedStyle(document.body).getPropertyValue('--text-color');
+    chart.update();
+  }
 }
 
-// 🧮 Cálculo principal
 document.getElementById('macro-form').addEventListener('submit', function (e) {
   e.preventDefault();
-
   const peso = parseFloat(document.getElementById('peso').value);
   const altura = parseFloat(document.getElementById('altura').value);
   const edad = parseFloat(document.getElementById('edad').value);
   const genero = document.getElementById('genero').value;
   const actividad = parseFloat(document.getElementById('actividad').value);
   const objetivo = document.getElementById('objetivo').value;
-
   if (!peso || !altura || !edad || !genero || !actividad || !objetivo) return;
 
   localStorage.setItem('macroData', JSON.stringify({ peso, altura, edad, genero, actividad, objetivo }));
 
-  let tmb = genero === 'hombre'
-    ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
-    : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
-
+  let tmb = genero === 'hombre' ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5 : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
   let calorias = tmb * actividad;
   if (objetivo === 'perder') calorias *= 0.8;
   if (objetivo === 'ganar') calorias *= 1.15;
-
   calorias = Math.round(calorias);
 
   let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
@@ -260,17 +229,12 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
 
   const ctx = document.getElementById('macrosChart').getContext('2d');
   if (chart) chart.destroy();
-
   chart = new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
       datasets: [{
-        data: [
-          (proteinas * 4).toFixed(0), 
-          (grasas * 9).toFixed(0), 
-          (carbohidratos * 4).toFixed(0)
-        ],
+        data: [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)],
         backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'],
         borderWidth: 1,
       }]
