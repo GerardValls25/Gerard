@@ -6,8 +6,6 @@
 <title>Calculadora de Calorías y Macros</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- 🔗 Favicon y Manifest -->
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1a1f3f">
@@ -26,14 +24,10 @@ body {
   padding: 20px;
   transition: background 0.3s ease, color 0.3s ease;
 }
-
-/* 🎬 Animación base */
 @keyframes aparecer {
   0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-
-/* ✨ TÍTULO */
 h1 {
   color: #00ffc0;
   margin-bottom: 10px;
@@ -42,8 +36,6 @@ h1 {
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.2s;
 }
-
-/* 🌗 Botón de cambio de tema */
 .theme-toggle {
   background: #ffffff22;
   color: white;
@@ -57,7 +49,6 @@ h1 {
 }
 .theme-toggle:hover { background: #ffffff44; transform: scale(1.05); }
 
-/* 🧾 FORMULARIO */
 form {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
@@ -72,8 +63,6 @@ form {
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.6s;
 }
-
-/* 🔲 INPUTS Y SELECTS */
 input, select {
   appearance: none;
   padding: 12px;
@@ -98,18 +87,6 @@ select {
   padding-right: 40px;
 }
 select option { background-color: #1a1f3f; color: white; }
-select option:hover, select option:checked { background-color: #00ffc0; color: black; }
-
-/* 📊 GRÁFICO */
-.chart-container {
-  margin-top: 20px;
-  max-width: 350px;
-  width: 100%;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 1s;
-}
-
 button {
   background: #00ffc0;
   color: black;
@@ -120,10 +97,18 @@ button {
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
-button:hover { background: #00e6b8; transform: scale(1.02); }
-
+button:disabled { background: gray; cursor: not-allowed; }
+button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
 #resultado { margin-top: 15px; font-weight: bold; text-align: center; }
-
+.chart-container {
+  margin-top: 20px;
+  max-width: 350px;
+  width: 100%;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1s;
+  display: none;
+}
 .cerrar-btn {
   margin-top: 20px;
   background: #ffffff33;
@@ -132,16 +117,25 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  transition: background 0.3s ease, transform 0.2s ease;
   display: inline-block;
   text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease;
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 1.3s;
 }
 .cerrar-btn:hover { background: #ffffff55; transform: scale(1.05); }
-
-/* 🌞 Modo Claro Automático */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 @media (prefers-color-scheme: light) {
   body.light, body {
     background: #f5f5f5;
@@ -156,7 +150,7 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
       no-repeat right 12px center;
   }
   button { background: #0077ff; color: white; }
-  button:hover { background: #005fd4; }
+  button:hover:enabled { background: #005fd4; }
   .theme-toggle { background: #00000011; color: #222; }
   .theme-toggle:hover { background: #00000022; }
 }
@@ -168,9 +162,15 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
 <button id="theme-toggle" class="theme-toggle">🌙 Modo Oscuro</button>
 
 <form id="macro-form">
-  <input type="number" id="peso" placeholder="Peso (kg)" required>
-  <input type="number" id="altura" placeholder="Altura (cm)" required>
-  <input type="number" id="edad" placeholder="Edad" required>
+  <label for="peso" class="sr-only">Peso en kg</label>
+  <input type="number" id="peso" placeholder="Peso (kg)" min="30" max="250" step="0.1" required>
+  
+  <label for="altura" class="sr-only">Altura en cm</label>
+  <input type="number" id="altura" placeholder="Altura (cm)" min="100" max="250" required>
+  
+  <label for="edad" class="sr-only">Edad</label>
+  <input type="number" id="edad" placeholder="Edad" min="10" max="100" required>
+  
   <select id="genero" required>
     <option value="">Selecciona tu género</option>
     <option value="hombre">Hombre</option>
@@ -190,11 +190,11 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
     <option value="perder">Perder grasa</option>
     <option value="ganar">Ganar músculo</option>
   </select>
-  <button type="submit">Calcular</button>
+  <button type="submit" disabled>Calcular</button>
   <div id="resultado"></div>
 </form>
 
-<div class="chart-container">
+<div class="chart-container" id="chart-container">
   <canvas id="macrosChart"></canvas>
 </div>
 
@@ -202,24 +202,30 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
 
 <script>
 let chart = null;
+const form = document.getElementById("macro-form");
+const btnCalcular = form.querySelector("button");
+const inputs = form.querySelectorAll("input, select");
 
-// Detectar tema inicial
-if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-  document.body.classList.add("light");
-  document.getElementById("theme-toggle").textContent = "🌞 Modo Claro";
+// 🟢 Persistencia de tema
+const body = document.body;
+const themeToggle = document.getElementById("theme-toggle");
+if (localStorage.getItem("theme") === "light") {
+  body.classList.add("light");
+  themeToggle.textContent = "🌞 Modo Claro";
 }
-
-// Botón para alternar tema
-document.getElementById("theme-toggle").addEventListener("click", function () {
-  document.body.classList.toggle("light");
-  if (document.body.classList.contains("light")) {
-    this.textContent = "🌞 Modo Claro";
-  } else {
-    this.textContent = "🌙 Modo Oscuro";
-  }
+themeToggle.addEventListener("click", () => {
+  body.classList.toggle("light");
+  const isLight = body.classList.contains("light");
+  themeToggle.textContent = isLight ? "🌞 Modo Claro" : "🌙 Modo Oscuro";
+  localStorage.setItem("theme", isLight ? "light" : "dark");
 });
 
-document.getElementById('macro-form').addEventListener('submit', function (e) {
+// Habilitar botón solo si todos los campos están completos
+inputs.forEach(el => el.addEventListener("input", () => {
+  btnCalcular.disabled = !form.checkValidity();
+}));
+
+form.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const peso = parseFloat(document.getElementById('peso').value);
@@ -229,7 +235,10 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
   const actividad = parseFloat(document.getElementById('actividad').value);
   const objetivo = document.getElementById('objetivo').value;
 
-  if (!peso || !altura || !edad || !genero || !actividad || !objetivo) return;
+  if (isNaN(peso) || isNaN(altura) || isNaN(edad)) {
+    alert("Por favor introduce valores válidos.");
+    return;
+  }
 
   let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
@@ -238,7 +247,6 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
   let calorias = tmb * actividad;
   if (objetivo === 'perder') calorias *= 0.8;
   if (objetivo === 'ganar') calorias *= 1.15;
-
   calorias = Math.round(calorias);
 
   let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
@@ -253,33 +261,35 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
     <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
   `;
 
-  const ctx = document.getElementById('macrosChart').getContext('2d');
-  if (chart) chart.destroy();
+  document.getElementById("chart-container").style.display = "block";
 
-  chart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
-      datasets: [{
-        data: [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)],
-        backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'],
-        borderWidth: 1,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { labels: { color: document.body.classList.contains("light") ? '#222' : 'white' } }
+  const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
+  if (!chart) {
+    const ctx = document.getElementById('macrosChart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
+        datasets: [{ data, backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'] }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: document.body.classList.contains("light") ? '#222' : 'white' } }
+        }
       }
-    }
-  });
+    });
+  } else {
+    chart.data.datasets[0].data = data;
+    chart.update();
+  }
 });
 
 function cerrarVentana() {
   window.close();
 }
 
-// Registro del Service Worker
+// Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
     .then(() => console.log("✅ Service Worker registrado"))
