@@ -12,7 +12,6 @@
 <meta name="theme-color" content="#1a1f3f">
 
 <style>
-/* 🎨 Estilos base */
 body {
   font-family: 'Montserrat', sans-serif;
   background: #1a1f3f;
@@ -29,6 +28,10 @@ body {
 @keyframes aparecer {
   0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes zoomIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
 }
 h1 {
   color: #00ffc0;
@@ -64,7 +67,14 @@ form {
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.6s;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
+form.oculto {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
 input, select {
   appearance: none;
   padding: 12px;
@@ -108,43 +118,30 @@ button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
   display: none;
   font-size: 0.9rem;
 }
+#resultado-container {
+  display: none;
+  text-align: center;
+  animation: zoomIn 0.5s ease forwards;
+}
 #resultado {
   margin-top: 15px;
   font-weight: bold;
-  text-align: center;
   opacity: 0;
   transition: opacity 0.5s ease;
-}
-progress {
-  width: 100%;
-  height: 18px;
-  border-radius: 8px;
 }
 .chart-container {
   margin-top: 20px;
   max-width: 350px;
   width: 100%;
-  display: none;
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
-  animation-delay: 1s;
+  animation-delay: 0.3s;
 }
-.cerrar-btn {
+.recalcular-btn {
   margin-top: 20px;
-  background: #ffffff33;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  text-align: center;
-  transition: background 0.3s ease, transform 0.2s ease;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 1.3s;
+  animation: zoomIn 0.5s ease forwards;
 }
-.cerrar-btn:hover { background: #ffffff55; transform: scale(1.05); }
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -155,25 +152,6 @@ progress {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-/* 🌞 Tema claro */
-@media (prefers-color-scheme: light) {
-  body.light, body {
-    background: #f5f5f5;
-    color: #222;
-  }
-  form { background: rgba(0,0,0,0.05); }
-  input, select { background: rgba(255,255,255,0.9); color: #222; }
-  input:focus, select:focus { background: white; box-shadow: 0 0 8px #0077ff; }
-  select {
-    background: rgba(255,255,255,0.9)
-      url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
-      no-repeat right 12px center;
-  }
-  button { background: #0077ff; color: white; }
-  button:hover:enabled { background: #005fd4; }
-  .theme-toggle { background: #00000011; color: #222; }
-  .theme-toggle:hover { background: #00000022; }
 }
 </style>
 </head>
@@ -214,14 +192,15 @@ progress {
 
   <p id="error" role="alert"></p>
   <button type="submit" disabled>Calcular</button>
-  <div id="resultado" aria-live="polite"></div>
 </form>
 
-<div class="chart-container" id="chart-container">
-  <canvas id="macrosChart"></canvas>
+<div id="resultado-container">
+  <div id="resultado" aria-live="polite"></div>
+  <div class="chart-container" id="chart-container">
+    <canvas id="macrosChart"></canvas>
+  </div>
+  <button class="recalcular-btn" onclick="mostrarFormulario()">🔄 Recalcular</button>
 </div>
-
-<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
 
 <script>
 let chart = null;
@@ -230,8 +209,9 @@ const btnCalcular = form.querySelector("button");
 const inputs = form.querySelectorAll("input, select");
 const error = document.getElementById("error");
 const resultado = document.getElementById("resultado");
+const resultadoContainer = document.getElementById("resultado-container");
 
-// Persistencia de tema
+// 🌗 Persistencia de tema
 const body = document.body;
 const themeToggle = document.getElementById("theme-toggle");
 if (localStorage.getItem("theme") === "light") {
@@ -243,19 +223,18 @@ themeToggle.addEventListener("click", () => {
   const isLight = body.classList.contains("light");
   themeToggle.textContent = isLight ? "🌞 Modo Claro" : "🌙 Modo Oscuro";
   localStorage.setItem("theme", isLight ? "light" : "dark");
+
   if (chart) {
     chart.options.plugins.legend.labels.color = isLight ? '#222' : 'white';
     chart.update();
   }
 });
 
-// Habilitar botón y limpiar resultados al editar
+// Habilitar botón y resetear resultados si se cambia algo
 inputs.forEach(el => el.addEventListener("input", () => {
   btnCalcular.disabled = !form.checkValidity();
   resultado.style.opacity = 0;
-  document.getElementById("chart-container").style.display = "none";
-  const recomendacion = document.getElementById("recomendacion");
-  if (recomendacion) recomendacion.remove();
+  resultadoContainer.style.display = "none";
 }));
 
 form.addEventListener("submit", function (e) {
@@ -289,51 +268,24 @@ form.addEventListener("submit", function (e) {
   let grasas = (calorias * 0.25) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
+  form.classList.add("oculto");
+  setTimeout(() => {
+    form.style.display = "none";
+    resultadoContainer.style.display = "block";
+  }, 400);
+
   resultado.style.opacity = 0;
   requestAnimationFrame(() => {
     resultado.innerHTML = `
       <p>Calorías diarias: <strong>${calorias}</strong></p>
       <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
-      <progress id="barra-proteinas" value="${proteinas}" max="${peso * 3}"></progress>
-
       <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-      <progress id="barra-grasas" value="${grasas}" max="${(calorias * 0.4)/9}"></progress>
-
       <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
-      <progress id="barra-carbohidratos" value="${carbohidratos}" max="${(calorias * 0.7)/4}"></progress>
     `;
-
-    const setBarColor = (barra, valor, min, max) => {
-      if (valor < min) barra.style.accentColor = "#ff4d4d";
-      else if (valor > max) barra.style.accentColor = "#ffcc00";
-      else barra.style.accentColor = "#00ffc0";
-    };
-
-    setBarColor(document.getElementById("barra-proteinas"), proteinas / peso, 1.5, 2.5);
-    setBarColor(document.getElementById("barra-grasas"), grasas, (calorias * 0.2)/9, (calorias * 0.35)/9);
-    setBarColor(document.getElementById("barra-carbohidratos"), carbohidratos, 50, (calorias * 0.7)/4);
-
-    let mensaje = "";
-    if (proteinas / peso < 1.5) mensaje += "⚠️ Proteínas un poco bajas. ";
-    if (grasas < (calorias * 0.2)/9) mensaje += "⚠️ Grasas muy bajas. ";
-    if (carbohidratos < 50) mensaje += "⚠️ Carbohidratos muy bajos. ";
-
-    if (mensaje) {
-      const p = document.createElement("p");
-      p.id = "recomendacion";
-      p.style.color = "#ffcc00";
-      p.style.fontSize = "0.9rem";
-      p.style.marginTop = "10px";
-      p.textContent = mensaje;
-      resultado.appendChild(p);
-    }
-
     requestAnimationFrame(() => resultado.style.opacity = 1);
   });
 
   const chartContainer = document.getElementById("chart-container");
-  chartContainer.style.display = "block";
-
   const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
   if (!chart) {
     const ctx = document.getElementById('macrosChart').getContext('2d');
@@ -356,14 +308,13 @@ form.addEventListener("submit", function (e) {
   }
 });
 
-function cerrarVentana() {
-  if (window.opener) {
-    window.close();
-  } else {
-    alert("No se puede cerrar automáticamente. Cierra esta pestaña manualmente.");
-  }
+function mostrarFormulario() {
+  resultadoContainer.style.display = "none";
+  form.style.display = "flex";
+  setTimeout(() => form.classList.remove("oculto"), 10);
 }
 
+// Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
     .then(() => console.log("✅ Service Worker registrado"))
