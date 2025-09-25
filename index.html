@@ -5,17 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerard Valls - Nutrición Profesional</title>
 
-<!-- Fuente -->
+<!-- SEO -->
+<meta name="description" content="Nutrición profesional y planes personalizados para deportistas y personas activas. Mejora tu rendimiento, hábitos y bienestar con Gerard Valls.">
+<meta name="author" content="Gerard Valls">
+<meta name="robots" content="index, follow">
+
+<!-- Fuente optimizada -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Font Awesome (Optimizado: solo JS de solid + brands) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/solid.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/brands.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/fontawesome.min.js" crossorigin="anonymous"></script>
+<!-- Font Awesome optimizado -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/solid.min.js" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/brands.min.js" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/fontawesome.min.js" crossorigin="anonymous" defer></script>
 
 <!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 
 <style>
 :root{
@@ -39,6 +46,8 @@ body{
 body.light{background:var(--light-bg); color:var(--text-light);}
 a{color:var(--primary); text-decoration:none; transition:.3s;}
 a:hover{color:var(--primary-hover);}
+
+/* HEADER */
 header{
   position:relative;
   text-align:center;
@@ -90,7 +99,7 @@ h2::after{
 }
 @keyframes lineDraw{to{transform:scaleX(1);}}
 
-/* --- Servicios con Flip Card --- */
+/* Servicios con Flip Card */
 .services{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px; perspective:1200px;}
 .service{perspective:1200px;}
 .service-inner{
@@ -166,7 +175,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 /* WhatsApp y Scroll Top */
 #whatsapp-btn{position:fixed; bottom:140px; right:20px; z-index:1000; background:#25D366; color:white; border:none;
   border-radius:50%; width:60px; height:60px; font-size:1.8rem; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition:.3s;}
+  cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition:.3s; pointer-events:auto;}
 #whatsapp-btn:hover{transform:scale(1.1);}
 #scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--primary); color:white; border:none;
   padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; opacity:0; transition:.3s, opacity .5s, transform .3s;}
@@ -181,7 +190,7 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 <header>
 <h1>Gerard Valls</h1>
 <p>Nutrición personalizada para deportistas y personas activas</p>
-<canvas id="headerParticles"></canvas>
+<canvas id="headerParticles" style="pointer-events:none;"></canvas>
 <button id="toggle-theme">Cambiar a modo claro</button>
 </header>
 
@@ -198,7 +207,7 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
     <div class="service">
       <div class="service-inner">
         <div class="service-front">
-          <i class="fas fa-utensils"></i>
+          <i class="fas fa-utensils" aria-hidden="true"></i>
           <h3>Planes Personalizados</h3>
           <p>Adaptados a tu estilo de vida y objetivos.</p>
         </div>
@@ -216,7 +225,7 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
     <div class="service">
       <div class="service-inner">
         <div class="service-front">
-          <i class="fas fa-running"></i>
+          <i class="fas fa-running" aria-hidden="true"></i>
           <h3>Asesoría Deportiva</h3>
           <p>Optimiza tu rendimiento y recuperación.</p>
         </div>
@@ -234,7 +243,7 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
     <div class="service">
       <div class="service-inner">
         <div class="service-front">
-          <i class="fas fa-heartbeat"></i>
+          <i class="fas fa-heartbeat" aria-hidden="true"></i>
           <h3>Pérdida de Peso</h3>
           <p>Programas sostenibles y personalizados.</p>
         </div>
@@ -252,7 +261,7 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
     <div class="service">
       <div class="service-inner">
         <div class="service-front">
-          <i class="fas fa-laptop-medical"></i>
+          <i class="fas fa-laptop-medical" aria-hidden="true"></i>
           <h3>Consultas Online</h3>
           <p>Atención profesional desde cualquier lugar.</p>
         </div>
@@ -274,23 +283,23 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
   <div class="testimonial-carousel">
     <div class="testimonial-track">
       <div class="testimonial">
-        <i class="fas fa-star"></i>
+        <i class="fas fa-star" aria-hidden="true"></i>
         <p>"Excelente nutricionista, logré mis objetivos."</p>
         <span>- Laura G.</span>
       </div>
       <div class="testimonial">
-        <i class="fas fa-heart"></i>
+        <i class="fas fa-heart" aria-hidden="true"></i>
         <p>"Atención profesional y personalizada."</p>
         <span>- Carlos M.</span>
       </div>
       <div class="testimonial">
-        <i class="fas fa-thumbs-up"></i>
+        <i class="fas fa-thumbs-up" aria-hidden="true"></i>
         <p>"Recomiendo sus planes a todos los deportistas."</p>
         <span>- Ana R.</span>
       </div>
     </div>
-    <button class="testimonial-btn prev">‹</button>
-    <button class="testimonial-btn next">›</button>
+    <button class="testimonial-btn prev" aria-label="Anterior">‹</button>
+    <button class="testimonial-btn next" aria-label="Siguiente">›</button>
     <div class="testimonial-dots">
       <span class="dot active"></span>
       <span class="dot"></span>
@@ -303,42 +312,44 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
   <h2>Formulario de contacto</h2>
   <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST" class="glass-form">
     <div class="form-group">
-      <input type="text" name="name" placeholder=" " required>
-      <label>Nombre completo</label>
-      <i class="fas fa-user"></i>
+      <input id="name" type="text" name="name" placeholder=" " required>
+      <label for="name">Nombre completo</label>
+      <i class="fas fa-user" aria-hidden="true"></i>
     </div>
     <div class="form-group">
-      <input type="email" name="email" placeholder=" " required>
-      <label>Correo electrónico</label>
-      <i class="fas fa-envelope"></i>
+      <input id="email" type="email" name="email" placeholder=" " required>
+      <label for="email">Correo electrónico</label>
+      <i class="fas fa-envelope" aria-hidden="true"></i>
     </div>
     <div class="form-group">
-      <textarea name="message" rows="5" placeholder=" " required></textarea>
-      <label>Mensaje</label>
-      <i class="fas fa-comment"></i>
+      <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+      <label for="message">Mensaje</label>
+      <i class="fas fa-comment" aria-hidden="true"></i>
     </div>
     <button type="submit">Enviar</button>
-    <span id="form-feedback"></span>
+    <span id="form-feedback" aria-live="polite"></span>
   </form>
 </section>
 </main>
 
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
-<button id="whatsapp-btn"><i class="fab fa-whatsapp"></i></button>
-<button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
+<button id="whatsapp-btn" aria-label="Abrir chat de WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></button>
+<button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
 
-<script>
+<script defer>
 document.getElementById('toggle-theme').addEventListener('click',()=>{
   document.body.classList.toggle('light');
   document.getElementById('toggle-theme').textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
 });
 
 /* GSAP animaciones */
-gsap.from("header h1",{opacity:0,y:-50,duration:1});
-gsap.from("header p",{opacity:0,y:30,duration:1,delay:0.3});
-gsap.utils.toArray(".service").forEach((el,i)=>{
-  gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:50,duration:0.6,delay:i*0.1});
+window.addEventListener('DOMContentLoaded',()=>{
+  gsap.from("header h1",{opacity:0,y:-50,duration:1});
+  gsap.from("header p",{opacity:0,y:30,duration:1,delay:0.3});
+  gsap.utils.toArray(".service").forEach((el,i)=>{
+    gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:50,duration:0.6,delay:i*0.1});
+  });
 });
 
 /* Scroll top */
@@ -350,13 +361,16 @@ scrollBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}
 document.getElementById("whatsapp-btn").addEventListener("click",()=>{window.open("https://wa.me/34600000000","_blank");});
 
 /* Form feedback */
-document.getElementById('contact-form').addEventListener('submit',e=>{
+document.getElementById('contact-form').addEventListener('submit',async e=>{
   e.preventDefault();
   const form=e.target;
-  fetch(form.action,{method:'POST',body:new FormData(form)})
-  .then(r=>r.ok?"Mensaje enviado con éxito":"Error al enviar el mensaje")
-  .then(msg=>{document.getElementById('form-feedback').textContent=msg;form.reset();})
-  .catch(()=>document.getElementById('form-feedback').textContent="Hubo un error.");
+  try{
+    const r=await fetch(form.action,{method:'POST',body:new FormData(form)});
+    document.getElementById('form-feedback').textContent=r.ok?"Mensaje enviado con éxito":"Error al enviar el mensaje";
+    if(r.ok) form.reset();
+  }catch{
+    document.getElementById('form-feedback').textContent="Hubo un error.";
+  }
 });
 </script>
 
