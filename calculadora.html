@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Calorías y Macros</title>
-<meta name="description" content="Calculadora profesional de calorías y macronutrientes basada en tu peso, altura, edad, nivel de actividad y objetivo fitness.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="icon" href="icon-192.png" type="image/png">
 <meta name="theme-color" content="#1a1f3f">
+
 <style>
 body {
   font-family: 'Montserrat', sans-serif;
@@ -19,95 +20,92 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 20px;
-  transition: background 0.3s ease, color 0.3s ease;
 }
-@keyframes aparecer {
-  0% { opacity: 0; transform: translateY(10px) scale(0.98); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-h1 {
-  color: #00ffc0;
-  margin-bottom: 10px;
-  text-align: center;
-  animation: aparecer 0.8s ease forwards;
-}
+h1 { color: #00ffc0; }
 form {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
-  padding: 30px;
+  padding: 25px;
   border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
   max-width: 400px;
   width: 100%;
-  animation: aparecer 0.8s ease forwards;
 }
-input, select {
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(0,0,0,0.3);
-  color: white;
-}
-button {
-  background: #00ffc0;
-  color: black;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-button:hover:enabled { transform: scale(1.05); }
-#resultado-container {
-  display: none;
-  max-width: 400px;
+input, select, button {
   width: 100%;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: 20px;
-  margin-top: 20px;
-  animation: aparecer 0.8s ease forwards;
-}
-.macro-bar {
-  height: 14px;
-  background: #ffffff33;
+  margin: 5px 0;
+  padding: 10px;
   border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 10px;
+  border: none;
 }
-.macro-fill {
-  height: 100%;
-  width: 0%;
-  background: #00ffc0;
-  border-radius: 8px;
-  transition: width 1s ease, background 0.3s ease;
-}
-.feedback {
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  animation: aparecer 0.5s ease forwards;
-}
-.feedback.red { background: rgba(255,0,0,0.15); color: #ff4d4d; }
-.feedback.yellow { background: rgba(255,255,0,0.15); color: #ffcc00; }
-.feedback.green { background: rgba(0,255,192,0.15); color: #00ffc0; }
-.chart-container { margin-top: 20px; }
-#recalcular {
-  display: none;
+button { background: #00ffc0; font-weight: bold; cursor: pointer; }
+#resultado { margin-top: 15px; font-weight: bold; text-align: center; }
+.chart-container { margin-top: 15px; max-width: 350px; width: 100%; display: none; }
+
+/* 🔥 Barras */
+.progress-bar-container {
   margin-top: 15px;
-  background: #00ffc0;
-  color: black;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 8px;
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  height: 20px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0;
+  transition: width 1s ease;
+}
+.progress-proteinas { background: #00ffc0; }
+.progress-grasas { background: #ffcc00; }
+.progress-carbohidratos { background: #ff4d4d; }
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  cursor: help;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%; left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.tooltip.ok .tooltiptext { background: #00c853; }
+.tooltip.warn .tooltiptext { background: #ffb300; }
+.tooltip.bad .tooltiptext { background: #d32f2f; }
+
+.recalcular-btn {
+  margin-top: 10px;
+  background: #ffffff33;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  display: inline-block;
   cursor: pointer;
-  transform: scale(0.9);
-  animation: aparecer 0.6s ease forwards;
 }
 </style>
 </head>
@@ -119,6 +117,7 @@ button:hover:enabled { transform: scale(1.05); }
   <input type="number" id="peso" placeholder="Peso (kg)" min="30" max="250" step="0.1" required>
   <input type="number" id="altura" placeholder="Altura (cm)" min="100" max="250" required>
   <input type="number" id="edad" placeholder="Edad" min="10" max="100" required>
+  
   <select id="genero" required>
     <option value="">Selecciona tu género</option>
     <option value="hombre">Hombre</option>
@@ -138,50 +137,43 @@ button:hover:enabled { transform: scale(1.05); }
     <option value="perder">Perder grasa</option>
     <option value="ganar">Ganar músculo</option>
   </select>
+
+  <p id="error" style="color:#ff4d4d; display:none;"></p>
   <button type="submit" disabled>Calcular</button>
+  <div id="resultado"></div>
 </form>
 
-<div id="resultado-container">
-  <div id="resultado"></div>
-
-  <div>
-    <p>Proteínas</p>
-    <div class="macro-bar"><div id="bar-proteinas" class="macro-fill"></div></div>
-    <p>Grasas</p>
-    <div class="macro-bar"><div id="bar-grasas" class="macro-fill"></div></div>
-    <p>Carbohidratos</p>
-    <div class="macro-bar"><div id="bar-carbohidratos" class="macro-fill"></div></div>
-  </div>
-
-  <div id="feedback-container"></div>
-
-  <div class="chart-container">
-    <canvas id="macrosChart"></canvas>
-  </div>
-
-  <button id="recalcular">🔄 Recalcular</button>
+<div class="chart-container" id="chart-container">
+  <canvas id="macrosChart"></canvas>
 </div>
+
+<div id="barras">
+  <p>Proteínas <span class="tooltip" id="tooltip-proteinas">ℹ<small class="tooltiptext"></small></span></p>
+  <div class="progress-bar-container"><div class="progress-bar progress-proteinas" id="bar-proteinas"></div></div>
+  
+  <p>Grasas <span class="tooltip" id="tooltip-grasas">ℹ<small class="tooltiptext"></small></span></p>
+  <div class="progress-bar-container"><div class="progress-bar progress-grasas" id="bar-grasas"></div></div>
+  
+  <p>Carbohidratos <span class="tooltip" id="tooltip-carbohidratos">ℹ<small class="tooltiptext"></small></span></p>
+  <div class="progress-bar-container"><div class="progress-bar progress-carbohidratos" id="bar-carbohidratos"></div></div>
+</div>
+
+<div id="recalcular" class="recalcular-btn" onclick="scrollToForm()">🔄 Recalcular</div>
 
 <script>
 let chart = null;
 const form = document.getElementById("macro-form");
-const resultadoContainer = document.getElementById("resultado-container");
+const btnCalcular = form.querySelector("button");
+const inputs = form.querySelectorAll("input, select");
 const resultado = document.getElementById("resultado");
-const feedbackContainer = document.getElementById("feedback-container");
-const recalcularBtn = document.getElementById("recalcular");
 
-form.querySelectorAll("input, select").forEach(el => 
-  el.addEventListener("input", () => {
-    form.querySelector("button").disabled = !form.checkValidity();
-  })
-);
+inputs.forEach(el => el.addEventListener("input", () => {
+  btnCalcular.disabled = !form.checkValidity();
+}));
 
 form.addEventListener("submit", e => {
   e.preventDefault();
-  calcular();
-});
 
-function calcular() {
   const peso = parseFloat(document.getElementById('peso').value);
   const altura = parseFloat(document.getElementById('altura').value);
   const edad = parseFloat(document.getElementById('edad').value);
@@ -203,11 +195,6 @@ function calcular() {
   let grasas = (calorias * 0.25) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
-  // Ocultar formulario y mostrar resultados
-  form.style.display = "none";
-  resultadoContainer.style.display = "block";
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
   resultado.innerHTML = `
     <p>Calorías diarias: <strong>${calorias}</strong></p>
     <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
@@ -215,47 +202,70 @@ function calcular() {
     <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
   `;
 
-  // Barras animadas
-  const totalCal = proteinas*4 + grasas*9 + carbohidratos*4;
-  llenarBarra("bar-proteinas", (proteinas*4)/totalCal*100);
-  llenarBarra("bar-grasas", (grasas*9)/totalCal*100);
-  llenarBarra("bar-carbohidratos", (carbohidratos*4)/totalCal*100);
+  actualizarBarras(proteinas, grasas, carbohidratos, calorias);
+  scrollToResults();
 
-  // Feedback educativo
-  feedbackContainer.innerHTML = "";
-  if (proteinas/peso < 1.5) feedbackContainer.innerHTML += `<div class="feedback red">🚨 Tus proteínas están bajas. Intenta llegar al menos a 1.8 g/kg para mantener tu masa muscular.</div>`;
-  if ((grasas*9)/calorias < 0.2) feedbackContainer.innerHTML += `<div class="feedback yellow">⚠️ Tus grasas están algo bajas. Las grasas saludables son clave para hormonas y energía.</div>`;
-  if ((carbohidratos*4)/calorias < 0.4) feedbackContainer.innerHTML += `<div class="feedback yellow">⚠️ Tus carbohidratos son bajos. Podrías sentir menos energía, aumenta frutas y cereales integrales.</div>`;
-  if (feedbackContainer.innerHTML === "") feedbackContainer.innerHTML = `<div class="feedback green">✅ ¡Excelente! Tus macros están bien equilibrados.</div>`;
+  const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
+  const chartContainer = document.getElementById("chart-container");
+  chartContainer.style.display = "block";
 
-  // Gráfico
-  const data = [(proteinas*4).toFixed(0), (grasas*9).toFixed(0), (carbohidratos*4).toFixed(0)];
   if (!chart) {
-    chart = new Chart(document.getElementById("macrosChart"), {
+    const ctx = document.getElementById('macrosChart').getContext('2d');
+    chart = new Chart(ctx, {
       type: 'pie',
-      data: { labels: ['Proteínas','Grasas','Carbohidratos'], datasets: [{ data, backgroundColor: ['#00ffc0','#ffcc00','#ff4d4d'] }] },
-      options: { responsive: true }
+      data: {
+        labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
+        datasets: [{ data, backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'] }]
+      }
     });
   } else {
     chart.data.datasets[0].data = data;
     chart.update();
   }
-
-  recalcularBtn.style.display = "block";
-  setTimeout(() => document.getElementById("resultado-container").scrollIntoView({behavior:"smooth"}), 400);
-}
-
-function llenarBarra(id, porcentaje) {
-  const barra = document.getElementById(id);
-  barra.style.width = porcentaje + "%";
-  barra.style.background = porcentaje > 50 ? "#00ffc0" : porcentaje > 30 ? "#ffcc00" : "#ff4d4d";
-}
-
-recalcularBtn.addEventListener("click", () => {
-  resultadoContainer.style.display = "none";
-  form.style.display = "flex";
-  window.scrollTo({ top: 0, behavior: "smooth" });
 });
+
+function actualizarBarras(p, g, c, cal) {
+  const barP = document.getElementById("bar-proteinas");
+  const barG = document.getElementById("bar-grasas");
+  const barC = document.getElementById("bar-carbohidratos");
+
+  const pCal = (p*4)/cal*100;
+  const gCal = (g*9)/cal*100;
+  const cCal = (c*4)/cal*100;
+
+  barP.style.width = pCal + "%";
+  barG.style.width = gCal + "%";
+  barC.style.width = cCal + "%";
+
+  actualizarTooltip("proteinas", pCal);
+  actualizarTooltip("grasas", gCal);
+  actualizarTooltip("carbohidratos", cCal);
+}
+
+function actualizarTooltip(macro, valor) {
+  const tooltip = document.getElementById(`tooltip-${macro}`);
+  const texto = tooltip.querySelector(".tooltiptext");
+  tooltip.classList.remove("ok","warn","bad");
+
+  if (valor >= 15 && valor <= 35) {
+    tooltip.classList.add("ok");
+    texto.textContent = "Este macro está en un rango saludable.";
+  } else if (valor < 15) {
+    tooltip.classList.add("warn");
+    texto.textContent = "Podría estar bajo, revisa si necesitas más.";
+  } else {
+    tooltip.classList.add("bad");
+    texto.textContent = "Está muy alto, podrías bajarlo.";
+  }
+}
+
+function scrollToResults() {
+  document.getElementById("barras").scrollIntoView({behavior: "smooth"});
+}
+function scrollToForm() {
+  form.scrollIntoView({behavior: "smooth"});
+}
 </script>
+
 </body>
 </html>
