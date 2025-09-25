@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Calorías y Macros</title>
+<meta name="description" content="Calculadora profesional de calorías y macronutrientes basada en tu peso, altura, edad, nivel de actividad y objetivo fitness.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="icon" href="icon-192.png" type="image/png">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1a1f3f">
 
 <style>
+/* 🎨 Estilos base */
 body {
   font-family: 'Montserrat', sans-serif;
   background: #1a1f3f;
@@ -17,161 +20,282 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   min-height: 100vh;
   margin: 0;
   padding: 20px;
+  transition: background 0.3s ease, color 0.3s ease;
 }
-h1 { color: #00ffc0; }
+@keyframes aparecer {
+  0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+h1 {
+  color: #00ffc0;
+  margin-bottom: 10px;
+  text-align: center;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+.theme-toggle {
+  background: #ffffff22;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.theme-toggle:hover { background: #ffffff44; transform: scale(1.05); }
+
 form {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
-  padding: 25px;
+  padding: 30px;
   border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   max-width: 400px;
   width: 100%;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.6s;
 }
-input, select, button {
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px;
+input, select {
+  appearance: none;
+  padding: 12px;
   border-radius: 8px;
   border: none;
+  background: rgba(0,0,0,0.3);
+  color: white;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-button { background: #00ffc0; font-weight: bold; cursor: pointer; }
-#resultado { margin-top: 15px; font-weight: bold; text-align: center; }
-.chart-container { margin-top: 15px; max-width: 350px; width: 100%; display: none; }
+input:focus, select:focus {
+  background: rgba(0,0,0,0.5);
+  transform: scale(1.02);
+  box-shadow: 0 0 10px #00ffc0;
+}
+select {
+  background: rgba(0,0,0,0.3)
+    url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+    no-repeat right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+select option { background-color: #1a1f3f; color: white; }
+button {
+  background: #00ffc0;
+  color: black;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+button:disabled { background: gray; cursor: not-allowed; }
+button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
 
-/* 🔥 Barras */
-.progress-bar-container {
-  margin-top: 15px;
-  width: 100%;
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-  height: 20px;
-  overflow: hidden;
-}
-.progress-bar {
-  height: 100%;
-  width: 0;
-  transition: width 1s ease;
-}
-.progress-proteinas { background: #00ffc0; }
-.progress-grasas { background: #ffcc00; }
-.progress-carbohidratos { background: #ff4d4d; }
-
-/* Tooltip */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  margin-left: 6px;
-  cursor: help;
-}
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 180px;
-  background-color: #333;
-  color: #fff;
+#error {
+  color: #ff4d4d;
   text-align: center;
-  border-radius: 6px;
-  padding: 6px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%; left: 50%;
-  transform: translateX(-50%);
+  display: none;
+  font-size: 0.9rem;
+}
+#resultado {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.5s ease;
 }
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%; left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #333 transparent transparent transparent;
-}
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-.tooltip.ok .tooltiptext { background: #00c853; }
-.tooltip.warn .tooltiptext { background: #ffb300; }
-.tooltip.bad .tooltiptext { background: #d32f2f; }
 
-.recalcular-btn {
-  margin-top: 10px;
+/* 💡 Tarjeta educativa */
+#educacion-macros {
+  display: none;
+  margin-top: 15px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 10px rgba(0,255,192,0.3);
+  animation: aparecer 0.8s ease forwards;
+  position: relative;
+  max-width: 400px;
+  text-align: left;
+  line-height: 1.4;
+  font-size: 0.9rem;
+}
+body.light #educacion-macros {
+  background: rgba(0,0,0,0.05);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px rgba(0,255,192,0.3); }
+  50% { box-shadow: 0 0 15px rgba(0,170,255,0.4); }
+  100% { box-shadow: 0 0 10px rgba(0,255,192,0.3); }
+}
+#educacion-macros.glow {
+  animation: glowPulse 2s infinite;
+}
+#educacion-macros button.cerrar-educacion {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+body.light #educacion-macros button.cerrar-educacion { color: #333; }
+#educacion-macros button.cerrar-educacion:hover {
+  transform: rotate(5deg) scale(1.1);
+  color: #00ffc0;
+}
+
+.chart-container {
+  margin-top: 20px;
+  max-width: 350px;
+  width: 100%;
+  display: none;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1s;
+}
+.cerrar-btn {
+  margin-top: 20px;
   background: #ffffff33;
   color: white;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
   display: inline-block;
-  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1.3s;
+}
+.cerrar-btn:hover { background: #ffffff55; transform: scale(1.05); }
+
+/* 🌞 Tema claro */
+@media (prefers-color-scheme: light) {
+  body.light, body {
+    background: #f5f5f5;
+    color: #222;
+  }
+  form { background: rgba(0,0,0,0.05); }
+  input, select { background: rgba(255,255,255,0.9); color: #222; }
+  input:focus, select:focus { background: white; box-shadow: 0 0 8px #0077ff; }
+  select {
+    background: rgba(255,255,255,0.9)
+      url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+      no-repeat right 12px center;
+  }
+  button { background: #0077ff; color: white; }
+  button:hover:enabled { background: #005fd4; }
+  .theme-toggle { background: #00000011; color: #222; }
+  .theme-toggle:hover { background: #00000022; }
 }
 </style>
 </head>
 <body>
 
 <h1>Calculadora Profesional de Calorías y Macros</h1>
+<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo de color">🌙 Modo Oscuro</button>
 
 <form id="macro-form">
-  <input type="number" id="peso" placeholder="Peso (kg)" min="30" max="250" step="0.1" required>
-  <input type="number" id="altura" placeholder="Altura (cm)" min="100" max="250" required>
-  <input type="number" id="edad" placeholder="Edad" min="10" max="100" required>
+  <label for="peso" class="sr-only">Peso en kg</label>
+  <input type="number" id="peso" inputmode="decimal" placeholder="Peso (kg)" min="30" max="250" step="0.1" required aria-label="Peso en kilogramos">
   
-  <select id="genero" required>
+  <label for="altura" class="sr-only">Altura en cm</label>
+  <input type="number" id="altura" inputmode="numeric" placeholder="Altura (cm)" min="100" max="250" required aria-label="Altura en centímetros">
+  
+  <label for="edad" class="sr-only">Edad</label>
+  <input type="number" id="edad" inputmode="numeric" placeholder="Edad" min="10" max="100" required aria-label="Edad">
+  
+  <select id="genero" required aria-label="Selecciona tu género">
     <option value="">Selecciona tu género</option>
     <option value="hombre">Hombre</option>
     <option value="mujer">Mujer</option>
   </select>
-  <select id="actividad" required>
+  <select id="actividad" required aria-label="Selecciona tu nivel de actividad">
     <option value="">Nivel de actividad</option>
     <option value="1.2">Sedentario</option>
-    <option value="1.375">Ligero</option>
-    <option value="1.55">Moderado</option>
-    <option value="1.725">Activo</option>
-    <option value="1.9">Muy Activo</option>
+    <option value="1.375">Ligero (1-3 días de ejercicio)</option>
+    <option value="1.55">Moderado (3-5 días de ejercicio)</option>
+    <option value="1.725">Activo (6-7 días de ejercicio)</option>
+    <option value="1.9">Muy Activo (2 entrenamientos/día)</option>
   </select>
-  <select id="objetivo" required>
+  <select id="objetivo" required aria-label="Selecciona tu objetivo">
     <option value="">Objetivo</option>
     <option value="mantener">Mantener peso</option>
     <option value="perder">Perder grasa</option>
     <option value="ganar">Ganar músculo</option>
   </select>
 
-  <p id="error" style="color:#ff4d4d; display:none;"></p>
+  <p id="error" role="alert"></p>
   <button type="submit" disabled>Calcular</button>
-  <div id="resultado"></div>
+  <div id="resultado" aria-live="polite"></div>
 </form>
+
+<div id="educacion-macros" class="glow">
+  📊 Este gráfico muestra cómo se reparten tus macronutrientes.<br>
+  Mantener un buen equilibrio ayuda a optimizar energía, composición corporal y rendimiento.
+  <button class="cerrar-educacion" aria-label="Cerrar tarjeta educativa">❌</button>
+</div>
 
 <div class="chart-container" id="chart-container">
   <canvas id="macrosChart"></canvas>
 </div>
 
-<div id="barras">
-  <p>Proteínas <span class="tooltip" id="tooltip-proteinas">ℹ<small class="tooltiptext"></small></span></p>
-  <div class="progress-bar-container"><div class="progress-bar progress-proteinas" id="bar-proteinas"></div></div>
-  
-  <p>Grasas <span class="tooltip" id="tooltip-grasas">ℹ<small class="tooltiptext"></small></span></p>
-  <div class="progress-bar-container"><div class="progress-bar progress-grasas" id="bar-grasas"></div></div>
-  
-  <p>Carbohidratos <span class="tooltip" id="tooltip-carbohidratos">ℹ<small class="tooltiptext"></small></span></p>
-  <div class="progress-bar-container"><div class="progress-bar progress-carbohidratos" id="bar-carbohidratos"></div></div>
-</div>
-
-<div id="recalcular" class="recalcular-btn" onclick="scrollToForm()">🔄 Recalcular</div>
+<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
 
 <script>
 let chart = null;
 const form = document.getElementById("macro-form");
 const btnCalcular = form.querySelector("button");
 const inputs = form.querySelectorAll("input, select");
+const error = document.getElementById("error");
 const resultado = document.getElementById("resultado");
+const educacion = document.getElementById("educacion-macros");
+const cerrarEdu = educacion.querySelector(".cerrar-educacion");
 
+// 🟢 Persistencia de tema
+const body = document.body;
+const themeToggle = document.getElementById("theme-toggle");
+if (localStorage.getItem("theme") === "light") {
+  body.classList.add("light");
+  themeToggle.textContent = "🌞 Modo Claro";
+}
+themeToggle.addEventListener("click", () => {
+  body.classList.toggle("light");
+  const isLight = body.classList.contains("light");
+  themeToggle.textContent = isLight ? "🌞 Modo Claro" : "🌙 Modo Oscuro";
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+
+  if (chart) {
+    chart.options.plugins.legend.labels.color = isLight ? '#222' : 'white';
+    chart.update();
+  }
+});
+
+// Habilitar botón y resetear resultados si se cambia algo
 inputs.forEach(el => el.addEventListener("input", () => {
   btnCalcular.disabled = !form.checkValidity();
+  resultado.style.opacity = 0;
+  document.getElementById("chart-container").style.display = "none";
 }));
 
-form.addEventListener("submit", e => {
+form.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const peso = parseFloat(document.getElementById('peso').value);
@@ -180,6 +304,13 @@ form.addEventListener("submit", e => {
   const genero = document.getElementById('genero').value;
   const actividad = parseFloat(document.getElementById('actividad').value);
   const objetivo = document.getElementById('objetivo').value;
+
+  if (isNaN(peso) || isNaN(altura) || isNaN(edad)) {
+    error.textContent = "Por favor introduce valores válidos.";
+    error.style.display = "block";
+    return;
+  }
+  error.style.display = "none";
 
   let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
@@ -195,20 +326,25 @@ form.addEventListener("submit", e => {
   let grasas = (calorias * 0.25) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
-  resultado.innerHTML = `
-    <p>Calorías diarias: <strong>${calorias}</strong></p>
-    <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
-    <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-    <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
-  `;
+  resultado.style.opacity = 0;
+  requestAnimationFrame(() => {
+    resultado.innerHTML = `
+      <p>Calorías diarias: <strong>${calorias}</strong></p>
+      <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
+      <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
+      <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
+    `;
+    requestAnimationFrame(() => resultado.style.opacity = 1);
+  });
 
-  actualizarBarras(proteinas, grasas, carbohidratos, calorias);
-  scrollToResults();
+  // Mostrar tarjeta educativa
+  educacion.style.display = "block";
+  educacion.classList.add("glow");
 
-  const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
   const chartContainer = document.getElementById("chart-container");
   chartContainer.style.display = "block";
 
+  const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
   if (!chart) {
     const ctx = document.getElementById('macrosChart').getContext('2d');
     chart = new Chart(ctx, {
@@ -216,6 +352,12 @@ form.addEventListener("submit", e => {
       data: {
         labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
         datasets: [{ data, backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'] }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: document.body.classList.contains("light") ? '#222' : 'white' } }
+        }
       }
     });
   } else {
@@ -224,46 +366,24 @@ form.addEventListener("submit", e => {
   }
 });
 
-function actualizarBarras(p, g, c, cal) {
-  const barP = document.getElementById("bar-proteinas");
-  const barG = document.getElementById("bar-grasas");
-  const barC = document.getElementById("bar-carbohidratos");
+cerrarEdu.addEventListener("click", () => {
+  educacion.style.display = "none";
+});
 
-  const pCal = (p*4)/cal*100;
-  const gCal = (g*9)/cal*100;
-  const cCal = (c*4)/cal*100;
-
-  barP.style.width = pCal + "%";
-  barG.style.width = gCal + "%";
-  barC.style.width = cCal + "%";
-
-  actualizarTooltip("proteinas", pCal);
-  actualizarTooltip("grasas", gCal);
-  actualizarTooltip("carbohidratos", cCal);
-}
-
-function actualizarTooltip(macro, valor) {
-  const tooltip = document.getElementById(`tooltip-${macro}`);
-  const texto = tooltip.querySelector(".tooltiptext");
-  tooltip.classList.remove("ok","warn","bad");
-
-  if (valor >= 15 && valor <= 35) {
-    tooltip.classList.add("ok");
-    texto.textContent = "Este macro está en un rango saludable.";
-  } else if (valor < 15) {
-    tooltip.classList.add("warn");
-    texto.textContent = "Podría estar bajo, revisa si necesitas más.";
+// Cerrar ventana
+function cerrarVentana() {
+  if (window.opener) {
+    window.close();
   } else {
-    tooltip.classList.add("bad");
-    texto.textContent = "Está muy alto, podrías bajarlo.";
+    alert("No se puede cerrar automáticamente. Cierra esta pestaña manualmente.");
   }
 }
 
-function scrollToResults() {
-  document.getElementById("barras").scrollIntoView({behavior: "smooth"});
-}
-function scrollToForm() {
-  form.scrollIntoView({behavior: "smooth"});
+// Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js')
+    .then(() => console.log("✅ Service Worker registrado"))
+    .catch(err => console.log("❌ Error en Service Worker", err));
 }
 </script>
 
