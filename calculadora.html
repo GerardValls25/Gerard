@@ -48,8 +48,6 @@ form {
 label { font-weight: 600; font-size: 0.9rem; }
 input, select {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   padding: 12px;
   border-radius: 8px;
   border: none;
@@ -107,11 +105,11 @@ button:hover {
   font-weight: bold;
   text-align: center;
 }
-/* Slider de grasas */
+/* Contenedor de sliders */
 .slider-container {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   margin-top: 10px;
 }
 .slider-container.active {
@@ -180,9 +178,14 @@ input[type="range"] {
     <option value="ganar">Ganar músculo</option>
   </select>
 
-  <!-- Slider de ajuste de grasas -->
+  <!-- Sliders dinámicos -->
   <div class="slider-container" id="slider-container">
-    <label for="grasasPorcentaje">Ajusta el % de grasas: 
+    <label for="proteinasKg">Proteínas: 
+      <span id="valorProteinas">2.0 g/kg</span>
+    </label>
+    <input type="range" id="proteinasKg" min="1.5" max="2.5" step="0.1" value="2.0">
+
+    <label for="grasasPorcentaje">Grasas: 
       <span id="valorGrasas">25%</span>
     </label>
     <input type="range" id="grasasPorcentaje" min="15" max="40" value="25">
@@ -201,7 +204,7 @@ input[type="range"] {
 <script>
 let chart = null;
 let caloriasGlobal = 0;
-let proteinasGlobal = 0;
+let pesoGlobal = 0;
 
 document.getElementById('macro-form').addEventListener('submit', function (e) {
   e.preventDefault();
@@ -218,36 +221,40 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
     return;
   }
 
+  pesoGlobal = peso;
+
   let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
     : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
 
-  let calorias = tmb * actividad;
-  if (objetivo === 'perder') calorias *= 0.8;
-  if (objetivo === 'ganar') calorias *= 1.15;
-  calorias = Math.round(calorias);
-  caloriasGlobal = calorias;
+  caloriasGlobal = tmb * actividad;
+  if (objetivo === 'perder') caloriasGlobal *= 0.8;
+  if (objetivo === 'ganar') caloriasGlobal *= 1.15;
+  caloriasGlobal = Math.round(caloriasGlobal);
 
-  let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
-  proteinasGlobal = proteinasPorKg * peso;
-
+  // Mostrar sliders después del primer cálculo
   document.getElementById("slider-container").classList.add("active");
 
   recalcularYMostrar();
 });
 
+document.getElementById("proteinasKg").addEventListener("input", recalcularYMostrar);
 document.getElementById("grasasPorcentaje").addEventListener("input", recalcularYMostrar);
 
 function recalcularYMostrar() {
+  let proteinasPorKg = parseFloat(document.getElementById("proteinasKg").value);
+  let proteinas = proteinasPorKg * pesoGlobal;
   let porcentajeGrasas = document.getElementById("grasasPorcentaje").value / 100;
+
+  document.getElementById("valorProteinas").textContent = `${proteinasPorKg.toFixed(1)} g/kg`;
   document.getElementById("valorGrasas").textContent = `${(porcentajeGrasas * 100).toFixed(0)}%`;
 
   let grasas = (caloriasGlobal * porcentajeGrasas) / 9;
-  let carbohidratos = (caloriasGlobal - (proteinasGlobal * 4) - (grasas * 9)) / 4;
+  let carbohidratos = (caloriasGlobal - (proteinas * 4) - (grasas * 9)) / 4;
 
   document.getElementById('resultado').innerHTML = `
     <p>Calorías diarias: <strong>${caloriasGlobal}</strong></p>
-    <p>Proteínas: <strong>${proteinasGlobal.toFixed(0)} g</strong></p>
+    <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
     <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
     <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
   `;
@@ -261,7 +268,7 @@ function recalcularYMostrar() {
       labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
       datasets: [{
         data: [
-          (proteinasGlobal * 4).toFixed(0),
+          (proteinas * 4).toFixed(0),
           (grasas * 9).toFixed(0),
           (carbohidratos * 4).toFixed(0)
         ],
