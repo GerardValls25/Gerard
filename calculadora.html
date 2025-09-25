@@ -22,21 +22,14 @@ body {
 }
 
 @keyframes aparecer {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  0% {opacity: 0;transform: translateY(-20px) scale(0.98);}
+  100% {opacity: 1;transform: translateY(0) scale(1);}
 }
 
-/* 🟢 Nueva animación rebote suave */
 @keyframes reboteSuave {
-  0% { transform: scale(0.95); opacity: 0; }
-  60% { transform: scale(1.02); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {transform: scale(0.95); opacity: 0;}
+  60% {transform: scale(1.02); opacity: 1;}
+  100% {transform: scale(1);}
 }
 
 h1 {
@@ -73,12 +66,17 @@ input, select {
   color: white;
   outline: none;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+input:hover, select:hover {
+  box-shadow: 0 0 10px #00ffc0;
+  border: 1px solid #00ffc0;
 }
 input:focus, select:focus {
   background: rgba(0,0,0,0.5);
   transform: scale(1.02);
-  box-shadow: 0 0 10px #00ffc0;
+  box-shadow: 0 0 12px #00ffc0;
+  border: 1px solid #00ffc0;
 }
 
 select {
@@ -97,12 +95,13 @@ button {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   animation: reboteSuave 0.8s ease forwards;
 }
 button:hover {
   background: #00e6b8;
   transform: scale(1.05);
+  box-shadow: 0 0 10px #00ffc0;
 }
 
 .chart-container {
@@ -177,7 +176,6 @@ button:hover {
 <script>
 let chart = null;
 
-// 🔄 Cargar datos guardados al iniciar
 document.addEventListener("DOMContentLoaded", () => {
   ["peso","altura","edad","genero","actividad","objetivo"].forEach(id => {
     if(localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
