@@ -112,6 +112,8 @@ button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
 #resultado {
   font-weight: bold;
   text-align: center;
+  width: 100%;
+  max-width: 400px;
 }
 .chart-container {
   max-width: 350px;
@@ -134,6 +136,23 @@ button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+/* Barras de progreso */
+.barra {
+  height: 10px;
+  background: #333;
+  border-radius: 6px;
+  margin: 5px 0 15px;
+  overflow: hidden;
+}
+.barra > div {
+  height: 100%;
+  width: 0%;
+  border-radius: 6px;
+  transition: width 1s ease-in-out;
+}
+.proteina { background: #00ffc0; }
+.grasa { background: #ffcc00; }
+.carb { background: #ff4d4d; }
 </style>
 </head>
 <body>
@@ -227,13 +246,20 @@ form.addEventListener("submit", function (e) {
     resultado.innerHTML = `
       <p>Calorías diarias: <strong>${calorias}</strong></p>
       <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
+      <div class="barra"><div class="proteina" style="width:0%"></div></div>
       <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
+      <div class="barra"><div class="grasa" style="width:0%"></div></div>
       <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
+      <div class="barra"><div class="carb" style="width:0%"></div></div>
     `;
     resultadoContainer.style.opacity = 1;
 
     setTimeout(() => {
       resultadoContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Animar barras
+      document.querySelector(".proteina").style.width = Math.min((proteinas / (peso*3))*100, 100) + "%";
+      document.querySelector(".grasa").style.width = Math.min((grasas / ((calorias*0.4)/9))*100, 100) + "%";
+      document.querySelector(".carb").style.width = Math.min((carbohidratos / ((calorias*0.7)/4))*100, 100) + "%";
     }, 300);
 
     const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
