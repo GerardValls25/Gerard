@@ -9,7 +9,7 @@
 <style>
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #1a1f3f;
+  background: linear-gradient(135deg, #0a0f2d, #1a1f3f);
   color: white;
   display: flex;
   flex-direction: column;
@@ -20,135 +20,120 @@ body {
   padding: 20px;
 }
 
-/* 🎬 Animación base */
 @keyframes aparecer {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  0% { opacity: 0; transform: translateY(-10px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ✨ TÍTULO */
 h1 {
   color: #00ffc0;
   margin-bottom: 20px;
   text-align: center;
-  opacity: 0;
+  font-size: 1.8rem;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.2s;
 }
 
-/* 🧾 FORMULARIO */
 form {
   background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
   padding: 30px;
-  border-radius: 16px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-width: 400px;
+  max-width: 420px;
   width: 100%;
-  opacity: 0;
   animation: aparecer 0.8s ease forwards;
-  animation-delay: 0.6s;
+  animation-delay: 0.4s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* 🔲 INPUTS Y SELECTS */
 input, select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   background: rgba(0,0,0,0.3);
   color: white;
+  font-size: 1rem;
   outline: none;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus, select:focus {
   background: rgba(0,0,0,0.5);
-  transform: scale(1.02);
-  box-shadow: 0 0 10px #00ffc0;
+  box-shadow: 0 0 12px #00ffc0;
 }
 
-/* Personalización del ícono de los selects */
 select {
-  background: rgba(0,0,0,0.3)
-    url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
-    no-repeat right 12px center;
+  background: rgba(0,0,0,0.3) url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;
   background-size: 20px;
   padding-right: 40px;
 }
 
-select option {
-  background-color: #1a1f3f;
-  color: white;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-select option:hover,
-select option:checked {
-  background-color: #00ffc0;
-  color: black;
-}
-
-/* 📊 GRÁFICO */
-.chart-container {
-  margin-top: 20px;
-  max-width: 350px;
-  width: 100%;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 1s;
-}
-
-button {
+button, .reset-btn {
   background: #00ffc0;
   color: black;
   border: none;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 14px;
+  border-radius: 10px;
   font-weight: bold;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
-button:hover {
+button:hover, .reset-btn:hover {
   background: #00e6b8;
-  transform: scale(1.02);
+  transform: scale(1.03);
+}
+
+.reset-btn {
+  background: #ff4d4d;
+  color: white;
+  font-size: 0.9rem;
+  padding: 10px;
+  margin-top: 5px;
+}
+.reset-btn:hover {
+  background: #e63b3b;
 }
 
 #resultado {
-  margin-top: 15px;
+  margin-top: 10px;
   font-weight: bold;
   text-align: center;
+  line-height: 1.6;
 }
 
-/* Botón de cerrar */
+.chart-container {
+  margin-top: 25px;
+  max-width: 360px;
+  width: 100%;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.8s;
+}
+
 .cerrar-btn {
   margin-top: 20px;
   background: #ffffff33;
   color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 12px 22px;
+  border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
   transition: background 0.3s ease, transform 0.2s ease;
   display: inline-block;
   text-align: center;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 1.3s;
 }
 .cerrar-btn:hover {
   background: #ffffff55;
   transform: scale(1.05);
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.5rem; }
+  form { padding: 20px; }
+  button { font-size: 1rem; }
 }
 </style>
 </head>
@@ -168,9 +153,9 @@ button:hover {
   <select id="actividad" required>
     <option value="">Nivel de actividad</option>
     <option value="1.2">Sedentario</option>
-    <option value="1.375">Ligero (1-3 días de ejercicio)</option>
-    <option value="1.55">Moderado (3-5 días de ejercicio)</option>
-    <option value="1.725">Activo (6-7 días de ejercicio)</option>
+    <option value="1.375">Ligero (1-3 días/semana)</option>
+    <option value="1.55">Moderado (3-5 días/semana)</option>
+    <option value="1.725">Activo (6-7 días/semana)</option>
     <option value="1.9">Muy Activo (2 entrenamientos/día)</option>
   </select>
   <select id="objetivo" required>
@@ -180,6 +165,7 @@ button:hover {
     <option value="ganar">Ganar músculo</option>
   </select>
   <button type="submit">Calcular</button>
+  <button type="button" class="reset-btn" onclick="limpiarDatos()">🗑 Limpiar Datos Guardados</button>
   <div id="resultado"></div>
 </form>
 
@@ -187,10 +173,26 @@ button:hover {
   <canvas id="macrosChart"></canvas>
 </div>
 
-<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
+<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar</a>
 
 <script>
 let chart = null;
+
+window.addEventListener('DOMContentLoaded', () => {
+  const pesoGuardado = localStorage.getItem('peso');
+  const alturaGuardada = localStorage.getItem('altura');
+  const edadGuardada = localStorage.getItem('edad');
+  const generoGuardado = localStorage.getItem('genero');
+  const actividadGuardada = localStorage.getItem('actividad');
+  const objetivoGuardado = localStorage.getItem('objetivo');
+
+  if (pesoGuardado) document.getElementById('peso').value = pesoGuardado;
+  if (alturaGuardada) document.getElementById('altura').value = alturaGuardada;
+  if (edadGuardada) document.getElementById('edad').value = edadGuardada;
+  if (generoGuardado) document.getElementById('genero').value = generoGuardado;
+  if (actividadGuardada) document.getElementById('actividad').value = actividadGuardada;
+  if (objetivoGuardado) document.getElementById('objetivo').value = objetivoGuardado;
+});
 
 document.getElementById('macro-form').addEventListener('submit', function (e) {
   e.preventDefault();
@@ -204,7 +206,13 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
 
   if (!peso || !altura || !edad || !genero || !actividad || !objetivo) return;
 
-  // Fórmula Mifflin-St Jeor
+  localStorage.setItem('peso', peso);
+  localStorage.setItem('altura', altura);
+  localStorage.setItem('edad', edad);
+  localStorage.setItem('genero', genero);
+  localStorage.setItem('actividad', actividad);
+  localStorage.setItem('objetivo', objetivo);
+
   let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
     : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
@@ -222,39 +230,54 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
   document.getElementById('resultado').innerHTML = `
-    <p>Calorías diarias: <strong>${calorias}</strong></p>
-    <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
-    <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-    <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
+    <p>🔥 <strong>${calorias}</strong> kcal diarias</p>
+    <p>🍗 Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
+    <p>🥑 Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
+    <p>🍚 Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
   `;
 
   const ctx = document.getElementById('macrosChart').getContext('2d');
   if (chart) chart.destroy();
 
   chart = new Chart(ctx, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
       labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
       datasets: [{
         data: [
-          (proteinas * 4).toFixed(0), 
-          (grasas * 9).toFixed(0), 
+          (proteinas * 4).toFixed(0),
+          (grasas * 9).toFixed(0),
           (carbohidratos * 4).toFixed(0)
         ],
         backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'],
-        borderWidth: 1,
+        borderWidth: 2,
       }]
     },
     options: {
       responsive: true,
       plugins: {
         legend: {
-          labels: { color: 'white' }
+          labels: { color: 'white', font: { size: 14 } }
         }
+      },
+      animation: {
+        animateScale: true,
+        animateRotate: true
       }
     }
   });
 });
+
+function limpiarDatos() {
+  localStorage.clear();
+  document.getElementById('macro-form').reset();
+  document.getElementById('resultado').innerHTML = "";
+  if (chart) {
+    chart.destroy();
+    chart = null;
+  }
+  alert("✅ Datos guardados eliminados.");
+}
 
 function cerrarVentana() {
   window.close();
