@@ -8,7 +8,7 @@
 <!-- Fuente -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Font Awesome CSS -->
+<!-- Font Awesome CSS (para que los iconos de servicios funcionen) -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <!-- GSAP -->
@@ -16,35 +16,154 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 
 <style>
-/* ... (tu CSS original completo) ... */
-
-/* NUEVO: sección de estadísticas */
-#estadisticas .stats{
-  display:flex; justify-content:space-around; flex-wrap:wrap;
-  margin-top:20px; font-size:1.5rem;
+:root{
+  --primary:#00ffc0;
+  --primary-hover:#00e6b8;
+  --dark-bg:#1a1f3f;
+  --light-bg:#f5f5f5;
+  --text-dark:#e6e6e6;
+  --text-light:#222;
+  --radius:12px;
+  --transition:.5s ease;
 }
-#estadisticas .counter{font-weight:bold;color:var(--primary);}
+*{box-sizing:border-box;}
+body{
+  margin:0; font-family:'Montserrat',sans-serif;
+  background:var(--dark-bg);
+  color:var(--text-dark);
+  overflow-x:hidden; line-height:1.6;
+  transition:background var(--transition),color var(--transition);
+}
+body.light{background:var(--light-bg); color:var(--text-light);}
+a{color:var(--primary); text-decoration:none; transition:.3s;}
+a:hover{color:var(--primary-hover);}
 
-/* NUEVO: calculadora */
-.calculator {
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.2);
-  border-radius:var(--radius);
-  padding:20px;
+/* HEADER */
+header{
+  position:relative;
+  text-align:center;
+  padding:120px 20px 100px;
+}
+header h1{
+  font-size:3rem;
+  background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow:0 0 20px rgba(0,255,192,0.5);
+  animation:gradMove 10s linear infinite;
+}
+header p{margin-top:10px;font-size:1.2rem;}
+#toggle-theme{
   margin-top:20px;
+  background:var(--primary); color:#000;
+  border:none; padding:10px 20px;
+  border-radius:var(--radius); cursor:pointer;
+  font-weight:600; transition:.4s;
 }
-body.light .calculator {
-  background:rgba(255,255,255,0.25);
-  border:1px solid rgba(0,0,0,0.2);
+#toggle-theme:hover{background:var(--primary-hover); transform:translateY(-2px);}
+@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+
+/* Navegación */
+nav{
+  position:sticky; top:0; background:rgba(42,55,96,0.85); backdrop-filter:blur(10px);
+  display:flex; justify-content:center; gap:1rem; padding:12px; z-index:1000; transition:var(--transition);
 }
-.calculator input, .calculator select {
-  width:100%; padding:10px; margin:5px 0 10px;
-  border-radius:var(--radius); border:1px solid rgba(255,255,255,0.3);
+body.light nav{background:rgba(245,245,245,0.9);}
+nav a{font-weight:600; cursor:pointer;}
+
+/* Main wrapper */
+main.wrapper{
+  max-width:1100px; margin:40px auto; padding:50px 30px 60px;
+  border-radius:var(--radius); backdrop-filter:blur(15px); background:rgba(42,55,96,0.85); text-align:center;
+  transition:var(--transition);
 }
-body.light .calculator input, body.light .calculator select {
-  border:1px solid rgba(0,0,0,0.3);
+body.light main.wrapper{background:rgba(245,245,245,0.9);}
+
+/* Secciones */
+h2{font-size:2rem; margin-bottom:20px; position:relative; display:inline-block;}
+h2::after{
+  content:""; width:60px; height:3px; display:block; margin:8px auto 0; border-radius:2px; background:var(--primary);
+  transform:scaleX(0); animation:lineDraw 1s forwards;
 }
+@keyframes lineDraw{to{transform:scaleX(1);}}
+
+/* Servicios con Flip Card */
+.services{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px; perspective:1200px;}
+.service{perspective:1200px;}
+.service-inner{
+  position:relative; width:100%; min-height:250px;
+  transform-style:preserve-3d; transition:transform 0.8s ease;
+}
+.service:hover .service-inner{transform:rotateY(180deg);}
+.service-front,.service-back{
+  position:absolute; width:100%; height:100%;
+  backface-visibility:hidden; border-radius:var(--radius);
+  padding:25px; display:flex; flex-direction:column; justify-content:center; align-items:center;
+}
+.service-front{
+  background:rgba(255,255,255,0.05); transition:background 0.4s, box-shadow 0.4s;
+}
+.service-front i{
+  font-size:3rem; margin-bottom:10px; color:var(--primary);
+  transition:transform 0.4s, color 0.4s, text-shadow 0.4s;
+}
+.service:hover .service-front{
+  background:linear-gradient(135deg,#00ffc0,#00bfff,#ff00c8);
+  box-shadow:0 8px 25px rgba(0,0,0,0.3); color:white;
+}
+.service:hover .service-front i{transform:scale(1.2) rotate(5deg); color:white; text-shadow:0 0 20px rgba(255,255,255,0.7);}
+.service-back{
+  background:linear-gradient(135deg,#00ffc0,#00bfff); transform:rotateY(180deg); color:#000;
+}
+.service-back ul{text-align:left; margin:10px 0; padding-left:20px;}
+.service-back button{
+  margin-top:10px; background:white; color:var(--primary); font-weight:bold;
+  border:none; padding:10px 16px; border-radius:var(--radius); cursor:pointer; transition:0.3s;
+}
+.service-back button:hover{background:var(--primary); color:#000;}
+
+/* Testimonios carrusel */
+.testimonial-carousel {overflow:hidden; position:relative; margin:2rem 0;}
+.testimonials-wrapper {display:flex; gap:2rem; will-change:transform;}
+.testimonial {
+  min-width:300px; background:rgba(255,255,255,0.1); padding:1rem;
+  border-radius:10px; flex-shrink:0; text-align:center;
+}
+.testimonial-nav {display:flex; justify-content:center; gap:1rem; margin-top:1rem;}
+.testimonial-nav button {
+  background: rgba(0,0,0,0.5); border:none; color:white;
+  padding:10px 14px; border-radius:50%; cursor:pointer; transition:background 0.3s, transform 0.3s;
+}
+.testimonial-nav button:hover {background:var(--primary); transform:scale(1.1);}
+
+/* Formulario Glass */
+.glass-form{display:flex; flex-direction:column; gap:20px; margin-top:20px; padding:30px; border-radius:16px;
+  background:rgba(255,255,255,0.05); backdrop-filter:blur(15px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.2); box-shadow:0 8px 32px rgba(0,0,0,0.2); color:white; transition:all .4s ease;}
+body.light .glass-form{background:rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.3); color:var(--text-light);}
+.form-group{position:relative;}
+.form-group input, .form-group textarea{
+  width:100%; padding:16px 14px 16px 36px; border-radius:12px;
+  border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:white; font-size:1rem; transition:all .4s ease;
+}
+body.light .glass-form input, body.light .glass-form textarea{border:1px solid rgba(0,0,0,0.3); background:rgba(255,255,255,0.9); color:var(--text-light);}
+.form-group label{position:absolute; left:36px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.6); pointer-events:none; transition: all .3s ease; padding:0 4px;}
+body.light .glass-form label{color: rgba(0,0,0,0.6);}
+.form-group input:focus, .form-group textarea:focus{outline:none; border-color:var(--primary); box-shadow:0 0 15px var(--primary);}
+.form-group input:focus + label, .form-group textarea:focus + label,
+.form-group input:not(:placeholder-shown) + label, .form-group textarea:not(:placeholder-shown) + label{top:-8px; font-size:0.8rem; color:var(--primary);}
+.form-group i{position:absolute; top:50%; left:12px; transform:translateY(-50%); color:var(--primary); font-size:1.2rem; pointer-events:none; z-index:5; transition:all .4s ease;}
+button{background:var(--primary); color:#000; border:none; padding:14px 24px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
+button:hover{background:var(--primary-hover); transform:translateY(-2px);}
+
+/* WhatsApp y Scroll Top */
+#whatsapp-btn{position:fixed; bottom:140px; right:20px; z-index:1000; background:#25D366; color:white; border:none; border-radius:50%; width:60px; height:60px; font-size:1.8rem; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition:.3s;}
+#whatsapp-btn:hover{transform:scale(1.1);}
+#scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--primary); color:white; border:none; padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; opacity:0; transition:.3s, opacity .5s, transform .3s;}
+#scrollTopBtn.show{display:block; opacity:1;}
+#scrollTopBtn:hover{transform:scale(1.1); background:var(--primary-hover);}
+footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
+@media(max-width:600px){header h1{font-size:2rem;} header p{font-size:1rem;} .services{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -57,66 +176,125 @@ body.light .calculator input, body.light .calculator select {
 
 <nav>
 <a href="#servicios">Servicios</a>
-<a href="#estadisticas">Resultados</a>
 <a href="#testimonios">Testimonios</a>
 <a href="#consulta">Formulario</a>
-<a href="#calculadora">Calculadora</a>
 </nav>
 
 <main class="wrapper">
 <section id="servicios">
   <h2>Servicios</h2>
-  <!-- ... (tus servicios) ... -->
-</section>
+  <div class="services">
+    <div class="service">
+      <div class="service-inner">
+        <div class="service-front">
+          <i class="fas fa-utensils"></i>
+          <h3>Planes Personalizados</h3>
+          <p>Adaptados a tu estilo de vida y objetivos.</p>
+        </div>
+        <div class="service-back">
+          <ul>
+            <li>Evaluación inicial completa</li>
+            <li>Plan nutricional flexible</li>
+            <li>Seguimiento quincenal</li>
+          </ul>
+          <button onclick="location.href='#consulta'">Solicitar</button>
+        </div>
+      </div>
+    </div>
 
-<!-- NUEVO: sección de estadísticas -->
-<section id="estadisticas">
-  <h2>Resultados</h2>
-  <div class="stats">
-    <div><span class="counter" data-target="150">0</span>+ Clientes</div>
-    <div><span class="counter" data-target="300">0</span>+ Planes creados</div>
-    <div><span class="counter" data-target="95">0</span>% Satisfacción</div>
+    <div class="service">
+      <div class="service-inner">
+        <div class="service-front">
+          <i class="fas fa-running"></i>
+          <h3>Asesoría Deportiva</h3>
+          <p>Optimiza tu rendimiento y recuperación.</p>
+        </div>
+        <div class="service-back">
+          <ul>
+            <li>Plan de macronutrientes</li>
+            <li>Recomendaciones de suplementación</li>
+            <li>Ajuste de cargas de entrenamiento</li>
+          </ul>
+          <button onclick="location.href='#consulta'">Solicitar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="service">
+      <div class="service-inner">
+        <div class="service-front">
+          <i class="fas fa-heartbeat"></i>
+          <h3>Pérdida de Peso</h3>
+          <p>Programas sostenibles y personalizados.</p>
+        </div>
+        <div class="service-back">
+          <ul>
+            <li>Reducción de grasa saludable</li>
+            <li>Hábitos de alimentación duraderos</li>
+            <li>Soporte motivacional</li>
+          </ul>
+          <button onclick="location.href='#consulta'">Solicitar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="service">
+      <div class="service-inner">
+        <div class="service-front">
+          <i class="fas fa-laptop-medical"></i>
+          <h3>Consultas Online</h3>
+          <p>Atención profesional desde cualquier lugar.</p>
+        </div>
+        <div class="service-back">
+          <ul>
+            <li>Videollamadas en horario flexible</li>
+            <li>Soporte por correo y WhatsApp</li>
+            <li>Acceso a material educativo</li>
+          </ul>
+          <button onclick="location.href='#consulta'">Solicitar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="testimonios">
   <h2>Testimonios</h2>
-  <!-- ... (tus testimonios) ... -->
+  <div class="testimonial-carousel">
+    <div class="testimonials-wrapper">
+      <div class="testimonial">"Excelente nutricionista, logré mis objetivos." – Laura G.</div>
+      <div class="testimonial">"Atención profesional y personalizada." – Carlos M.</div>
+      <div class="testimonial">"Recomiendo sus planes a todos los deportistas." – Ana R.</div>
+    </div>
+    <div class="testimonial-nav">
+      <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+      <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
 </section>
 
 <section id="consulta">
   <h2>Formulario de contacto</h2>
-  <!-- ... (tu formulario) ... -->
+  <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST" class="glass-form">
+    <div class="form-group">
+      <input type="text" name="name" placeholder=" " required>
+      <label>Nombre completo</label>
+      <i class="fas fa-user"></i>
+    </div>
+    <div class="form-group">
+      <input type="email" name="email" placeholder=" " required>
+      <label>Correo electrónico</label>
+      <i class="fas fa-envelope"></i>
+    </div>
+    <div class="form-group">
+      <textarea name="message" rows="5" placeholder=" " required></textarea>
+      <label>Mensaje</label>
+      <i class="fas fa-comment"></i>
+    </div>
+    <button type="submit">Enviar</button>
+    <span id="form-feedback" aria-live="polite"></span>
+  </form>
 </section>
-
-<!-- NUEVO: Calculadora de calorías -->
-<section id="calculadora">
-  <h2>Calculadora de Calorías</h2>
-  <div class="calculator">
-    <label>Peso (kg):</label>
-    <input type="number" id="peso" required>
-    <label>Altura (cm):</label>
-    <input type="number" id="altura" required>
-    <label>Edad:</label>
-    <input type="number" id="edad" required>
-    <label>Sexo:</label>
-    <select id="sexo">
-      <option value="hombre">Hombre</option>
-      <option value="mujer">Mujer</option>
-    </select>
-    <label>Actividad:</label>
-    <select id="actividad">
-      <option value="1.2">Sedentario</option>
-      <option value="1.375">Ligero (1-3 días)</option>
-      <option value="1.55">Moderado (3-5 días)</option>
-      <option value="1.725">Intenso (6-7 días)</option>
-      <option value="1.9">Muy intenso</option>
-    </select>
-    <button id="calcular-btn">Calcular</button>
-    <p id="resultado"></p>
-  </div>
-</section>
-
 </main>
 
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
@@ -125,16 +303,9 @@ body.light .calculator input, body.light .calculator select {
 <button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up"></i></button>
 
 <script defer>
-/* Guardar preferencia de tema */
-const themeBtn=document.getElementById('toggle-theme');
-if(localStorage.getItem('theme')==='light'){
-  document.body.classList.add('light');
-  themeBtn.textContent='Cambiar a modo oscuro';
-}
-themeBtn.addEventListener('click',()=>{
+document.getElementById('toggle-theme').addEventListener('click',()=>{
   document.body.classList.toggle('light');
-  localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
-  themeBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
+  document.getElementById('toggle-theme').textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
 });
 
 /* GSAP animaciones */
@@ -154,20 +325,10 @@ scrollBtn.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}
 /* WhatsApp */
 document.getElementById("whatsapp-btn").addEventListener("click",()=>{window.open("https://wa.me/34600000000","_blank");});
 
-/* Validación avanzada de formulario + feedback */
-const form=document.getElementById('contact-form');
-form.addEventListener('submit',async e=>{
+/* Form feedback */
+document.getElementById('contact-form').addEventListener('submit',async e=>{
   e.preventDefault();
-  const email=form.email.value;
-  const name=form.name.value.trim();
-  if(name.length<3){
-    document.getElementById("form-feedback").textContent="Por favor ingresa un nombre válido.";
-    return;
-  }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    document.getElementById("form-feedback").textContent="Correo no válido.";
-    return;
-  }
+  const form=e.target;
   try{
     const r=await fetch(form.action,{method:'POST',body:new FormData(form)});
     document.getElementById('form-feedback').textContent=r.ok?"Mensaje enviado con éxito":"Error al enviar el mensaje";
@@ -177,43 +338,36 @@ form.addEventListener('submit',async e=>{
   }
 });
 
-/* Testimonios auto-scroll (igual que antes) */
-/* ... (tu código de carrusel de testimonios) ... */
+/* Testimonios auto-scroll con flechas y reanudación */
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.querySelector(".testimonials-wrapper");
+  const prevBtn = document.querySelector(".testimonial-prev");
+  const nextBtn = document.querySelector(".testimonial-next");
 
-/* Contadores animados */
-document.addEventListener("DOMContentLoaded",()=>{
-  const counters=document.querySelectorAll(".counter");
-  counters.forEach(counter=>{
-    let target=+counter.getAttribute("data-target");
-    let count=0;
-    const update=()=>{
-      count+=Math.ceil(target/80);
-      if(count<target){
-        counter.textContent=count;
-        requestAnimationFrame(update);
-      }else{
-        counter.textContent=target;
-      }
-    };
-    update();
+  wrapper.innerHTML += wrapper.innerHTML; // duplicar contenido para loop
+
+  const tl = gsap.to(wrapper, { xPercent: -50, duration: 15, ease: "linear", repeat: -1 });
+  let autoPlayTimeout;
+
+  const pauseAutoPlay = () => {
+    tl.pause();
+    clearTimeout(autoPlayTimeout);
+    autoPlayTimeout = setTimeout(() => tl.play(), 4000); // reanuda tras 4s
+  };
+
+  wrapper.addEventListener("mouseenter", pauseAutoPlay);
+  wrapper.addEventListener("mouseleave", pauseAutoPlay);
+
+  const step = 300; // píxeles
+  prevBtn.addEventListener("click", () => {
+    pauseAutoPlay();
+    gsap.to(wrapper, { x: `+=${step}`, duration: 0.6, ease: "power2.out" });
+  });
+  nextBtn.addEventListener("click", () => {
+    pauseAutoPlay();
+    gsap.to(wrapper, { x: `-=${step}`, duration: 0.6, ease: "power2.out" });
   });
 });
-
-/* Calculadora de calorías */
-document.getElementById("calcular-btn").addEventListener("click",()=>{
-  const peso=+document.getElementById("peso").value;
-  const altura=+document.getElementById("altura").value;
-  const edad=+document.getElementById("edad").value;
-  const sexo=document.getElementById("sexo").value;
-  const actividad=+document.getElementById("actividad").value;
-  if(!peso||!altura||!edad) return alert("Completa todos los campos");
-  let tmb=sexo==="hombre"
-    ? 88.36+(13.4*peso)+(4.8*altura)-(5.7*edad)
-    : 447.6+(9.2*peso)+(3.1*altura)-(4.3*edad);
-  const calorias=(tmb*actividad).toFixed(0);
-  document.getElementById("resultado").textContent=`Necesitas aprox. ${calorias} kcal/día para mantener tu peso.`;
-});
 </script>
-
 </body>
 </html>
