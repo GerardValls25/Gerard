@@ -3,126 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerard Valls - Nutrición Profesional</title>
-
-<!-- Tipografía y librerías -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-
+<title>Carrusel de Testimonios</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
-:root{--primary:#00ffc0;--dark-bg:#1a1f3f;--text-light:#fff;--radius:14px}
-body{margin:0;font-family:"Montserrat",sans-serif;background:var(--dark-bg);color:var(--text-light);overflow-x:hidden}
-/* HEADER */
-header{text-align:center;padding:100px 20px 60px}
-header h1{font-size:3rem;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;background-size:300%;animation:gradMove 10s linear infinite}
-@keyframes gradMove{to{background-position:300%}}
-header p{margin-top:10px;font-size:1.2rem;opacity:.85}
-/* NAV */
-nav{position:sticky;top:0;background:rgba(42,55,96,.85);backdrop-filter:blur(10px);display:flex;justify-content:center;gap:2rem;padding:12px;z-index:10}
-nav a{font-weight:600;text-decoration:none;color:var(--text-light);transition:color .3s ease}
-nav a:hover{color:var(--primary)}
-/* MAIN WRAPPER */
-main.wrapper{max-width:1100px;margin:40px auto;padding:40px 20px;border-radius:var(--radius);backdrop-filter:blur(15px);background:rgba(42,55,96,.85)}
-/* SERVICES */
-.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px;perspective:1000px}
-.service-inner{position:relative;transform-style:preserve-3d;border-radius:var(--radius);overflow:hidden;background:rgba(255,255,255,.05);transition:transform .3s ease}
-.service-inner::after{content:"";position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:inherit;background:conic-gradient(from var(--border-rotation,0deg),#ff0066,#ffcc00,#00ffcc,#00bfff,#ff0066);filter:blur(8px);opacity:.8;z-index:-1}
-.service-front{padding:25px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
-.service-front i{font-size:3rem;color:var(--primary);transition:transform .4s,color .4s,text-shadow .4s}
-.service-inner:hover i{transform:scale(1.2) rotate(5deg);color:#fff;text-shadow:0 0 25px rgba(255,255,255,.7)}
-.service-inner:hover{transform:rotateX(5deg) rotateY(-5deg) scale(1.03);box-shadow:0 20px 40px rgba(0,0,0,.4)}
-/* FORMULARIO */
-#consulta{margin-top:60px}
-#consulta h2{text-align:center;margin-bottom:20px}
-#consulta form{position:relative;max-width:600px;margin:0 auto;padding:30px;border-radius:var(--radius);background:rgba(42,42,42,.9);overflow:hidden;display:flex;flex-direction:column;gap:15px}
-#consulta form::before{content:"";position:absolute;inset:-2px;border-radius:inherit;background:conic-gradient(from var(--form-border-rotation,0deg),#ff0066,#ffcc00,#00ffcc,#00bfff,#ff0066);filter:blur(10px);opacity:.8;z-index:-1}
-#consulta form::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 50% 50%,hsla(var(--glow-hue,180),100%,70%,.15),transparent 80%);mix-blend-mode:screen;z-index:0}
-#consulta input,#consulta textarea{padding:15px;border-radius:10px;border:2px solid transparent;background:#2a2a2a;color:#fff;font-size:1rem;z-index:1;position:relative;transition:all .3s ease}
-#consulta input:focus,#consulta textarea:focus{border-color:#00bfff;box-shadow:0 0 12px rgba(0,191,255,.5);outline:none}
-#consulta button{position:relative;overflow:hidden;padding:15px;background:linear-gradient(90deg,#00bfff,#0099cc);border:none;border-radius:10px;color:#fff;font-size:1.1rem;cursor:pointer;z-index:1;box-shadow:0 5px 20px rgba(0,191,255,.3);transition:transform .3s ease}
-#consulta button::after{content:"";position:absolute;top:0;left:-50%;width:200%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.3),transparent);transform:skewX(-20deg);transition:left .6s ease}
-#consulta button:hover{transform:scale(1.05)}
-#consulta button:hover::after{left:50%}
-/* RESPONSIVE */
-@media (max-width:600px){header h1{font-size:2.2rem}.services{gap:20px}}
+body {
+  font-family: "Montserrat", sans-serif;
+  background: #1a1f3f;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.testimonial-slider {
+  position: relative;
+  max-width: 700px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 40px 20px;
+}
+
+.testimonial-track {
+  display: flex;
+}
+
+.testimonial {
+  min-width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.testimonial p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.testimonial h3 {
+  margin-top: 15px;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 255, 192, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+.slider-btn:hover {
+  background: rgba(0, 255, 192, 0.4);
+}
+.slider-btn.prev { left: 10px; }
+.slider-btn.next { right: 10px; }
+
+.slider-dots {
+  text-align: center;
+  margin-top: 15px;
+}
+.slider-dots button {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.slider-dots button.active {
+  background: #00ffc0;
+}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Gerard Valls</h1>
-  <p>Nutrición personalizada para deportistas y personas activas</p>
-</header>
-
-<nav>
-  <a href="#servicios">Servicios</a>
-  <a href="#consulta">Contacto</a>
-</nav>
-
-<main class="wrapper">
-<section id="servicios">
-  <h2>Servicios</h2>
-  <div class="services">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-utensils"></i>
-        <h3>Planes Personalizados</h3>
-        <p>Adaptados a tu estilo de vida y objetivos.</p>
-      </div>
+<div class="testimonial-slider">
+  <div class="testimonial-track">
+    <div class="testimonial">
+      <p>“Excelente servicio y atención, mis resultados fueron increíbles.”</p>
+      <h3>- Laura M.</h3>
     </div>
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-running"></i>
-        <h3>Asesoría Deportiva</h3>
-        <p>Optimiza tu rendimiento y recuperación.</p>
-      </div>
+    <div class="testimonial">
+      <p>“El plan de nutrición fue muy fácil de seguir y los cambios se notaron rápido.”</p>
+      <h3>- Carlos G.</h3>
     </div>
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-heartbeat"></i>
-        <h3>Pérdida de Peso</h3>
-        <p>Programas sostenibles y personalizados.</p>
-      </div>
+    <div class="testimonial">
+      <p>“Me siento con más energía que nunca, ¡totalmente recomendado!”</p>
+      <h3>- Andrea P.</h3>
     </div>
   </div>
-</section>
 
-<section id="consulta">
-  <h2>Formulario de Contacto</h2>
-  <form action="https://formspree.io/f/mnqwerty" method="POST">
-    <input type="text" name="name" placeholder="Nombre completo" required>
-    <input type="email" name="email" placeholder="Correo electrónico" required>
-    <textarea name="message" rows="5" placeholder="Mensaje" required></textarea>
-    <button type="submit">Enviar</button>
-  </form>
-</section>
-</main>
+  <button class="slider-btn prev">&#10094;</button>
+  <button class="slider-btn next">&#10095;</button>
+  <div class="slider-dots"></div>
+</div>
 
 <script>
-const cards=document.querySelectorAll(".service-inner");let hue=0,formHue=0;function animate(){hue=(hue+1)%360;formHue=(formHue+1)%360;cards.forEach(card=>{card.style.setProperty("--border-rotation",`${hue}deg`)});const form=document.querySelector("#consulta form");form.style.setProperty("--form-border-rotation",`${formHue}deg`);form.style.setProperty("--glow-hue",formHue);requestAnimationFrame(animate)}animate();
-gsap.from(".service-inner",{scrollTrigger:".services",opacity:0,y:50,duration:1,stagger:.2,ease:"power3.out"});
-</script>
+const track = document.querySelector('.testimonial-track');
+const testimonials = document.querySelectorAll('.testimonial');
+const dotsContainer = document.querySelector('.slider-dots');
+const prevBtn = document.querySelector('.slider-btn.prev');
+const nextBtn = document.querySelector('.slider-btn.next');
+let currentIndex = 0;
+let interval;
 
-<!-- BOTÓN FLOTANTE DE WHATSAPP -->
-<a class="whatsapp-btn" href="https://wa.me/34600000000?text=Hola%20Gerard,%20me%20gustaría%20más%20información%20sobre%20tus%20servicios" target="_blank" data-tooltip="¡Escríbeme por WhatsApp!"><i class="fab fa-whatsapp"></i></a>
+// Crear dots dinámicamente
+testimonials.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.addEventListener('click', () => {
+    stopSlider();
+    showTestimonial(i);
+    startSlider();
+  });
+  dotsContainer.appendChild(dot);
+});
 
-<style>
-.whatsapp-btn{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;font-size:1.8rem;padding:14px 16px;border-radius:50%;box-shadow:0 4px 15px rgba(0,0,0,.3);z-index:999;transition:transform .3s ease,box-shadow .3s ease,background .3s ease,color .3s ease;animation:pulse 5s infinite;display:flex;align-items:center;justify-content:center}
-.whatsapp-btn i{transition:color .3s ease}
-.whatsapp-btn:hover{transform:scale(1.1);background:#2fe06e;box-shadow:0 6px 25px rgba(47,224,110,.6);color:#fff}
-.whatsapp-btn:hover i{color:#fff}
-@keyframes pulse{0%{transform:scale(1)}10%{transform:scale(1.15)}20%{transform:scale(1)}100%{transform:scale(1)}}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
-.whatsapp-btn.shake{animation:shake .5s ease-in-out}
-.whatsapp-btn::after{content:attr(data-tooltip);position:absolute;right:120%;top:50%;transform:translateY(-50%) scale(.8);transform-origin:right center;background:rgba(0,0,0,.85);color:#fff;font-size:.9rem;padding:6px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease}
-.whatsapp-btn:hover::after{opacity:1;transform:translateY(-50%) translateX(-5px) scale(1)}
-@media (max-width:768px){.whatsapp-btn::after{display:none}}
-</style>
+function showTestimonial(index) {
+  gsap.to(track, {
+    x: `-${index * 100}%`,
+    duration: 1.2,
+    ease: "elastic.out(1, 0.5)",
+    onComplete: () => {
+      gsap.to(testimonials, { scale: 1, boxShadow: "none", opacity: 1, duration: 0.2 });
 
-<script>
-window.addEventListener("load",()=>{const e=document.querySelector(".whatsapp-btn");e.classList.add("shake"),setTimeout(()=>e.classList.remove("shake"),600)});
+      const active = testimonials[index];
+      const content = active.querySelectorAll("p, h3");
+
+      gsap.fromTo(active,
+        { scale: 0.95, boxShadow: "none" },
+        { scale: 1.03, boxShadow: "0 12px 35px rgba(0, 255, 192, 0.6)", duration: 0.5, ease: "back.out(1.4)" }
+      );
+
+      gsap.fromTo(content,
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.1 }
+      );
+    }
+  });
+
+  dotsContainer.querySelectorAll('button').forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+
+  currentIndex = index;
+}
+
+function nextTestimonial() {
+  let nextIndex = (currentIndex + 1) % testimonials.length;
+  showTestimonial(nextIndex);
+}
+
+function prevTestimonial() {
+  let prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+  showTestimonial(prevIndex);
+}
+
+function startSlider() {
+  interval = setInterval(nextTestimonial, 5000);
+}
+
+function stopSlider() {
+  clearInterval(interval);
+}
+
+nextBtn.addEventListener('click', () => {
+  stopSlider();
+  nextTestimonial();
+  startSlider();
+});
+prevBtn.addEventListener('click', () => {
+  stopSlider();
+  prevTestimonial();
+  startSlider();
+});
+
+// Inicia
+showTestimonial(0);
+startSlider();
 </script>
 
 </body>
