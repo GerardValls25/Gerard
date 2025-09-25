@@ -18,25 +18,21 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 20px;
-  transition: background 0.5s ease, color 0.5s ease;
 }
 
-body.light-mode {
-  background: #f5f5f5;
-  color: #1a1f3f;
-}
-
+/* 🎬 Animación base */
 @keyframes aparecer {
-  0% {opacity: 0; transform: translateY(-20px) scale(0.98);}
-  100% {opacity: 1; transform: translateY(0) scale(1);}
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-@keyframes reboteSuave {
-  0% {transform: scale(0.95); opacity: 0;}
-  60% {transform: scale(1.02); opacity: 1;}
-  100% {transform: scale(1);}
-}
-
+/* ✨ TÍTULO */
 h1 {
   color: #00ffc0;
   margin-bottom: 20px;
@@ -46,10 +42,10 @@ h1 {
   animation-delay: 0.2s;
 }
 
+/* 🧾 FORMULARIO */
 form {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   padding: 30px;
   border-radius: 16px;
   display: flex;
@@ -58,16 +54,15 @@ form {
   max-width: 400px;
   width: 100%;
   opacity: 0;
-  animation: reboteSuave 0.9s ease forwards;
-  animation-delay: 0.4s;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  transition: background 0.5s ease;
-}
-body.light-mode form {
-  background: rgba(0,0,0,0.05);
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.6s;
 }
 
+/* 🔲 INPUTS Y SELECTS */
 input, select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   padding: 12px;
   border-radius: 8px;
   border: none;
@@ -75,21 +70,43 @@ input, select {
   color: white;
   outline: none;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, border 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-body.light-mode input, body.light-mode select {
-  background: rgba(0,0,0,0.1);
-  color: #1a1f3f;
-}
-input:hover, select:hover {
-  box-shadow: 0 0 10px #00ffc0;
-  border: 1px solid #00ffc0;
-}
+
 input:focus, select:focus {
   background: rgba(0,0,0,0.5);
   transform: scale(1.02);
-  box-shadow: 0 0 12px #00ffc0;
-  border: 1px solid #00ffc0;
+  box-shadow: 0 0 10px #00ffc0;
+}
+
+/* Personalización del ícono de los selects */
+select {
+  background: rgba(0,0,0,0.3)
+    url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+    no-repeat right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+select option {
+  background-color: #1a1f3f;
+  color: white;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+select option:hover,
+select option:checked {
+  background-color: #00ffc0;
+  color: black;
+}
+
+/* 📊 GRÁFICO */
+.chart-container {
+  margin-top: 20px;
+  max-width: 350px;
+  width: 100%;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1s;
 }
 
 button {
@@ -100,38 +117,42 @@ button {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  animation: reboteSuave 0.8s ease forwards;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 button:hover {
   background: #00e6b8;
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #00ffc0;
+  transform: scale(1.02);
 }
 
-.chart-container {
+#resultado {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Botón de cerrar */
+.cerrar-btn {
   margin-top: 20px;
-  max-width: 350px;
-  width: 100%;
+  background: #ffffff33;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  text-align: center;
   opacity: 0;
-  transition: opacity 0.6s ease;
-  animation: aparecer 1s ease forwards;
-  animation-delay: 1s;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1.3s;
 }
-
-.theme-toggle {
-  margin: 10px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  color: inherit;
+.cerrar-btn:hover {
+  background: #ffffff55;
+  transform: scale(1.05);
 }
 </style>
 </head>
 <body>
-
-<button class="theme-toggle" id="theme-btn">🌙</button>
 
 <h1>Calculadora Profesional de Calorías y Macros</h1>
 
@@ -147,10 +168,10 @@ button:hover {
   <select id="actividad" required>
     <option value="">Nivel de actividad</option>
     <option value="1.2">Sedentario</option>
-    <option value="1.375">Ligero</option>
-    <option value="1.55">Moderado</option>
-    <option value="1.725">Activo</option>
-    <option value="1.9">Muy Activo</option>
+    <option value="1.375">Ligero (1-3 días de ejercicio)</option>
+    <option value="1.55">Moderado (3-5 días de ejercicio)</option>
+    <option value="1.725">Activo (6-7 días de ejercicio)</option>
+    <option value="1.9">Muy Activo (2 entrenamientos/día)</option>
   </select>
   <select id="objetivo" required>
     <option value="">Objetivo</option>
@@ -159,7 +180,6 @@ button:hover {
     <option value="ganar">Ganar músculo</option>
   </select>
   <button type="submit">Calcular</button>
-  <button type="button" id="clear-storage">🗑️ Borrar Datos</button>
   <div id="resultado"></div>
 </form>
 
@@ -167,106 +187,78 @@ button:hover {
   <canvas id="macrosChart"></canvas>
 </div>
 
+<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
+
 <script>
 let chart = null;
-const themeBtn = document.getElementById("theme-btn");
 
-function getChartColors() {
-  return document.body.classList.contains("light-mode")
-    ? ["#00796b", "#ff9800", "#e53935"]
-    : ["#00ffc0", "#ffcc00", "#ff4d4d"];
-}
-
-function updateChartTheme() {
-  if (chart) {
-    chart.data.datasets[0].backgroundColor = getChartColors();
-    chart.options.plugins.legend.labels.color = getComputedStyle(document.body).color;
-    chart.update();
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Cargar datos guardados
-  ["peso","altura","edad","genero","actividad","objetivo"].forEach(id => {
-    if(localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
-  });
-
-  // Restaurar tema
-  if(localStorage.getItem("theme") === "light") {
-    document.body.classList.add("light-mode");
-    themeBtn.textContent = "🌞";
-  }
-});
-
-themeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("light-mode");
-  const isLight = document.body.classList.contains("light-mode");
-  themeBtn.textContent = isLight ? "🌞" : "🌙";
-  localStorage.setItem("theme", isLight ? "light" : "dark");
-  updateChartTheme();
-});
-
-document.getElementById("macro-form").addEventListener("submit", e => {
+document.getElementById('macro-form').addEventListener('submit', function (e) {
   e.preventDefault();
-  const peso = parseFloat(document.getElementById("peso").value);
-  const altura = parseFloat(document.getElementById("altura").value);
-  const edad = parseFloat(document.getElementById("edad").value);
-  const genero = document.getElementById("genero").value;
-  const actividad = parseFloat(document.getElementById("actividad").value);
-  const objetivo = document.getElementById("objetivo").value;
+
+  const peso = parseFloat(document.getElementById('peso').value);
+  const altura = parseFloat(document.getElementById('altura').value);
+  const edad = parseFloat(document.getElementById('edad').value);
+  const genero = document.getElementById('genero').value;
+  const actividad = parseFloat(document.getElementById('actividad').value);
+  const objetivo = document.getElementById('objetivo').value;
+
   if (!peso || !altura || !edad || !genero || !actividad || !objetivo) return;
 
-  ["peso","altura","edad","genero","actividad","objetivo"].forEach(id => {
-    localStorage.setItem(id, document.getElementById(id).value);
-  });
-
-  let tmb = genero === "hombre"
+  // Fórmula Mifflin-St Jeor
+  let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
     : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
 
   let calorias = tmb * actividad;
-  if (objetivo === "perder") calorias *= 0.8;
-  if (objetivo === "ganar") calorias *= 1.15;
+
+  if (objetivo === 'perder') calorias *= 0.8;
+  if (objetivo === 'ganar') calorias *= 1.15;
+
   calorias = Math.round(calorias);
 
-  let proteinasPorKg = objetivo === "ganar" ? 2.2 : objetivo === "perder" ? 2 : 1.8;
+  let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
   let proteinas = proteinasPorKg * peso;
   let grasas = (calorias * 0.25) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
-  document.getElementById("resultado").innerHTML = `
+  document.getElementById('resultado').innerHTML = `
     <p>Calorías diarias: <strong>${calorias}</strong></p>
     <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
     <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-    <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>`;
+    <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
+  `;
 
-  const ctx = document.getElementById("macrosChart").getContext("2d");
+  const ctx = document.getElementById('macrosChart').getContext('2d');
   if (chart) chart.destroy();
 
   chart = new Chart(ctx, {
-    type: "doughnut",
+    type: 'pie',
     data: {
-      labels: ["Proteínas", "Grasas", "Carbohidratos"],
+      labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
       datasets: [{
-        data: [(proteinas * 4).toFixed(0),(grasas * 9).toFixed(0),(carbohidratos * 4).toFixed(0)],
-        backgroundColor: getChartColors(),
-        borderWidth: 1
+        data: [
+          (proteinas * 4).toFixed(0), 
+          (grasas * 9).toFixed(0), 
+          (carbohidratos * 4).toFixed(0)
+        ],
+        backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'],
+        borderWidth: 1,
       }]
     },
     options: {
       responsive: true,
-      animation: { animateScale: true, animateRotate: true },
-      plugins: { legend: { labels: { color: getComputedStyle(document.body).color } } }
+      plugins: {
+        legend: {
+          labels: { color: 'white' }
+        }
+      }
     }
   });
 });
 
-document.getElementById("clear-storage").addEventListener("click", () => {
-  localStorage.clear();
-  document.getElementById("macro-form").reset();
-  if(chart) chart.destroy();
-  document.getElementById("resultado").innerHTML = "";
-});
+function cerrarVentana() {
+  window.close();
+}
 </script>
 
 </body>
