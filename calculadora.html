@@ -150,7 +150,7 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   white-space: nowrap;
   border: 0;
 }
-/* Mensaje educativo */
+/* Mensaje educativo dinámico */
 .info-text {
   text-align: center;
   font-size: 0.85rem;
@@ -222,9 +222,7 @@ body.loaded .info-text {
 
   <p id="error" role="alert"></p>
   <button type="submit">Calcular</button>
-  <p id="info" class="info-text">
-    Todos los campos son obligatorios y deben estar dentro del rango válido.
-  </p>
+  <p id="info" class="info-text">Todos los campos son obligatorios y deben estar dentro del rango válido.</p>
   <div id="resultado" aria-live="polite"></div>
 </form>
 
@@ -241,8 +239,10 @@ const btnCalcular = form.querySelector("button");
 const inputs = form.querySelectorAll("input, select");
 const error = document.getElementById("error");
 const resultado = document.getElementById("resultado");
+const info = document.getElementById("info");
+const objetivoSelect = document.getElementById("objetivo");
 
-// 🟢 Persistencia de tema
+// Persistencia de tema
 const body = document.body;
 const themeToggle = document.getElementById("theme-toggle");
 if (localStorage.getItem("theme") === "light") {
@@ -254,21 +254,32 @@ themeToggle.addEventListener("click", () => {
   const isLight = body.classList.contains("light");
   themeToggle.textContent = isLight ? "🌞 Modo Claro" : "🌙 Modo Oscuro";
   localStorage.setItem("theme", isLight ? "light" : "dark");
-
   if (chart) {
     chart.options.plugins.legend.labels.color = isLight ? '#222' : 'white';
     chart.update();
   }
 });
 
-// 🟢 Botón siempre habilitado
-btnCalcular.disabled = false;
+// Mensaje dinámico por objetivo
+function actualizarInfoObjetivo() {
+  const objetivo = objetivoSelect.value;
+  if (objetivo === "perder") {
+    info.textContent = "Objetivo: perder grasa. Mantén proteínas altas y controla calorías.";
+  } else if (objetivo === "mantener") {
+    info.textContent = "Objetivo: mantener peso. Balancea proteínas, grasas y carbohidratos.";
+  } else if (objetivo === "ganar") {
+    info.textContent = "Objetivo: ganar músculo. Prioriza proteínas y calorías ligeramente superiores.";
+  } else {
+    info.textContent = "Todos los campos son obligatorios y deben estar dentro del rango válido.";
+  }
+}
+objetivoSelect.addEventListener("change", actualizarInfoObjetivo);
 
-// 🟢 Resetear resultados si se cambia algo
+// Habilitar botón y resetear resultados si se cambia algo
 inputs.forEach(el => el.addEventListener("input", () => {
   resultado.style.opacity = 0;
   document.getElementById("chart-container").style.display = "none";
-  error.style.display = "none";
+  actualizarInfoObjetivo();
 }));
 
 form.addEventListener("submit", function (e) {
@@ -279,18 +290,13 @@ form.addEventListener("submit", function (e) {
   const edad = parseFloat(document.getElementById('edad').value);
   const genero = document.getElementById('genero').value;
   const actividad = parseFloat(document.getElementById('actividad').value);
-  const objetivo = document.getElementById('objetivo').value;
+  const objetivo = objetivoSelect.value;
 
-  // Validación manual
-  if (!peso || peso < 30 || peso > 250 ||
-      !altura || altura < 100 || altura > 250 ||
-      !edad || edad < 10 || edad > 100 ||
-      !genero || !actividad || !objetivo) {
-    error.textContent = "Por favor introduce todos los datos correctamente.";
+  if (isNaN(peso) || isNaN(altura) || isNaN(edad) || !genero || !actividad || !objetivo) {
+    error.textContent = "Por favor introduce valores válidos en todos los campos.";
     error.style.display = "block";
     return;
   }
-
   error.style.display = "none";
 
   let tmb = genero === 'hombre'
@@ -351,17 +357,15 @@ function cerrarVentana() {
   }
 }
 
-// 🟢 Animar mensaje educativo
-window.addEventListener('load', () => {
-  document.body.classList.add('loaded');
-});
-
-// 🟢 Service Worker
+// Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
     .then(() => console.log("✅ Service Worker registrado"))
     .catch(err => console.log("❌ Error en Service Worker", err));
 }
+
+// Animar mensaje educativo al cargar
+window.addEventListener('load', () => body.classList.add('loaded'));
 </script>
 
 </body>
