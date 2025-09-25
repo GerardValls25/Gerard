@@ -65,6 +65,19 @@ button:hover {
   max-width: 350px;
   width: 100%;
 }
+.volver-btn {
+  margin-top: 25px;
+  background: #ffffff33;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+.volver-btn:hover {
+  background: #ffffff55;
+}
 </style>
 </head>
 <body>
@@ -100,6 +113,9 @@ button:hover {
 <div class="chart-container">
   <canvas id="macrosChart"></canvas>
 </div>
+
+<!-- 🔙 BOTÓN PARA VOLVER -->
+<a href="index.html" class="volver-btn">⬅ Volver a la Página Principal</a>
 
 <script>
 let chart = null;
