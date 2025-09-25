@@ -1,316 +1,279 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Calorías y Macros</title>
+<meta name="description" content="Calculadora profesional de calorías y macronutrientes basada en tu peso, altura, edad, nivel de actividad y objetivo fitness.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1a1f3f">
+
 <style>
-  :root{
-    --bg-dark:#1a1f3f;
-    --card-bg: rgba(255,255,255,0.08);
-    --muted: rgba(255,255,255,0.7);
-    --accent:#00ffc0;
-    --accent-dark:#00e6b8;
-    --danger:#ff4d4d;
-    --warn:#ffcc00;
-    --glass: blur(10px);
-  }
-  html,body{height:100%;margin:0;font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased;}
-  body{background:var(--bg-dark);color:white;display:flex;flex-direction:column;align-items:center;padding:20px;box-sizing:border-box;}
-  h1{color:var(--accent);margin:0 0 12px;font-size:1.5rem;text-align:center;}
-  .theme-toggle{background:#ffffff22;color:white;border:0;padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:600;margin-bottom:14px;}
-  .container{width:100%;max-width:420px;}
+/* 🎨 Estilos base */
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #1a1f3f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+@keyframes aparecer {
+  0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+h1 {
+  color: #00ffc0;
+  margin-bottom: 10px;
+  text-align: center;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+.theme-toggle {
+  background: #ffffff22;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.theme-toggle:hover { background: #ffffff44; transform: scale(1.05); }
 
-/* FORM */
-  form {
-    background:var(--card-bg);
-    backdrop-filter:var(--glass);
-    padding:22px;
-    border-radius:14px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    box-sizing:border-box;
-    transition:transform .35s ease,opacity .35s ease;
-  }
-  input,select,button{font-family:inherit}
-  input, select {
-    padding:12px;border-radius:10px;border:0;background:rgba(0,0,0,0.35);color:white;outline:none;
-  }
-  input:focus,select:focus{box-shadow:0 0 10px var(--accent)}
-  button{
-    padding:12px;border-radius:10px;border:0;background:var(--accent);color:#000;font-weight:700;cursor:pointer;
-    transition:transform .18s ease,background .18s ease;
-  }
-  button:disabled{background:gray;cursor:not-allowed}
-  button:hover:enabled{transform:scale(1.02);background:var(--accent-dark)}
+form {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  width: 100%;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.6s;
+}
+input, select {
+  appearance: none;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(0,0,0,0.3);
+  color: white;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+input:focus, select:focus {
+  background: rgba(0,0,0,0.5);
+  transform: scale(1.02);
+  box-shadow: 0 0 10px #00ffc0;
+}
+select {
+  background: rgba(0,0,0,0.3)
+    url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+    no-repeat right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+select option { background-color: #1a1f3f; color: white; }
+button {
+  background: #00ffc0;
+  color: black;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+button:hover { background: #00e6b8; transform: scale(1.02); }
 
-/* RESULT & CHART CARD */
-  #resultadoCard{
-    display:none;
-    margin-top:16px;
-    width:100%;
-    max-width:420px;
-    background:var(--card-bg);
-    backdrop-filter:var(--glass);
-    border-radius:14px;padding:16px;box-sizing:border-box;
-    transform:translateY(8px);opacity:0;transition:transform .35s ease,opacity .35s ease;
+#error {
+  color: #ff4d4d;
+  text-align: center;
+  display: none;
+  font-size: 0.9rem;
+}
+#resultado {
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.chart-container {
+  margin-top: 20px;
+  max-width: 350px;
+  width: 100%;
+  display: none;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1s;
+}
+.cerrar-btn {
+  margin-top: 20px;
+  background: #ffffff33;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1.3s;
+}
+.cerrar-btn:hover { background: #ffffff55; transform: scale(1.05); }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* Mensaje educativo */
+.info-text {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #cccccc;
+  margin-top: 5px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+body.loaded .info-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* 🌞 Tema claro */
+@media (prefers-color-scheme: light) {
+  body.light, body {
+    background: #f5f5f5;
+    color: #222;
   }
-  #resultadoCard.show{display:block;transform:translateY(0);opacity:1}
-
-/* info card (educational) */
-  #eduCard{
-    display:none;
-    margin-top:12px;
-    width:100%;
-    max-width:420px;
-    padding:12px 14px;border-radius:12px;
-    background:rgba(255,255,255,0.06);
-    color:var(--muted);
-    box-sizing:border-box;
-    position:relative;
-    overflow:visible;
+  form { background: rgba(0,0,0,0.05); }
+  input, select { background: rgba(255,255,255,0.9); color: #222; }
+  input:focus, select:focus { background: white; box-shadow: 0 0 8px #0077ff; }
+  select {
+    background: rgba(255,255,255,0.9)
+      url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+      no-repeat right 12px center;
   }
-  /* glow pulse */
-  #eduCard.glow{
-    animation:glowPulse 2s infinite;
-  }
-  @keyframes glowPulse{
-    0%{box-shadow:0 0 6px rgba(0,255,192,0.18)}
-    50%{box-shadow:0 0 12px rgba(0,170,255,0.24)}
-    100%{box-shadow:0 0 6px rgba(0,255,192,0.18)}
-  }
-  #eduCard .closeEdu{
-    position:absolute;top:8px;right:10px;border:0;background:transparent;color:white;font-size:16px;cursor:pointer;
-    transition:transform .2s ease,color .2s ease;
-  }
-  #eduCard .closeEdu:hover{transform:rotate(5deg) scale(1.08);color:var(--accent)}
-
-/* BARS + TOOLTIP */
-  .macro-row{margin-top:10px}
-  .macro-title{display:flex;align-items:center;gap:8px;justify-content:space-between}
-  .macro-title .left{display:flex;align-items:center;gap:8px}
-  .macro-title p{margin:0;font-weight:600}
-  .pct-text{font-weight:700}
-  .tooltip {
-    position:relative;display:inline-block;margin-left:6px;cursor:help;color:inherit;font-weight:700;
-  }
-  .tooltip .tt {
-    visibility:hidden;opacity:0;pointer-events:none;
-    position:absolute;bottom:120%;left:50%;transform:translateX(-50%) translateY(6px);
-    background:#111;padding:8px;border-radius:8px;font-size:0.8rem;white-space:nowrap;color:white;
-    transition:opacity .35s ease,transform .35s ease,background .25s ease;
-  }
-  .tooltip .tt::after{
-    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border-width:6px;border-style:solid;
-    border-color:#111 transparent transparent transparent;transition:border-color .25s ease;
-  }
-  .tooltip:hover .tt,.tooltip:active .tt{visibility:visible;opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* progress bar container */
-  .bar-wrap{height:18px;background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;position:relative}
-  .bar-fill{
-    height:100%;width:0%;border-radius:10px;transform-origin:left center;
-    transition:width 1s cubic-bezier(0.34,1.56,0.64,1); /* bounce-ish */
-    position:relative;overflow:hidden;
-  }
-  /* shimmer pseudo-layer using an inner element */
-  .bar-fill .shimmer{
-    position:absolute;top:0;left:-40%;width:40%;height:100%;
-    background:linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.45), rgba(255,255,255,0.05));
-    transform:skewX(-12deg);
-    transition:opacity .2s ease;
-  }
-  .bar-fill.shimmer-run .shimmer{
-    animation:shimmerMove 1s ease forwards;
-  }
-  @keyframes shimmerMove{to{left:150%}}
-
-/* chart area */
-  .chart-area{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .chart-info{color:rgba(255,255,255,0.8);font-size:0.92rem;background:rgba(0,0,0,0.08);padding:8px 10px;border-radius:8px;display:flex;gap:8px;align-items:center;}
-
-/* responsive mobile tweaks */
-  @media (max-width:600px){
-    h1{font-size:1.25rem}
-    form{padding:18px;border-radius:12px}
-    #resultadoCard{padding:14px;border-radius:12px}
-    #eduCard{padding:10px;border-radius:10px}
-    .bar-wrap{height:14px}
-    .chart-area{margin-top:12px}
-    .chart-info{font-size:0.85rem;padding:8px}
-  }
-
-/* light theme */
-  body.light{background:#f5f5f5;color:#222}
-  body.light input, body.light select{background:rgba(255,255,255,0.95);color:#222}
-  body.light .tooltip .tt{color:#222}
-
-/* color variations for tooltip (dynamic) */
-  .tt.ok{background:rgba(0,200,83,0.95)}
-  .tt.ok::after{border-color:rgba(0,200,83,0.95) transparent transparent transparent}
-  .tt.warn{background:rgba(255,179,0,0.95);color:#111}
-  .tt.warn::after{border-color:rgba(255,179,0,0.95) transparent transparent transparent}
-  .tt.bad{background:rgba(211,47,47,0.95)}
-  .tt.bad::after{border-color:rgba(211,47,47,0.95) transparent transparent transparent}
+  button { background: #0077ff; color: white; }
+  button:hover { background: #005fd4; }
+  .theme-toggle { background: #00000011; color: #222; }
+  .theme-toggle:hover { background: #00000022; }
+}
 </style>
 </head>
 <body>
-  <h1>Calculadora Profesional de Calorías y Macros</h1>
-  <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">🌙 Modo Oscuro</button>
 
-  <div class="container">
-    <form id="macro-form" novalidate>
-      <input id="peso" type="number" inputmode="decimal" placeholder="Peso (kg)" min="30" max="250" step="0.1" required />
-      <input id="altura" type="number" inputmode="numeric" placeholder="Altura (cm)" min="100" max="250" required />
-      <input id="edad" type="number" inputmode="numeric" placeholder="Edad" min="10" max="100" required />
+<h1>Calculadora Profesional de Calorías y Macros</h1>
+<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo de color">🌙 Modo Oscuro</button>
 
-      <select id="genero" required>
-        <option value="">Selecciona tu género</option>
-        <option value="hombre">Hombre</option>
-        <option value="mujer">Mujer</option>
-      </select>
+<form id="macro-form">
+  <label for="peso" class="sr-only">Peso en kg</label>
+  <input type="number" id="peso" inputmode="decimal" placeholder="Peso (kg)" min="30" max="250" step="0.1" required aria-label="Peso en kilogramos">
+  
+  <label for="altura" class="sr-only">Altura en cm</label>
+  <input type="number" id="altura" inputmode="numeric" placeholder="Altura (cm)" min="100" max="250" required aria-label="Altura en centímetros">
+  
+  <label for="edad" class="sr-only">Edad</label>
+  <input type="number" id="edad" inputmode="numeric" placeholder="Edad" min="10" max="100" required aria-label="Edad">
+  
+  <select id="genero" required aria-label="Selecciona tu género">
+    <option value="">Selecciona tu género</option>
+    <option value="hombre">Hombre</option>
+    <option value="mujer">Mujer</option>
+  </select>
+  <select id="actividad" required aria-label="Selecciona tu nivel de actividad">
+    <option value="">Nivel de actividad</option>
+    <option value="1.2">Sedentario</option>
+    <option value="1.375">Ligero (1-3 días de ejercicio)</option>
+    <option value="1.55">Moderado (3-5 días de ejercicio)</option>
+    <option value="1.725">Activo (6-7 días de ejercicio)</option>
+    <option value="1.9">Muy Activo (2 entrenamientos/día)</option>
+  </select>
+  <select id="objetivo" required aria-label="Selecciona tu objetivo">
+    <option value="">Objetivo</option>
+    <option value="mantener">Mantener peso</option>
+    <option value="perder">Perder grasa</option>
+    <option value="ganar">Ganar músculo</option>
+  </select>
 
-      <select id="actividad" required>
-        <option value="">Nivel de actividad</option>
-        <option value="1.2">Sedentario</option>
-        <option value="1.375">Ligero (1-3 días)</option>
-        <option value="1.55">Moderado (3-5 días)</option>
-        <option value="1.725">Activo (6-7 días)</option>
-        <option value="1.9">Muy activo</option>
-      </select>
+  <p id="error" role="alert"></p>
+  <button type="submit">Calcular</button>
+  <p id="info" class="info-text">
+    Todos los campos son obligatorios y deben estar dentro del rango válido.
+  </p>
+  <div id="resultado" aria-live="polite"></div>
+</form>
 
-      <select id="objetivo" required>
-        <option value="">Objetivo</option>
-        <option value="mantener">Mantener peso</option>
-        <option value="perder">Perder grasa</option>
-        <option value="ganar">Ganar músculo</option>
-      </select>
+<div class="chart-container" id="chart-container">
+  <canvas id="macrosChart"></canvas>
+</div>
 
-      <p id="error" role="alert" style="display:none;color:var(--danger);margin:0;"></p>
-      <button id="calcularBtn" type="submit" disabled>Calcular</button>
-    </form>
-
-    <!-- Educational Card (stays visible until user closes it). -->
-    <div id="eduCard" aria-live="polite">
-      📊 <strong>Este gráfico muestra cómo se reparten tus macronutrientes.</strong><br>
-      Mantener un buen equilibrio ayuda a optimizar energía, composición corporal y rendimiento.
-      <button class="closeEdu" aria-label="Cerrar tarjeta">❌</button>
-    </div>
-
-    <!-- Result + bars + chart -->
-    <div id="resultadoCard">
-      <div id="resultado" aria-live="polite"></div>
-
-      <!-- Bars with titles, icon+tooltip and percent -->
-      <div class="macro-row">
-        <div class="macro-title">
-          <div class="left"><p>Proteínas</p><span class="tooltip" id="tip-prot">ℹ<span class="tt"></span></span></div>
-          <div class="pct-text" id="pct-prot">0%</div>
-        </div>
-        <div class="bar-wrap">
-          <div id="bar-prot" class="bar-fill"><div class="shimmer"></div></div>
-        </div>
-      </div>
-
-      <div class="macro-row">
-        <div class="macro-title">
-          <div class="left"><p>Grasas</p><span class="tooltip" id="tip-gras">ℹ<span class="tt"></span></span></div>
-          <div class="pct-text" id="pct-gras">0%</div>
-        </div>
-        <div class="bar-wrap">
-          <div id="bar-gras" class="bar-fill"><div class="shimmer"></div></div>
-        </div>
-      </div>
-
-      <div class="macro-row">
-        <div class="macro-title">
-          <div class="left"><p>Carbohidratos</p><span class="tooltip" id="tip-carb">ℹ<span class="tt"></span></span></div>
-          <div class="pct-text" id="pct-carb">0%</div>
-        </div>
-        <div class="bar-wrap">
-          <div id="bar-carb" class="bar-fill"><div class="shimmer"></div></div>
-        </div>
-      </div>
-
-      <div class="chart-area">
-        <div class="chart-info">📊 Este gráfico muestra cómo se reparten tus macros</div>
-        <div style="width:100%;max-width:360px"><canvas id="macrosChart"></canvas></div>
-      </div>
-
-      <div style="display:flex;justify-content:center;margin-top:10px">
-        <button id="recalcular" style="background:var(--accent);color:#000;padding:10px 14px;border-radius:10px;border:0;">🔄 Recalcular</button>
-      </div>
-    </div>
-  </div>
+<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
 
 <script>
-/* ---------- Utilities & state ---------- */
 let chart = null;
-const form = document.getElementById('macro-form');
-const inputs = form.querySelectorAll('input,select');
-const calcularBtn = document.getElementById('calcularBtn');
-const resultadoCard = document.getElementById('resultadoCard');
-const resultadoDiv = document.getElementById('resultado');
-const eduCard = document.getElementById('eduCard');
-const closeEduBtn = eduCard.querySelector('.closeEdu');
-const tipProt = document.getElementById('tip-prot');
-const tipGras = document.getElementById('tip-gras');
-const tipCarb = document.getElementById('tip-carb');
-const pctProt = document.getElementById('pct-prot');
-const pctGras = document.getElementById('pct-gras');
-const pctCarb = document.getElementById('pct-carb');
-const barProt = document.getElementById('bar-prot');
-const barGras = document.getElementById('bar-gras');
-const barCarb = document.getElementById('bar-carb');
-const chartContainer = document.getElementById('macrosChart');
-const recalcularBtn = document.getElementById('recalcular');
-const themeToggle = document.getElementById('theme-toggle');
+const form = document.getElementById("macro-form");
+const btnCalcular = form.querySelector("button");
+const inputs = form.querySelectorAll("input, select");
+const error = document.getElementById("error");
+const resultado = document.getElementById("resultado");
 
-/* theme persistence */
-if(localStorage.getItem('theme')==='light'){ document.body.classList.add('light'); themeToggle.textContent='🌞 Modo Claro' }
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('light');
-  const isLight = document.body.classList.contains('light');
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  themeToggle.textContent = isLight ? '🌞 Modo Claro' : '🌙 Modo Oscuro';
-  if(chart) chart.update();
+// 🟢 Persistencia de tema
+const body = document.body;
+const themeToggle = document.getElementById("theme-toggle");
+if (localStorage.getItem("theme") === "light") {
+  body.classList.add("light");
+  themeToggle.textContent = "🌞 Modo Claro";
+}
+themeToggle.addEventListener("click", () => {
+  body.classList.toggle("light");
+  const isLight = body.classList.contains("light");
+  themeToggle.textContent = isLight ? "🌞 Modo Claro" : "🌙 Modo Oscuro";
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+
+  if (chart) {
+    chart.options.plugins.legend.labels.color = isLight ? '#222' : 'white';
+    chart.update();
+  }
 });
 
-/* enable calculate button when form valid */
-inputs.forEach(inp => inp.addEventListener('input', () => {
-  calcularBtn.disabled = !form.checkValidity();
+// 🟢 Botón siempre habilitado
+btnCalcular.disabled = false;
+
+// 🟢 Resetear resultados si se cambia algo
+inputs.forEach(el => el.addEventListener("input", () => {
+  resultado.style.opacity = 0;
+  document.getElementById("chart-container").style.display = "none";
+  error.style.display = "none";
 }));
 
-/* close edu card */
-closeEduBtn.addEventListener('click', () => {
-  eduCard.style.display = 'none';
-});
-
-/* recalcular click behavior */
-recalcularBtn.addEventListener('click', () => {
-  // hide results card, show form, scroll top
-  resultadoCard.classList.remove('show');
-  setTimeout(()=> {
-    resultadoCard.style.display = 'none';
-    form.style.display = 'flex';
-    form.scrollIntoView({behavior:'smooth',block:'start'});
-    calcularBtn.disabled = !form.checkValidity();
-  }, 240);
-});
-
-/* form submit -> calculate */
-form.addEventListener('submit', (e) => {
+form.addEventListener("submit", function (e) {
   e.preventDefault();
-  calcularYMostrar();
-});
 
-/* core calculation & display */
-function calcularYMostrar(){
-  // read values
   const peso = parseFloat(document.getElementById('peso').value);
   const altura = parseFloat(document.getElementById('altura').value);
   const edad = parseFloat(document.getElementById('edad').value);
@@ -318,155 +281,88 @@ function calcularYMostrar(){
   const actividad = parseFloat(document.getElementById('actividad').value);
   const objetivo = document.getElementById('objetivo').value;
 
-  if(Number.isNaN(peso) || Number.isNaN(altura) || Number.isNaN(edad)){
-    document.getElementById('error').textContent = 'Introduce valores válidos';
-    document.getElementById('error').style.display = 'block';
+  // Validación manual
+  if (!peso || peso < 30 || peso > 250 ||
+      !altura || altura < 100 || altura > 250 ||
+      !edad || edad < 10 || edad > 100 ||
+      !genero || !actividad || !objetivo) {
+    error.textContent = "Por favor introduce todos los datos correctamente.";
+    error.style.display = "block";
     return;
-  } else { document.getElementById('error').style.display = 'none'; }
+  }
 
-  // TMB (Mifflin St Jeor)
-  let tmb = (genero === 'hombre')
+  error.style.display = "none";
+
+  let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
     : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
 
   let calorias = tmb * actividad;
-  if(objetivo === 'perder') calorias *= 0.8;
-  if(objetivo === 'ganar') calorias *= 1.15;
+  if (objetivo === 'perder') calorias *= 0.8;
+  if (objetivo === 'ganar') calorias *= 1.15;
   calorias = Math.round(calorias);
 
-  // macros (g)
-  let proteinasPorKg = (objetivo === 'ganar') ? 2.2 : (objetivo === 'perder') ? 2.0 : 1.8;
+  let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
   let proteinas = proteinasPorKg * peso;
   let grasas = (calorias * 0.25) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
-  // show results numbers
-  resultadoDiv.innerHTML = `
-    <p>Calorías diarias: <strong>${calorias}</strong></p>
-    <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
-    <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-    <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
-  `;
+  resultado.style.opacity = 0;
+  requestAnimationFrame(() => {
+    resultado.innerHTML = `
+      <p>Calorías diarias: <strong>${calorias}</strong></p>
+      <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
+      <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
+      <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
+    `;
+    requestAnimationFrame(() => resultado.style.opacity = 1);
+  });
 
-  // show eduCard (remains visible unless user closes)
-  eduCard.style.display = 'block';
-  eduCard.classList.add('glow');
+  const chartContainer = document.getElementById("chart-container");
+  chartContainer.style.display = "block";
 
-  // hide form -> reveal results
-  form.style.display = 'none';
-  resultadoCard.style.display = 'block';
-  // small delay to allow CSS transitions -> then add show class
-  setTimeout(()=> resultadoCard.classList.add('show'), 10);
-
-  // compute calorie contribution percentages
-  const calFromProt = proteinas * 4;
-  const calFromGras = grasas * 9;
-  const calFromCarb = carbohidratos * 4;
-  const totalCals = calFromProt + calFromGras + calFromCarb || 1;
-
-  const pctProt = (calFromProt / totalCals) * 100;
-  const pctGras = (calFromGras / totalCals) * 100;
-  const pctCarb = (calFromCarb / totalCals) * 100;
-
-  // animate bars + shimmer + gradient color + bounce effect + percentage counter
-  animarBarConShimmer(barProt, pctProt, pctProtElem=pctProt, pctTextElem=pctProt, tipElem=tipProt, 'Proteínas', proteinas, peso, calorias);
-  animarBarConShimmer(barGras, pctGras, pctGrasElem=pctGras, pctTextElem=pctGras, tipElem=tipGras, 'Grasas', grasas, peso, calorias);
-  animarBarConShimmer(barCarb, pctCarb, pctCarbElem=pctCarb, pctTextElem=pctCarb, tipElem=tipCarb, 'Carbohidratos', carbohidratos, peso, calorias);
-
-  // update Chart.js pie
-  const data = [Math.round(calFromProt), Math.round(calFromGras), Math.round(calFromCarb)];
-  if(!chart){
-    chart = new Chart(chartContainer.getContext('2d'), {
-      type:'pie',
-      data:{ labels:['Proteínas','Grasas','Carbohidratos'], datasets:[{ data, backgroundColor:['#00ffc0','#ffcc00','#ff4d4d'] }] },
-      options:{ responsive:true, plugins:{legend:{labels:{color: document.body.classList.contains('light')? '#222':'white'}}} }
+  const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
+  if (!chart) {
+    const ctx = document.getElementById('macrosChart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
+        datasets: [{ data, backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'] }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: document.body.classList.contains("light") ? '#222' : 'white' } }
+        }
+      }
     });
   } else {
     chart.data.datasets[0].data = data;
     chart.update();
   }
+});
 
-  // show/calibrate scroll to results
-  setTimeout(()=> { resultadoCard.scrollIntoView({behavior:'smooth', block:'start'}); }, 300);
-}
-
-/* animarBarConShimmer: barra, porcentaje(0-100), pct value, pctTextElement id, tooltip element, macro name, macro g, weight, cals */
-function animarBarConShimmer(barEl, porcentaje, pctProtElem, pctTextElem, tipElem, macroName, macroGrams, weight, cals){
-  // color decision based on recommended logic
-  // For bars we use percent-of-calories ratio to decide color and tooltip states
-  const pct = Math.max(0, Math.min(100, porcentaje));
-  const elemText = (pctTextElem === pctProt) ? pctProt : (pctTextElem===pctGras) ? pctGras : pctCarb;
-  // set gradient colors (light->dark) based on pct relative to "ideal" thresholds
-  // We consider "ideal region" around 25-35% as example for visual highlight (adjustable)
-  let light='#00ffc0', dark='#00c894', state='ok'; // defaults to green
-  if(pct < 20){ light='#ffaaaa'; dark='#ff4d4d'; state='bad'; }       // low -> red
-  else if(pct >= 20 && pct < 30){ light='#ffefc2'; dark='#ffcc00'; state='warn'; } // mid -> yellow
-  else if(pct >= 30 && pct <= 50){ light='#d1ffd9'; dark='#00ffc0'; state='ok'; } // green-ish
-  else { light='#fff1c6'; dark='#ffb300'; state='warn'; } // high -> yellow/orange
-
-  // set background gradient and transition
-  barEl.style.transition = 'width 1s cubic-bezier(0.34,1.56,0.64,1), background 0.5s ease';
-  barEl.style.background = `linear-gradient(90deg, ${light}, ${dark})`;
-
-  // reset width to 0 then animate to pct
-  barEl.style.width = '0%';
-  // ensure shimmer restarts
-  barEl.classList.remove('shimmer-run');
-  void barEl.offsetWidth; // reflow
-
-  // start width animation (bounce via cubic-bezier)
-  requestAnimationFrame(()=> {
-    barEl.style.width = pct.toFixed(2) + '%';
-    // start shimmer overlay
-    barEl.classList.add('shimmer-run');
-  });
-
-  // after animation, trigger shine highlight if 'ok'
-  if(state === 'ok'){
-    // add slight extra highlight by toggling box shadow on parent wrap
-    const parent = barEl.parentElement;
-    parent.style.boxShadow = '0 6px 18px rgba(0,255,192,0.06)';
-    setTimeout(()=> parent.style.boxShadow = '', 900);
+function cerrarVentana() {
+  if (window.opener) {
+    window.close();
+  } else {
+    alert("No se puede cerrar automáticamente. Cierra esta pestaña manualmente.");
   }
-
-  // percentage counter animation (from 0 to pct)
-  const pctSpan = (barEl === barProt) ? pctProt : (barEl === barGras) ? pctGras : pctCarb;
-  animateNumber(pctSpan, 0, pct, 1000, (v) => { pctSpan.textContent = Math.round(v) + '%' });
-
-  // set tooltip text & color class
-  const tt = tipElem.querySelector('.tt');
-  tipElem.classList.remove('ok','warn','bad');
-  tt.className = 'tt'; // reset
-  if(state==='ok'){ tipElem.classList.add('ok'); tt.classList.add('ok'); tt.textContent = `${macroName} en rango saludable.`; }
-  else if(state==='warn'){ tipElem.classList.add('warn'); tt.classList.add('warn'); tt.textContent = `${macroName} ligeramente fuera del rango, considera ajustar.`; }
-  else { tipElem.classList.add('bad'); tt.classList.add('bad'); tt.textContent = `${macroName} fuera del rango. Revisa tu ingesta.`; }
 }
 
-/* small animated number helper */
-function animateNumber(elem, from, to, duration, onTick){
-  const start = performance.now();
-  function step(now){
-    const t = Math.min(1, (now-start)/duration);
-    const eased = t<0.5 ? (2*t*t) : (-1 + (4-2*t)*t); // quick easing-ish
-    const val = from + (to-from)*eased;
-    onTick(val);
-    if(t < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
+// 🟢 Animar mensaje educativo
+window.addEventListener('load', () => {
+  document.body.classList.add('loaded');
+});
 
-/* small helpers to reference pct spans */
-const pctProt = pctProt; // already defined above, keeps naming consistent
-const pctGras = pctGras;
-const pctCarb = pctCarb;
-
-/* initial state: disable calc until valid */
-calcularBtn.disabled = !form.checkValidity();
-
-/* Service Worker registration (optional) */
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./service-worker.js').then(()=> console.log('SW registered')).catch(()=>{});
+// 🟢 Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js')
+    .then(() => console.log("✅ Service Worker registrado"))
+    .catch(err => console.log("❌ Error en Service Worker", err));
 }
 </script>
+
 </body>
 </html>
