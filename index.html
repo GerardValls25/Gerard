@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerard Valls - Nutrición Profesional</title>
-
-<!-- SEO -->
 <meta name="description" content="Nutrición profesional y planes personalizados para deportistas y personas activas. Mejora tu rendimiento, hábitos y bienestar con Gerard Valls.">
 <meta name="author" content="Gerard Valls">
 <meta name="robots" content="index, follow">
@@ -15,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Font Awesome optimizado -->
+<!-- Font Awesome -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/solid.min.js" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/brands.min.js" crossorigin="anonymous" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/fontawesome.min.js" crossorigin="anonymous" defer></script>
@@ -135,21 +133,44 @@ h2::after{
 }
 .service-back button:hover{background:var(--primary); color:#000;}
 
-/* Testimonios */
-.testimonial-carousel{position:relative; max-width:800px; margin:0 auto; perspective:1200px; overflow:hidden;}
-.testimonial-track{display:flex; transform-style:preserve-3d;}
-.testimonial{min-width:100%; margin:0 10px; background:rgba(255,255,255,0.05); backdrop-filter:blur(10px) saturate(150%);
-  border-radius:12px; padding:25px; text-align:center; transform-origin:center center; transition:transform 0.8s ease, opacity 0.8s ease; box-shadow:0 8px 25px rgba(0,0,0,0.2);}
-.testimonial i{font-size:2.5rem; color:var(--primary); margin-bottom:10px;}
-.testimonial p{font-size:1.1rem; margin:10px 0;}
-.testimonial span{font-weight:600; color:var(--primary);}
-.testimonial-btn{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none;
-  padding:12px 18px; font-size:1.5rem; cursor:pointer; border-radius:50%; z-index:10; transition:.3s;}
-.testimonial-btn:hover{background:var(--primary);}
-.testimonial-btn.prev{left:0;} .testimonial-btn.next{right:0;}
-.testimonial-dots{display:flex; justify-content:center; gap:8px; margin-top:15px;}
-.testimonial-dots .dot{width:12px; height:12px; background:var(--primary); border-radius:50%; opacity:0.5; cursor:pointer; transition:.3s;}
-.testimonial-dots .dot.active{opacity:1;}
+/* Testimonios carrusel */
+.testimonial-carousel {
+  overflow: hidden;
+  position: relative;
+  margin: 2rem 0;
+}
+.testimonials-wrapper {
+  display: flex;
+  gap: 2rem;
+  will-change: transform;
+}
+.testimonial {
+  min-width: 300px;
+  background: rgba(255,255,255,0.1);
+  padding: 1rem;
+  border-radius: 10px;
+  flex-shrink: 0;
+  text-align: center;
+}
+.testimonial-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.testimonial-nav button {
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.testimonial-nav button:hover {
+  background: var(--primary);
+  transform: scale(1.1);
+}
 
 /* Formulario Glass */
 .glass-form{display:flex; flex-direction:column; gap:20px; margin-top:20px; padding:30px; border-radius:16px;
@@ -175,7 +196,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 /* WhatsApp y Scroll Top */
 #whatsapp-btn{position:fixed; bottom:140px; right:20px; z-index:1000; background:#25D366; color:white; border:none;
   border-radius:50%; width:60px; height:60px; font-size:1.8rem; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition:.3s; pointer-events:auto;}
+  cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition:.3s;}
 #whatsapp-btn:hover{transform:scale(1.1);}
 #scrollTopBtn{position:fixed; bottom:60px; right:20px; z-index:1000; background:var(--primary); color:white; border:none;
   padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; opacity:0; transition:.3s, opacity .5s, transform .3s;}
@@ -204,106 +225,21 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 <section id="servicios">
   <h2>Servicios</h2>
   <div class="services">
-    <div class="service">
-      <div class="service-inner">
-        <div class="service-front">
-          <i class="fas fa-utensils" aria-hidden="true"></i>
-          <h3>Planes Personalizados</h3>
-          <p>Adaptados a tu estilo de vida y objetivos.</p>
-        </div>
-        <div class="service-back">
-          <ul>
-            <li>Evaluación inicial completa</li>
-            <li>Plan nutricional flexible</li>
-            <li>Seguimiento quincenal</li>
-          </ul>
-          <button onclick="location.href='#consulta'">Solicitar</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="service">
-      <div class="service-inner">
-        <div class="service-front">
-          <i class="fas fa-running" aria-hidden="true"></i>
-          <h3>Asesoría Deportiva</h3>
-          <p>Optimiza tu rendimiento y recuperación.</p>
-        </div>
-        <div class="service-back">
-          <ul>
-            <li>Plan de macronutrientes</li>
-            <li>Recomendaciones de suplementación</li>
-            <li>Ajuste de cargas de entrenamiento</li>
-          </ul>
-          <button onclick="location.href='#consulta'">Solicitar</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="service">
-      <div class="service-inner">
-        <div class="service-front">
-          <i class="fas fa-heartbeat" aria-hidden="true"></i>
-          <h3>Pérdida de Peso</h3>
-          <p>Programas sostenibles y personalizados.</p>
-        </div>
-        <div class="service-back">
-          <ul>
-            <li>Reducción de grasa saludable</li>
-            <li>Hábitos de alimentación duraderos</li>
-            <li>Soporte motivacional</li>
-          </ul>
-          <button onclick="location.href='#consulta'">Solicitar</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="service">
-      <div class="service-inner">
-        <div class="service-front">
-          <i class="fas fa-laptop-medical" aria-hidden="true"></i>
-          <h3>Consultas Online</h3>
-          <p>Atención profesional desde cualquier lugar.</p>
-        </div>
-        <div class="service-back">
-          <ul>
-            <li>Videollamadas en horario flexible</li>
-            <li>Soporte por correo y WhatsApp</li>
-            <li>Acceso a material educativo</li>
-          </ul>
-          <button onclick="location.href='#consulta'">Solicitar</button>
-        </div>
-      </div>
-    </div>
+    <!-- aquí van tus servicios con flip cards -->
   </div>
 </section>
 
 <section id="testimonios">
   <h2>Testimonios</h2>
   <div class="testimonial-carousel">
-    <div class="testimonial-track">
-      <div class="testimonial">
-        <i class="fas fa-star" aria-hidden="true"></i>
-        <p>"Excelente nutricionista, logré mis objetivos."</p>
-        <span>- Laura G.</span>
-      </div>
-      <div class="testimonial">
-        <i class="fas fa-heart" aria-hidden="true"></i>
-        <p>"Atención profesional y personalizada."</p>
-        <span>- Carlos M.</span>
-      </div>
-      <div class="testimonial">
-        <i class="fas fa-thumbs-up" aria-hidden="true"></i>
-        <p>"Recomiendo sus planes a todos los deportistas."</p>
-        <span>- Ana R.</span>
-      </div>
+    <div class="testimonials-wrapper">
+      <div class="testimonial">"Excelente nutricionista, logré mis objetivos." – Laura G.</div>
+      <div class="testimonial">"Atención profesional y personalizada." – Carlos M.</div>
+      <div class="testimonial">"Recomiendo sus planes a todos los deportistas." – Ana R.</div>
     </div>
-    <button class="testimonial-btn prev" aria-label="Anterior">‹</button>
-    <button class="testimonial-btn next" aria-label="Siguiente">›</button>
-    <div class="testimonial-dots">
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+    <div class="testimonial-nav">
+      <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+      <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
     </div>
   </div>
 </section>
@@ -312,19 +248,19 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
   <h2>Formulario de contacto</h2>
   <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST" class="glass-form">
     <div class="form-group">
-      <input id="name" type="text" name="name" placeholder=" " required>
-      <label for="name">Nombre completo</label>
-      <i class="fas fa-user" aria-hidden="true"></i>
+      <input type="text" name="name" placeholder=" " required>
+      <label>Nombre completo</label>
+      <i class="fas fa-user"></i>
     </div>
     <div class="form-group">
-      <input id="email" type="email" name="email" placeholder=" " required>
-      <label for="email">Correo electrónico</label>
-      <i class="fas fa-envelope" aria-hidden="true"></i>
+      <input type="email" name="email" placeholder=" " required>
+      <label>Correo electrónico</label>
+      <i class="fas fa-envelope"></i>
     </div>
     <div class="form-group">
-      <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
-      <label for="message">Mensaje</label>
-      <i class="fas fa-comment" aria-hidden="true"></i>
+      <textarea name="message" rows="5" placeholder=" " required></textarea>
+      <label>Mensaje</label>
+      <i class="fas fa-comment"></i>
     </div>
     <button type="submit">Enviar</button>
     <span id="form-feedback" aria-live="polite"></span>
@@ -334,8 +270,8 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
-<button id="whatsapp-btn" aria-label="Abrir chat de WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></button>
-<button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+<button id="whatsapp-btn" aria-label="Abrir chat de WhatsApp"><i class="fab fa-whatsapp"></i></button>
+<button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up"></i></button>
 
 <script defer>
 document.getElementById('toggle-theme').addEventListener('click',()=>{
@@ -371,6 +307,37 @@ document.getElementById('contact-form').addEventListener('submit',async e=>{
   }catch{
     document.getElementById('form-feedback').textContent="Hubo un error.";
   }
+});
+
+/* Testimonios auto-scroll con flechas y reanudación */
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.querySelector(".testimonials-wrapper");
+  const prevBtn = document.querySelector(".testimonial-prev");
+  const nextBtn = document.querySelector(".testimonial-next");
+
+  wrapper.innerHTML += wrapper.innerHTML; // duplicar contenido para loop
+
+  const tl = gsap.to(wrapper, { xPercent: -50, duration: 15, ease: "linear", repeat: -1 });
+  let autoPlayTimeout;
+
+  const pauseAutoPlay = () => {
+    tl.pause();
+    clearTimeout(autoPlayTimeout);
+    autoPlayTimeout = setTimeout(() => tl.play(), 4000); // reanuda tras 4s
+  };
+
+  wrapper.addEventListener("mouseenter", pauseAutoPlay);
+  wrapper.addEventListener("mouseleave", pauseAutoPlay);
+
+  const step = 300; // píxeles
+  prevBtn.addEventListener("click", () => {
+    pauseAutoPlay();
+    gsap.to(wrapper, { x: `+=${step}`, duration: 0.6, ease: "power2.out" });
+  });
+  nextBtn.addEventListener("click", () => {
+    pauseAutoPlay();
+    gsap.to(wrapper, { x: `-=${step}`, duration: 0.6, ease: "power2.out" });
+  });
 });
 </script>
 
