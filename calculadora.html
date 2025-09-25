@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Calorías y Macros</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 body {
@@ -20,11 +19,30 @@ body {
   margin: 0;
   padding: 20px;
 }
+
+/* 🎬 Animación base */
+@keyframes aparecer {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ✨ TÍTULO */
 h1 {
   color: #00ffc0;
   margin-bottom: 20px;
   text-align: center;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.2s;
 }
+
+/* 🧾 FORMULARIO */
 form {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
@@ -35,14 +53,62 @@ form {
   gap: 15px;
   max-width: 400px;
   width: 100%;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 0.6s;
 }
+
+/* 🔲 INPUTS Y SELECTS */
 input, select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.3);
-  background: rgba(255,255,255,0.1);
+  border: none;
+  background: rgba(0,0,0,0.3);
   color: white;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+input:focus, select:focus {
+  background: rgba(0,0,0,0.5);
+  transform: scale(1.02);
+  box-shadow: 0 0 10px #00ffc0;
+}
+
+/* Personalización del ícono de los selects */
+select {
+  background: rgba(0,0,0,0.3)
+    url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+    no-repeat right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+select option {
+  background-color: #1a1f3f;
+  color: white;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+select option:hover,
+select option:checked {
+  background-color: #00ffc0;
+  color: black;
+}
+
+/* 📊 GRÁFICO */
+.chart-container {
+  margin-top: 20px;
+  max-width: 350px;
+  width: 100%;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1s;
+}
+
 button {
   background: #00ffc0;
   color: black;
@@ -51,40 +117,45 @@ button {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 button:hover {
   background: #00e6b8;
+  transform: scale(1.02);
 }
+
 #resultado {
   margin-top: 15px;
   font-weight: bold;
   text-align: center;
 }
-.chart-container {
-  margin-top: 20px;
-  max-width: 350px;
-  width: 100%;
-}
+
+/* Botón de cerrar */
 .cerrar-btn {
-  margin-top: 15px;
+  margin-top: 20px;
   background: #ffffff33;
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
   display: inline-block;
   text-align: center;
+  opacity: 0;
+  animation: aparecer 0.8s ease forwards;
+  animation-delay: 1.3s;
 }
 .cerrar-btn:hover {
   background: #ffffff55;
+  transform: scale(1.05);
 }
 </style>
 </head>
 <body>
 
 <h1>Calculadora Profesional de Calorías y Macros</h1>
+
 <form id="macro-form">
   <input type="number" id="peso" placeholder="Peso (kg)" required>
   <input type="number" id="altura" placeholder="Altura (cm)" required>
@@ -116,7 +187,6 @@ button:hover {
   <canvas id="macrosChart"></canvas>
 </div>
 
-<!-- 🔴 SOLO BOTÓN DE CERRAR -->
 <a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
 
 <script>
