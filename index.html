@@ -214,6 +214,56 @@ h2 {
   left: 50%;
 }
 
+/* ==== FOOTER ==== */
+footer {
+  margin-top: 60px;
+  background: rgba(10, 12, 25, 0.9);
+  padding: 30px 20px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+footer .social-links {
+  margin-bottom: 15px;
+}
+footer .social-links a {
+  color: var(--text-light);
+  margin: 0 10px;
+  font-size: 1.3rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+footer .social-links a:hover {
+  color: var(--primary);
+  transform: scale(1.1);
+}
+footer p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* ==== BOTÓN WHATSAPP ==== */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  font-size: 1.8rem;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 100;
+}
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
 /* ==== RESPONSIVE ==== */
 @media (max-width: 600px) {
   header h1 { font-size: 2.2rem; }
@@ -266,6 +316,20 @@ h2 {
 </section>
 </main>
 
+<footer>
+  <div class="social-links">
+    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+  </div>
+  <p>&copy; 2025 Gerard Valls. Todos los derechos reservados.</p>
+</footer>
+
+<!-- BOTÓN WHATSAPP -->
+<a class="whatsapp-btn" href="https://wa.me/34600000000?text=Hola%20Gerard,%20me%20gustaría%20más%20información%20sobre%20tus%20servicios" target="_blank">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
 <script>
 const cards = document.querySelectorAll('.service-inner');
 let hue = 0, formHue = 0;
@@ -280,7 +344,6 @@ function animate() {
 }
 animate();
 
-// Animaciones de entrada con GSAP
 gsap.from(".service-inner", {
   scrollTrigger: ".services",
   opacity: 0,
