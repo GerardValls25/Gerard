@@ -115,6 +115,11 @@ button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
   opacity: 0;
   transition: opacity 0.5s ease;
 }
+progress {
+  width: 100%;
+  height: 18px;
+  border-radius: 8px;
+}
 .chart-container {
   margin-top: 20px;
   max-width: 350px;
@@ -226,7 +231,7 @@ const inputs = form.querySelectorAll("input, select");
 const error = document.getElementById("error");
 const resultado = document.getElementById("resultado");
 
-// 🟢 Persistencia de tema
+// Persistencia de tema
 const body = document.body;
 const themeToggle = document.getElementById("theme-toggle");
 if (localStorage.getItem("theme") === "light") {
@@ -238,18 +243,19 @@ themeToggle.addEventListener("click", () => {
   const isLight = body.classList.contains("light");
   themeToggle.textContent = isLight ? "🌞 Modo Claro" : "🌙 Modo Oscuro";
   localStorage.setItem("theme", isLight ? "light" : "dark");
-
   if (chart) {
     chart.options.plugins.legend.labels.color = isLight ? '#222' : 'white';
     chart.update();
   }
 });
 
-// 🟢 Habilitar botón y resetear resultados si se cambia algo
+// Habilitar botón y limpiar resultados al editar
 inputs.forEach(el => el.addEventListener("input", () => {
   btnCalcular.disabled = !form.checkValidity();
   resultado.style.opacity = 0;
   document.getElementById("chart-container").style.display = "none";
+  const recomendacion = document.getElementById("recomendacion");
+  if (recomendacion) recomendacion.remove();
 }));
 
 form.addEventListener("submit", function (e) {
@@ -288,9 +294,40 @@ form.addEventListener("submit", function (e) {
     resultado.innerHTML = `
       <p>Calorías diarias: <strong>${calorias}</strong></p>
       <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
+      <progress id="barra-proteinas" value="${proteinas}" max="${peso * 3}"></progress>
+
       <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
+      <progress id="barra-grasas" value="${grasas}" max="${(calorias * 0.4)/9}"></progress>
+
       <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
+      <progress id="barra-carbohidratos" value="${carbohidratos}" max="${(calorias * 0.7)/4}"></progress>
     `;
+
+    const setBarColor = (barra, valor, min, max) => {
+      if (valor < min) barra.style.accentColor = "#ff4d4d";
+      else if (valor > max) barra.style.accentColor = "#ffcc00";
+      else barra.style.accentColor = "#00ffc0";
+    };
+
+    setBarColor(document.getElementById("barra-proteinas"), proteinas / peso, 1.5, 2.5);
+    setBarColor(document.getElementById("barra-grasas"), grasas, (calorias * 0.2)/9, (calorias * 0.35)/9);
+    setBarColor(document.getElementById("barra-carbohidratos"), carbohidratos, 50, (calorias * 0.7)/4);
+
+    let mensaje = "";
+    if (proteinas / peso < 1.5) mensaje += "⚠️ Proteínas un poco bajas. ";
+    if (grasas < (calorias * 0.2)/9) mensaje += "⚠️ Grasas muy bajas. ";
+    if (carbohidratos < 50) mensaje += "⚠️ Carbohidratos muy bajos. ";
+
+    if (mensaje) {
+      const p = document.createElement("p");
+      p.id = "recomendacion";
+      p.style.color = "#ffcc00";
+      p.style.fontSize = "0.9rem";
+      p.style.marginTop = "10px";
+      p.textContent = mensaje;
+      resultado.appendChild(p);
+    }
+
     requestAnimationFrame(() => resultado.style.opacity = 1);
   });
 
@@ -327,7 +364,6 @@ function cerrarVentana() {
   }
 }
 
-// 🟢 Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
     .then(() => console.log("✅ Service Worker registrado"))
