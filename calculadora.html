@@ -65,7 +65,7 @@ button:hover {
   max-width: 350px;
   width: 100%;
 }
-.volver-btn, .cerrar-btn {
+.cerrar-btn {
   margin-top: 15px;
   background: #ffffff33;
   color: white;
@@ -77,7 +77,7 @@ button:hover {
   display: inline-block;
   text-align: center;
 }
-.volver-btn:hover, .cerrar-btn:hover {
+.cerrar-btn:hover {
   background: #ffffff55;
 }
 </style>
@@ -116,10 +116,7 @@ button:hover {
   <canvas id="macrosChart"></canvas>
 </div>
 
-<!-- 🔙 BOTÓN PARA VOLVER -->
-<a href="index.html" class="volver-btn">⬅ Volver a la Página Principal</a>
-
-<!-- 🔴 NUEVO BOTÓN PARA CERRAR -->
+<!-- 🔴 SOLO BOTÓN DE CERRAR -->
 <a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
 
 <script>
@@ -144,16 +141,14 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
 
   let calorias = tmb * actividad;
 
-  // Ajuste según objetivo
   if (objetivo === 'perder') calorias *= 0.8;
   if (objetivo === 'ganar') calorias *= 1.15;
 
   calorias = Math.round(calorias);
 
-  // Macros
   let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
-  let proteinas = proteinasPorKg * peso; // g
-  let grasas = (calorias * 0.25) / 9; // g
+  let proteinas = proteinasPorKg * peso;
+  let grasas = (calorias * 0.25) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
   document.getElementById('resultado').innerHTML = `
@@ -163,9 +158,7 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
     <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
   `;
 
-  // Generar gráfico
   const ctx = document.getElementById('macrosChart').getContext('2d');
-
   if (chart) chart.destroy();
 
   chart = new Chart(ctx, {
@@ -193,7 +186,6 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
   });
 });
 
-// Función para cerrar la ventana
 function cerrarVentana() {
   window.close();
 }
