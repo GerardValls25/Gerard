@@ -23,7 +23,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 20px;
-  transition: background 0.4s ease, color 0.4s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 @keyframes aparecer {
   0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
@@ -36,7 +36,6 @@ h1 {
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.2s;
-  transition: color 0.4s ease;
 }
 .theme-toggle {
   background: #ffffff22;
@@ -47,7 +46,7 @@ h1 {
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 15px;
-  transition: background 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 .theme-toggle:hover { background: #ffffff44; transform: scale(1.05); }
 
@@ -64,7 +63,7 @@ form {
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.6s;
-  transition: background 0.4s ease;
+  transition: background 0.3s ease;
 }
 input, select {
   appearance: none;
@@ -98,7 +97,7 @@ button {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 button:hover { background: #00e6b8; transform: scale(1.02); }
 
@@ -107,14 +106,13 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   text-align: center;
   display: none;
   font-size: 0.9rem;
-  transition: color 0.3s ease;
 }
 #resultado {
   margin-top: 15px;
   font-weight: bold;
   text-align: center;
   opacity: 0;
-  transition: opacity 0.5s ease, color 0.4s ease;
+  transition: opacity 0.5s ease;
 }
 .chart-container {
   margin-top: 20px;
@@ -152,7 +150,7 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   white-space: nowrap;
   border: 0;
 }
-/* ✅ Texto educativo con color dinámico */
+/* Mensaje educativo dinámico */
 .info-text {
   text-align: center;
   font-size: 0.85rem;
@@ -160,41 +158,34 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   margin-top: 5px;
   opacity: 0;
   transform: translateY(-5px);
-  transition: opacity 0.5s ease, transform 0.5s ease, color 0.4s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s ease;
 }
-body.loaded .info-text {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Tips sobre macronutrientes */
 .tips-container {
   opacity: 0;
   transform: translateY(-5px);
-  transition: opacity 0.5s ease, transform 0.5s ease, color 0.4s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s ease;
   max-width: 400px;
   text-align: left;
   margin-top: 15px;
   color: #cccccc;
 }
+body.loaded .info-text,
 body.loaded .tips-container {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* --- MODO CLARO --- */
+/* Tema claro */
 body.light {
   background: #f5f5f5;
   color: #222;
 }
-body.light h1 { color: #0077ff; }
 body.light form { background: rgba(0,0,0,0.05); }
-body.light input, body.light select {
-  background: rgba(255,255,255,0.9);
-  color: #222;
-}
-body.light input:focus, body.light select:focus {
-  background: white;
-  box-shadow: 0 0 8px #0077ff;
-}
+body.light input, 
+body.light select { background: rgba(255,255,255,0.9); color: #222; }
+body.light input:focus, 
+body.light select:focus { background: white; box-shadow: 0 0 8px #0077ff; }
 body.light select {
   background: rgba(255,255,255,0.9)
     url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
@@ -205,7 +196,9 @@ body.light button:hover { background: #005fd4; }
 body.light .theme-toggle { background: #00000011; color: #222; }
 body.light .theme-toggle:hover { background: #00000022; }
 body.light .info-text,
-body.light .tips-container { color: #444; } /* ✅ Más legible en modo claro */
+body.light .tips-container { color: #555; }
+body.light .cerrar-btn { color: #222; background: #00000011; }
+body.light .cerrar-btn:hover { background: #00000022; }
 </style>
 </head>
 <body>
@@ -261,7 +254,7 @@ body.light .tips-container { color: #444; } /* ✅ Más legible en modo claro */
   <p><strong>Carbohidratos:</strong> principal fuente de energía. Ajusta según tu actividad física y objetivos.</p>
 </div>
 
-<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
+<a href="#" class="cerrar-btn" id="cerrar-btn">❌ Cerrar Ventana</a>
 
 <script>
 let chart = null;
@@ -272,22 +265,23 @@ const resultado = document.getElementById("resultado");
 const info = document.getElementById("info");
 const tipsContainer = document.getElementById("tips-container");
 const objetivoSelect = document.getElementById("objetivo");
-
+const cerrarBtn = document.getElementById("cerrar-btn");
 const body = document.body;
 const themeToggle = document.getElementById("theme-toggle");
 
-// Detectar tema inicial
+// Detectar tema en primera carga si no hay preferencia guardada
 if (!localStorage.getItem("theme")) {
   if (window.matchMedia("(prefers-color-scheme: light)").matches) {
     body.classList.add("light");
     localStorage.setItem("theme", "light");
     themeToggle.textContent = "🌞 Modo Claro";
   }
-} else if (localStorage.getItem("theme") === "light") {
+}
+
+if (localStorage.getItem("theme") === "light") {
   body.classList.add("light");
   themeToggle.textContent = "🌞 Modo Claro";
 }
-
 themeToggle.addEventListener("click", () => {
   body.classList.toggle("light");
   const isLight = body.classList.contains("light");
@@ -388,17 +382,24 @@ form.addEventListener("submit", function (e) {
   }
 });
 
-function cerrarVentana() {
-  if (window.opener) window.close();
-  else alert("No se puede cerrar automáticamente. Cierra esta pestaña manualmente.");
-}
+// Botón de cerrar inteligente
+window.addEventListener("DOMContentLoaded", () => {
+  if (!window.opener) {
+    cerrarBtn.textContent = "🔙 Volver";
+    cerrarBtn.onclick = () => history.back();
+  } else {
+    cerrarBtn.onclick = () => window.close();
+  }
+});
 
+// Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
     .then(() => console.log("✅ Service Worker registrado"))
     .catch(err => console.log("❌ Error en Service Worker", err));
 }
 
+// Animar info y tips al cargar
 window.addEventListener('load', () => body.classList.add('loaded'));
 </script>
 
