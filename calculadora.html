@@ -7,10 +7,7 @@
 <meta name="description" content="Calculadora profesional de calorías y macronutrientes basada en tu peso, altura, edad, nivel de actividad y objetivo fitness.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="icon" href="icon-192.png" type="image/png">
-<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1a1f3f">
-
 <style>
 body {
   font-family: 'Montserrat', sans-serif;
@@ -19,36 +16,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   min-height: 100vh;
   margin: 0;
   padding: 20px;
   transition: background 0.3s ease, color 0.3s ease;
 }
 @keyframes aparecer {
-  0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+  0% { opacity: 0; transform: translateY(10px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 h1 {
   color: #00ffc0;
   margin-bottom: 10px;
   text-align: center;
-  opacity: 0;
   animation: aparecer 0.8s ease forwards;
-  animation-delay: 0.2s;
 }
-.theme-toggle {
-  background: #ffffff22;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 15px;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-.theme-toggle:hover { background: #ffffff44; transform: scale(1.05); }
 form {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
@@ -59,28 +41,14 @@ form {
   gap: 15px;
   max-width: 400px;
   width: 100%;
-  opacity: 1;
-  transition: opacity 0.4s ease;
-}
-form.oculto {
-  opacity: 0;
-  pointer-events: none;
+  animation: aparecer 0.8s ease forwards;
 }
 input, select {
-  appearance: none;
   padding: 12px;
   border-radius: 8px;
   border: none;
   background: rgba(0,0,0,0.3);
   color: white;
-  outline: none;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-input:focus, select:focus {
-  background: rgba(0,0,0,0.5);
-  transform: scale(1.02);
-  box-shadow: 0 0 10px #00ffc0;
 }
 button {
   background: #00ffc0;
@@ -90,75 +58,62 @@ button {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: transform 0.2s ease;
 }
-button:disabled { background: gray; cursor: not-allowed; }
-button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
-#error {
-  color: #ff4d4d;
-  text-align: center;
-  display: none;
-  font-size: 0.9rem;
-}
+button:hover:enabled { transform: scale(1.05); }
 #resultado-container {
   display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  max-width: 400px;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
   margin-top: 20px;
-  opacity: 0;
   animation: aparecer 0.8s ease forwards;
 }
-#resultado {
-  font-weight: bold;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-}
-.chart-container {
-  max-width: 350px;
-  width: 100%;
-}
-#recalcular-btn {
-  background: #00ffc0;
-  color: black;
-  padding: 12px;
+.macro-bar {
+  height: 14px;
+  background: #ffffff33;
   border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  display: inline-block;
-  margin-top: 10px;
-  animation: zoomIn 0.4s ease forwards;
-}
-#recalcular-btn:hover { transform: scale(1.05); }
-@keyframes zoomIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-/* Barras de progreso */
-.barra {
-  height: 10px;
-  background: #333;
-  border-radius: 6px;
-  margin: 5px 0 15px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
-.barra > div {
+.macro-fill {
   height: 100%;
   width: 0%;
-  border-radius: 6px;
-  transition: width 1s ease-in-out;
+  background: #00ffc0;
+  border-radius: 8px;
+  transition: width 1s ease, background 0.3s ease;
 }
-.proteina { background: #00ffc0; }
-.grasa { background: #ffcc00; }
-.carb { background: #ff4d4d; }
+.feedback {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  animation: aparecer 0.5s ease forwards;
+}
+.feedback.red { background: rgba(255,0,0,0.15); color: #ff4d4d; }
+.feedback.yellow { background: rgba(255,255,0,0.15); color: #ffcc00; }
+.feedback.green { background: rgba(0,255,192,0.15); color: #00ffc0; }
+.chart-container { margin-top: 20px; }
+#recalcular {
+  display: none;
+  margin-top: 15px;
+  background: #00ffc0;
+  color: black;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: scale(0.9);
+  animation: aparecer 0.6s ease forwards;
+}
 </style>
 </head>
 <body>
 
 <h1>Calculadora Profesional de Calorías y Macros</h1>
-<button id="theme-toggle" class="theme-toggle">🌙 Modo Oscuro</button>
 
 <form id="macro-form">
   <input type="number" id="peso" placeholder="Peso (kg)" min="30" max="250" step="0.1" required>
@@ -183,47 +138,56 @@ button:hover:enabled { background: #00e6b8; transform: scale(1.02); }
     <option value="perder">Perder grasa</option>
     <option value="ganar">Ganar músculo</option>
   </select>
-  <p id="error" role="alert"></p>
   <button type="submit" disabled>Calcular</button>
 </form>
 
 <div id="resultado-container">
   <div id="resultado"></div>
+
+  <div>
+    <p>Proteínas</p>
+    <div class="macro-bar"><div id="bar-proteinas" class="macro-fill"></div></div>
+    <p>Grasas</p>
+    <div class="macro-bar"><div id="bar-grasas" class="macro-fill"></div></div>
+    <p>Carbohidratos</p>
+    <div class="macro-bar"><div id="bar-carbohidratos" class="macro-fill"></div></div>
+  </div>
+
+  <div id="feedback-container"></div>
+
   <div class="chart-container">
     <canvas id="macrosChart"></canvas>
   </div>
-  <button id="recalcular-btn">🔄 Recalcular</button>
+
+  <button id="recalcular">🔄 Recalcular</button>
 </div>
 
 <script>
 let chart = null;
 const form = document.getElementById("macro-form");
 const resultadoContainer = document.getElementById("resultado-container");
-const btnCalcular = form.querySelector("button");
-const inputs = form.querySelectorAll("input, select");
 const resultado = document.getElementById("resultado");
-const error = document.getElementById("error");
+const feedbackContainer = document.getElementById("feedback-container");
+const recalcularBtn = document.getElementById("recalcular");
 
-inputs.forEach(el => el.addEventListener("input", () => {
-  btnCalcular.disabled = !form.checkValidity();
-}));
+form.querySelectorAll("input, select").forEach(el => 
+  el.addEventListener("input", () => {
+    form.querySelector("button").disabled = !form.checkValidity();
+  })
+);
 
-form.addEventListener("submit", function (e) {
+form.addEventListener("submit", e => {
   e.preventDefault();
+  calcular();
+});
 
+function calcular() {
   const peso = parseFloat(document.getElementById('peso').value);
   const altura = parseFloat(document.getElementById('altura').value);
   const edad = parseFloat(document.getElementById('edad').value);
   const genero = document.getElementById('genero').value;
   const actividad = parseFloat(document.getElementById('actividad').value);
   const objetivo = document.getElementById('objetivo').value;
-
-  if (isNaN(peso) || isNaN(altura) || isNaN(edad)) {
-    error.textContent = "Por favor introduce valores válidos.";
-    error.style.display = "block";
-    return;
-  }
-  error.style.display = "none";
 
   let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
@@ -239,59 +203,59 @@ form.addEventListener("submit", function (e) {
   let grasas = (calorias * 0.25) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
-  form.classList.add("oculto");
-  setTimeout(() => {
-    form.style.display = "none";
-    resultadoContainer.style.display = "flex";
-    resultado.innerHTML = `
-      <p>Calorías diarias: <strong>${calorias}</strong></p>
-      <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
-      <div class="barra"><div class="proteina" style="width:0%"></div></div>
-      <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-      <div class="barra"><div class="grasa" style="width:0%"></div></div>
-      <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
-      <div class="barra"><div class="carb" style="width:0%"></div></div>
-    `;
-    resultadoContainer.style.opacity = 1;
+  // Ocultar formulario y mostrar resultados
+  form.style.display = "none";
+  resultadoContainer.style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
 
-    setTimeout(() => {
-      resultadoContainer.scrollIntoView({ behavior: "smooth", block: "start" });
-      // Animar barras
-      document.querySelector(".proteina").style.width = Math.min((proteinas / (peso*3))*100, 100) + "%";
-      document.querySelector(".grasa").style.width = Math.min((grasas / ((calorias*0.4)/9))*100, 100) + "%";
-      document.querySelector(".carb").style.width = Math.min((carbohidratos / ((calorias*0.7)/4))*100, 100) + "%";
-    }, 300);
+  resultado.innerHTML = `
+    <p>Calorías diarias: <strong>${calorias}</strong></p>
+    <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
+    <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
+    <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
+  `;
 
-    const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
-    if (!chart) {
-      const ctx = document.getElementById('macrosChart').getContext('2d');
-      chart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-          labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
-          datasets: [{ data, backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'] }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { labels: { color: document.body.classList.contains("light") ? '#222' : 'white' } }
-          }
-        }
-      });
-    } else {
-      chart.data.datasets[0].data = data;
-      chart.update();
-    }
-  }, 400);
-});
+  // Barras animadas
+  const totalCal = proteinas*4 + grasas*9 + carbohidratos*4;
+  llenarBarra("bar-proteinas", (proteinas*4)/totalCal*100);
+  llenarBarra("bar-grasas", (grasas*9)/totalCal*100);
+  llenarBarra("bar-carbohidratos", (carbohidratos*4)/totalCal*100);
 
-document.getElementById("recalcular-btn").addEventListener("click", () => {
+  // Feedback educativo
+  feedbackContainer.innerHTML = "";
+  if (proteinas/peso < 1.5) feedbackContainer.innerHTML += `<div class="feedback red">🚨 Tus proteínas están bajas. Intenta llegar al menos a 1.8 g/kg para mantener tu masa muscular.</div>`;
+  if ((grasas*9)/calorias < 0.2) feedbackContainer.innerHTML += `<div class="feedback yellow">⚠️ Tus grasas están algo bajas. Las grasas saludables son clave para hormonas y energía.</div>`;
+  if ((carbohidratos*4)/calorias < 0.4) feedbackContainer.innerHTML += `<div class="feedback yellow">⚠️ Tus carbohidratos son bajos. Podrías sentir menos energía, aumenta frutas y cereales integrales.</div>`;
+  if (feedbackContainer.innerHTML === "") feedbackContainer.innerHTML = `<div class="feedback green">✅ ¡Excelente! Tus macros están bien equilibrados.</div>`;
+
+  // Gráfico
+  const data = [(proteinas*4).toFixed(0), (grasas*9).toFixed(0), (carbohidratos*4).toFixed(0)];
+  if (!chart) {
+    chart = new Chart(document.getElementById("macrosChart"), {
+      type: 'pie',
+      data: { labels: ['Proteínas','Grasas','Carbohidratos'], datasets: [{ data, backgroundColor: ['#00ffc0','#ffcc00','#ff4d4d'] }] },
+      options: { responsive: true }
+    });
+  } else {
+    chart.data.datasets[0].data = data;
+    chart.update();
+  }
+
+  recalcularBtn.style.display = "block";
+  setTimeout(() => document.getElementById("resultado-container").scrollIntoView({behavior:"smooth"}), 400);
+}
+
+function llenarBarra(id, porcentaje) {
+  const barra = document.getElementById(id);
+  barra.style.width = porcentaje + "%";
+  barra.style.background = porcentaje > 50 ? "#00ffc0" : porcentaje > 30 ? "#ffcc00" : "#ff4d4d";
+}
+
+recalcularBtn.addEventListener("click", () => {
   resultadoContainer.style.display = "none";
   form.style.display = "flex";
-  setTimeout(() => form.classList.remove("oculto"), 10);
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 </script>
-
 </body>
 </html>
