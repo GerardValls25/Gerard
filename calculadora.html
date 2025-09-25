@@ -7,30 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-:root {
-  --color-bg: #1a1f3f;
-  --color-text: white;
-  --color-card: rgba(255,255,255,0.08);
-  --color-accent: #00ffc0;
-  --chart-protein: #00ffc0;
-  --chart-fat: #ffcc00;
-  --chart-carb: #ff4d4d;
-}
-
-body.light {
-  --color-bg: #f5f5f5;
-  --color-text: #1a1f3f;
-  --color-card: rgba(0,0,0,0.05);
-  --color-accent: #007a63;
-  --chart-protein: #007a63;
-  --chart-fat: #b58900;
-  --chart-carb: #d32f2f;
-}
-
 body {
   font-family: 'Montserrat', sans-serif;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg-color);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,25 +18,32 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 20px;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.5s ease, color 0.5s ease;
 }
-
+:root {
+  --bg-color: #1a1f3f;
+  --card-bg: rgba(255,255,255,0.08);
+  --text-color: white;
+}
+body.light {
+  --bg-color: #f4f4f4;
+  --card-bg: rgba(0,0,0,0.05);
+  --text-color: #222;
+}
 @keyframes aparecer {
-  0% {opacity: 0; transform: translateY(-20px) scale(0.98);}
-  100% {opacity: 1; transform: translateY(0) scale(1);}
+  0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 h1 {
-  color: var(--color-accent);
+  color: #00ffc0;
   margin-bottom: 20px;
   text-align: center;
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.2s;
 }
-
 form {
-  background: var(--color-card);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   padding: 30px;
   border-radius: 16px;
@@ -68,50 +55,43 @@ form {
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 0.6s;
+  transition: background 0.5s ease;
 }
-
 input, select {
   appearance: none;
   padding: 12px;
   border-radius: 8px;
   border: none;
   background: rgba(0,0,0,0.3);
-  color: var(--color-text);
+  color: inherit;
   outline: none;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 input:focus, select:focus {
   background: rgba(0,0,0,0.5);
   transform: scale(1.02);
-  box-shadow: 0 0 10px var(--color-accent);
+  box-shadow: 0 0 10px #00ffc0;
 }
-
 select {
-  background: rgba(0,0,0,0.3)
-    url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
-    no-repeat right 12px center;
+  background: rgba(0,0,0,0.3) url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;
   background-size: 20px;
   padding-right: 40px;
 }
-
-select option {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-}
-
 .chart-container {
   margin-top: 20px;
   max-width: 350px;
   width: 100%;
   opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 1s;
+  transform: scale(0.95);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
-
+.chart-container.visible {
+  opacity: 1;
+  transform: scale(1);
+}
 button {
-  background: var(--color-accent);
+  background: #00ffc0;
   color: black;
   border: none;
   padding: 12px;
@@ -120,37 +100,31 @@ button {
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
-button:hover {transform: scale(1.02);}
-
+button:hover {
+  background: #00e6b8;
+  transform: scale(1.02);
+}
 #resultado {
   margin-top: 15px;
   font-weight: bold;
   text-align: center;
 }
-
-.cerrar-btn, .clear-btn, .theme-btn {
-  margin-top: 10px;
-  background: #ffffff33;
-  color: var(--color-text);
-  padding: 10px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  text-align: center;
+.theme-toggle {
+  margin-bottom: 10px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  background: #ffffff33;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
 }
-.cerrar-btn:hover, .clear-btn:hover, .theme-btn:hover {
+.theme-toggle:hover {
   background: #ffffff55;
-  transform: scale(1.05);
 }
 </style>
 </head>
 <body>
-
+<button class="theme-toggle" id="themeToggle">🌙 Modo Oscuro</button>
 <h1>Calculadora Profesional de Calorías y Macros</h1>
-
 <form id="macro-form">
   <input type="number" id="peso" placeholder="Peso (kg)" required>
   <input type="number" id="altura" placeholder="Altura (cm)" required>
@@ -175,46 +149,37 @@ button:hover {transform: scale(1.02);}
     <option value="ganar">Ganar músculo</option>
   </select>
   <button type="submit">Calcular</button>
+  <button type="button" id="clearData">🗑 Limpiar Datos</button>
   <div id="resultado"></div>
 </form>
-
-<div class="chart-container">
-  <canvas id="macrosChart"></canvas>
-</div>
-
-<a class="clear-btn" onclick="limpiarDatos()">🗑 Limpiar Datos</a>
-<a class="theme-btn" onclick="toggleTheme()">🌙 Modo Oscuro</a>
-<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
-
+<div class="chart-container" id="chartContainer"><canvas id="macrosChart"></canvas></div>
 <script>
 let chart = null;
-
-function getChartColors() {
-  return [getComputedStyle(document.body).getPropertyValue('--chart-protein').trim(),
-          getComputedStyle(document.body).getPropertyValue('--chart-fat').trim(),
-          getComputedStyle(document.body).getPropertyValue('--chart-carb').trim()];
+const chartContainer = document.getElementById('chartContainer');
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+function applyTheme(theme) {
+  body.classList.toggle('light', theme === 'light');
+  themeToggle.textContent = theme === 'light' ? '🌙 Modo Oscuro' : '🌞 Modo Claro';
+  localStorage.setItem('theme', theme);
+  if (chart) {
+    chart.options.plugins.legend.labels.color = theme === 'light' ? '#222' : '#fff';
+    chart.data.datasets[0].backgroundColor = theme === 'light' ? ['#009688','#FFC107','#F44336'] : ['#00ffc0','#ffcc00','#ff4d4d'];
+    chart.update();
+  }
 }
-
-function renderChart(proteinas, grasas, carbohidratos) {
-  const ctx = document.getElementById('macrosChart').getContext('2d');
-  if (chart) chart.destroy();
-  chart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
-      datasets: [{
-        data: [(proteinas*4).toFixed(0),(grasas*9).toFixed(0),(carbohidratos*4).toFixed(0)],
-        backgroundColor: getChartColors(),
-        borderWidth: 1,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {legend: {labels: {color: getComputedStyle(document.body).color}}}
-    }
+const savedTheme = localStorage.getItem('theme') || 'dark';
+applyTheme(savedTheme);
+themeToggle.addEventListener('click', () => {
+  const newTheme = body.classList.contains('light') ? 'dark' : 'light';
+  applyTheme(newTheme);
+});
+window.addEventListener('DOMContentLoaded', () => {
+  ['peso','altura','edad','genero','actividad','objetivo'].forEach(id => {
+    const val = localStorage.getItem(id);
+    if (val) document.getElementById(id).value = val;
   });
-}
-
+});
 document.getElementById('macro-form').addEventListener('submit', function (e) {
   e.preventDefault();
   const peso = parseFloat(document.getElementById('peso').value);
@@ -224,54 +189,35 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
   const actividad = parseFloat(document.getElementById('actividad').value);
   const objetivo = document.getElementById('objetivo').value;
   if (!peso || !altura || !edad || !genero || !actividad || !objetivo) return;
-  localStorage.setItem('macroData', JSON.stringify({peso,altura,edad,genero,actividad,objetivo}));
-  let tmb = genero==='hombre' ? (10*peso)+(6.25*altura)-(5*edad)+5 : (10*peso)+(6.25*altura)-(5*edad)-161;
+  ['peso','altura','edad','genero','actividad','objetivo'].forEach(id => {
+    localStorage.setItem(id, document.getElementById(id).value);
+  });
+  let tmb = genero === 'hombre' ? (10*peso)+(6.25*altura)-(5*edad)+5 : (10*peso)+(6.25*altura)-(5*edad)-161;
   let calorias = tmb*actividad;
   if (objetivo==='perder') calorias*=0.8;
   if (objetivo==='ganar') calorias*=1.15;
   calorias=Math.round(calorias);
-  let proteinasPorKg = objetivo==='ganar'?2.2:objetivo==='perder'?2:1.8;
+  let proteinasPorKg=objetivo==='ganar'?2.2:objetivo==='perder'?2:1.8;
   let proteinas=proteinasPorKg*peso;
   let grasas=(calorias*0.25)/9;
   let carbohidratos=(calorias-(proteinas*4)-(grasas*9))/4;
-  document.getElementById('resultado').innerHTML=`<p>Calorías diarias: <strong>${calorias}</strong></p>
-  <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
-  <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-  <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>`;
-  renderChart(proteinas, grasas, carbohidratos);
+  document.getElementById('resultado').innerHTML=`<p>Calorías: <strong>${calorias}</strong></p><p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p><p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p><p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>`;
+  chartContainer.classList.add('visible');
+  const ctx=document.getElementById('macrosChart').getContext('2d');
+  if(chart) chart.destroy();
+  chart=new Chart(ctx,{
+    type:'doughnut',
+    data:{labels:['Proteínas','Grasas','Carbohidratos'],datasets:[{data:[(proteinas*4).toFixed(0),(grasas*9).toFixed(0),(carbohidratos*4).toFixed(0)],backgroundColor: body.classList.contains('light')?['#009688','#FFC107','#F44336']:['#00ffc0','#ffcc00','#ff4d4d'],borderWidth:1}]},
+    options:{responsive:true,animation:{duration:800,easing:'easeOutQuart'},plugins:{legend:{labels:{color: body.classList.contains('light')?'#222':'#fff'}}}}
+  });
 });
-
-function limpiarDatos() {
-  localStorage.removeItem('macroData');
+document.getElementById('clearData').addEventListener('click',()=>{
+  ['peso','altura','edad','genero','actividad','objetivo'].forEach(id=>localStorage.removeItem(id));
   document.getElementById('macro-form').reset();
   document.getElementById('resultado').innerHTML='';
-  if (chart) chart.destroy();
-}
-
-function cerrarVentana() {window.close();}
-
-function toggleTheme() {
-  document.body.classList.toggle('light');
-  localStorage.setItem('theme', document.body.classList.contains('light')?'light':'dark');
-  if (chart) {chart.data.datasets[0].backgroundColor = getChartColors();chart.options.plugins.legend.labels.color = getComputedStyle(document.body).color;chart.update();}
-  document.querySelector('.theme-btn').textContent = document.body.classList.contains('light') ? '🌞 Modo Claro' : '🌙 Modo Oscuro';
-}
-
-window.onload = function() {
-  const saved = localStorage.getItem('macroData');
-  if (saved) {
-    const {peso,altura,edad,genero,actividad,objetivo}=JSON.parse(saved);
-    document.getElementById('peso').value=peso;
-    document.getElementById('altura').value=altura;
-    document.getElementById('edad').value=edad;
-    document.getElementById('genero').value=genero;
-    document.getElementById('actividad').value=actividad;
-    document.getElementById('objetivo').value=objetivo;
-  }
-  const theme = localStorage.getItem('theme');
-  if (theme==='light') document.body.classList.add('light');
-  document.querySelector('.theme-btn').textContent = document.body.classList.contains('light') ? '🌞 Modo Claro' : '🌙 Modo Oscuro';
-}
+  chartContainer.classList.remove('visible');
+  if(chart) chart.destroy();
+});
 </script>
 </body>
 </html>
