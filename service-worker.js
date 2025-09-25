@@ -1,39 +1,61 @@
-const CACHE_NAME = "macros-calc-v1";
-const ASSETS_TO_CACHE = [
+// 🟢 service-worker.js
+const CACHE_NAME = "calculadora-macros-v1";
+const URLS_TO_CACHE = [
   "./",
   "./index.html",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
-  "https://cdn.jsdelivr.net/npm/chart.js" // CDN de Chart.js
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap",
+  "https://cdn.jsdelivr.net/npm/chart.js"
 ];
 
-// Instalar y cachear archivos
+// 🟢 Instalación y cache inicial
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS_TO_CACHE))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => {
+      console.log("✅ Archivos cacheados");
+      return cache.addAll(URLS_TO_CACHE);
+    })
   );
 });
 
-// Activar y limpiar cachés antiguas
+// 🟢 Activación: elimina cachés viejas
 self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
-      )
-    )
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME).map(key => {
+          console.log("🗑️ Eliminando caché vieja:", key);
+          return caches.delete(key);
+        })
+      );
+    })
   );
-  return self.clients.claim();
+  self.clients.claim();
 });
 
-// Estrategia de Cache First con fallback a red
+// 🟢 Estrategia de fetch: Cache First con fallback a red
 self.addEventListener("fetch", event => {
+  if (event.request.method !== "GET") return;
+
   event.respondWith(
-    caches.match(event.request)
-      .then(cachedResponse => cachedResponse || fetch(event.request))
+    caches.match(event.request).then(response => {
+      if (response) {
+        return response; // 📦 Devuelve desde cache
+      }
+      return fetch(event.request).then(networkResponse => {
+        // Guarda en caché nuevos recursos obtenidos de la red
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        });
+      }).catch(() => {
+        // Fallback en caso de estar offline y no tener cache
+        if (event.request.destination === "document") {
+          return caches.match("./index.html");
+        }
+      });
+    })
   );
 });
