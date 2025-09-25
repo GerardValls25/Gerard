@@ -65,8 +65,8 @@ button:hover {
   max-width: 350px;
   width: 100%;
 }
-.volver-btn {
-  margin-top: 25px;
+.volver-btn, .cerrar-btn {
+  margin-top: 15px;
   background: #ffffff33;
   color: white;
   padding: 10px 20px;
@@ -74,8 +74,10 @@ button:hover {
   text-decoration: none;
   font-weight: bold;
   transition: background 0.3s ease;
+  display: inline-block;
+  text-align: center;
 }
-.volver-btn:hover {
+.volver-btn:hover, .cerrar-btn:hover {
   background: #ffffff55;
 }
 </style>
@@ -116,6 +118,9 @@ button:hover {
 
 <!-- 🔙 BOTÓN PARA VOLVER -->
 <a href="index.html" class="volver-btn">⬅ Volver a la Página Principal</a>
+
+<!-- 🔴 NUEVO BOTÓN PARA CERRAR -->
+<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
 
 <script>
 let chart = null;
@@ -187,6 +192,11 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
     }
   });
 });
+
+// Función para cerrar la ventana
+function cerrarVentana() {
+  window.close();
+}
 </script>
 
 </body>
