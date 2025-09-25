@@ -22,14 +22,8 @@ body {
 
 /* 🎬 Animación base */
 @keyframes aparecer {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ✨ TÍTULO */
@@ -59,6 +53,11 @@ form {
 }
 
 /* 🔲 INPUTS Y SELECTS */
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
 input, select {
   appearance: none;
   -webkit-appearance: none;
@@ -79,7 +78,6 @@ input:focus, select:focus {
   box-shadow: 0 0 10px #00ffc0;
 }
 
-/* Personalización del ícono de los selects */
 select {
   background: rgba(0,0,0,0.3)
     url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
@@ -91,12 +89,6 @@ select {
 select option {
   background-color: #1a1f3f;
   color: white;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-select option:hover,
-select option:checked {
-  background-color: #00ffc0;
-  color: black;
 }
 
 /* 📊 GRÁFICO */
@@ -107,6 +99,16 @@ select option:checked {
   opacity: 0;
   animation: aparecer 0.8s ease forwards;
   animation-delay: 1s;
+}
+
+canvas {
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+canvas.mostrar {
+  transform: scale(1);
+  opacity: 1;
 }
 
 button {
@@ -157,28 +159,40 @@ button:hover {
 <h1>Calculadora Profesional de Calorías y Macros</h1>
 
 <form id="macro-form">
-  <input type="number" id="peso" placeholder="Peso (kg)" required>
-  <input type="number" id="altura" placeholder="Altura (cm)" required>
-  <input type="number" id="edad" placeholder="Edad" required>
+  <label for="peso">Peso (kg)</label>
+  <input type="number" id="peso" placeholder="Ej: 70" required>
+
+  <label for="altura">Altura (cm)</label>
+  <input type="number" id="altura" placeholder="Ej: 175" required>
+
+  <label for="edad">Edad</label>
+  <input type="number" id="edad" placeholder="Ej: 28" required>
+
+  <label for="genero">Género</label>
   <select id="genero" required>
     <option value="">Selecciona tu género</option>
     <option value="hombre">Hombre</option>
     <option value="mujer">Mujer</option>
   </select>
+
+  <label for="actividad">Nivel de actividad</label>
   <select id="actividad" required>
-    <option value="">Nivel de actividad</option>
+    <option value="">Selecciona tu actividad</option>
     <option value="1.2">Sedentario</option>
-    <option value="1.375">Ligero (1-3 días de ejercicio)</option>
-    <option value="1.55">Moderado (3-5 días de ejercicio)</option>
-    <option value="1.725">Activo (6-7 días de ejercicio)</option>
+    <option value="1.375">Ligero (1-3 días/semana)</option>
+    <option value="1.55">Moderado (3-5 días/semana)</option>
+    <option value="1.725">Activo (6-7 días/semana)</option>
     <option value="1.9">Muy Activo (2 entrenamientos/día)</option>
   </select>
+
+  <label for="objetivo">Objetivo</label>
   <select id="objetivo" required>
-    <option value="">Objetivo</option>
+    <option value="">Selecciona tu objetivo</option>
     <option value="mantener">Mantener peso</option>
     <option value="perder">Perder grasa</option>
     <option value="ganar">Ganar músculo</option>
   </select>
+
   <button type="submit">Calcular</button>
   <div id="resultado"></div>
 </form>
@@ -187,7 +201,7 @@ button:hover {
   <canvas id="macrosChart"></canvas>
 </div>
 
-<a href="#" class="cerrar-btn" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
+<a href="#" class="cerrar-btn" aria-label="Cerrar calculadora" onclick="cerrarVentana()">❌ Cerrar Ventana</a>
 
 <script>
 let chart = null;
@@ -202,23 +216,24 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
   const actividad = parseFloat(document.getElementById('actividad').value);
   const objetivo = document.getElementById('objetivo').value;
 
-  if (!peso || !altura || !edad || !genero || !actividad || !objetivo) return;
+  if (peso <= 0 || altura <= 0 || edad <= 0 || !genero || !actividad || !objetivo) {
+    alert("Por favor ingresa valores válidos en todos los campos.");
+    return;
+  }
 
-  // Fórmula Mifflin-St Jeor
   let tmb = genero === 'hombre'
     ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
     : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
 
   let calorias = tmb * actividad;
-
   if (objetivo === 'perder') calorias *= 0.8;
   if (objetivo === 'ganar') calorias *= 1.15;
-
   calorias = Math.round(calorias);
 
   let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
   let proteinas = proteinasPorKg * peso;
-  let grasas = (calorias * 0.25) / 9;
+  let porcentajeGrasas = objetivo === 'ganar' ? 0.3 : 0.25;
+  let grasas = (calorias * porcentajeGrasas) / 9;
   let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
 
   document.getElementById('resultado').innerHTML = `
@@ -237,8 +252,8 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
       labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
       datasets: [{
         data: [
-          (proteinas * 4).toFixed(0), 
-          (grasas * 9).toFixed(0), 
+          (proteinas * 4).toFixed(0),
+          (grasas * 9).toFixed(0),
           (carbohidratos * 4).toFixed(0)
         ],
         backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'],
@@ -254,10 +269,14 @@ document.getElementById('macro-form').addEventListener('submit', function (e) {
       }
     }
   });
+
+  document.getElementById('macrosChart').classList.add('mostrar');
 });
 
 function cerrarVentana() {
-  window.close();
+  if (confirm("¿Deseas salir de la calculadora?")) {
+    window.location.href = "https://www.google.com"; // Cambia esta URL si quieres redirigir a otro sitio
+  }
 }
 </script>
 
