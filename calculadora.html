@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Calorías</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #1a1f3f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+h1 {
+  color: #00ffc0;
+  margin-bottom: 20px;
+}
+form {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  width: 100%;
+}
+input, select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+button {
+  background: #00ffc0;
+  color: black;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover {
+  background: #00e6b8;
+}
+#resultado {
+  margin-top: 15px;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Calculadora de Calorías</h1>
+<form id="macro-form">
+  <input type="number" id="peso" placeholder="Peso (kg)" required>
+  <input type="number" id="altura" placeholder="Altura (cm)" required>
+  <input type="number" id="edad" placeholder="Edad" required>
+  <select id="genero" required>
+    <option value="">Selecciona tu género</option>
+    <option value="hombre">Hombre</option>
+    <option value="mujer">Mujer</option>
+  </select>
+  <select id="actividad" required>
+    <option value="">Nivel de actividad</option>
+    <option value="1.2">Sedentario</option>
+    <option value="1.375">Ligero</option>
+    <option value="1.55">Moderado</option>
+    <option value="1.725">Activo</option>
+    <option value="1.9">Muy Activo</option>
+  </select>
+  <button type="submit">Calcular</button>
+  <div id="resultado"></div>
+</form>
+
+<script>
+document.getElementById('macro-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const peso = parseFloat(document.getElementById('peso').value);
+  const altura = parseFloat(document.getElementById('altura').value);
+  const edad = parseFloat(document.getElementById('edad').value);
+  const genero = document.getElementById('genero').value;
+  const actividad = parseFloat(document.getElementById('actividad').value);
+
+  if (!peso || !altura || !edad || !genero || !actividad) return;
+
+  // Fórmula de Harris-Benedict
+  let tmb = genero === 'hombre'
+    ? 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * edad)
+    : 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * edad);
+
+  const calorias = Math.round(tmb * actividad);
+  const proteinas = Math.round(peso * 2);
+  const grasas = Math.round((calorias * 0.25) / 9);
+  const carbohidratos = Math.round((calorias - (proteinas * 4) - (grasas * 9)) / 4);
+
+  document.getElementById('resultado').innerHTML = `
+    <p>Calorías diarias: ${calorias}</p>
+    <p>Proteínas: ${proteinas} g</p>
+    <p>Grasas: ${grasas} g</p>
+    <p>Carbohidratos: ${carbohidratos} g</p>
+  `;
+});
+</script>
+
+</body>
+</html>
