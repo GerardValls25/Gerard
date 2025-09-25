@@ -149,7 +149,6 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
   white-space: nowrap;
   border: 0;
 }
-/* Mensaje educativo dinámico */
 .info-text {
   text-align: center;
   font-size: 0.85rem;
@@ -163,7 +162,6 @@ body.loaded .info-text {
   opacity: 1;
   transform: translateY(0);
 }
-/* Tips sobre macronutrientes */
 .tips-container {
   opacity: 0;
   transform: translateY(-5px);
@@ -177,25 +175,30 @@ body.loaded .tips-container {
   opacity: 1;
   transform: translateY(0);
 }
-/* Tema claro */
-@media (prefers-color-scheme: light) {
-  body.light, body {
-    background: #f5f5f5;
-    color: #222;
-  }
-  form { background: rgba(0,0,0,0.05); }
-  input, select { background: rgba(255,255,255,0.9); color: #222; }
-  input:focus, select:focus { background: white; box-shadow: 0 0 8px #0077ff; }
-  select {
-    background: rgba(255,255,255,0.9)
-      url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
-      no-repeat right 12px center;
-  }
-  button { background: #0077ff; color: white; }
-  button:hover { background: #005fd4; }
-  .theme-toggle { background: #00000011; color: #222; }
-  .theme-toggle:hover { background: #00000022; }
+
+/* --- MODO CLARO CONTROLADO SOLO POR LA CLASE .light --- */
+body.light {
+  background: #f5f5f5;
+  color: #222;
 }
+body.light form { background: rgba(0,0,0,0.05); }
+body.light input, body.light select {
+  background: rgba(255,255,255,0.9);
+  color: #222;
+}
+body.light input:focus, body.light select:focus {
+  background: white;
+  box-shadow: 0 0 8px #0077ff;
+}
+body.light select {
+  background: rgba(255,255,255,0.9)
+    url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+    no-repeat right 12px center;
+}
+body.light button { background: #0077ff; color: white; }
+body.light button:hover { background: #005fd4; }
+body.light .theme-toggle { background: #00000011; color: #222; }
+body.light .theme-toggle:hover { background: #00000022; }
 </style>
 </head>
 <body>
@@ -265,10 +268,19 @@ const objetivoSelect = document.getElementById("objetivo");
 
 const body = document.body;
 const themeToggle = document.getElementById("theme-toggle");
-if (localStorage.getItem("theme") === "light") {
+
+// ✅ Detectar tema en la primera visita
+if (!localStorage.getItem("theme")) {
+  if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+    body.classList.add("light");
+    localStorage.setItem("theme", "light");
+    themeToggle.textContent = "🌞 Modo Claro";
+  }
+} else if (localStorage.getItem("theme") === "light") {
   body.classList.add("light");
   themeToggle.textContent = "🌞 Modo Claro";
 }
+
 themeToggle.addEventListener("click", () => {
   body.classList.toggle("light");
   const isLight = body.classList.contains("light");
@@ -374,14 +386,12 @@ function cerrarVentana() {
   else alert("No se puede cerrar automáticamente. Cierra esta pestaña manualmente.");
 }
 
-// Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
     .then(() => console.log("✅ Service Worker registrado"))
     .catch(err => console.log("❌ Error en Service Worker", err));
 }
 
-// Animar info y tips al cargar
 window.addEventListener('load', () => body.classList.add('loaded'));
 </script>
 
