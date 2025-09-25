@@ -8,7 +8,7 @@
 <!-- Fuente -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Font Awesome CSS (para que los iconos de servicios funcionen) -->
+<!-- Font Awesome CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <!-- GSAP -->
@@ -122,17 +122,54 @@ h2::after{
 }
 .service-back button:hover{background:var(--primary); color:#000;}
 
-/* Testimonios carrusel */
-.testimonial-carousel {overflow:hidden; position:relative; margin:2rem 0;}
-.testimonials-wrapper {display:flex; gap:2rem; will-change:transform;}
-.testimonial {
-  min-width:300px; background:rgba(255,255,255,0.1); padding:1rem;
-  border-radius:10px; flex-shrink:0; text-align:center;
+/* Testimonios con mismo estilo que servicios */
+.testimonial-carousel {
+  overflow:hidden; 
+  position:relative; 
+  margin:2rem 0;
 }
-.testimonial-nav {display:flex; justify-content:center; gap:1rem; margin-top:1rem;}
+.testimonials-wrapper {
+  display:flex; 
+  gap:30px; 
+  will-change:transform;
+}
+.testimonial {
+  min-width:250px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:var(--radius);
+  padding:25px;
+  text-align:center;
+  flex-shrink:0;
+  box-shadow:0 8px 32px rgba(0,0,0,0.2);
+  color:white;
+  transition:all .4s ease;
+}
+body.light .testimonial {
+  background:rgba(255,255,255,0.25);
+  border:1px solid rgba(255,255,255,0.3);
+  color:var(--text-light);
+}
+.testimonial i {
+  font-size:2rem;
+  color:var(--primary);
+  margin-bottom:10px;
+}
+.testimonial-nav {
+  display:flex; 
+  justify-content:center; 
+  gap:1rem; 
+  margin-top:1rem;
+}
 .testimonial-nav button {
-  background: rgba(0,0,0,0.5); border:none; color:white;
-  padding:10px 14px; border-radius:50%; cursor:pointer; transition:background 0.3s, transform 0.3s;
+  background: rgba(0,0,0,0.5); 
+  border:none; 
+  color:white;
+  padding:10px 14px; 
+  border-radius:50%; 
+  cursor:pointer; 
+  transition:background 0.3s, transform 0.3s;
 }
 .testimonial-nav button:hover {background:var(--primary); transform:scale(1.1);}
 
@@ -164,6 +201,7 @@ button:hover{background:var(--primary-hover); transform:translateY(-2px);}
 #scrollTopBtn:hover{transform:scale(1.1); background:var(--primary-hover);}
 footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
 @media(max-width:600px){header h1{font-size:2rem;} header p{font-size:1rem;} .services{grid-template-columns:1fr;}}
+
 </style>
 </head>
 <body>
@@ -262,9 +300,21 @@ footer{text-align:center; padding:20px; font-size:0.9rem; opacity:0.8;}
   <h2>Testimonios</h2>
   <div class="testimonial-carousel">
     <div class="testimonials-wrapper">
-      <div class="testimonial">"Excelente nutricionista, logré mis objetivos." – Laura G.</div>
-      <div class="testimonial">"Atención profesional y personalizada." – Carlos M.</div>
-      <div class="testimonial">"Recomiendo sus planes a todos los deportistas." – Ana R.</div>
+      <div class="testimonial">
+        <i class="fas fa-star"></i>
+        <p>"Excelente nutricionista, logré mis objetivos."</p>
+        <span>- Laura G.</span>
+      </div>
+      <div class="testimonial">
+        <i class="fas fa-heart"></i>
+        <p>"Atención profesional y personalizada."</p>
+        <span>- Carlos M.</span>
+      </div>
+      <div class="testimonial">
+        <i class="fas fa-thumbs-up"></i>
+        <p>"Recomiendo sus planes a todos los deportistas."</p>
+        <span>- Ana R.</span>
+      </div>
     </div>
     <div class="testimonial-nav">
       <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
@@ -338,36 +388,30 @@ document.getElementById('contact-form').addEventListener('submit',async e=>{
   }
 });
 
-/* Testimonios auto-scroll con flechas y reanudación */
+/* Testimonios auto-scroll */
 document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.querySelector(".testimonials-wrapper");
   const prevBtn = document.querySelector(".testimonial-prev");
   const nextBtn = document.querySelector(".testimonial-next");
 
   wrapper.innerHTML += wrapper.innerHTML; // duplicar contenido para loop
-
   const tl = gsap.to(wrapper, { xPercent: -50, duration: 15, ease: "linear", repeat: -1 });
   let autoPlayTimeout;
 
   const pauseAutoPlay = () => {
     tl.pause();
     clearTimeout(autoPlayTimeout);
-    autoPlayTimeout = setTimeout(() => tl.play(), 4000); // reanuda tras 4s
+    autoPlayTimeout = setTimeout(() => tl.play(), 4000);
   };
 
   wrapper.addEventListener("mouseenter", pauseAutoPlay);
   wrapper.addEventListener("mouseleave", pauseAutoPlay);
 
-  const step = 300; // píxeles
-  prevBtn.addEventListener("click", () => {
-    pauseAutoPlay();
-    gsap.to(wrapper, { x: `+=${step}`, duration: 0.6, ease: "power2.out" });
-  });
-  nextBtn.addEventListener("click", () => {
-    pauseAutoPlay();
-    gsap.to(wrapper, { x: `-=${step}`, duration: 0.6, ease: "power2.out" });
-  });
+  const step = 300;
+  prevBtn.addEventListener("click", () => { pauseAutoPlay(); gsap.to(wrapper, { x: `+=${step}`, duration: 0.6, ease: "power2.out" }); });
+  nextBtn.addEventListener("click", () => { pauseAutoPlay(); gsap.to(wrapper, { x: `-=${step}`, duration: 0.6, ease: "power2.out" }); });
 });
 </script>
+
 </body>
 </html>
