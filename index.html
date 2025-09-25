@@ -3,197 +3,227 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Calorías</title>
+<title>Gerard Valls - Nutrición Profesional</title>
 
+<!-- Fuente -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+
+<!-- Chart.js para gráfico -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- jsPDF para PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
-body{
-  font-family:'Montserrat',sans-serif;
-  background:#1a1f3f;
-  color:#e6e6e6;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  margin:0;
-}
-h1{color:#00ffc0;text-align:center;margin-bottom:20px;}
-.glass-form{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+/* ======== TU CSS ORIGINAL SIN TOCAR ======== */
+:root{--primary:#00ffc0;--primary-hover:#00e6b8;--dark-bg:#1a1f3f;--light-bg:#f5f5f5;--text-dark:#e6e6e6;--text-light:#222;--radius:12px;--transition:.5s ease;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Montserrat',sans-serif;background:var(--dark-bg);color:var(--text-dark);overflow-x:hidden;line-height:1.6;transition:background var(--transition),color var(--transition);}
+body.light{background:var(--light-bg);color:var(--text-light);}
+a{color:var(--primary);text-decoration:none;transition:.3s;}
+a:hover{color:var(--primary-hover);}
+/* HEADER */
+header{position:relative;text-align:center;padding:120px 20px 100px;}
+header h1{font-size:3rem;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;text-shadow:0 0 20px rgba(0,255,192,0.5);animation:gradMove 10s linear infinite;}
+header p{margin-top:10px;font-size:1.2rem;}
+#toggle-theme{margin-top:20px;background:var(--primary);color:#000;border:none;padding:10px 20px;border-radius:var(--radius);cursor:pointer;font-weight:600;transition:.4s;}
+#toggle-theme:hover{background:var(--primary-hover);transform:translateY(-2px);}
+@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+/* Navegación */
+nav{position:sticky;top:0;background:rgba(42,55,96,0.85);backdrop-filter:blur(10px);display:flex;justify-content:center;gap:1rem;padding:12px;z-index:1000;transition:var(--transition);}
+body.light nav{background:rgba(245,245,245,0.9);}
+nav a{font-weight:600;cursor:pointer;}
+/* Main wrapper */
+main.wrapper{max-width:1100px;margin:40px auto;padding:50px 30px 60px;border-radius:var(--radius);backdrop-filter:blur(15px);background:rgba(42,55,96,0.85);text-align:center;transition:var(--transition);}
+body.light main.wrapper{background:rgba(245,245,245,0.9);}
+/* Secciones */
+h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
+h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;border-radius:2px;background:var(--primary);transform:scaleX(0);animation:lineDraw 1s forwards;}
+@keyframes lineDraw{to{transform:scaleX(1);}}
+
+/* ... TU CSS DE SERVICIOS, TESTIMONIOS Y FORMULARIO IGUAL ... */
+
+/* ====== ESTILO CALCULADORA ====== */
+.calculadora{
+  margin-top:40px;
   padding:30px;
-  border-radius:16px;
   background:rgba(255,255,255,0.05);
+  border-radius:var(--radius);
   backdrop-filter:blur(15px);
-  border:1px solid rgba(255,255,255,0.2);
-  width:300px;
 }
-.form-group{position:relative;}
-.form-group input,.form-group select{
+.calculadora input, .calculadora select{
   width:100%;
-  padding:14px 12px 14px 36px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.3);
-  background:rgba(255,255,255,0.1);
-  color:white;
+  margin:8px 0;
+  padding:10px;
+  border-radius:var(--radius);
+  border:none;
 }
-.form-group label{
-  position:absolute;
-  left:36px;
-  top:50%;
-  transform:translateY(-50%);
-  color:rgba(255,255,255,0.6);
-  pointer-events:none;
+#resultado{margin-top:20px;font-weight:600;}
+#descargarPDF{
+  margin-top:20px;
+  background:var(--primary);
+  color:#000;
+  font-weight:600;
+  border:none;
+  padding:10px 20px;
+  border-radius:var(--radius);
+  cursor:pointer;
   transition:.3s;
 }
-.form-group input:focus+label,
-.form-group input:not(:placeholder-shown)+label,
-.form-group select:focus+label{
-  top:-8px;
-  font-size:0.8rem;
-  color:#00ffc0;
-}
-button{
-  background:#00ffc0;
-  color:#000;
-  border:none;
-  padding:14px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:600;
-}
-button:hover{background:#00e6b8;}
-#resultado{margin-top:20px;text-align:center;}
-canvas{max-width:400px;margin-top:20px;}
+#descargarPDF:hover{background:var(--primary-hover);transform:translateY(-2px);}
 </style>
 </head>
 <body>
 
-<h1>Calculadora de Calorías</h1>
+<header>
+  <h1>Gerard Valls</h1>
+  <p>Nutrición personalizada para deportistas y personas activas</p>
+  <button id="toggle-theme">Cambiar a modo claro</button>
+</header>
 
-<form id="calc-form" class="glass-form">
-  <div class="form-group">
-    <input type="number" id="peso" placeholder=" " required>
-    <label>Peso (kg)</label><i class="fas fa-weight"></i>
-  </div>
-  <div class="form-group">
-    <input type="number" id="altura" placeholder=" " required>
-    <label>Altura (cm)</label><i class="fas fa-ruler-vertical"></i>
-  </div>
-  <div class="form-group">
-    <input type="number" id="edad" placeholder=" " required>
-    <label>Edad</label><i class="fas fa-user"></i>
-  </div>
-  <div class="form-group">
-    <select id="actividad" required>
-      <option value="">Nivel de actividad</option>
-      <option value="1.2">Sedentario</option>
-      <option value="1.375">Ligera</option>
-      <option value="1.55">Moderada</option>
-      <option value="1.725">Intensa</option>
-    </select>
-    <label>Actividad</label>
-  </div>
-  <button type="submit">Calcular</button>
-</form>
+<nav>
+  <a href="#servicios">Servicios</a>
+  <a href="#testimonios">Testimonios</a>
+  <a href="#consulta">Formulario</a>
+  <a href="#calculadora">Calculadora</a>
+</nav>
 
-<div id="resultado"></div>
-<canvas id="graficoMacros"></canvas>
-<button id="descargarPDF" style="display:none;margin-top:10px;">📄 Descargar PDF</button>
+<main class="wrapper">
+  <!-- ... SECCIONES SERVICIOS / TESTIMONIOS / FORMULARIO IGUALES ... -->
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- ======== NUEVA SECCIÓN: CALCULADORA ======== -->
+  <section id="calculadora">
+    <h2>Calculadora de Macros</h2>
+    <div class="calculadora">
+      <label>Peso (kg):</label>
+      <input type="number" id="peso" placeholder="Ej: 70">
+      
+      <label>Altura (cm):</label>
+      <input type="number" id="altura" placeholder="Ej: 175">
+
+      <label>Edad:</label>
+      <input type="number" id="edad" placeholder="Ej: 28">
+
+      <label>Sexo:</label>
+      <select id="sexo">
+        <option value="hombre">Hombre</option>
+        <option value="mujer">Mujer</option>
+      </select>
+
+      <label>Actividad:</label>
+      <select id="actividad">
+        <option value="1.2">Sedentario</option>
+        <option value="1.375">Ligero</option>
+        <option value="1.55">Moderado</option>
+        <option value="1.725">Intenso</option>
+      </select>
+
+      <button onclick="calcular()">Calcular</button>
+      <div id="resultado"></div>
+      <canvas id="graficoMacros" style="max-width:100%;margin-top:20px;"></canvas>
+      <button id="descargarPDF" style="display:none;">Descargar PDF</button>
+    </div>
+  </section>
+</main>
+
+<footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
+
+<button id="whatsapp-btn" aria-label="Abrir chat de WhatsApp"><i class="fab fa-whatsapp"></i></button>
+<button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up"></i></button>
 
 <script>
-let chart;
-document.getElementById("calc-form").addEventListener("submit",e=>{
-  e.preventDefault();
-  const peso=+document.getElementById("peso").value;
-  const altura=+document.getElementById("altura").value;
-  const edad=+document.getElementById("edad").value;
-  const actividad=+document.getElementById("actividad").value;
-
-  const tmb=10*peso+6.25*altura-5*edad+5;
-  const mantenimiento=tmb*actividad;
-  const deficit=mantenimiento-500;
-  const superavit=mantenimiento+300;
-
-  document.getElementById("resultado").innerHTML=`
-    <strong>TMB:</strong> ${tmb.toFixed(0)} kcal<br>
-    <strong>Mantenimiento:</strong> ${mantenimiento.toFixed(0)} kcal<br>
-    <strong>Déficit recomendado:</strong> ${deficit.toFixed(0)} kcal<br>
-    <strong>Superávit recomendado:</strong> ${superavit.toFixed(0)} kcal
-  `;
-
-  actualizarGrafico(mantenimiento);
+/* ======== TU SCRIPT ORIGINAL ======== */
+document.getElementById('toggle-theme').addEventListener('click',()=>{
+  document.body.classList.toggle('light');
+  document.getElementById('toggle-theme').textContent=document.body.classList.contains('light')
+    ?'Cambiar a modo oscuro'
+    :'Cambiar a modo claro';
 });
 
-function actualizarGrafico(calorias){
-  const proteinas=(calorias*0.3)/4;
-  const carbos=(calorias*0.4)/4;
-  const grasas=(calorias*0.3)/9;
+/* ... Animaciones GSAP y scroll button igual ... */
 
-  const ctx=document.getElementById("graficoMacros");
+/* ======== LÓGICA CALCULADORA ======== */
+let chart;
+function calcular(){
+  const peso = parseFloat(document.getElementById('peso').value);
+  const altura = parseFloat(document.getElementById('altura').value);
+  const edad = parseFloat(document.getElementById('edad').value);
+  const sexo = document.getElementById('sexo').value;
+  const actividad = parseFloat(document.getElementById('actividad').value);
+  if(!peso||!altura||!edad){alert("Completa todos los campos");return;}
+  
+  let tmb = sexo==="hombre"
+    ? 10*peso + 6.25*altura - 5*edad + 5
+    : 10*peso + 6.25*altura - 5*edad - 161;
+  const mantenimiento = Math.round(tmb * actividad);
+  const deficit = mantenimiento - 500;
+  const superavit = mantenimiento + 300;
+  
+  document.getElementById('resultado').innerHTML = 
+    `🔥 <span style="color:#22c55e;">Mantenimiento:</span> ${mantenimiento} kcal<br>
+     🥗 <span style="color:#ef4444;">Déficit:</span> ${deficit} kcal<br>
+     💪 <span style="color:#3b82f6;">Superávit:</span> ${superavit} kcal`;
+  
+  // Gráfico
+  const ctx = document.getElementById('graficoMacros');
   if(chart) chart.destroy();
-  chart=new Chart(ctx,{
-    type:"doughnut",
+  chart = new Chart(ctx,{
+    type:'doughnut',
     data:{
-      labels:["Proteínas","Carbohidratos","Grasas"],
+      labels:['Déficit','Mantenimiento','Superávit'],
       datasets:[{
-        data:[proteinas,carbos,grasas],
-        backgroundColor:["#00ffc0","#00bfff","#ff00c8"],
-        borderWidth:1
+        data:[deficit,mantenimiento,superavit],
+        backgroundColor:['#ef4444','#22c55e','#3b82f6']
       }]
     },
     options:{
-      plugins:{
-        tooltip:{callbacks:{label:(ctx)=>`${ctx.label}: ${ctx.parsed.toFixed(0)} g`}},
-        legend:{position:"bottom"}
-      },
-      animation:{animateScale:true}
+      responsive:true,
+      plugins:{legend:{position:'bottom'}}
     }
   });
 
-  document.getElementById("descargarPDF").style.display="inline-block";
+  document.getElementById('descargarPDF').style.display="inline-block";
 }
 
-document.getElementById("descargarPDF").addEventListener("click",()=>{
+/* ======== PDF GENERACIÓN ======== */
+document.getElementById("descargarPDF").addEventListener("click", async () => {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  const primaryColor=[0,255,192];
-  const darkText=[40,40,40];
+  const primaryColor = [0,255,192];
+  const darkText = [40,40,40];
 
   doc.setFontSize(22);
   doc.setTextColor(...primaryColor);
-  doc.text("Resultados de la Calculadora",105,20,{align:"center"});
+  doc.text("Resultados de la Calculadora", 105, 20, { align: "center" });
 
-  const textoPlano=document.getElementById("resultado").innerText.split("\n");
-  let y=40;
+  const texto = document.getElementById("resultado").innerText.split("\n");
+  let y = 40;
   doc.setFontSize(12);
-  textoPlano.forEach(linea=>{
+  texto.forEach(linea=>{
     if(linea.includes("Mantenimiento")) doc.setTextColor(34,197,94);
     else if(linea.includes("Déficit")) doc.setTextColor(239,68,68);
     else if(linea.includes("Superávit")) doc.setTextColor(59,130,246);
     else doc.setTextColor(...darkText);
-    doc.text(linea,20,y);
-    y+=8;
+    doc.text(linea, 20, y);
+    y += 8;
   });
 
-  const canvas=document.getElementById("graficoMacros");
-  const imgData=canvas.toDataURL("image/png",1.0);
-  doc.addImage(imgData,"PNG",20,y+5,170,90);
+  const canvas = document.getElementById("graficoMacros");
+  const imgData = canvas.toDataURL("image/png",1.0);
+  doc.addImage(imgData, "PNG", 20, y+5, 170, 90);
 
   doc.setFontSize(10);
   doc.setTextColor(...darkText);
-  doc.text("Generado por Gerard Valls - Nutrición Profesional",105,290,{align:"center"});
+  doc.text("Generado por Gerard Valls - Nutrición Profesional", 105, 290, { align: "center" });
 
   doc.save("resultados-macros.pdf");
 });
 </script>
-
 </body>
 </html>
