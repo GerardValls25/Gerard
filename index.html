@@ -153,7 +153,7 @@ h2::after{
 }
 .form-group i{position:absolute;top:50%;left:12px;transform:translateY(-50%);color:var(--primary);}
 
-/* BOTÓN DE ENVÍO - ESTADO LOADING */
+/* BOTÓN DE ENVÍO - LOADING */
 #contact-form button {
   background: var(--primary);
   border: none;
@@ -182,7 +182,6 @@ h2::after{
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-
 @keyframes spin {to{transform: rotate(360deg);}}
 @keyframes buttonPulse {
   0%   { transform: scale(0.98); filter: brightness(0.9); }
@@ -217,7 +216,134 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 
 <main class="wrapper">
   <!-- SERVICIOS -->
-  <!-- (igual que antes) -->
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="services">
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-bowl-food icon-planes"></i>
+            <h3>Planes Personalizados</h3>
+            <p>Adaptados a tu estilo de vida y objetivos.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Evaluación inicial completa</li>
+              <li>Plan nutricional flexible</li>
+              <li>Seguimiento quincenal</li>
+            </ul>
+            <button onclick="location.href='#consulta'">Solicitar</button>
+          </div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-person-running icon-deporte"></i>
+            <h3>Asesoría Deportiva</h3>
+            <p>Optimiza tu rendimiento y recuperación.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Plan de macronutrientes</li>
+              <li>Recomendaciones de suplementación</li>
+              <li>Ajuste de cargas de entrenamiento</li>
+            </ul>
+            <button onclick="location.href='#consulta'">Solicitar</button>
+          </div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-scale-balanced icon-peso"></i>
+            <h3>Pérdida de Peso</h3>
+            <p>Programas sostenibles y personalizados.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Reducción de grasa saludable</li>
+              <li>Hábitos de alimentación duraderos</li>
+              <li>Soporte motivacional</li>
+            </ul>
+            <button onclick="location.href='#consulta'">Solicitar</button>
+          </div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-video icon-online"></i>
+            <h3>Consultas Online</h3>
+            <p>Atención profesional desde cualquier lugar.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Videollamadas en horario flexible</li>
+              <li>Soporte por correo y WhatsApp</li>
+              <li>Acceso a material educativo</li>
+            </ul>
+            <button onclick="location.href='#consulta'">Solicitar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios">
+    <h2>Testimonios</h2>
+    <div class="services">
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front" style="background: linear-gradient(135deg, #00ffc0, #00bfff);">
+            <i class="fas fa-user"></i>
+            <h3>Laura G.</h3>
+            <p>"Excelente nutricionista, logré mis objetivos."</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Perdió 6kg en 3 meses</li>
+              <li>Mejoró su relación con la comida</li>
+              <li>Incrementó su energía diaria</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front" style="background: linear-gradient(135deg, #ff7eb3, #ff65a3);">
+            <i class="fas fa-user"></i>
+            <h3>Carlos M.</h3>
+            <p>"Atención profesional y personalizada."</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Optimización de rendimiento deportivo</li>
+              <li>Plan de suplementación adaptado</li>
+              <li>Seguimiento constante</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front" style="background: linear-gradient(135deg, #ffe259, #ffa751);">
+            <i class="fas fa-user"></i>
+            <h3>Ana R.</h3>
+            <p>"Recomiendo sus planes a todos los deportistas."</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Mejoró sus marcas en carrera</li>
+              <li>Plan flexible y sostenible</li>
+              <li>Acompañamiento motivador</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- FORMULARIO -->
   <section id="consulta">
@@ -247,63 +373,46 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 <footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
 
 <button id="whatsapp-btn" aria-label="Abrir chat de WhatsApp"><i class="fab fa-whatsapp"></i></button>
-<button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up"></i></button>
+<button id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
 
 <script>
-document.getElementById('toggle-theme').addEventListener('click',()=>{
-  document.body.classList.toggle('light');
-  document.getElementById('toggle-theme').textContent=document.body.classList.contains('light')
-    ?'Cambiar a modo oscuro':'Cambiar a modo claro';
-});
+const toggleBtn=document.getElementById('toggle-theme');
+toggleBtn.addEventListener('click',()=>{document.body.classList.toggle('light');
+toggleBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';});
 
-/* GSAP Animaciones */
-window.addEventListener('DOMContentLoaded',()=>{
-  if(typeof gsap!=='undefined' && typeof ScrollTrigger!=='undefined'){gsap.registerPlugin(ScrollTrigger);}
-  gsap.from("header h1",{opacity:0,y:-50,duration:1});
-  gsap.from("header p",{opacity:0,y:30,duration:1,delay:0.3});
-  gsap.utils.toArray("#servicios .service").forEach((el,i)=>{
-    gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:50,duration:0.6,delay:i*0.1});
-  });
-  gsap.utils.toArray("#testimonios .service").forEach((el,i)=>{
-    gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:40,rotateY:-8,duration:0.8,delay:i*0.08,ease:"back.out(1.6)"});
-  });
-});
+const scrollTopBtn=document.getElementById('scrollTopBtn');
+window.addEventListener('scroll',()=>{if(window.scrollY>300)scrollTopBtn.classList.add('show');else scrollTopBtn.classList.remove('show');});
+scrollTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-/* Scroll top */
-const scrollBtn=document.getElementById('scrollTopBtn');
-window.addEventListener('scroll',()=>{window.scrollY>300?scrollBtn.classList.add('show'):scrollBtn.classList.remove('show');});
-scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-/* WhatsApp */
-document.getElementById('whatsapp-btn').addEventListener('click',()=>{
-  window.open('https://wa.me/34600000000?text=¡Hola! Me interesa una consulta.','_blank');
-});
-
-/* Formulario con loading state */
-document.getElementById('contact-form').addEventListener('submit',async(e)=>{
+document.getElementById('contact-form').addEventListener('submit',async e=>{
   e.preventDefault();
   const form=e.target;
-  const button=form.querySelector("button");
-  const feedback=document.getElementById('form-feedback');
-  button.classList.add("loading");
   const data=new FormData(form);
-  try {
+  const feedback=document.getElementById('form-feedback');
+  const submitBtn=form.querySelector("button[type=submit]");
+
+  submitBtn.classList.add("loading");
+  submitBtn.disabled=true;
+
+  try{
     const res=await fetch(form.action,{method:form.method,body:data,headers:{'Accept':'application/json'}});
     if(res.ok){
-      feedback.textContent='✅ Mensaje enviado correctamente';
-      feedback.style.color='var(--primary)';
+      feedback.innerHTML="✅ Mensaje enviado con éxito.";
+      feedback.style.color="var(--primary)";
       form.reset();
-    } else {
-      feedback.textContent='❌ Hubo un error. Inténtalo de nuevo.';
-      feedback.style.color='red';
+    }else{
+      feedback.innerHTML="❌ Ocurrió un error. Intenta de nuevo.";
+      feedback.style.color="red";
     }
-  } catch (err){
-    feedback.textContent='⚠️ No se pudo conectar. Revisa tu conexión.';
-    feedback.style.color='orange';
-  } finally {
-    button.classList.remove("loading");
+  }catch(err){
+    feedback.innerHTML="⚠️ Error de conexión.";
+    feedback.style.color="orange";
+  }finally{
+    setTimeout(()=>{submitBtn.classList.remove("loading");submitBtn.disabled=false;},500);
   }
 });
+
+document.getElementById('whatsapp-btn').addEventListener('click',()=>window.open('https://wa.me/34123456789','_blank'));
 </script>
 </body>
 </html>
