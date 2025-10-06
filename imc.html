@@ -109,7 +109,7 @@ button:hover {
   text-align: center;
 }
 
-/* ---------- Velocímetro ---------- */
+/* Velocímetro */
 #velocimetro {
   position: relative;
   width: 260px;
@@ -123,12 +123,8 @@ button:hover {
   width: 100%;
   height: 100%;
   border-radius: 260px 260px 0 0;
-  background: conic-gradient(
-    from 180deg,
-    #444 0deg 180deg
-  );
+  background: #444;
   transform: rotateX(25deg);
-  box-shadow: inset 0 -4px 8px rgba(0,0,0,0.2);
   overflow: hidden;
   position: relative;
 }
@@ -150,6 +146,10 @@ button:hover {
   transition: transform 1.2s ease-in-out;
 }
 
+.arco.animando::after {
+  transform: scaleY(1);
+}
+
 .aguja {
   position: absolute;
   bottom: 0;
@@ -160,7 +160,7 @@ button:hover {
   border-radius: 2px;
   transform-origin: bottom center;
   transform: rotate(180deg);
-  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
 }
 
 .centro {
@@ -272,6 +272,7 @@ const aguja = document.getElementById('aguja');
 const valorIMC = document.getElementById('valor-imc');
 const arco = document.getElementById('arco');
 
+// Modo oscuro
 function aplicarModoInicial() {
   const saved = localStorage.getItem('modoOscuro');
   if (saved === 'true' || (saved === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -279,20 +280,21 @@ function aplicarModoInicial() {
     toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
   }
 }
-
 toggleDark.addEventListener('click', () => {
   document.body.classList.toggle('dark');
   const isDark = document.body.classList.contains('dark');
   toggleDark.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
   localStorage.setItem('modoOscuro', isDark);
 });
-
 aplicarModoInicial();
 
+// Calcular IMC y animar velocímetro
 document.getElementById('imc-form').addEventListener('submit', e => {
   e.preventDefault();
+
   const peso = parseFloat(pesoInput.value);
   const altura = parseFloat(alturaInput.value) / 100;
+
   if (!peso || !altura || peso <= 0 || altura <= 0) {
     resultado.textContent = 'Por favor, ingresa valores válidos.';
     resultado.style.color = '#dc3545';
@@ -316,23 +318,14 @@ document.getElementById('imc-form').addEventListener('submit', e => {
   explicacion.hidden = false;
   velocimetro.style.display = 'block';
 
-  // Reiniciar arco y animación
-  arco.querySelector("::after");
-  arco.style.setProperty("--fill", 0);
+  // Animar arco
   arco.classList.remove("animando");
-  void arco.offsetWidth;
+  void arco.offsetWidth; // forzar reflow
   arco.classList.add("animando");
-  arco.querySelector("::after");
 
-  // Activar efecto de llenado del arco
-  arco.querySelector(":after");
-  arco.style.setProperty("--fill", 1);
-  arco.querySelector("::after");
-  arco.querySelector("::after").style = "transform: scaleY(1)";
-
-  // Mover la aguja: IMC 0 -> 180°, IMC 40 -> 0°
-  const angulo = Math.max(0, Math.min(180 - (imc * 4.5), 180));
+  // Mover la aguja
   aguja.style.background = color;
+  const angulo = Math.max(0, Math.min(180 - imc * 4.5, 180));
   aguja.style.transform = `rotate(${angulo}deg)`;
 });
 </script>
