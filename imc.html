@@ -5,10 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Calculadora IMC</title>
 
-<!-- Fuente Roboto -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-<!-- Font Awesome CDN para iconos -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pVtTp6Vq+2Am84jB6gGnBQXEWQ94dj0Cnmq8Cg3Lvy1TzS+pn46HoXpB2d9sBXmPpTfBTzEYvNjhr5J50flQNg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
 
 <style>
   :root {
@@ -20,6 +18,16 @@
     --text-secondary: #6c757d;
     --radius: 8px;
     --shadow: rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+  }
+  
+  /* Dark mode variables */
+  .dark {
+    --background: #121417;
+    --card-bg: #1e2235;
+    --text-primary: #e6e8f0;
+    --text-secondary: #a0a6bd;
+    --shadow: rgba(0, 0, 0, 0.6);
   }
 
   * {
@@ -34,9 +42,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
     padding: 40px 20px;
+    transition: background var(--transition-speed), color var(--transition-speed);
   }
 
   h1 {
@@ -55,7 +64,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    transition: box-shadow 0.3s ease;
+    transition: background var(--transition-speed), box-shadow var(--transition-speed);
   }
 
   form:hover {
@@ -84,14 +93,22 @@
     border-radius: var(--radius);
     border: 1.8px solid #ced4da;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     width: 100%;
+    background: var(--card-bg);
+    color: var(--text-primary);
+  }
+
+  body.dark input[type="number"] {
+    border-color: #555c8a;
   }
 
   input[type="number"]:focus {
     border-color: var(--primary);
     outline: none;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    background: var(--card-bg);
+    color: var(--text-primary);
   }
 
   button {
@@ -122,6 +139,7 @@
     color: var(--text-primary);
     min-height: 36px;
     opacity: 1;
+    transition: color var(--transition-speed);
   }
 
   #explicacion {
@@ -131,6 +149,7 @@
     color: var(--text-secondary);
     line-height: 1.5;
     text-align: center;
+    transition: color var(--transition-speed);
   }
 
   /* Animación fade-in */
@@ -152,9 +171,40 @@
       max-width: 100%;
     }
   }
+
+  /* Botón toggle modo oscuro */
+  #toggle-dark {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--card-bg);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 2px 8px var(--shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-speed), box-shadow var(--transition-speed), color var(--transition-speed);
+    color: var(--primary);
+  }
+
+  #toggle-dark:hover {
+    box-shadow: 0 4px 12px rgba(0,123,255,0.4);
+  }
+
+  body.dark #toggle-dark {
+    color: #ffd600;
+  }
 </style>
 </head>
 <body>
+
+<button id="toggle-dark" aria-label="Alternar modo claro/oscuro" title="Alternar modo claro/oscuro">
+  <i class="fas fa-moon"></i>
+</button>
 
 <h1>Calculadora IMC</h1>
 
@@ -188,6 +238,7 @@
   const pesoInput = document.getElementById('peso');
   const alturaInput = document.getElementById('altura');
   const explicacion = document.getElementById('explicacion');
+  const toggleDark = document.getElementById('toggle-dark');
 
   // Función para mostrar el resultado con animación
   function mostrarResultado(texto) {
@@ -210,23 +261,32 @@
     }
   }
 
-  // Carga inicial: recuperar resultado y valores guardados
-  window.addEventListener('load', () => {
-    const resultadoGuardado = localStorage.getItem('imcResultado');
-    const pesoGuardado = localStorage.getItem('peso');
-    const alturaGuardado = localStorage.getItem('altura');
+  // Detectar preferencia de color y aplicar modo oscuro al cargar
+  function aplicarModoInicial() {
+    const saved = localStorage.getItem('modoOscuro');
+    if (saved !== null) {
+      if (saved === 'true') {
+        document.body.classList.add('dark');
+        toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        document.body.classList.remove('dark');
+        toggleDark.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+      toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+  }
 
-    if (resultadoGuardado) {
-      mostrarResultado(resultadoGuardado);
-      mostrarExplicacion(true);
-    }
-    if (pesoGuardado) {
-      pesoInput.value = pesoGuardado;
-    }
-    if (alturaGuardado) {
-      alturaInput.value = alturaGuardado;
-    }
+  // Cambiar modo oscuro manualmente
+  toggleDark.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    toggleDark.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    localStorage.setItem('modoOscuro', isDark);
   });
+
+  aplicarModoInicial();
 
   document.getElementById('imc-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -235,17 +295,9 @@
     const alturaCm = parseFloat(alturaInput.value);
     const alturaM = alturaCm / 100;
 
-    if (!peso || peso < 10 || peso > 300) {
-      mostrarResultado('Ingresa un peso válido entre 10 y 300 kg.');
+    if (!peso || !alturaCm || peso <= 0 || alturaCm <= 0) {
+      mostrarResultado('Por favor, ingresa valores válidos.');
       mostrarExplicacion(false);
-      pesoInput.focus();
-      return;
-    }
-
-    if (!alturaCm || alturaCm < 50 || alturaCm > 250) {
-      mostrarResultado('Ingresa una altura válida entre 50 y 250 cm.');
-      mostrarExplicacion(false);
-      alturaInput.focus();
       return;
     }
 
@@ -253,17 +305,12 @@
     let categoria = '';
 
     if (imc < 18.5) categoria = 'Bajo peso';
-    else if (imc < 24.9) categoria = 'Normal';
-    else if (imc < 29.9) categoria = 'Sobrepeso';
+    else if (imc < 25) categoria = 'Normal';
+    else if (imc < 30) categoria = 'Sobrepeso';
     else categoria = 'Obesidad';
 
-    const textoResultado = `Tu IMC es ${imc.toFixed(2)} (${categoria})`;
-    mostrarResultado(textoResultado);
+    mostrarResultado(`Tu IMC es ${imc.toFixed(2)} (${categoria})`);
     mostrarExplicacion(true);
-
-    localStorage.setItem('imcResultado', textoResultado);
-    localStorage.setItem('peso', peso);
-    localStorage.setItem('altura', alturaCm);
   });
 </script>
 
