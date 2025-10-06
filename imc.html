@@ -68,6 +68,16 @@
     font-size: 1.2rem;
     font-weight: 600;
     text-align: center;
+    opacity: 1;
+  }
+
+  /* Animación fade-in */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
   }
 </style>
 </head>
@@ -90,15 +100,52 @@
 <div id="resultado" aria-live="polite"></div>
 
 <script>
+  const resultado = document.getElementById('resultado');
+  const pesoInput = document.getElementById('peso');
+  const alturaInput = document.getElementById('altura');
+
+  // Función para mostrar el resultado con animación
+  function mostrarResultado(texto) {
+    resultado.textContent = texto;
+
+    resultado.classList.remove('fade-in');
+    void resultado.offsetWidth; // reinicia la animación
+    resultado.classList.add('fade-in');
+  }
+
+  // Carga inicial: recuperar resultado y valores guardados
+  window.addEventListener('load', () => {
+    const resultadoGuardado = localStorage.getItem('imcResultado');
+    const pesoGuardado = localStorage.getItem('peso');
+    const alturaGuardado = localStorage.getItem('altura');
+
+    if (resultadoGuardado) {
+      mostrarResultado(resultadoGuardado);
+    }
+    if (pesoGuardado) {
+      pesoInput.value = pesoGuardado;
+    }
+    if (alturaGuardado) {
+      alturaInput.value = alturaGuardado;
+    }
+  });
+
   document.getElementById('imc-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const peso = parseFloat(document.getElementById('peso').value);
-    const alturaCm = parseFloat(document.getElementById('altura').value);
+    const peso = parseFloat(pesoInput.value);
+    const alturaCm = parseFloat(alturaInput.value);
     const alturaM = alturaCm / 100;
 
-    if (!peso || !alturaCm || peso <= 0 || alturaCm <= 0) {
-      document.getElementById('resultado').textContent = 'Por favor, ingresa valores válidos.';
+    if (!peso || peso < 10 || peso > 300) {
+      mostrarResultado('Ingresa un peso válido entre 10 y 300 kg.');
+      pesoInput.focus();
+      return;
+    }
+
+    if (!alturaCm || alturaCm < 50 || alturaCm > 250) {
+      mostrarResultado('Ingresa una altura válida entre 50 y 250 cm.');
+      alturaInput.focus();
       return;
     }
 
@@ -110,8 +157,12 @@
     else if (imc < 29.9) categoria = 'Sobrepeso';
     else categoria = 'Obesidad';
 
-    document.getElementById('resultado').textContent = 
-      `Tu IMC es ${imc.toFixed(2)} (${categoria})`;
+    const textoResultado = `Tu IMC es ${imc.toFixed(2)} (${categoria})`;
+    mostrarResultado(textoResultado);
+
+    localStorage.setItem('imcResultado', textoResultado);
+    localStorage.setItem('peso', peso);
+    localStorage.setItem('altura', alturaCm);
   });
 </script>
 
