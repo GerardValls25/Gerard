@@ -5,70 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Calculadora IMC</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+<!-- Fuente Roboto -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+<!-- Font Awesome CDN para iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pVtTp6Vq+2Am84jB6gGnBQXEWQ94dj0Cnmq8Cg3Lvy1TzS+pn46HoXpB2d9sBXmPpTfBTzEYvNjhr5J50flQNg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
   :root {
-    --primary: #00ffc0;
-    --primary-hover: #00e6b8;
-    --dark-bg: #1a1f3f;
-    --text-dark: #e6e6e6;
-    --radius: 12px;
+    --primary: #007BFF;
+    --primary-hover: #0056b3;
+    --background: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --radius: 8px;
+    --shadow: rgba(0, 0, 0, 0.1);
   }
+
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: var(--dark-bg);
-    color: var(--text-dark);
+    font-family: 'Roboto', sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 40px 20px;
   }
+
   h1 {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
   }
+
   form {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
+    background: var(--card-bg);
+    padding: 32px 36px;
     border-radius: var(--radius);
-    box-shadow: 0 0 15px rgba(0, 255, 192, 0.5);
-    width: 320px;
+    box-shadow: 0 8px 20px var(--shadow);
+    width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
+    transition: box-shadow 0.3s ease;
   }
+
+  form:hover {
+    box-shadow: 0 12px 30px rgba(0, 123, 255, 0.2);
+  }
+
   label {
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  input[type="number"] {
-    padding: 10px;
-    border-radius: var(--radius);
-    border: none;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
     font-size: 1rem;
+    color: var(--text-secondary);
+    gap: 8px;
   }
+
+  label i {
+    color: var(--primary);
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+  }
+
+  input[type="number"] {
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    border: 1.8px solid #ced4da;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    width: 100%;
+  }
+
+  input[type="number"]:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+  }
+
   button {
     background: var(--primary);
-    color: #000;
+    color: #fff;
     border: none;
-    padding: 12px;
+    padding: 14px 0;
     border-radius: var(--radius);
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
   }
-  button:hover {
+
+  button:hover,
+  button:focus {
     background: var(--primary-hover);
+    box-shadow: 0 8px 16px rgba(0, 86, 179, 0.5);
+    outline: none;
   }
+
   #resultado {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    font-weight: 600;
+    margin-top: 28px;
+    font-size: 1.3rem;
+    font-weight: 700;
     text-align: center;
+    color: var(--text-primary);
+    min-height: 36px;
     opacity: 1;
+  }
+
+  #explicacion {
+    margin-top: 16px;
+    max-width: 360px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    text-align: center;
   }
 
   /* Animación fade-in */
@@ -79,30 +141,53 @@
   .fade-in {
     animation: fadeIn 0.5s ease forwards;
   }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    form {
+      width: 100%;
+      padding: 28px 20px;
+    }
+    #explicacion {
+      max-width: 100%;
+    }
+  }
 </style>
 </head>
 <body>
 
 <h1>Calculadora IMC</h1>
 
-<form id="imc-form">
+<form id="imc-form" novalidate>
   <div>
-    <label for="peso">Peso (kg)</label>
+    <label for="peso"><i class="fas fa-weight-hanging"></i> Peso (kg)</label>
     <input type="number" id="peso" name="peso" min="10" max="300" step="0.1" required />
   </div>
   <div>
-    <label for="altura">Altura (cm)</label>
+    <label for="altura"><i class="fas fa-ruler-vertical"></i> Altura (cm)</label>
     <input type="number" id="altura" name="altura" min="50" max="250" step="0.1" required />
   </div>
   <button type="submit">Calcular IMC</button>
 </form>
 
 <div id="resultado" aria-live="polite"></div>
+<div id="explicacion" aria-live="polite" hidden>
+  El Índice de Masa Corporal (IMC) es una medida que relaciona el peso y la altura para indicar si tienes un peso saludable. 
+  <br><br>
+  Categorías:
+  <ul style="list-style:none; padding:0; margin:8px 0 0 0; text-align:left; max-width:280px; margin-left:auto; margin-right:auto;">
+    <li><strong>Bajo peso:</strong> IMC menor a 18.5</li>
+    <li><strong>Normal:</strong> IMC entre 18.5 y 24.9</li>
+    <li><strong>Sobrepeso:</strong> IMC entre 25 y 29.9</li>
+    <li><strong>Obesidad:</strong> IMC 30 o más</li>
+  </ul>
+</div>
 
 <script>
   const resultado = document.getElementById('resultado');
   const pesoInput = document.getElementById('peso');
   const alturaInput = document.getElementById('altura');
+  const explicacion = document.getElementById('explicacion');
 
   // Función para mostrar el resultado con animación
   function mostrarResultado(texto) {
@@ -113,6 +198,18 @@
     resultado.classList.add('fade-in');
   }
 
+  // Mostrar explicación solo cuando hay un resultado válido
+  function mostrarExplicacion(mostrar) {
+    if (mostrar) {
+      explicacion.hidden = false;
+      explicacion.classList.remove('fade-in');
+      void explicacion.offsetWidth;
+      explicacion.classList.add('fade-in');
+    } else {
+      explicacion.hidden = true;
+    }
+  }
+
   // Carga inicial: recuperar resultado y valores guardados
   window.addEventListener('load', () => {
     const resultadoGuardado = localStorage.getItem('imcResultado');
@@ -121,6 +218,7 @@
 
     if (resultadoGuardado) {
       mostrarResultado(resultadoGuardado);
+      mostrarExplicacion(true);
     }
     if (pesoGuardado) {
       pesoInput.value = pesoGuardado;
@@ -139,12 +237,14 @@
 
     if (!peso || peso < 10 || peso > 300) {
       mostrarResultado('Ingresa un peso válido entre 10 y 300 kg.');
+      mostrarExplicacion(false);
       pesoInput.focus();
       return;
     }
 
     if (!alturaCm || alturaCm < 50 || alturaCm > 250) {
       mostrarResultado('Ingresa una altura válida entre 50 y 250 cm.');
+      mostrarExplicacion(false);
       alturaInput.focus();
       return;
     }
@@ -159,6 +259,7 @@
 
     const textoResultado = `Tu IMC es ${imc.toFixed(2)} (${categoria})`;
     mostrarResultado(textoResultado);
+    mostrarExplicacion(true);
 
     localStorage.setItem('imcResultado', textoResultado);
     localStorage.setItem('peso', peso);
