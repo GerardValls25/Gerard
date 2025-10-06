@@ -219,6 +219,19 @@ body.dark #toggle-dark {
     padding: 28px 20px;
   }
 }
+
+/* Animación de rebote */
+@keyframes rebote {
+  0% { transform: rotate(var(--angulo)) translateY(0); }
+  30% { transform: rotate(calc(var(--angulo) + 10deg)) translateY(-5px); }
+  50% { transform: rotate(calc(var(--angulo) - 5deg)) translateY(2px); }
+  70% { transform: rotate(calc(var(--angulo) + 2deg)) translateY(-1px); }
+  100% { transform: rotate(var(--angulo)) translateY(0); }
+}
+
+.aguja.rebotando {
+  animation: rebote 1s ease-out forwards;
+}
 </style>
 </head>
 <body>
@@ -288,7 +301,7 @@ toggleDark.addEventListener('click', () => {
 });
 aplicarModoInicial();
 
-// Calcular IMC y animar velocímetro
+// Calcular IMC y animar velocímetro con rebote
 document.getElementById('imc-form').addEventListener('submit', e => {
   e.preventDefault();
 
@@ -323,10 +336,13 @@ document.getElementById('imc-form').addEventListener('submit', e => {
   void arco.offsetWidth; // forzar reflow
   arco.classList.add("animando");
 
-  // Mover la aguja
-  aguja.style.background = color;
+  // Mover la aguja con rebote
   const angulo = Math.max(0, Math.min(180 - imc * 4.5, 180));
-  aguja.style.transform = `rotate(${angulo}deg)`;
+  aguja.style.setProperty('--angulo', angulo + 'deg');
+  aguja.style.background = color;
+  aguja.classList.remove('rebotando');
+  void aguja.offsetWidth; // forzar reflow
+  aguja.classList.add('rebotando');
 });
 </script>
 
