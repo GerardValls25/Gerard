@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Calculadora IMC</title>
+<title>Calculadora IMC Mejorada</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
@@ -20,8 +20,7 @@
     --shadow: rgba(0, 0, 0, 0.1);
     --transition-speed: 0.3s;
   }
-  
-  /* Dark mode variables */
+
   .dark {
     --background: #121417;
     --card-bg: #1e2235;
@@ -53,6 +52,7 @@
     font-weight: 700;
     font-size: 2.2rem;
     letter-spacing: 1px;
+    text-align: center;
   }
 
   form {
@@ -67,25 +67,12 @@
     transition: background var(--transition-speed), box-shadow var(--transition-speed);
   }
 
-  form:hover {
-    box-shadow: 0 12px 30px rgba(0, 123, 255, 0.2);
-  }
-
   label {
     font-weight: 700;
-    margin-bottom: 8px;
     display: flex;
     align-items: center;
-    font-size: 1rem;
-    color: var(--text-secondary);
     gap: 8px;
-  }
-
-  label i {
-    color: var(--primary);
-    font-size: 1.2rem;
-    width: 24px;
-    text-align: center;
+    color: var(--text-secondary);
   }
 
   input[type="number"] {
@@ -93,22 +80,16 @@
     border-radius: var(--radius);
     border: 1.8px solid #ced4da;
     font-size: 1rem;
-    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     width: 100%;
     background: var(--card-bg);
     color: var(--text-primary);
-  }
-
-  body.dark input[type="number"] {
-    border-color: #555c8a;
+    transition: border-color 0.3s ease;
   }
 
   input[type="number"]:focus {
     border-color: var(--primary);
     outline: none;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
-    background: var(--card-bg);
-    color: var(--text-primary);
   }
 
   button {
@@ -124,35 +105,47 @@
     transition: background 0.3s ease, box-shadow 0.3s ease;
   }
 
-  button:hover,
-  button:focus {
+  button:hover {
     background: var(--primary-hover);
     box-shadow: 0 8px 16px rgba(0, 86, 179, 0.5);
-    outline: none;
   }
 
   #resultado {
-    margin-top: 28px;
+    margin-top: 24px;
     font-size: 1.3rem;
     font-weight: 700;
     text-align: center;
-    color: var(--text-primary);
     min-height: 36px;
-    opacity: 1;
-    transition: color var(--transition-speed);
+  }
+
+  #barra-imc {
+    margin-top: 12px;
+    width: 100%;
+    height: 14px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #007bff 0%, #28a745 25%, #ffc107 50%, #dc3545 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #indicador {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    border-radius: 2px;
+    background: var(--text-primary);
+    transition: left 0.5s ease;
   }
 
   #explicacion {
     margin-top: 16px;
-    max-width: 360px;
     font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.5;
     text-align: center;
-    transition: color var(--transition-speed);
   }
 
-  /* Animación fade-in */
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -161,18 +154,6 @@
     animation: fadeIn 0.5s ease forwards;
   }
 
-  /* Responsive */
-  @media (max-width: 400px) {
-    form {
-      width: 100%;
-      padding: 28px 20px;
-    }
-    #explicacion {
-      max-width: 100%;
-    }
-  }
-
-  /* Botón toggle modo oscuro */
   #toggle-dark {
     position: fixed;
     top: 20px;
@@ -187,22 +168,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background var(--transition-speed), box-shadow var(--transition-speed), color var(--transition-speed);
     color: var(--primary);
-  }
-
-  #toggle-dark:hover {
-    box-shadow: 0 4px 12px rgba(0,123,255,0.4);
+    transition: background var(--transition-speed), box-shadow var(--transition-speed), color var(--transition-speed);
   }
 
   body.dark #toggle-dark {
     color: #ffd600;
   }
+
+  @media (max-width: 400px) {
+    form {
+      width: 100%;
+      padding: 28px 20px;
+    }
+  }
 </style>
 </head>
 <body>
 
-<button id="toggle-dark" aria-label="Alternar modo claro/oscuro" title="Alternar modo claro/oscuro">
+<button id="toggle-dark" title="Alternar modo claro/oscuro">
   <i class="fas fa-moon"></i>
 </button>
 
@@ -221,98 +205,98 @@
 </form>
 
 <div id="resultado" aria-live="polite"></div>
-<div id="explicacion" aria-live="polite" hidden>
-  El Índice de Masa Corporal (IMC) es una medida que relaciona el peso y la altura para indicar si tienes un peso saludable. 
-  <br><br>
-  Categorías:
-  <ul style="list-style:none; padding:0; margin:8px 0 0 0; text-align:left; max-width:280px; margin-left:auto; margin-right:auto;">
-    <li><strong>Bajo peso:</strong> IMC menor a 18.5</li>
-    <li><strong>Normal:</strong> IMC entre 18.5 y 24.9</li>
-    <li><strong>Sobrepeso:</strong> IMC entre 25 y 29.9</li>
-    <li><strong>Obesidad:</strong> IMC 30 o más</li>
+<div id="barra-imc" hidden>
+  <div id="indicador"></div>
+</div>
+<div id="explicacion" hidden>
+  El Índice de Masa Corporal (IMC) relaciona tu peso y altura para indicar si tienes un peso saludable.  
+  <ul style="list-style:none; padding:0; margin:8px 0 0 0; text-align:left; max-width:280px; margin:auto;">
+    <li><strong style="color:#007BFF">Bajo peso:</strong> IMC menor a 18.5</li>
+    <li><strong style="color:#28a745">Normal:</strong> IMC entre 18.5 y 24.9</li>
+    <li><strong style="color:#ffc107">Sobrepeso:</strong> IMC entre 25 y 29.9</li>
+    <li><strong style="color:#dc3545">Obesidad:</strong> IMC 30 o más</li>
   </ul>
 </div>
 
 <script>
-  const resultado = document.getElementById('resultado');
-  const pesoInput = document.getElementById('peso');
-  const alturaInput = document.getElementById('altura');
-  const explicacion = document.getElementById('explicacion');
-  const toggleDark = document.getElementById('toggle-dark');
+const resultado = document.getElementById('resultado');
+const pesoInput = document.getElementById('peso');
+const alturaInput = document.getElementById('altura');
+const explicacion = document.getElementById('explicacion');
+const toggleDark = document.getElementById('toggle-dark');
+const barra = document.getElementById('barra-imc');
+const indicador = document.getElementById('indicador');
 
-  // Función para mostrar el resultado con animación
-  function mostrarResultado(texto) {
-    resultado.textContent = texto;
+// Mostrar resultado animado
+function mostrarResultado(texto, color) {
+  resultado.textContent = texto;
+  resultado.style.color = color;
+  resultado.classList.remove('fade-in');
+  void resultado.offsetWidth;
+  resultado.classList.add('fade-in');
+}
 
-    resultado.classList.remove('fade-in');
-    void resultado.offsetWidth; // reinicia la animación
-    resultado.classList.add('fade-in');
+// Mostrar/ocultar explicación y barra
+function mostrarExtras(mostrar) {
+  explicacion.hidden = !mostrar;
+  barra.hidden = !mostrar;
+  if (mostrar) {
+    explicacion.classList.add('fade-in');
+  }
+}
+
+// Ajustar posición del indicador en la barra
+function moverIndicador(imc) {
+  const pos = Math.min(Math.max((imc / 40) * 100, 0), 100);
+  indicador.style.left = pos + '%';
+}
+
+// Aplicar modo inicial
+function aplicarModoInicial() {
+  const saved = localStorage.getItem('modoOscuro');
+  if (saved === 'true') {
+    document.body.classList.add('dark');
+    toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark');
+    toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+}
+
+// Alternar modo
+toggleDark.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  toggleDark.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+  localStorage.setItem('modoOscuro', isDark);
+});
+
+aplicarModoInicial();
+
+document.getElementById('imc-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const peso = parseFloat(pesoInput.value);
+  const alturaCm = parseFloat(alturaInput.value);
+  if (!peso || !alturaCm || peso <= 0 || alturaCm <= 0) {
+    mostrarResultado('Por favor, ingresa valores válidos.', '#dc3545');
+    mostrarExtras(false);
+    return;
   }
 
-  // Mostrar explicación solo cuando hay un resultado válido
-  function mostrarExplicacion(mostrar) {
-    if (mostrar) {
-      explicacion.hidden = false;
-      explicacion.classList.remove('fade-in');
-      void explicacion.offsetWidth;
-      explicacion.classList.add('fade-in');
-    } else {
-      explicacion.hidden = true;
-    }
-  }
+  const alturaM = alturaCm / 100;
+  const imc = peso / (alturaM * alturaM);
+  let categoria = '';
+  let color = '#007BFF';
 
-  // Detectar preferencia de color y aplicar modo oscuro al cargar
-  function aplicarModoInicial() {
-    const saved = localStorage.getItem('modoOscuro');
-    if (saved !== null) {
-      if (saved === 'true') {
-        document.body.classList.add('dark');
-        toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
-      } else {
-        document.body.classList.remove('dark');
-        toggleDark.innerHTML = '<i class="fas fa-moon"></i>';
-      }
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark');
-      toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
-    }
-  }
+  if (imc < 18.5) { categoria = 'Bajo peso'; color = '#007BFF'; }
+  else if (imc < 25) { categoria = 'Normal'; color = '#28a745'; }
+  else if (imc < 30) { categoria = 'Sobrepeso'; color = '#ffc107'; }
+  else { categoria = 'Obesidad'; color = '#dc3545'; }
 
-  // Cambiar modo oscuro manualmente
-  toggleDark.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    const isDark = document.body.classList.contains('dark');
-    toggleDark.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    localStorage.setItem('modoOscuro', isDark);
-  });
-
-  aplicarModoInicial();
-
-  document.getElementById('imc-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const peso = parseFloat(pesoInput.value);
-    const alturaCm = parseFloat(alturaInput.value);
-    const alturaM = alturaCm / 100;
-
-    if (!peso || !alturaCm || peso <= 0 || alturaCm <= 0) {
-      mostrarResultado('Por favor, ingresa valores válidos.');
-      mostrarExplicacion(false);
-      return;
-    }
-
-    const imc = peso / (alturaM * alturaM);
-    let categoria = '';
-
-    if (imc < 18.5) categoria = 'Bajo peso';
-    else if (imc < 25) categoria = 'Normal';
-    else if (imc < 30) categoria = 'Sobrepeso';
-    else categoria = 'Obesidad';
-
-    mostrarResultado(`Tu IMC es ${imc.toFixed(2)} (${categoria})`);
-    mostrarExplicacion(true);
-  });
+  mostrarResultado(`Tu IMC es ${imc.toFixed(2)} (${categoria})`, color);
+  mostrarExtras(true);
+  moverIndicador(imc);
+});
 </script>
-
 </body>
 </html>
