@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculadora IMC</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --primary: #00ffc0;
+    --primary-hover: #00e6b8;
+    --dark-bg: #1a1f3f;
+    --text-dark: #e6e6e6;
+    --radius: 12px;
+  }
+  body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: var(--dark-bg);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+  form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 0 15px rgba(0, 255, 192, 0.5);
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  input[type="number"] {
+    padding: 10px;
+    border-radius: var(--radius);
+    border: none;
+    font-size: 1rem;
+  }
+  button {
+    background: var(--primary);
+    color: #000;
+    border: none;
+    padding: 12px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: var(--primary-hover);
+  }
+  #resultado {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h1>Calculadora IMC</h1>
+
+<form id="imc-form">
+  <div>
+    <label for="peso">Peso (kg)</label>
+    <input type="number" id="peso" name="peso" min="10" max="300" step="0.1" required />
+  </div>
+  <div>
+    <label for="altura">Altura (cm)</label>
+    <input type="number" id="altura" name="altura" min="50" max="250" step="0.1" required />
+  </div>
+  <button type="submit">Calcular IMC</button>
+</form>
+
+<div id="resultado" aria-live="polite"></div>
+
+<script>
+  document.getElementById('imc-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const peso = parseFloat(document.getElementById('peso').value);
+    const alturaCm = parseFloat(document.getElementById('altura').value);
+    const alturaM = alturaCm / 100;
+
+    if (!peso || !alturaCm || peso <= 0 || alturaCm <= 0) {
+      document.getElementById('resultado').textContent = 'Por favor, ingresa valores válidos.';
+      return;
+    }
+
+    const imc = peso / (alturaM * alturaM);
+    let categoria = '';
+
+    if (imc < 18.5) categoria = 'Bajo peso';
+    else if (imc < 24.9) categoria = 'Normal';
+    else if (imc < 29.9) categoria = 'Sobrepeso';
+    else categoria = 'Obesidad';
+
+    document.getElementById('resultado').textContent = 
+      `Tu IMC es ${imc.toFixed(2)} (${categoria})`;
+  });
+</script>
+
+</body>
+</html>
