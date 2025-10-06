@@ -1,389 +1,273 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerard Valls - Nutrición Profesional</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerard Valls - Nutrición Personalizada</title>
+  <style>
+    /* Variables de colores */
+    :root {
+      --dark-bg: #0a1218;
+      --light-bg: #181818;
+      --primary: #50d890;
+      --primary-hover: #34c76a;
+      --text-dark: #eeeeee;
+      --text-light: #f7f7f7;
+      --radius: 10px;
+    }
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-<!-- Fuente -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    body.light {
+      background-color: var(--light-bg);
+      color: var(--text-light);
+    }
 
-<!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      gap: 15px;
+    }
 
-<style>
-:root {
-  --primary:#00ffc0;
-  --primary-hover:#00e6b8;
-  --dark-bg:#1a1f3f;
-  --light-bg:#f5f5f5;
-  --text-dark:#e6e6e6;
-  --text-light:#222;
-  --radius:12px;
-  --transition:.5s ease;
-}
-*{box-sizing:border-box;}
-body {
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background:var(--dark-bg);
-  color:var(--text-dark);
-  overflow-x:hidden;
-  line-height:1.6;
-  transition:background var(--transition),color var(--transition);
-}
-body.light{background:var(--light-bg);color:var(--text-light);}
-a{color:var(--primary);text-decoration:none;transition:.3s;}
-a:hover{color:var(--primary-hover);}
+    header h1 {
+      font-weight: 700;
+      font-size: 2rem;
+    }
 
-/* HEADER */
-header{text-align:center;padding:120px 20px 100px;}
-header h1{
-  font-size:3rem;
-  background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip:text;
-  color:transparent;
-  text-shadow:0 0 20px rgba(0,255,192,0.5);
-  animation:gradMove 10s linear infinite;
-}
-header p{margin-top:10px;font-size:1.2rem;}
-#toggle-theme{
-  margin-top:20px;
-  background:var(--primary);color:#000;
-  border:none;padding:10px 20px;
-  border-radius:var(--radius);cursor:pointer;
-  font-weight:600;transition:.4s;
-}
-#toggle-theme:hover{background:var(--primary-hover);transform:translateY(-2px);}
-@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+    header p {
+      flex-grow: 1;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      user-select: none;
+    }
 
-/* NAV */
-nav{
-  position:sticky;top:0;background:rgba(42,55,96,0.85);backdrop-filter:blur(10px);
-  display:flex;justify-content:center;gap:1rem;padding:12px;z-index:1000;
-}
-body.light nav{background:rgba(245,245,245,0.9);}
-nav a{font-weight:600;}
+    header button {
+      cursor: pointer;
+      padding: 10px 15px;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: var(--radius);
+      color: #000;
+      background-color: var(--primary);
+      transition: background-color 0.3s ease;
+    }
 
-/* MAIN WRAPPER */
-main.wrapper{
-  max-width:1100px;margin:40px auto;padding:50px 30px 60px;
-  border-radius:var(--radius);backdrop-filter:blur(15px);
-  background:rgba(42,55,96,0.85);text-align:center;
-}
-body.light main.wrapper{background:rgba(245,245,245,0.9);}
+    header button:hover {
+      background-color: var(--primary-hover);
+    }
 
-/* TITULOS */
-h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
-h2::after{
-  content:"";width:60px;height:3px;display:block;margin:8px auto 0;border-radius:2px;background:var(--primary);
-  transform:scaleX(0);animation:lineDraw 1s forwards;
-}
-@keyframes lineDraw{to{transform:scaleX(1);}}
+    /* Modal styles */
+    .modal {
+      display: none; /* oculto por defecto */
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
 
-/* GRID SERVICIOS / TESTIMONIOS */
-.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;perspective:1200px;}
-.service-inner{position:relative;width:100%;min-height:250px;transform-style:preserve-3d;transition:transform 0.8s ease;}
-.service:hover .service-inner{transform:rotateY(180deg);}
-.service-front,.service-back{
-  position:absolute;width:100%;height:100%;backface-visibility:hidden;
-  border-radius:var(--radius);padding:25px;display:flex;flex-direction:column;justify-content:center;align-items:center;
-}
-.service-front{
-  background:rgba(255,255,255,0.05);transition:background 0.4s,box-shadow 0.4s;
-}
-.service-back{
-  background:linear-gradient(135deg,#00ffc0,#00bfff);transform:rotateY(180deg);color:#000;
-}
-.service-back ul{text-align:left;margin:10px 0;padding-left:20px;}
-.service-back button{
-  margin-top:10px;background:white;color:var(--primary);font-weight:bold;
-  border:none;padding:10px 16px;border-radius:var(--radius);cursor:pointer;transition:0.3s;
-}
-.service-back button:hover{background:var(--primary);color:#000;}
+    .modal-content {
+      background: var(--dark-bg);
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 400px;
+      color: var(--text-dark);
+      position: relative;
+      box-shadow: 0 0 20px var(--primary);
+    }
 
-/* ICONOS DE SERVICIOS - COLORES Y ANIMACION */
-.icon-planes, .icon-deporte, .icon-peso, .icon-online {
-  color:#fff;border-radius:50%;padding:12px;font-size:2.5rem;
-  transition:transform 0.4s ease, box-shadow 0.4s ease;
-}
-.icon-planes {background:#4caf50;box-shadow:0 0 12px rgba(76,175,80,0.6);}
-.icon-deporte {background:#2196f3;box-shadow:0 0 12px rgba(33,150,243,0.6);}
-.icon-peso {background:#ff9800;box-shadow:0 0 12px rgba(255,152,0,0.6);}
-.icon-online {background:#9c27b0;box-shadow:0 0 12px rgba(156,39,176,0.6);}
+    body.light .modal-content {
+      background: var(--light-bg);
+      color: var(--text-light);
+      box-shadow: 0 0 20px var(--primary);
+    }
 
-/* HOVER ANIMACION */
-.service:hover .service-front i {
-  transform: scale(1.25) rotate(8deg);
-  animation: glowPulse 1.2s infinite;
-}
-@keyframes glowPulse {
-  0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
-  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.9); }
-  100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
-}
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      color: var(--primary);
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
 
-/* TESTIMONIOS - CONTRASTE */
-#testimonios .service .service-front h3,
-#testimonios .service .service-front p,
-#testimonios .service .service-front i {
-  color:white;text-shadow:0 2px 10px rgba(0,0,0,0.3);
-}
-#testimonios .service:hover .service-front {
-  background:inherit;box-shadow:0 8px 25px rgba(0,0,0,0.3);
-}
+    .close:hover {
+      color: var(--primary-hover);
+    }
 
-/* FORMULARIO */
-.glass-form{display:flex;flex-direction:column;gap:20px;margin-top:20px;padding:30px;
-  border-radius:16px;background:rgba(255,255,255,0.05);backdrop-filter:blur(15px);
-  border:1px solid rgba(255,255,255,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.2);}
-.form-group{position:relative;}
-.form-group input,.form-group textarea{
-  width:100%;padding:16px 14px 16px 36px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);
-  background:rgba(255,255,255,0.1);color:white;font-size:1rem;
-}
-.form-group label{position:absolute;left:36px;top:50%;transform:translateY(-50%);
-  color:rgba(255,255,255,0.6);transition:.3s;}
-.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 15px var(--primary);}
-.form-group input:focus+label,.form-group textarea:focus+label,
-.form-group input:not(:placeholder-shown)+label,.form-group textarea:not(:placeholder-shown)+label{
-  top:-8px;font-size:0.8rem;color:var(--primary);
-}
-.form-group i{position:absolute;top:50%;left:12px;transform:translateY(-50%);color:var(--primary);}
+    #imc-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-/* BOTONES FLOTANTES */
-#whatsapp-btn{position:fixed;bottom:140px;right:20px;background:#25D366;color:white;border:none;
-  border-radius:50%;width:60px;height:60px;font-size:1.8rem;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
-#scrollTopBtn{position:fixed;bottom:60px;right:20px;background:var(--primary);color:white;border:none;
-  padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;opacity:0;transition:.3s;}
-#scrollTopBtn.show{display:block;opacity:1;}
-footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
-</style>
+    #imc-form label {
+      font-weight: 600;
+      text-align: left;
+    }
+
+    #imc-form input {
+      padding: 10px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+      color: var(--text-dark);
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    body.light #imc-form input {
+      color: var(--text-light);
+    }
+
+    #imc-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    #imc-form button {
+      background: var(--primary);
+      color: #000;
+      padding: 12px;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #imc-form button:hover {
+      background: var(--primary-hover);
+    }
+
+    #resultado-imc {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      min-height: 1.5em;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Gerard Valls</h1>
+    <p>Nutrición personalizada para deportistas y personas activas</p>
+    <button id="toggle-theme">Cambiar a modo claro</button>
+    <button id="btn-imc" aria-label="Calcular IMC">IMC</button>
+  </header>
 
-<header>
-  <h1>Gerard Valls</h1>
-  <p>Nutrición personalizada para deportistas y personas activas</p>
-  <button id="toggle-theme">Cambiar a modo claro</button>
-</header>
-
-<nav>
-  <a href="#servicios">Servicios</a>
-  <a href="#testimonios">Testimonios</a>
-  <a href="#consulta">Formulario</a>
-  <a href="calculadora.html" target="_blank">Calculadora</a>
-</nav>
-
-<main class="wrapper">
-  <!-- SERVICIOS -->
-  <section id="servicios">
-    <h2>Servicios</h2>
-    <div class="services">
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-bowl-food icon-planes"></i>
-            <h3>Planes Personalizados</h3>
-            <p>Adaptados a tu estilo de vida y objetivos.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Evaluación inicial completa</li>
-              <li>Plan nutricional flexible</li>
-              <li>Seguimiento quincenal</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-person-running icon-deporte"></i>
-            <h3>Asesoría Deportiva</h3>
-            <p>Optimiza tu rendimiento y recuperación.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Plan de macronutrientes</li>
-              <li>Recomendaciones de suplementación</li>
-              <li>Ajuste de cargas de entrenamiento</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-scale-balanced icon-peso"></i>
-            <h3>Pérdida de Peso</h3>
-            <p>Programas sostenibles y personalizados.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Reducción de grasa saludable</li>
-              <li>Hábitos de alimentación duraderos</li>
-              <li>Soporte motivacional</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-video icon-online"></i>
-            <h3>Consultas Online</h3>
-            <p>Atención profesional desde cualquier lugar.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Videollamadas en horario flexible</li>
-              <li>Soporte por correo y WhatsApp</li>
-              <li>Acceso a material educativo</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
+  <!-- Modal IMC -->
+  <div id="modal-imc" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <span id="close-imc" class="close" role="button" aria-label="Cerrar modal">&times;</span>
+      <h2 id="modal-title">Calculadora de IMC</h2>
+      <form id="imc-form">
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso" name="peso" min="1" step="any" required />
+        
+        <label for="altura">Altura (cm):</label>
+        <input type="number" id="altura" name="altura" min="1" step="any" required />
+        
+        <button type="submit">Calcular</button>
+      </form>
+      <p id="resultado-imc" aria-live="polite"></p>
     </div>
-  </section>
+  </div>
 
-  <!-- TESTIMONIOS -->
-  <section id="testimonios">
-    <h2>Testimonios</h2>
-    <div class="services">
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front" style="background: linear-gradient(135deg, #00ffc0, #00bfff);">
-            <i class="fas fa-user"></i>
-            <h3>Laura G.</h3>
-            <p>"Excelente nutricionista, logré mis objetivos."</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Perdió 6kg en 3 meses</li>
-              <li>Mejoró su relación con la comida</li>
-              <li>Incrementó su energía diaria</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+  <script>
+    // Cambiar modo claro/oscuro
+    const toggleTheme = document.getElementById('toggle-theme');
+    toggleTheme.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      toggleTheme.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+    });
 
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front" style="background: linear-gradient(135deg, #ff7eb3, #ff65a3);">
-            <i class="fas fa-user"></i>
-            <h3>Carlos M.</h3>
-            <p>"Atención profesional y personalizada."</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Optimización de rendimiento deportivo</li>
-              <li>Plan de suplementación adaptado</li>
-              <li>Seguimiento constante</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+    // Modal IMC
+    const btnImc = document.getElementById('btn-imc');
+    const modalImc = document.getElementById('modal-imc');
+    const closeImc = document.getElementById('close-imc');
+    const imcForm = document.getElementById('imc-form');
+    const resultadoImc = document.getElementById('resultado-imc');
 
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front" style="background: linear-gradient(135deg, #ffe259, #ffa751);">
-            <i class="fas fa-user"></i>
-            <h3>Ana R.</h3>
-            <p>"Recomiendo sus planes a todos los deportistas."</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Mejoró sus marcas en carrera</li>
-              <li>Plan flexible y sostenible</li>
-              <li>Acompañamiento motivador</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    // Abrir modal
+    btnImc.addEventListener('click', () => {
+      modalImc.style.display = 'block';
+      // Foco en primer input para accesibilidad
+      imcForm.peso.focus();
+    });
 
-  <!-- FORMULARIO -->
-  <section id="consulta">
-    <h2>Formulario de contacto</h2>
-    <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST" class="glass-form">
-      <div class="form-group">
-        <input type="text" name="name" placeholder=" " required>
-        <label>Nombre completo</label>
-        <i class="fas fa-user"></i>
-      </div>
-      <div class="form-group">
-        <input type="email" name="email" placeholder=" " required>
-        <label>Correo electrónico</label>
-        <i class="fas fa-envelope"></i>
-      </div>
-      <div class="form-group">
-        <textarea name="message" rows="5" placeholder=" " required></textarea>
-        <label>Mensaje</label>
-        <i class="fas fa-comment"></i>
-      </div>
-      <button type="submit">Enviar</button>
-      <span id="form-feedback" aria-live="polite"></span>
-    </form>
-  </section>
-</main>
+    // Cerrar modal al hacer click en X
+    closeImc.addEventListener('click', () => {
+      modalImc.style.display = 'none';
+      resultadoImc.textContent = '';
+      imcForm.reset();
+    });
 
-<footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
+    // Cerrar modal al hacer click fuera del contenido
+    window.addEventListener('click', e => {
+      if (e.target === modalImc) {
+        modalImc.style.display = 'none';
+        resultadoImc.textContent = '';
+        imcForm.reset();
+      }
+    });
 
-<button id="whatsapp-btn" aria-label="Abrir chat de WhatsApp"><i class="fab fa-whatsapp"></i></button>
-<button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up"></i></button>
+    // Calcular IMC
+    imcForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const peso = parseFloat(imcForm.peso.value);
+      const alturaCm = parseFloat(imcForm.altura.value);
+      const alturaM = alturaCm / 100;
 
-<script>
-document.getElementById('toggle-theme').addEventListener('click',()=>{
-  document.body.classList.toggle('light');
-  document.getElementById('toggle-theme').textContent=document.body.classList.contains('light')
-    ?'Cambiar a modo oscuro':'Cambiar a modo claro';
-});
+      if (peso > 0 && alturaM > 0) {
+        const imc = peso / (alturaM * alturaM);
+        let categoria = '';
 
-/* GSAP Animaciones */
-window.addEventListener('DOMContentLoaded',()=>{
-  if(typeof gsap!=='undefined' && typeof ScrollTrigger!=='undefined'){gsap.registerPlugin(ScrollTrigger);}
-  gsap.from("header h1",{opacity:0,y:-50,duration:1});
-  gsap.from("header p",{opacity:0,y:30,duration:1,delay:0.3});
-  gsap.utils.toArray("#servicios .service").forEach((el,i)=>{
-    gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:50,duration:0.6,delay:i*0.1});
-  });
-  gsap.utils.toArray("#testimonios .service").forEach((el,i)=>{
-    gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:40,rotateY:-8,duration:0.8,delay:i*0.08,ease:"back.out(1.6)"});
-  });
-});
+        if (imc < 18.5) categoria = 'Bajo peso';
+        else if (imc < 25) categoria = 'Peso normal';
+        else if (imc < 30) categoria = 'Sobrepeso';
+        else categoria = 'Obesidad';
 
-/* Scroll top */
-const scrollBtn=document.getElementById('scrollTopBtn');
-window.addEventListener('scroll',()=>{window.scrollY>300?scrollBtn.classList.add('show'):scrollBtn.classList.remove('show');});
-scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-/* WhatsApp */
-document.getElementById('whatsapp-btn').addEventListener('click',()=>{
-  window.open('https://wa.me/34600000000?text=¡Hola! Me interesa una consulta.','_blank');
-});
-
-/* Formulario */
-document.getElementById('contact-form').addEventListener('submit',async(e)=>{
-  e.preventDefault();const form=e.target;const data=new FormData(form);
-  const res=await fetch(form.action,{method:form.method,body:data,headers:{'Accept':'application/json'}});
-  const feedback=document.getElementById('form-feedback');
-  if(res.ok){feedback.textContent='✅ Mensaje enviado correctamente';feedback.style.color='var(--primary)';form.reset();}
-  else{feedback.textContent='❌ Hubo un error. Inténtalo de nuevo.';feedback.style.color='red';}
-});
-</script>
+        resultadoImc.textContent = `Tu IMC es ${imc.toFixed(2)} (${categoria}).`;
+      } else {
+        resultadoImc.textContent = 'Por favor, ingresa valores válidos.';
+      }
+    });
+  </script>
 </body>
 </html>
