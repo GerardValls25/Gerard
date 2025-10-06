@@ -136,10 +136,10 @@ button:hover {
   border-radius: 260px 260px 0 0;
   background: conic-gradient(
     from 180deg,
-    #007BFF 0deg 90deg,
-    #28a745 90deg 135deg,
-    #ffc107 135deg 160deg,
-    #dc3545 160deg 180deg
+    #2196f3 0deg 90deg,   /* Bajo peso */
+    #4caf50 90deg 135deg,  /* Normal */
+    #ffeb3b 135deg 160deg, /* Sobrepeso */
+    #f44336 160deg 180deg   /* Obesidad */
   );
   transform-origin: center;
   transform: scaleY(0);
@@ -150,6 +150,7 @@ button:hover {
   transform: scaleY(1);
 }
 
+/* Aguja con rebote y resplandor */
 .aguja {
   position: absolute;
   bottom: 0;
@@ -161,6 +162,7 @@ button:hover {
   transform-origin: bottom center;
   transform: rotate(180deg);
   transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+  box-shadow: 0 0 8px rgba(255,255,255,0.6), 0 0 12px rgba(255,255,255,0.3);
 }
 
 .centro {
@@ -172,7 +174,7 @@ button:hover {
   background: var(--text-primary);
   border-radius: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 12px rgba(255,255,255,0.8);
 }
 
 #valor-imc {
@@ -267,10 +269,10 @@ body.dark #toggle-dark {
 <div id="explicacion" hidden>
   El Índice de Masa Corporal (IMC) indica si tu peso es saludable:
   <ul style="list-style:none; padding:0; margin:8px auto; max-width:280px; text-align:left;">
-    <li><strong style="color:#007BFF">Bajo peso:</strong> &lt; 18.5</li>
-    <li><strong style="color:#28a745">Normal:</strong> 18.5 - 24.9</li>
-    <li><strong style="color:#ffc107">Sobrepeso:</strong> 25 - 29.9</li>
-    <li><strong style="color:#dc3545">Obesidad:</strong> ≥ 30</li>
+    <li><strong style="color:#2196f3">Bajo peso:</strong> &lt; 18.5</li>
+    <li><strong style="color:#4caf50">Normal:</strong> 18.5 - 24.9</li>
+    <li><strong style="color:#ffeb3b">Sobrepeso:</strong> 25 - 29.9</li>
+    <li><strong style="color:#f44336">Obesidad:</strong> ≥ 30</li>
   </ul>
 </div>
 
@@ -301,7 +303,7 @@ toggleDark.addEventListener('click', () => {
 });
 aplicarModoInicial();
 
-// Calcular IMC y animar velocímetro con rebote
+// Calcular IMC y animar velocímetro con rebote y resplandor
 document.getElementById('imc-form').addEventListener('submit', e => {
   e.preventDefault();
 
@@ -317,12 +319,12 @@ document.getElementById('imc-form').addEventListener('submit', e => {
   }
 
   const imc = peso / (altura * altura);
-  let categoria = '', color = '#007BFF';
+  let categoria = '', color = '#2196f3';
 
-  if (imc < 18.5) { categoria = 'Bajo peso'; color = '#007BFF'; }
-  else if (imc < 25) { categoria = 'Normal'; color = '#28a745'; }
-  else if (imc < 30) { categoria = 'Sobrepeso'; color = '#ffc107'; }
-  else { categoria = 'Obesidad'; color = '#dc3545'; }
+  if (imc < 18.5) { categoria = 'Bajo peso'; color = '#2196f3'; }
+  else if (imc < 25) { categoria = 'Normal'; color = '#4caf50'; }
+  else if (imc < 30) { categoria = 'Sobrepeso'; color = '#ffeb3b'; }
+  else { categoria = 'Obesidad'; color = '#f44336'; }
 
   resultado.textContent = `Tu IMC es ${imc.toFixed(2)} (${categoria})`;
   resultado.style.color = color;
@@ -336,10 +338,11 @@ document.getElementById('imc-form').addEventListener('submit', e => {
   void arco.offsetWidth; // forzar reflow
   arco.classList.add("animando");
 
-  // Mover la aguja con rebote
+  // Mover la aguja con rebote y resplandor
   const angulo = Math.max(0, Math.min(180 - imc * 4.5, 180));
   aguja.style.setProperty('--angulo', angulo + 'deg');
   aguja.style.background = color;
+  aguja.style.boxShadow = `0 0 12px ${color}, 0 0 20px ${color}55`;
   aguja.classList.remove('rebotando');
   void aguja.offsetWidth; // forzar reflow
   aguja.classList.add('rebotando');
