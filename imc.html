@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Calculadora IMC Mejorada</title>
+<title>Calculadora IMC - Velocímetro 3D</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
@@ -11,14 +11,13 @@
 <style>
   :root {
     --primary: #007BFF;
-    --primary-hover: #0056b3;
     --background: #f5f7fa;
     --card-bg: #ffffff;
     --text-primary: #212529;
     --text-secondary: #6c757d;
-    --radius: 8px;
+    --radius: 10px;
     --shadow: rgba(0, 0, 0, 0.1);
-    --transition-speed: 0.3s;
+    --transition: 0.3s ease;
   }
 
   .dark {
@@ -29,10 +28,6 @@
     --shadow: rgba(0, 0, 0, 0.6);
   }
 
-  * {
-    box-sizing: border-box;
-  }
-
   body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
@@ -41,18 +36,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     min-height: 100vh;
     padding: 40px 20px;
-    transition: background var(--transition-speed), color var(--transition-speed);
+    transition: background var(--transition), color var(--transition);
   }
 
   h1 {
     margin-bottom: 24px;
     font-weight: 700;
-    font-size: 2.2rem;
-    letter-spacing: 1px;
     text-align: center;
+    font-size: 2.2rem;
   }
 
   form {
@@ -64,15 +57,15 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    transition: background var(--transition-speed), box-shadow var(--transition-speed);
+    transition: background var(--transition), box-shadow var(--transition);
   }
 
   label {
-    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
     color: var(--text-secondary);
+    font-weight: 700;
   }
 
   input[type="number"] {
@@ -80,7 +73,6 @@
     border-radius: var(--radius);
     border: 1.8px solid #ced4da;
     font-size: 1rem;
-    width: 100%;
     background: var(--card-bg);
     color: var(--text-primary);
     transition: border-color 0.3s ease;
@@ -89,7 +81,7 @@
   input[type="number"]:focus {
     border-color: var(--primary);
     outline: none;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    box-shadow: 0 0 8px rgba(0,123,255,0.4);
   }
 
   button {
@@ -101,57 +93,85 @@
     font-weight: 700;
     font-size: 1.1rem;
     cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 6px 12px rgba(0,123,255,0.3);
     transition: background 0.3s ease, box-shadow 0.3s ease;
   }
 
   button:hover {
-    background: var(--primary-hover);
-    box-shadow: 0 8px 16px rgba(0, 86, 179, 0.5);
+    background: #0056b3;
+    box-shadow: 0 8px 16px rgba(0,86,179,0.5);
   }
 
   #resultado {
-    margin-top: 24px;
+    margin-top: 20px;
     font-size: 1.3rem;
     font-weight: 700;
     text-align: center;
-    min-height: 36px;
   }
 
-  #barra-imc {
-    margin-top: 12px;
-    width: 100%;
-    height: 14px;
-    border-radius: 10px;
-    background: linear-gradient(to right, #007bff 0%, #28a745 25%, #ffc107 50%, #dc3545 100%);
+  /* ---------- Velocímetro ---------- */
+  #velocimetro {
     position: relative;
-    overflow: hidden;
+    width: 260px;
+    height: 130px;
+    margin: 40px auto 10px;
+    perspective: 800px;
+    display: none;
   }
 
-  #indicador {
-    position: absolute;
-    top: 0;
+  .arco {
+    width: 100%;
     height: 100%;
+    border-radius: 260px 260px 0 0;
+    background: conic-gradient(
+      from 180deg,
+      #007BFF 0deg 90deg,
+      #28a745 90deg 135deg,
+      #ffc107 135deg 160deg,
+      #dc3545 160deg 180deg
+    );
+    transform: rotateX(25deg);
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.2);
+  }
+
+  .aguja {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
     width: 4px;
-    border-radius: 2px;
+    height: 100px;
     background: var(--text-primary);
-    transition: left 0.5s ease;
+    border-radius: 2px;
+    transform-origin: bottom center;
+    transform: rotate(180deg);
+    transition: transform 1s cubic-bezier(0.4, 2, 0.3, 1);
+  }
+
+  .centro {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    transform: translateX(-50%);
+  }
+
+  #valor-imc {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 1.4rem;
   }
 
   #explicacion {
-    margin-top: 16px;
+    margin-top: 20px;
     font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.5;
     text-align: center;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  .fade-in {
-    animation: fadeIn 0.5s ease forwards;
+    max-width: 360px;
   }
 
   #toggle-dark {
@@ -169,7 +189,7 @@
     align-items: center;
     justify-content: center;
     color: var(--primary);
-    transition: background var(--transition-speed), box-shadow var(--transition-speed), color var(--transition-speed);
+    transition: background var(--transition), color var(--transition);
   }
 
   body.dark #toggle-dark {
@@ -195,26 +215,32 @@
 <form id="imc-form" novalidate>
   <div>
     <label for="peso"><i class="fas fa-weight-hanging"></i> Peso (kg)</label>
-    <input type="number" id="peso" name="peso" min="10" max="300" step="0.1" required />
+    <input type="number" id="peso" min="10" max="300" step="0.1" required>
   </div>
   <div>
     <label for="altura"><i class="fas fa-ruler-vertical"></i> Altura (cm)</label>
-    <input type="number" id="altura" name="altura" min="50" max="250" step="0.1" required />
+    <input type="number" id="altura" min="50" max="250" step="0.1" required>
   </div>
   <button type="submit">Calcular IMC</button>
 </form>
 
 <div id="resultado" aria-live="polite"></div>
-<div id="barra-imc" hidden>
-  <div id="indicador"></div>
+
+<!-- Velocímetro -->
+<div id="velocimetro">
+  <div class="arco"></div>
+  <div class="aguja" id="aguja"></div>
+  <div class="centro"></div>
 </div>
+<div id="valor-imc">0.0</div>
+
 <div id="explicacion" hidden>
-  El Índice de Masa Corporal (IMC) relaciona tu peso y altura para indicar si tienes un peso saludable.  
-  <ul style="list-style:none; padding:0; margin:8px 0 0 0; text-align:left; max-width:280px; margin:auto;">
-    <li><strong style="color:#007BFF">Bajo peso:</strong> IMC menor a 18.5</li>
-    <li><strong style="color:#28a745">Normal:</strong> IMC entre 18.5 y 24.9</li>
-    <li><strong style="color:#ffc107">Sobrepeso:</strong> IMC entre 25 y 29.9</li>
-    <li><strong style="color:#dc3545">Obesidad:</strong> IMC 30 o más</li>
+  El Índice de Masa Corporal (IMC) indica si tu peso es saludable:
+  <ul style="list-style:none; padding:0; margin:8px auto; max-width:280px; text-align:left;">
+    <li><strong style="color:#007BFF">Bajo peso:</strong> &lt; 18.5</li>
+    <li><strong style="color:#28a745">Normal:</strong> 18.5 - 24.9</li>
+    <li><strong style="color:#ffc107">Sobrepeso:</strong> 25 - 29.9</li>
+    <li><strong style="color:#dc3545">Obesidad:</strong> ≥ 30</li>
   </ul>
 </div>
 
@@ -224,46 +250,18 @@ const pesoInput = document.getElementById('peso');
 const alturaInput = document.getElementById('altura');
 const explicacion = document.getElementById('explicacion');
 const toggleDark = document.getElementById('toggle-dark');
-const barra = document.getElementById('barra-imc');
-const indicador = document.getElementById('indicador');
+const velocimetro = document.getElementById('velocimetro');
+const aguja = document.getElementById('aguja');
+const valorIMC = document.getElementById('valor-imc');
 
-// Mostrar resultado animado
-function mostrarResultado(texto, color) {
-  resultado.textContent = texto;
-  resultado.style.color = color;
-  resultado.classList.remove('fade-in');
-  void resultado.offsetWidth;
-  resultado.classList.add('fade-in');
-}
-
-// Mostrar/ocultar explicación y barra
-function mostrarExtras(mostrar) {
-  explicacion.hidden = !mostrar;
-  barra.hidden = !mostrar;
-  if (mostrar) {
-    explicacion.classList.add('fade-in');
-  }
-}
-
-// Ajustar posición del indicador en la barra
-function moverIndicador(imc) {
-  const pos = Math.min(Math.max((imc / 40) * 100, 0), 100);
-  indicador.style.left = pos + '%';
-}
-
-// Aplicar modo inicial
 function aplicarModoInicial() {
   const saved = localStorage.getItem('modoOscuro');
-  if (saved === 'true') {
-    document.body.classList.add('dark');
-    toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  if (saved === 'true' || (saved === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.body.classList.add('dark');
     toggleDark.innerHTML = '<i class="fas fa-sun"></i>';
   }
 }
 
-// Alternar modo
 toggleDark.addEventListener('click', () => {
   document.body.classList.toggle('dark');
   const isDark = document.body.classList.contains('dark');
@@ -273,30 +271,39 @@ toggleDark.addEventListener('click', () => {
 
 aplicarModoInicial();
 
-document.getElementById('imc-form').addEventListener('submit', function(e) {
+document.getElementById('imc-form').addEventListener('submit', e => {
   e.preventDefault();
   const peso = parseFloat(pesoInput.value);
-  const alturaCm = parseFloat(alturaInput.value);
-  if (!peso || !alturaCm || peso <= 0 || alturaCm <= 0) {
-    mostrarResultado('Por favor, ingresa valores válidos.', '#dc3545');
-    mostrarExtras(false);
+  const altura = parseFloat(alturaInput.value) / 100;
+  if (!peso || !altura || peso <= 0 || altura <= 0) {
+    resultado.textContent = 'Por favor, ingresa valores válidos.';
+    resultado.style.color = '#dc3545';
+    velocimetro.style.display = 'none';
+    explicacion.hidden = true;
     return;
   }
 
-  const alturaM = alturaCm / 100;
-  const imc = peso / (alturaM * alturaM);
-  let categoria = '';
-  let color = '#007BFF';
+  const imc = peso / (altura * altura);
+  let categoria = '', color = '#007BFF';
 
   if (imc < 18.5) { categoria = 'Bajo peso'; color = '#007BFF'; }
   else if (imc < 25) { categoria = 'Normal'; color = '#28a745'; }
   else if (imc < 30) { categoria = 'Sobrepeso'; color = '#ffc107'; }
   else { categoria = 'Obesidad'; color = '#dc3545'; }
 
-  mostrarResultado(`Tu IMC es ${imc.toFixed(2)} (${categoria})`, color);
-  mostrarExtras(true);
-  moverIndicador(imc);
+  resultado.textContent = `Tu IMC es ${imc.toFixed(2)} (${categoria})`;
+  resultado.style.color = color;
+  valorIMC.textContent = imc.toFixed(1);
+  valorIMC.style.color = color;
+  explicacion.hidden = false;
+  velocimetro.style.display = 'block';
+
+  // Mover la aguja: IMC 0 -> 180°, IMC 40 -> 0°
+  const angulo = Math.max(0, Math.min(180 - (imc * 4.5), 180));
+  aguja.style.background = color;
+  aguja.style.transform = `rotate(${angulo}deg)`;
 });
 </script>
+
 </body>
 </html>
