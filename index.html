@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Gerard Valls - Nutrición Profesional</title>
 
 <!-- Fuente -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 <!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
 <!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
@@ -178,6 +178,7 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   <a href="#testimonios">Testimonios</a>
   <a href="#consulta">Formulario</a>
   <a href="calculadora.html" target="_blank">Calculadora</a>
+  <a href="imc.html" target="_blank">IMC</a> <!-- Aquí añadí el botón IMC -->
 </nav>
 
 <main class="wrapper">
@@ -232,7 +233,7 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
             <ul>
               <li>Reducción de grasa saludable</li>
               <li>Hábitos de alimentación duraderos</li>
-              <li>Soporte motivacional</li>
+              <li>Soporte psicológico</li>
             </ul>
             <button onclick="location.href='#consulta'">Solicitar</button>
           </div>
@@ -242,15 +243,15 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
       <div class="service">
         <div class="service-inner">
           <div class="service-front">
-            <i class="fas fa-video icon-online"></i>
+            <i class="fas fa-laptop icon-online"></i>
             <h3>Consultas Online</h3>
-            <p>Atención profesional desde cualquier lugar.</p>
+            <p>Asesoría desde la comodidad de tu hogar.</p>
           </div>
           <div class="service-back">
             <ul>
-              <li>Videollamadas en horario flexible</li>
-              <li>Soporte por correo y WhatsApp</li>
-              <li>Acceso a material educativo</li>
+              <li>Videollamadas semanales</li>
+              <li>Soporte vía chat</li>
+              <li>Material exclusivo</li>
             </ul>
             <button onclick="location.href='#consulta'">Solicitar</button>
           </div>
@@ -260,56 +261,31 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   </section>
 
   <!-- TESTIMONIOS -->
-  <section id="testimonios">
+  <section id="testimonios" style="margin-top:60px;">
     <h2>Testimonios</h2>
     <div class="services">
       <div class="service">
         <div class="service-inner">
-          <div class="service-front" style="background: linear-gradient(135deg, #00ffc0, #00bfff);">
-            <i class="fas fa-user"></i>
-            <h3>Laura G.</h3>
-            <p>"Excelente nutricionista, logré mis objetivos."</p>
+          <div class="service-front">
+            <i class="fas fa-quote-left" style="font-size:3rem;"></i>
+            <h3>María G.</h3>
+            <p>“Gerard me ayudó a alcanzar mis objetivos con un plan sencillo y efectivo.”</p>
           </div>
           <div class="service-back">
-            <ul>
-              <li>Perdió 6kg en 3 meses</li>
-              <li>Mejoró su relación con la comida</li>
-              <li>Incrementó su energía diaria</li>
-            </ul>
+            <p>Seguimiento cercano y motivador que marcó la diferencia.</p>
           </div>
         </div>
       </div>
 
       <div class="service">
         <div class="service-inner">
-          <div class="service-front" style="background: linear-gradient(135deg, #ff7eb3, #ff65a3);">
-            <i class="fas fa-user"></i>
-            <h3>Carlos M.</h3>
-            <p>"Atención profesional y personalizada."</p>
+          <div class="service-front">
+            <i class="fas fa-quote-left" style="font-size:3rem;"></i>
+            <h3>Juan P.</h3>
+            <p>“Gracias a su asesoría deportiva mejoré mi rendimiento y energía.”</p>
           </div>
           <div class="service-back">
-            <ul>
-              <li>Optimización de rendimiento deportivo</li>
-              <li>Plan de suplementación adaptado</li>
-              <li>Seguimiento constante</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front" style="background: linear-gradient(135deg, #ffe259, #ffa751);">
-            <i class="fas fa-user"></i>
-            <h3>Ana R.</h3>
-            <p>"Recomiendo sus planes a todos los deportistas."</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Mejoró sus marcas en carrera</li>
-              <li>Plan flexible y sostenible</li>
-              <li>Acompañamiento motivador</li>
-            </ul>
+            <p>Recomendado para deportistas de todos los niveles.</p>
           </div>
         </div>
       </div>
@@ -317,73 +293,63 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   </section>
 
   <!-- FORMULARIO -->
-  <section id="consulta">
-    <h2>Formulario de contacto</h2>
-    <form id="contact-form" action="https://formspree.io/f/mnqwerty" method="POST" class="glass-form">
+  <section id="consulta" style="margin-top:60px; text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
+    <h2>Consulta</h2>
+    <form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST">
       <div class="form-group">
-        <input type="text" name="name" placeholder=" " required>
-        <label>Nombre completo</label>
-        <i class="fas fa-user"></i>
+        <input type="text" id="nombre" name="nombre" placeholder=" " required />
+        <label for="nombre"><i class="fas fa-user"></i> Nombre</label>
       </div>
       <div class="form-group">
-        <input type="email" name="email" placeholder=" " required>
-        <label>Correo electrónico</label>
-        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" name="_replyto" placeholder=" " required />
+        <label for="email"><i class="fas fa-envelope"></i> Email</label>
       </div>
       <div class="form-group">
-        <textarea name="message" rows="5" placeholder=" " required></textarea>
-        <label>Mensaje</label>
-        <i class="fas fa-comment"></i>
+        <textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required></textarea>
+        <label for="mensaje"><i class="fas fa-comment"></i> Mensaje</label>
       </div>
-      <button type="submit">Enviar</button>
-      <span id="form-feedback" aria-live="polite"></span>
+      <button type="submit" style="background:var(--primary); color:#000; font-weight:700; padding:12px 20px; border:none; border-radius:var(--radius); cursor:pointer; width:100%;">Enviar</button>
     </form>
   </section>
 </main>
 
-<footer>&copy; 2025 Gerard Valls - Todos los derechos reservados.</footer>
+<!-- BOTONES FIJOS -->
+<button id="whatsapp-btn" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
+<button id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
 
-<button id="whatsapp-btn" aria-label="Abrir chat de WhatsApp"><i class="fab fa-whatsapp"></i></button>
-<button id="scrollTopBtn" aria-label="Subir al inicio"><i class="fas fa-arrow-up"></i></button>
+<footer>
+  &copy; 2025 Gerard Valls | Nutrición Profesional
+</footer>
 
 <script>
-document.getElementById('toggle-theme').addEventListener('click',()=>{
-  document.body.classList.toggle('light');
-  document.getElementById('toggle-theme').textContent=document.body.classList.contains('light')
-    ?'Cambiar a modo oscuro':'Cambiar a modo claro';
-});
-
-/* GSAP Animaciones */
-window.addEventListener('DOMContentLoaded',()=>{
-  if(typeof gsap!=='undefined' && typeof ScrollTrigger!=='undefined'){gsap.registerPlugin(ScrollTrigger);}
-  gsap.from("header h1",{opacity:0,y:-50,duration:1});
-  gsap.from("header p",{opacity:0,y:30,duration:1,delay:0.3});
-  gsap.utils.toArray("#servicios .service").forEach((el,i)=>{
-    gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:50,duration:0.6,delay:i*0.1});
+  // Cambiar tema claro/oscuro
+  const toggleThemeBtn = document.getElementById('toggle-theme');
+  toggleThemeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    if(document.body.classList.contains('light')){
+      toggleThemeBtn.textContent = 'Cambiar a modo oscuro';
+    } else {
+      toggleThemeBtn.textContent = 'Cambiar a modo claro';
+    }
   });
-  gsap.utils.toArray("#testimonios .service").forEach((el,i)=>{
-    gsap.from(el,{scrollTrigger:{trigger:el,start:"top 80%"},opacity:0,y:40,rotateY:-8,duration:0.8,delay:i*0.08,ease:"back.out(1.6)"});
+
+  // Mostrar botón scroll arriba cuando se baja
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 300){
+      scrollBtn.classList.add('show');
+    } else {
+      scrollBtn.classList.remove('show');
+    }
   });
-});
+  scrollBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
-/* Scroll top */
-const scrollBtn=document.getElementById('scrollTopBtn');
-window.addEventListener('scroll',()=>{window.scrollY>300?scrollBtn.classList.add('show'):scrollBtn.classList.remove('show');});
-scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-/* WhatsApp */
-document.getElementById('whatsapp-btn').addEventListener('click',()=>{
-  window.open('https://wa.me/34600000000?text=¡Hola! Me interesa una consulta.','_blank');
-});
-
-/* Formulario */
-document.getElementById('contact-form').addEventListener('submit',async(e)=>{
-  e.preventDefault();const form=e.target;const data=new FormData(form);
-  const res=await fetch(form.action,{method:form.method,body:data,headers:{'Accept':'application/json'}});
-  const feedback=document.getElementById('form-feedback');
-  if(res.ok){feedback.textContent='✅ Mensaje enviado correctamente';feedback.style.color='var(--primary)';form.reset();}
-  else{feedback.textContent='❌ Hubo un error. Inténtalo de nuevo.';feedback.style.color='red';}
-});
+  // WhatsApp botón para abrir chat
+  const whatsappBtn = document.getElementById('whatsapp-btn');
+  whatsappBtn.addEventListener('click', () => {
+    window.open('https://wa.me/tu-numero-whatsapp', '_blank');
+  });
 </script>
+
 </body>
 </html>
