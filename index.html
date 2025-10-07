@@ -36,7 +36,8 @@ a{text-decoration:none;color:var(--primary);transition:.3s;}
 a:hover{color:var(--primary-hover);}
 
 /* HEADER + NAV */
-header{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px 20px;min-height:65vh;background:var(--dark-bg);color:var(--text-dark);position:relative;overflow:hidden;}
+header{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px 20px;min-height:65vh;}
+.gradient-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(270deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);background-size:800% 800%;z-index:0;animation:gradientMoveBG 15s ease infinite;filter: blur(80px);opacity:0.6;}
 .header-content{text-align:center; z-index:1;}
 header h1{font-size:clamp(2rem,6vw,3rem);background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;text-shadow:0 0 8px rgba(0,255,192,0.4);animation:gradMove 12s linear infinite;margin:0;}
 header p{margin-top:12px;font-size:clamp(1rem,2.5vw,1.3rem);text-shadow:0 2px 6px rgba(0,0,0,0.3);opacity:0;transform:translateY(20px);animation:fadeInUp 1s forwards 0.5s;max-width:600px;margin-left:auto;margin-right:auto;}
@@ -53,6 +54,7 @@ nav a:hover{background:var(--primary);color:#000;transform:translateY(-2px);}
 @keyframes glowPulse{0%{box-shadow:0 0 5px rgba(255,255,255,0.4);}50%{box-shadow:0 0 25px rgba(255,255,255,0.9);}100%{box-shadow:0 0 5px rgba(255,255,255,0.4);}}
 @keyframes badgePulse{0%{transform:scale(1);}100%{transform:scale(1.05);}}
 @keyframes blink{0%,50%,100%{opacity:1;}25%,75%{opacity:0.6;}}
+@keyframes gradientMoveBG{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 
 /* MAIN */
 main.wrapper{max-width:1200px;margin:40px auto;padding:50px 30px 60px;border-radius:var(--radius);backdrop-filter:blur(15px);background:rgba(42,55,96,0.85);text-align:center;transition:background var(--transition);}
@@ -64,11 +66,11 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 /* SECCIONES */
 .services, .planes-grid, .testimonios-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;perspective:1200px;}
 .service-inner, .pricing-card, .card{border-radius:var(--radius);padding:25px;transition:transform .4s,box-shadow .4s;backface-visibility:hidden;background:rgba(255,255,255,0.05);box-shadow:0 8px 25px rgba(0,0,0,0.3);}
-.service-inner{position:relative;width:100%;min-height:250px;transform-style:preserve-3d;transition:transform .8s ease;}
-.service:hover .service-inner{transform:rotateY(180deg);}
+.service-inner{position:relative;width:100%;min-height:250px;transform-style:preserve-3d;transition:transform .8s cubic-bezier(0.25, 1, 0.5, 1);}
+.service:hover .service-inner{transform:rotateY(180deg) rotateZ(1deg) scale(1.02);}
 .service-front, .service-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-.service-front i{font-size:2.5rem;margin-bottom:12px;transition:transform .4s,box-shadow .4s;}
-.service:hover .service-front i{transform:scale(1.3) rotate(8deg);animation:glowPulse 1.2s infinite;}
+.service-front i{font-size:2.5rem;margin-bottom:12px;transition:transform 0.5s, box-shadow 0.5s;transform-style: preserve-3d;}
+.service:hover .service-front i{transform:rotateY(20deg) rotateX(15deg) scale(1.3);box-shadow:0 0 30px rgba(255,255,255,0.9);animation:glowPulse 1.2s infinite;}
 .service-back{transform:rotateY(180deg);color:#000;text-align:left;}
 .service-back ul{list-style:none;padding-left:20px;}
 .service-back button{margin-top:12px;background:white;color:var(--primary);font-weight:bold;border:none;padding:12px 16px;border-radius:var(--radius);cursor:pointer;transition:.3s;}
@@ -100,6 +102,7 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 <body>
 
 <header>
+  <div class="gradient-bg"></div>
   <div class="header-content">
     <h1>Gerard Valls</h1>
     <p>Nutrición personalizada para deportistas y personas activas</p>
@@ -116,216 +119,225 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 
 <main class="wrapper">
 
-  <!-- SERVICIOS -->
-  <section id="servicios">
-    <h2>Servicios</h2>
-    <div class="services">
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-bowl-food icon-planes"></i>
-            <h3>Planes Personalizados</h3>
-            <p>Adaptados a tu estilo de vida y objetivos.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Evaluación inicial completa</li>
-              <li>Plan nutricional flexible</li>
-              <li>Seguimiento quincenal</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-person-running icon-deporte"></i>
-            <h3>Asesoría Deportiva</h3>
-            <p>Optimiza tu rendimiento y recuperación.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Plan de macronutrientes</li>
-              <li>Recomendaciones de suplementación</li>
-              <li>Ajuste de cargas de entrenamiento</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-scale-balanced icon-peso"></i>
-            <h3>Pérdida de Peso</h3>
-            <p>Programas sostenibles y personalizados.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Reducción de grasa saludable</li>
-              <li>Hábitos de alimentación duraderos</li>
-              <li>Soporte psicológico</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-laptop icon-online"></i>
-            <h3>Consultas Online</h3>
-            <p>Asesoría desde la comodidad de tu hogar.</p>
-          </div>
-          <div class="service-back">
-            <ul>
-              <li>Videollamadas semanales</li>
-              <li>Soporte vía chat</li>
-              <li>Material exclusivo</li>
-            </ul>
-            <button onclick="location.href='#consulta'">Solicitar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- SERVICIOS -->
+<section id="servicios">
+<h2>Servicios</h2>
+<div class="services">
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-bowl-food icon-planes"></i>
+<h3>Planes Personalizados</h3>
+<p>Adaptados a tu estilo de vida y objetivos.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Evaluación inicial completa</li>
+<li>Plan nutricional flexible</li>
+<li>Seguimiento quincenal</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
 
-  <!-- BENEFICIOS -->
-  <section id="incluye-todos">
-    <h2>¿Qué incluyen todos los planes?</h2>
-    <ul>
-      <li><i class="fas fa-check-circle"></i> Rutina de Entrenamiento personalizada</li>
-      <li><i class="fas fa-check-circle"></i> Plan de Comidas Personalizado</li>
-      <li><i class="fas fa-check-circle"></i> Cambios de comidas y entrenamiento periódicos</li>
-      <li><i class="fas fa-check-circle"></i> Videos de Ejercicios</li>
-      <li><i class="fas fa-check-circle"></i> Lista de compras descargable</li>
-      <li><i class="fas fa-check-circle"></i> Sustitución de alimentos</li>
-      <li><i class="fas fa-check-circle"></i> Adaptación a Alergias/intolerancias</li>
-      <li><i class="fas fa-check-circle"></i> Registro de Ejercicios y Progreso</li>
-      <li><i class="fas fa-check-circle"></i> Atención Email Online 24/7</li>
-      <li><i class="fas fa-check-circle"></i> APP en tu móvil</li>
-      <li><i class="fas fa-check-circle"></i> Acceso al grupo privado en Facebook</li>
-    </ul>
-    <p>RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
-  </section>
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-person-running icon-deporte"></i>
+<h3>Asesoría Deportiva</h3>
+<p>Optimiza tu rendimiento y recuperación.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Plan de macronutrientes</li>
+<li>Recomendaciones de suplementación</li>
+<li>Ajuste de cargas de entrenamiento</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
 
-  <!-- PLANES -->
-  <section id="planes">
-    <h2>Planes de Suscripción</h2>
-    <div class="planes-grid">
-      <div class="pricing-card">
-        <div class="badge">MEJOR VALOR</div>
-        <h3>Suscripción Anual</h3>
-        <p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
-        <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-        <small>*Facturado anualmente</small>
-      </div>
-      <div class="pricing-card">
-        <h3>Suscripción Trimestral</h3>
-        <p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
-        <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-        <small>*Facturado trimestral</small>
-      </div>
-      <div class="pricing-card">
-        <h3>Suscripción Mensual</h3>
-        <p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
-        <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-        <small>*Facturado mensualmente</small>
-      </div>
-    </div>
-  </section>
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-scale-balanced icon-peso"></i>
+<h3>Pérdida de Peso</h3>
+<p>Programas sostenibles y personalizados.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Reducción de grasa saludable</li>
+<li>Hábitos de alimentación duraderos</li>
+<li>Soporte psicológico</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
 
-  <!-- TESTIMONIOS -->
-  <section id="testimonios">
-    <h2>Testimonios</h2>
-    <div class="testimonios-grid">
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-quote-left" style="font-size:3rem;"></i>
-            <h3>María G.</h3>
-            <p>“Gerard me ayudó a alcanzar mis objetivos con un plan sencillo y efectivo.”</p>
-          </div>
-          <div class="service-back">
-            <p>Seguimiento cercano y motivador que marcó la diferencia.</p>
-          </div>
-        </div>
-      </div>
-      <div class="service">
-        <div class="service-inner">
-          <div class="service-front">
-            <i class="fas fa-quote-left" style="font-size:3rem;"></i>
-            <h3>Juan P.</h3>
-            <p>“Gracias a su asesoría deportiva mejoré mi rendimiento y energía.”</p>
-          </div>
-          <div class="service-back">
-            <p>Recomendado para deportistas de todos los niveles.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-laptop icon-online"></i>
+<h3>Consultas Online</h3>
+<p>Asesoría desde la comodidad de tu hogar.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Videollamadas semanales</li>
+<li>Soporte vía chat</li>
+<li>Material exclusivo</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
 
-  <!-- FORMULARIO -->
-  <section id="consulta" style="margin-top:60px; text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
-    <h2>Consulta</h2>
-    <form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST">
-      <div class="form-group">
-        <input type="text" id="nombre" name="nombre" placeholder=" " required>
-        <label for="nombre"><i class="fas fa-user"></i> Nombre</label>
-      </div>
-      <div class="form-group">
-        <input type="email" id="email" name="_replyto" placeholder=" " required>
-        <label for="email"><i class="fas fa-envelope"></i> Email</label>
-      </div>
-      <div class="form-group">
-        <textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required></textarea>
-        <label for="mensaje"><i class="fas fa-comment"></i> Mensaje</label>
-      </div>
-      <button type="submit" style="width:100%;">Enviar</button>
-      <div id="formMsg" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
-    </form>
-  </section>
+</div>
+</section>
+
+<!-- BENEFICIOS -->
+<section id="incluye-todos" style="margin:60px auto;padding:40px;max-width:850px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:0 8px 25px rgba(0,0,0,0.3);">
+<h2>¿Qué incluyen todos los planes?</h2>
+<ul style="list-style:none;padding:0;">
+<li><i class="fas fa-check-circle"></i> Rutina de Entrenamiento personalizada</li>
+<li><i class="fas fa-check-circle"></i> Plan de Comidas Personalizado</li>
+<li><i class="fas fa-check-circle"></i> Cambios de comidas y entrenamiento periódicos</li>
+<li><i class="fas fa-check-circle"></i> Videos de Ejercicios</li>
+<li><i class="fas fa-check-circle"></i> Lista de compras descargable</li>
+<li><i class="fas fa-check-circle"></i> Sustitución de alimentos</li>
+<li><i class="fas fa-check-circle"></i> Adaptación a Alergias/intolerancias</li>
+<li><i class="fas fa-check-circle"></i> Registro de Ejercicios y Progreso</li>
+<li><i class="fas fa-check-circle"></i> Atención Email Online 24/7</li>
+<li><i class="fas fa-check-circle"></i> APP en tu móvil</li>
+<li><i class="fas fa-check-circle"></i> Acceso al grupo privado en Facebook</li>
+</ul>
+<p style="margin-top:20px;font-weight:bold;color:var(--secondary);animation:blink 1.5s infinite;">RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
+</section>
+
+<!-- PLANES -->
+<section id="planes">
+<h2>Planes de Suscripción</h2>
+<div class="services">
+<div class="pricing-card">
+<div class="badge">MEJOR VALOR</div>
+<h3>Suscripción Anual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+<small>*Facturado anualmente</small>
+</div>
+
+<div class="pricing-card">
+<h3>Suscripción Trimestral</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+<small>*Facturado trimestral</small>
+</div>
+
+<div class="pricing-card">
+<h3>Suscripción Mensual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+<small>*Facturado mensualmente</small>
+</div>
+</div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios" style="margin-top:60px;">
+<h2>Testimonios</h2>
+<div class="services">
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-quote-left" style="font-size:3rem;"></i>
+<h3>María G.</h3>
+<p>“Gerard me ayudó a alcanzar mis objetivos con un plan sencillo y efectivo.”</p>
+</div>
+<div class="service-back">
+<p>Seguimiento cercano y motivador que marcó la diferencia.</p>
+</div>
+</div>
+</div>
+
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-quote-left" style="font-size:3rem;"></i>
+<h3>Juan P.</h3>
+<p>“Gracias a su asesoría deportiva mejoré mi rendimiento y energía.”</p>
+</div>
+<div class="service-back">
+<p>Recomendado para deportistas de todos los niveles.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FORMULARIO -->
+<section id="consulta" style="margin-top:60px; text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
+<h2>Consulta</h2>
+<form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST">
+<div class="form-group"><input type="text" id="nombre" name="nombre" placeholder=" " required><label for="nombre"><i class="fas fa-user"></i> Nombre</label></div>
+<div class="form-group"><input type="email" id="email" name="_replyto" placeholder=" " required><label for="email"><i class="fas fa-envelope"></i> Email</label></div>
+<div class="form-group"><textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required></textarea><label for="mensaje"><i class="fas fa-comment"></i> Mensaje</label></div>
+<button type="submit" style="width:100%;">Enviar</button>
+<div id="formMsg" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
+</form>
+</section>
 
 </main>
 
 <!-- BOTONES FIJOS -->
-<button id="whatsapp-btn"><i class="fab fa-whatsapp"></i></button>
-<button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
+<button id="whatsapp-btn" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
+<button id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
 
 <footer>&copy; 2025 Gerard Valls | Nutrición Profesional</footer>
 
 <script>
+// Cambiar tema
 const toggleThemeBtn=document.getElementById('toggle-theme');
 toggleThemeBtn.addEventListener('click',()=>{
   document.body.classList.toggle('light');
   toggleThemeBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
 });
 
+// Scroll Top
 const scrollBtn=document.getElementById('scrollTopBtn');
 window.addEventListener('scroll',()=>{scrollBtn.classList.toggle('show',window.scrollY>300);});
 scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
+// WhatsApp
 const whatsappBtn=document.getElementById('whatsapp-btn');
 whatsappBtn.addEventListener('click',()=>window.open('https://wa.me/tu-numero-whatsapp','_blank'));
 
+// GSAP Animaciones
 gsap.registerPlugin(ScrollTrigger);
-gsap.from(".header-content", {y:30, opacity:0,duration:1, stagger:0.2,ease:"power2.out"});
-gsap.from("header nav", {y:50, opacity:0,duration:0.8,ease:"power2.out"});
 gsap.utils.toArray(".service, .pricing-card, #incluye-todos").forEach(elem=>{
   gsap.from(elem,{scrollTrigger:{trigger:elem,start:"top 80%"},opacity:0,y:50,duration:0.8,stagger:0.2,ease:"power2.out"});
 });
 
+// Formulario con mensaje de éxito/error
 const form=document.querySelector('.glass-form');
-if(form){
-  const formMsg=document.getElementById('formMsg');
-  form.addEventListener('submit',e=>{
-    e.preventDefault();
-    fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
-    .then(response=>{if(response.ok){formMsg.textContent="¡Gracias! Tu mensaje ha sido enviado.";form.reset();}else{formMsg.textContent="Oops! Hubo un error. Intenta de nuevo.";}});
+const formMsg=document.getElementById('formMsg');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  fetch(form.action,{
+    method:'POST',
+    body:new FormData(form),
+    headers:{'Accept':'application/json'}
+  }).then(response=>{
+    if(response.ok){
+      formMsg.textContent="¡Gracias! Tu mensaje ha sido enviado.";
+      form.reset();
+    }else{
+      formMsg.textContent="Oops! Hubo un error. Intenta de nuevo.";
+    }
   });
-}
+});
 </script>
 
 </body>
