@@ -168,7 +168,7 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 /* SUSCRIPCIONES */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
   gap: 30px;
   justify-items: center;
 }
@@ -179,6 +179,8 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   text-align: center;
   box-shadow: 0 5px 20px rgba(0,0,0,0.25);
   transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
 }
 .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.35);}
 .pricing-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
@@ -186,7 +188,19 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 .pricing-card .price span { font-size: 1rem; font-weight: 400; margin-left: 5px; }
 .pricing-card button { background: var(--primary); color: #000; border: none; padding: 12px 20px; border-radius: var(--radius); font-weight: 700; cursor: pointer; transition: background 0.3s, transform 0.3s; }
 .pricing-card button:hover { background: var(--primary-hover); transform: translateY(-2px);}
-.featured { border: 2px solid var(--primary); position: relative; overflow: hidden;}
+.featured { border: 2px solid var(--primary); z-index: 1; }
+.featured-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,255,192,0.3) 0%, rgba(0,255,192,0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+}
 </style>
 </head>
 <body>
@@ -209,7 +223,7 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   <section id="servicios">
     <h2>Servicios</h2>
     <div class="services">
-      <!-- Aquí van los 4 servicios como antes -->
+      <!-- Tus 4 servicios aquí -->
     </div>
   </section>
 
@@ -218,6 +232,7 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
     <h2>Planes de Suscripción</h2>
     <div class="pricing-grid">
       <div class="pricing-card featured">
+        <div class="featured-glow"></div>
         <h3>Únete A Una Suscripción Anual</h3>
         <div class="price">€349<span>/12 meses</span></div>
         <button onclick="abrirWhatsApp('Quiero la suscripción anual')">ÚNETE AHORA</button>
@@ -238,7 +253,7 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
     </div>
   </section>
 
-  <!-- TESTIMONIOS y FORMULARIO igual que antes -->
+  <!-- TESTIMONIOS y FORMULARIO aquí como antes -->
 </main>
 
 <button id="whatsapp-btn" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
@@ -267,14 +282,19 @@ function abrirWhatsApp(msg){ window.open(`https://wa.me/${numeroWhatsApp}?text=$
 document.addEventListener("DOMContentLoaded", ()=>{
   gsap.registerPlugin(ScrollTrigger);
 
+  // Animación de aparición de los planes
   gsap.from(".pricing-card",{
     scrollTrigger:{ trigger:"#suscripciones", start:"top 80%" },
     opacity:0, y:50, duration:0.8, stagger:0.2, ease:"power3.out"
   });
 
-  // Animación rebote "Mejor Valor"
+  // Rebote tarjeta "Mejor Valor"
   const featured = document.querySelector(".featured");
   gsap.to(featured, { y:-5, repeat:-1, yoyo:true, duration:1.5, ease:"power1.inOut" });
+
+  // Resplandor animado
+  const glow = featured.querySelector(".featured-glow");
+  gsap.to(glow, {opacity:1, scale:1, duration:2, repeat:-1, yoyo:true, ease:"sine.inOut"});
 });
 </script>
 
