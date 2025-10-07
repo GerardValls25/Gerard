@@ -138,7 +138,8 @@ h2::after{
 }
 @keyframes lineDraw{to{transform:scaleX(1);}}
 
-/* SERVICIOS */
+/* SECCIONES */
+section{margin:60px 0;}
 .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;perspective:1200px;}
 .service-inner{position:relative;width:100%;min-height:250px;transform-style:preserve-3d;transition:transform 0.8s ease;}
 .service:hover .service-inner{transform:rotateY(180deg);}
@@ -161,6 +162,37 @@ h2::after{
 .service:hover .service-front i{transform:scale(1.3) rotate(8deg);animation:glowPulse 1.2s infinite;}
 @keyframes glowPulse{0%{box-shadow:0 0 5px rgba(255,255,255,0.4);}50%{box-shadow:0 0 25px rgba(255,255,255,0.9);}100%{box-shadow:0 0 5px rgba(255,255,255,0.4);}}
 
+/* BENEFICIOS */
+#incluye-todos{margin:60px auto;padding:40px;max-width:850px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:var(--shadow);}
+#incluye-todos ul{list-style:none;padding:0;margin:0;}
+#incluye-todos li{margin:12px 0;display:flex;align-items:center;gap:12px;font-size:1rem;transition:.3s;}
+#incluye-todos li i{color:var(--primary);}
+#incluye-todos p{margin-top:20px;font-weight:bold;color:var(--secondary);animation:blink 1.5s infinite;}
+@keyframes blink{0%,50%,100%{opacity:1;}25%,75%{opacity:0.6;}}
+
+/* PLANES */
+.pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;}
+.pricing-card{padding:30px;border-radius:20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;transition:transform .4s,box-shadow .4s,background .4s;position:relative;cursor:pointer;background:rgba(255,255,255,0.05);backdrop-filter:blur(15px);box-shadow:var(--shadow);}
+.pricing-card:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 20px 60px rgba(0,255,192,0.5);}
+.pricing-card button{background:var(--primary);color:#000;font-weight:700;padding:14px 28px;border:none;border-radius:var(--radius);cursor:pointer;transition:.3s;}
+.pricing-card button:hover{background:var(--primary-hover);}
+.badge{position:absolute;top:-12px;right:-12px;background:var(--secondary);color:#000;padding:6px 16px;border-radius:12px;font-weight:bold;box-shadow:var(--badge-shadow);animation:badgePulse 1.5s infinite alternate;}
+@keyframes badgePulse{0%{transform:scale(1);}100%{transform:scale(1.05);}}
+
+/* TESTIMONIOS */
+.testimonios{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;}
+
+/* FORMULARIO */
+.glass-form{display:flex;flex-direction:column;gap:20px;margin-top:20px;padding:35px;border-radius:20px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+.form-group{position:relative;}
+.form-group input,.form-group textarea{width:100%;padding:16px 14px 16px 36px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:white;font-size:1rem;transition:.3s;}
+.form-group label{position:absolute;left:36px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.6);transition:.3s;}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 20px var(--primary);}
+.form-group input:focus+label,.form-group textarea:focus+label,.form-group input:not(:placeholder-shown)+label,.form-group textarea:not(:placeholder-shown)+label{top:-10px;font-size:.85rem;color:var(--primary);}
+.form-group i{position:absolute;top:50%;left:12px;transform:translateY(-50%);color:var(--primary);}
+button.submit-btn{width:100%;background:var(--primary);color:#000;font-weight:700;padding:14px 28px;border:none;border-radius:var(--radius);cursor:pointer;transition:.3s;}
+button.submit-btn:hover{background:var(--primary-hover);}
+
 /* BOTONES FIJOS */
 #whatsapp-btn{position:fixed;bottom:140px;right:20px;background:#25D366;color:white;border:none;border-radius:50%;width:60px;height:60px;font-size:1.8rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
 #scrollTopBtn{position:fixed;bottom:60px;right:20px;background:var(--primary);color:white;border:none;padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;opacity:0;transition:.3s;}
@@ -177,6 +209,8 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 
 <nav role="navigation" aria-label="Menú principal">
   <a href="#servicios">Servicios</a>
+  <a href="#beneficios">Beneficios</a>
+  <a href="#planes">Planes</a>
   <a href="#testimonios">Testimonios</a>
   <a href="#consulta">Formulario</a>
   <a href="calculadora.html" target="_blank">Calculadora</a>
@@ -184,7 +218,156 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 </nav>
 
 <main class="wrapper">
-  <!-- Contenido de servicios, beneficios, planes y testimonios -->
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="services">
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-dumbbell icon-deporte"></i>
+            <h3>Entrenamiento Personal</h3>
+            <p>Planes nutricionales adaptados a tu deporte.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Evaluación inicial</li>
+              <li>Plan semanal</li>
+              <li>Seguimiento online</li>
+            </ul>
+            <button>Contratar</button>
+          </div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-apple-alt icon-peso"></i>
+            <h3>Control de Peso</h3>
+            <p>Asesoría personalizada para bajar o subir de peso.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Evaluación de hábitos</li>
+              <li>Plan alimenticio</li>
+              <li>Seguimiento mensual</li>
+            </ul>
+            <button>Contratar</button>
+          </div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-laptop icon-online"></i>
+            <h3>Asesoría Online</h3>
+            <p>Consulta profesional desde cualquier lugar.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Video llamada</li>
+              <li>Plan digital</li>
+              <li>Soporte online</li>
+            </ul>
+            <button>Contratar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section id="beneficios">
+    <h2>Beneficios</h2>
+    <div id="incluye-todos">
+      <ul>
+        <li><i class="fas fa-check"></i> Planes personalizados según tus necesidades</li>
+        <li><i class="fas fa-check"></i> Seguimiento constante</li>
+        <li><i class="fas fa-check"></i> Asesoramiento profesional</li>
+        <li><i class="fas fa-check"></i> Flexibilidad y comodidad</li>
+      </ul>
+      <p>¡Incluye todo lo que necesitas para mejorar tu salud!</p>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section id="planes">
+    <h2>Planes</h2>
+    <div class="pricing">
+      <div class="pricing-card">
+        <div class="badge">Básico</div>
+        <h3>Plan Inicial</h3>
+        <p>Perfecto para comenzar tu transformación</p>
+        <p><strong>$50 / mes</strong></p>
+        <button>Contratar</button>
+      </div>
+      <div class="pricing-card">
+        <div class="badge">Premium</div>
+        <h3>Plan Avanzado</h3>
+        <p>Para quienes buscan resultados más rápidos</p>
+        <p><strong>$80 / mes</strong></p>
+        <button>Contratar</button>
+      </div>
+      <div class="pricing-card">
+        <div class="badge">Pro</div>
+        <h3>Plan Profesional</h3>
+        <p>Seguimiento completo y asesoramiento intensivo</p>
+        <p><strong>$120 / mes</strong></p>
+        <button>Contratar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios">
+    <h2>Testimonios</h2>
+    <div class="testimonios">
+      <div class="service">
+        <div class="service-front">
+          <i class="fas fa-user icon-planes"></i>
+          <h3>Laura G.</h3>
+          <p>"Gracias a Gerard logré mis objetivos y mejorar mi rendimiento."</p>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-front">
+          <i class="fas fa-user icon-planes"></i>
+          <h3>Carlos M.</h3>
+          <p>"Plan nutricional adaptado a mis entrenamientos. Excelente asesoría."</p>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-front">
+          <i class="fas fa-user icon-planes"></i>
+          <h3>Ana P.</h3>
+          <p>"Atención personalizada y resultados visibles desde el primer mes."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARIO -->
+  <section id="consulta">
+    <h2>Formulario de Consulta</h2>
+    <form class="glass-form" action="#" method="post">
+      <div class="form-group">
+        <input type="text" name="nombre" id="nombre" placeholder=" " required>
+        <label for="nombre">Nombre</label>
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" id="email" placeholder=" " required>
+        <label for="email">Correo electrónico</label>
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="form-group">
+        <textarea name="mensaje" id="mensaje" placeholder=" " rows="4" required></textarea>
+        <label for="mensaje">Mensaje</label>
+        <i class="fas fa-comment"></i>
+      </div>
+      <button type="submit" class="submit-btn">Enviar</button>
+    </form>
+  </section>
 </main>
 
 <!-- Botones fijos -->
