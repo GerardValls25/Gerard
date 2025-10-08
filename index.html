@@ -9,7 +9,7 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Font Awesome (solo íconos necesarios) -->
+<!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <!-- GSAP -->
@@ -147,7 +147,82 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 
 <main class="wrapper">
 
-<!-- Aquí irían las secciones de servicios, beneficios, planes y formulario como en tu original -->
+<!-- SERVICIOS -->
+<section id="servicios">
+<h2>Servicios</h2>
+<div class="services">
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-bowl-food icon-planes" aria-hidden="true"></i><h3>Planes Personalizados</h3><p>Adaptados a tu estilo de vida y objetivos.</p></div><div class="service-back"><ul><li>Evaluación inicial completa</li><li>Plan nutricional flexible</li><li>Seguimiento quincenal</li></ul><button onclick="location.href='#consulta'">Solicitar</button></div></div></div>
+
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-person-running icon-deporte" aria-hidden="true"></i><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento y recuperación.</p></div><div class="service-back"><ul><li>Plan de macronutrientes</li><li>Recomendaciones de suplementación</li><li>Ajuste de cargas de entrenamiento</li></ul><button onclick="location.href='#consulta'">Solicitar</button></div></div></div>
+
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-scale-balanced icon-peso" aria-hidden="true"></i><h3>Pérdida de Peso</h3><p>Programas sostenibles y personalizados.</p></div><div class="service-back"><ul><li>Reducción de grasa saludable</li><li>Hábitos de alimentación duraderos</li><li>Soporte psicológico</li></ul><button onclick="location.href='#consulta'">Solicitar</button></div></div></div>
+
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-laptop icon-online" aria-hidden="true"></i><h3>Consultas Online</h3><p>Asesoría desde la comodidad de tu hogar.</p></div><div class="service-back"><ul><li>Videollamadas semanales</li><li>Soporte vía chat</li><li>Material exclusivo</li></ul><button onclick="location.href='#consulta'">Solicitar</button></div></div></div>
+</div>
+</section>
+
+<!-- BENEFICIOS INCLUIDOS -->
+<section id="incluye-todos">
+<h2>¿Qué incluyen todos los planes?</h2>
+<ul>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Rutina de Entrenamiento personalizada</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Plan de Comidas Personalizado</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Cambios de comidas y entrenamiento periódicos</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Videos de Ejercicios</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Lista de compras descargable</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Sustitución de alimentos</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Adaptación a Alergias/intolerancias</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Registro de Ejercicios y Progreso</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Atención Email Online 24/7</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> APP en tu móvil</li>
+<li><i class="fas fa-check-circle" aria-hidden="true"></i> Acceso al grupo privado en Facebook</li>
+</ul>
+<p>RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
+</section>
+
+<!-- PLANES DE SUSCRIPCIÓN -->
+<section id="planes">
+<h2>Planes de Suscripción</h2>
+<div class="services">
+<div class="pricing-card"><div class="badge">MEJOR VALOR</div><h3>Suscripción Anual</h3><p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p><button onclick="location.href='#consulta'">ÚNETE AHORA</button><small>*Facturado anualmente</small></div>
+<div class="pricing-card"><h3>Suscripción Trimestral</h3><p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p><button onclick="location.href='#consulta'">ÚNETE AHORA</button><small>*Facturado trimestral</small></div>
+<div class="pricing-card"><h3>Suscripción Mensual</h3><p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p><button onclick="location.href='#consulta'">ÚNETE AHORA</button><small>*Facturado mensualmente</small></div>
+</div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios" style="margin-top:60px;">
+<h2>Testimonios</h2>
+<div class="services">
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left icon-planes" aria-hidden="true"></i><p>"¡Gracias a Gerard logré mis objetivos en solo 3 meses!"</p><h4>- Ana M.</h4></div></div></div>
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left icon-deporte" aria-hidden="true"></i><p>"Excelente planificación y seguimiento constante."</p><h4>- Carlos R.</h4></div></div></div>
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left icon-peso" aria-hidden="true"></i><p>"Recomendado para deportistas de todos los niveles."</p><h4>- Laura S.</h4></div></div></div>
+</div>
+</section>
+
+<!-- FORMULARIO -->
+<section id="consulta" style="margin-top:60px;">
+<h2>Consulta con Gerard</h2>
+<form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST">
+<div class="form-group">
+<i class="fas fa-user"></i>
+<input type="text" name="name" required placeholder=" ">
+<label>Nombre</label>
+</div>
+<div class="form-group">
+<i class="fas fa-envelope"></i>
+<input type="email" name="email" required placeholder=" ">
+<label>Email</label>
+</div>
+<div class="form-group">
+<i class="fas fa-comment"></i>
+<textarea name="message" rows="5" required placeholder=" "></textarea>
+<label>Mensaje</label>
+</div>
+<button type="submit">Enviar Consulta</button>
+<p id="formMsg"></p>
+</form>
+</section>
 
 </main>
 
