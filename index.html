@@ -99,7 +99,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 #incluye-todos p{margin-top:20px;font-weight:bold;color:var(--secondary);animation:blink 1.5s infinite;}
 @keyframes blink{0%,50%,100%{opacity:1;}25%,75%{opacity:0.6;}}
 
-/* PLANES DE SUSCRIPCIÓN */
+/* Estilos generales para la sección de planes de suscripción */
 #planes .services {
   display: flex;
   justify-content: center;
@@ -107,86 +107,104 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
   margin-top: 60px;
 }
 
+/* Estilo de la tarjeta de suscripción */
 .pricing-card {
-  padding: 40px 30px;
-  border-radius: 15px;
+  padding: 35px 30px;
+  border-radius: 10px;  /* Bordes más sutiles */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  transition: transform 0.3s, box-shadow 0.3s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  background: #1e2a47;  /* Fondo oscuro elegante */
+  background: #2b3e56;  /* Fondo en tono oscuro pero elegante */
   color: #ffffff;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  max-width: 350px;  /* Limitar ancho */
-  margin: 0 auto;  /* Centrado */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);  /* Sombras más suaves */
+  max-width: 350px;
+  margin: 0 auto;
 }
 
+/* Efecto al pasar el ratón */
 .pricing-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0, 255, 192, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);  /* Suavizado de sombra al pasar */
 }
 
+/* Título del plan */
 .pricing-card h3 {
-  font-size: 1.9rem;
-  color: #fff;
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-transform: uppercase; /* Hacer el texto más sofisticado */
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;  /* Hacerlo más sofisticado */
+  margin-bottom: 20px;
+  letter-spacing: 1px;  /* Espaciado entre letras para un toque más elegante */
 }
 
+/* Precio de la suscripción */
 .pricing-card p {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #00ffc0;  /* Acento color verde */
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00bfae;  /* Un verde más suave y elegante */
   margin-bottom: 30px;
 }
 
+/* Botón de acción */
 .pricing-card button {
-  background: #00ffc0;  /* Fondo del botón */
-  color: #1a1f3f;  /* Color oscuro para contraste */
+  background: #00bfae;  /* Fondo del botón verde suave */
+  color: #1c1f30;  /* Color oscuro para contraste */
   font-weight: 700;
-  padding: 14px 28px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 30px; /* Botón más redondeado */
+  border-radius: 40px;  /* Bordes más redondeados para un aspecto moderno */
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-  font-size: 1.2rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+/* Efecto hover en el botón */
 .pricing-card button:hover {
-  background: #00e6b8;  /* Efecto hover más oscuro */
-  transform: scale(1.05); /* Botón ligeramente más grande al pasar el ratón */
+  background: #00a68f;  /* Cambio suave de color al pasar el ratón */
+  transform: translateY(-3px);  /* Efecto de desplazamiento suave */
 }
 
+/* Pequeño texto abajo */
 .pricing-card small {
   font-size: 1rem;
   color: #f5f5f5;
-  margin-top: 12px;
+  margin-top: 10px;
   opacity: 0.7;
 }
 
+/* Badge (Mejor Valor) */
 .badge {
   position: absolute;
-  top: -12px;
-  right: -12px;
-  background: #ffbf00;  /* Un color dorado que destaca */
-  color: #000;
-  padding: 6px 16px;
-  border-radius: 12px;
+  top: -15px;
+  right: -15px;
+  background: #ffd700;  /* Dorado más sutil */
+  color: #333;
+  padding: 8px 18px;
+  border-radius: 25px;
   font-weight: 600;
-  box-shadow: 0 0 20px rgba(255, 191, 0, 0.5);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
   font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: badgePulse 2s infinite;  /* Animación suave */
 }
 
+/* Animación del badge */
 @keyframes badgePulse {
   0% {
     transform: scale(1);
   }
-  100% {
+  50% {
     transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 /* FORMULARIO */
