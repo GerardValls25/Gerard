@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gerard Valls - Nutrición Profesional</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
@@ -27,13 +27,10 @@
       --radius: 16px;
       --transition: 0.5s ease;
       --shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      --badge-shadow: 0 0 20px rgba(255, 191, 0, 0.6);
     }
-
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
@@ -43,18 +40,15 @@
       overflow-x: hidden;
       transition: background var(--transition), color var(--transition);
     }
-
     body.light {
       background: var(--light-bg);
       color: var(--text-light);
     }
-
     a {
       text-decoration: none;
       color: var(--primary);
       transition: 0.3s;
     }
-
     a:hover {
       color: var(--primary-hover);
     }
@@ -65,7 +59,6 @@
       padding: 60px 20px 40px;
       position: relative;
     }
-
     header h1 {
       font-size: 3rem;
       background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
@@ -74,7 +67,6 @@
       text-shadow: 0 0 15px rgba(0, 255, 192, 0.4);
       animation: gradMove 12s linear infinite;
     }
-
     header p {
       margin-top: 12px;
       font-size: 1.3rem;
@@ -83,7 +75,6 @@
       transform: translateY(20px);
       animation: fadeInUp 1s forwards 0.5s;
     }
-
     #toggle-theme {
       margin-top: 20px;
       background: var(--primary);
@@ -95,7 +86,6 @@
       font-weight: 600;
       transition: 0.4s;
     }
-
     #toggle-theme:hover {
       background: var(--primary-hover);
       transform: translateY(-2px);
@@ -106,7 +96,6 @@
       50% { background-position: 100% 0; }
       100% { background-position: 0 0; }
     }
-
     @keyframes fadeInUp {
       to {
         opacity: 1;
@@ -114,7 +103,7 @@
       }
     }
 
-    /* DROPDOWN MENU */
+    /* MENÚ DESPLEGABLE */
     .menu-toggle {
       position: absolute;
       top: 20px;
@@ -127,8 +116,11 @@
       height: 45px;
       cursor: pointer;
       z-index: 1001;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
     .menu {
       position: absolute;
       top: 75px;
@@ -141,27 +133,24 @@
       flex-direction: column;
       gap: 10px;
       z-index: 1000;
+      min-width: 140px;
     }
-
     .menu a {
       color: white;
       font-weight: 600;
       font-size: 1rem;
     }
-
     .menu.show {
       display: flex;
     }
-
     body.light .menu {
       background: rgba(255, 255, 255, 0.95);
     }
-
     body.light .menu a {
       color: #222;
     }
 
-    /* WRAPPER & RESTO */
+    /* CONTENIDO */
     main.wrapper {
       max-width: 1200px;
       margin: 40px auto;
@@ -172,9 +161,9 @@
       text-align: center;
       transition: background var(--transition);
     }
-
     body.light main.wrapper {
       background: rgba(245, 245, 245, 0.9);
+      color: var(--text-light);
     }
 
     h2 {
@@ -183,7 +172,6 @@
       position: relative;
       display: inline-block;
     }
-
     h2::after {
       content: "";
       width: 60px;
@@ -195,30 +183,163 @@
       transform: scaleX(0);
       animation: lineDraw 1s forwards;
     }
-
     @keyframes lineDraw {
       to {
         transform: scaleX(1);
       }
     }
 
-    /* El resto de tus estilos aquí: servicios, testimonios, formulario, etc. (puedes mantener igual tu CSS original) */
+    /* SERVICIOS */
+    #servicios {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+    .service {
+      background: rgba(0, 255, 192, 0.1);
+      border-radius: var(--radius);
+      padding: 20px;
+      width: 280px;
+      box-shadow: var(--shadow);
+      transition: background var(--transition);
+    }
+    .service:hover {
+      background: rgba(0, 255, 192, 0.2);
+    }
+    .service h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
 
+    /* TESTIMONIOS */
+    #testimonios {
+      margin-bottom: 60px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .testimonial {
+      background: rgba(255, 191, 0, 0.15);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .testimonial p {
+      font-style: italic;
+      margin: 0 0 12px 0;
+    }
+    .testimonial strong {
+      display: block;
+      text-align: right;
+      color: var(--secondary);
+    }
+
+    /* FORMULARIO */
+    #consulta {
+      max-width: 600px;
+      margin: 0 auto 80px;
+      background: rgba(0, 255, 192, 0.1);
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: left;
+    }
+    #consulta h2 {
+      text-align: center;
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #consulta form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    #consulta label {
+      font-weight: 600;
+    }
+    #consulta input,
+    #consulta textarea {
+      padding: 10px;
+      border-radius: var(--radius);
+      border: none;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    #consulta button {
+      background: var(--primary);
+      border: none;
+      padding: 14px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 700;
+      color: #000;
+      transition: background 0.3s;
+    }
+    #consulta button:hover {
+      background: var(--primary-hover);
+    }
+
+    /* BOTONES FIJOS */
+    #whatsapp-btn, #scrollTopBtn {
+      position: fixed;
+      right: 20px;
+      background: var(--primary);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      color: #000;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background 0.3s, transform 0.3s;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #whatsapp-btn:hover, #scrollTopBtn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-3px);
+    }
+    #whatsapp-btn {
+      bottom: 80px;
+    }
+    #scrollTopBtn {
+      bottom: 20px;
+      display: none;
+    }
+    #scrollTopBtn.show {
+      display: flex;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 0.9rem;
+      color: var(--primary);
+      background: rgba(42, 55, 96, 0.85);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Botón de menú desplegable -->
+  <!-- Botón menú desplegable -->
   <button class="menu-toggle" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
 
   <!-- Menú desplegable -->
-  <div id="menu" class="menu">
+  <nav id="menu" class="menu" aria-label="Menú principal">
     <a href="#servicios">Servicios</a>
     <a href="#testimonios">Testimonios</a>
     <a href="#consulta">Formulario</a>
-    <a href="calculadora.html" target="_blank">Calculadora</a>
-    <a href="imc.html" target="_blank">IMC</a>
-  </div>
+    <a href="calculadora.html" target="_blank" rel="noopener">Calculadora</a>
+    <a href="imc.html" target="_blank" rel="noopener">IMC</a>
+  </nav>
 
   <header>
     <h1>Gerard Valls</h1>
@@ -226,12 +347,63 @@
     <button id="toggle-theme">Cambiar a modo claro</button>
   </header>
 
-  <!-- Aquí continúa el contenido: main.wrapper con secciones como servicios, testimonios, formulario, etc. -->
   <main class="wrapper">
-    <!-- Inserta aquí todo tu contenido anterior: #servicios, #incluye-todos, #planes, #testimonios, #consulta -->
+    <!-- Servicios -->
+    <section id="servicios" aria-label="Servicios ofrecidos">
+      <h2>Servicios</h2>
+      <div class="service">
+        <h3>Consultas Personalizadas</h3>
+        <p>Diseño de planes nutricionales adaptados a tus objetivos y estilo de vida.</p>
+      </div>
+      <div class="service">
+        <h3>Seguimiento Continuo</h3>
+        <p>Acompañamiento constante para lograr resultados efectivos y sostenibles.</p>
+      </div>
+      <div class="service">
+        <h3>Nutrición Deportiva</h3>
+        <p>Optimización de tu rendimiento mediante una alimentación especializada.</p>
+      </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section id="testimonios" aria-label="Testimonios de clientes">
+      <h2>Testimonios</h2>
+      <div class="testimonial">
+        <p>"Gracias a Gerard mejoré mi rendimiento y aprendí a comer mejor. ¡Muy recomendable!"</p>
+        <strong>- Ana M.</strong>
+      </div>
+      <div class="testimonial">
+        <p>"Un profesional que realmente se preocupa por ti y tus objetivos."</p>
+        <strong>- Carlos G.</strong>
+      </div>
+      <div class="testimonial">
+        <p>"Con sus planes logré bajar de peso y sentirme con más energía cada día."</p>
+        <strong>- Laura R.</strong>
+      </div>
+    </section>
+
+    <!-- Formulario -->
+    <section id="consulta" aria-label="Formulario de contacto y consulta">
+      <h2>Formulario de Consulta</h2>
+      <form action="#" method="post" novalidate>
+        <label for="nombre">Nombre completo</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="Número de teléfono" />
+
+        <label for="mensaje">Mensaje / Consulta</label>
+        <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribe aquí tu consulta..." required></textarea>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
   </main>
 
-  <!-- Botones fijos (WhatsApp y Scroll Top) -->
+  <!-- Botones fijos -->
   <button id="whatsapp-btn" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
   <button id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
 
@@ -245,27 +417,29 @@
       toggleThemeBtn.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
     });
 
-    // Botón scroll arriba
+    // Scroll arriba
     const scrollBtn = document.getElementById('scrollTopBtn');
     window.addEventListener('scroll', () => {
       scrollBtn.classList.toggle('show', window.scrollY > 300);
     });
     scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // WhatsApp
+    // WhatsApp (pon aquí tu número con prefijo internacional, sin +)
     const whatsappBtn = document.getElementById('whatsapp-btn');
-    whatsappBtn.addEventListener('click', () => window.open('https://wa.me/tu-numero-whatsapp', '_blank'));
+    whatsappBtn.addEventListener('click', () => window.open('https://wa.me/1234567890', '_blank'));
 
     // GSAP Animaciones
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray(".service, .pricing-card, #incluye-todos").forEach(elem => {
-      gsap.from(elem, {
-        scrollTrigger: { trigger: elem, start: "top 80%" },
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power2.out"
+    window.addEventListener('load', () => {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray(".service, .testimonial, #consulta").forEach(elem => {
+        gsap.from(elem, {
+          scrollTrigger: { trigger: elem, start: "top 80%" },
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: "power2.out"
+        });
       });
     });
 
@@ -277,7 +451,7 @@
       menu.classList.toggle('show');
     });
 
-    // Cerrar menú al hacer clic en un enlace
+    // Cerrar menú al hacer clic en enlace
     document.querySelectorAll('.menu a').forEach(link => {
       link.addEventListener('click', () => menu.classList.remove('show'));
     });
