@@ -80,173 +80,101 @@ h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
 h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;border-radius:2px;background:var(--primary);transform:scaleX(0);animation:lineDraw 1s forwards;}
 @keyframes lineDraw{to{transform:scaleX(1);}}
 
-/* --------------------- CUADROS PREMIUM UNIFICADOS --------------------- */
+/* --------------------- CUADROS SIMPLES --------------------- */
 .service-inner, .pricing-card {
   position: relative;
   width: 100%;
-  min-height: 280px;
-  border-radius: 24px;
-  overflow: hidden;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  padding: 30px;
-  gap: 16px;
-  z-index: 1;
-  transition: transform 0.5s ease, box-shadow 0.5s ease, background 0.4s ease;
-  animation: glowPulse 4s ease-in-out infinite;
-  box-shadow: 8px 8px 24px rgba(0,0,0,0.35),
-              -8px -8px 24px rgba(255,255,255,0.05),
-              inset 0 4px 12px rgba(255,255,255,0.08);
-}
-.service-inner:hover, .pricing-card:hover {
-  transform: translateY(-8px) scale(1.03) rotateY(5deg);
+  min-height: 250px;
+  border-radius: 16px;
   background: rgba(255,255,255,0.08);
-  box-shadow: 12px 12px 30px rgba(0,0,0,0.45),
-              -12px -12px 30px rgba(255,255,255,0.1),
-              inset 0 6px 16px rgba(255,255,255,0.12);
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
-.service-inner::before,
-.pricing-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.05) 100%);
-  transform: rotate(25deg) translateX(-100%);
-  pointer-events: none;
-  transition: transform 0.8s ease;
-  border-radius: inherit;
-  filter: blur(10px);
-  z-index: 0;
+
+.service-inner:hover, .pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
 }
-.service-inner:hover::before,
-.pricing-card:hover::before {
-  transform: rotate(25deg) translateX(100%);
-}
+
+/* Tarjetas de servicios */
 .service-front, .service-back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border-radius: 24px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 28px;
-  transition: all 0.5s ease;
-  z-index: 1;
+  padding: 25px;
+  transition: transform 0.6s ease;
 }
+
 .service-front {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.35),
-              inset -4px -4px 12px rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.08);
   color: #fff;
 }
+
 .service-back {
-  background: rgba(0,255,192,0.15);
-  backdrop-filter: blur(10px);
-  transform: rotateY(180deg);
+  background: linear-gradient(135deg,#00ffc0,#00bfff);
   color: #000;
   text-align: left;
-  padding: 32px;
-  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.3),
-              inset -4px -4px 12px rgba(255,255,255,0.08);
-  font-size: 0.95rem;
-  line-height: 1.5;
-  justify-content: flex-start;
+  transform: rotateY(180deg);
 }
-.service-back button,
+
+.service:hover .service-inner {
+  transform: rotateY(180deg);
+}
+
+/* Iconos */
+.icon-planes, .icon-deporte, .icon-peso, .icon-online {
+  font-size: 2.5rem;
+  padding: 12px;
+  border-radius: 50%;
+  color: #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service:hover .service-front i {
+  transform: scale(1.3) rotate(8deg);
+  box-shadow: 0 0 25px rgba(255,255,255,0.9);
+}
+
+/* Planes de suscripción */
 .pricing-card button {
-  margin-top: 18px;
-  background: linear-gradient(135deg, rgba(0,255,192,0.85), rgba(0,191,255,0.85));
-  color: #000;
-  font-weight: 600;
-  padding: 14px 22px;
-  border-radius: 16px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.service-back button:hover,
-.pricing-card button:hover {
   background: var(--primary);
   color: #000;
-  transform: scale(1.08);
+  font-weight: 700;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
-.icon-planes, .icon-deporte, .icon-peso, .icon-online {
-  font-size: 3rem;
-  padding: 20px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(4px);
-  color: #fff;
-  animation: iconGlow 4s ease-in-out infinite;
-  transition: transform 0.4s, box-shadow 0.4s;
-  box-shadow: 6px 6px 15px rgba(0,0,0,0.35),
-              -6px -6px 15px rgba(255,255,255,0.08),
-              0 0 8px rgba(255,255,255,0.2);
+
+.pricing-card button:hover {
+  background: var(--primary-hover);
 }
-.service:hover .service-front i {
-  transform: scale(1.55) rotate(10deg);
-  box-shadow: 0 0 40px rgba(255,255,255,0.6),
-              6px 6px 15px rgba(0,0,0,0.35),
-              -6px -6px 15px rgba(255,255,255,0.08);
-}
-.service-front h3, .service-back h3, .pricing-card h3 { font-weight: 600; letter-spacing: 0.5px; }
-.service-front p, .service-back p, .pricing-card p { font-weight: 400; line-height: 1.6; font-size: 0.95rem; }
+
 .badge {
   position: absolute;
   top: -12px;
   right: -12px;
-  background: rgba(255,191,0,0.85);
+  background: var(--secondary);
   color: #000;
-  padding: 8px 18px;
-  border-radius: 16px;
+  padding: 6px 16px;
+  border-radius: 12px;
   font-weight: bold;
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.35),
-              -4px -4px 12px rgba(255,255,255,0.1);
+  box-shadow: 0 0 20px rgba(255,191,0,0.6);
   animation: badgePulse 1.5s infinite alternate;
 }
-@keyframes badgePulse { 0% {transform: scale(1);} 100% {transform: scale(1.06);} }
-@keyframes glowPulse {
-  0%,100%{ box-shadow: 8px 8px 24px rgba(0,0,0,0.35), -8px -8px 24px rgba(255,255,255,0.05), inset 0 4px 12px rgba(255,255,255,0.08); }
-  50% { box-shadow: 10px 10px 30px rgba(0,0,0,0.45), -10px -10px 30px rgba(255,255,255,0.1), inset 0 6px 16px rgba(255,255,255,0.12); }
-}
-@keyframes iconGlow {
-  0%,100{ box-shadow: 6px 6px 15px rgba(0,0,0,0.35), -6px -6px 15px rgba(255,255,255,0.05), 0 0 8px rgba(255,255,255,0.2); }
-  50% { box-shadow: 6px 6px 20px rgba(0,0,0,0.4), -6px -6px 20px rgba(255,255,255,0.08), 0 0 12px rgba(255,255,255,0.25); }
-}
 
-/* --------------------- MODO CLARO --------------------- */
-body.light .service-inner,
-body.light .pricing-card {
-  background: rgba(255,255,255,0.15);
-  color: #222;
-  box-shadow: 8px 8px 24px rgba(0,0,0,0.15), -8px -8px 24px rgba(255,255,255,0.3), inset 0 4px 12px rgba(255,255,255,0.1);
-}
-body.light .service-inner:hover,
-body.light .pricing-card:hover {
-  background: rgba(255,255,255,0.2);
-  box-shadow: 12px 12px 30px rgba(0,0,0,0.2), -12px -12px 30px rgba(255,255,255,0.35), inset 0 6px 16px rgba(255,255,255,0.15);
-}
-body.light .service-front { background: rgba(255,255,255,0.15); color:#222; }
-body.light .service-back { background: rgba(0,191,255,0.15); color:#000; }
-body.light .service-back button, body.light .pricing-card button { background: rgba(255,255,255,0.9); color:var(--primary); }
-body.light .icon-planes, body.light .icon-deporte, body.light .icon-peso, body.light .icon-online {
-  background: rgba(255,255,255,0.15);
-  box-shadow: 6px 6px 15px rgba(0,0,0,0.15), -6px -6px 15px rgba(255,255,255,0.3), 0 0 8px rgba(255,255,255,0.2);
-  color: #222;
-}
-body.light .service-inner::before,
-body.light .pricing-card::before { background: linear-gradient(120deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.1) 100%); }
-body.light .badge {
-  background: rgba(255,191,0,0.9);
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.15), -4px -4px 12px rgba(255,255,255,0.25);
-  color:#000;
+@keyframes badgePulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
 }
 
 /* --------------------- RESPONSIVE --------------------- */
