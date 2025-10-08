@@ -68,34 +68,37 @@ main.wrapper{
   margin:40px auto;
   padding:50px 30px 60px;
   border-radius:var(--radius);
-  backdrop-filter:blur(18px);
-  background: rgba(60,60,60,0.85);
   text-align:center;
   transition:background var(--transition);
 }
-body.light main.wrapper{background:rgba(245,245,245,0.9);}
 
 /* --------------------- TITULOS --------------------- */
 h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
 h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;border-radius:2px;background:var(--primary);transform:scaleX(0);animation:lineDraw 1s forwards;}
 @keyframes lineDraw{to{transform:scaleX(1);}}
 
-/* --------------------- CUADROS ELEGANTES --------------------- */
+/* --------------------- CUADROS PREMIUM --------------------- */
 .service-inner, .pricing-card {
   position: relative;
   width: 100%;
   min-height: 250px;
   border-radius: 16px;
-  background: #1f1f1f; /* fondo sólido */
+  background: linear-gradient(135deg, #222, #2c2c2c);
   padding: 25px;
   text-align: center;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+body.light .service-inner, body.light .pricing-card {
+  background: linear-gradient(135deg, #fff, #f0f0f0);
+  color: #222;
 }
 
 .service-inner:hover, .pricing-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.55);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  background: linear-gradient(135deg, #00ffc0, #2c2c2c);
 }
 
 /* Tarjetas de servicios */
@@ -110,56 +113,46 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
   justify-content: center;
   align-items: center;
   padding: 25px;
-  transition: transform 0.6s ease, background 0.3s;
 }
 
-.service-front {
-  background: #1f1f1f;
-  color: #fff;
-}
+.service-front { background: inherit; color: inherit; }
+.service-back { background: #00ffc0; color: #000; transform: rotateY(180deg); }
 
-.service-back {
-  background: #00ffc0;
-  color: #000;
-  text-align: left;
-  transform: rotateY(180deg);
-}
+.service:hover .service-inner { transform: rotateY(180deg); }
 
-.service:hover .service-inner {
-  transform: rotateY(180deg);
-}
-
-/* Iconos */
+/* Iconos premium */
 .icon-planes, .icon-deporte, .icon-peso, .icon-online {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   padding: 12px;
   border-radius: 50%;
-  color: #fff;
-  transition: transform 0.3s, box-shadow 0.3s;
   background: #333;
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .service:hover .service-front i {
-  transform: scale(1.2) rotate(5deg);
-  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 0 15px rgba(0,255,192,0.6);
 }
 
-/* Planes de suscripción */
+/* Botones planos con glow suave */
 .pricing-card button {
   background: var(--primary);
   color: #000;
-  font-weight: 700;
+  font-weight: 600;
   padding: 14px 28px;
   border: none;
   border-radius: 16px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .pricing-card button:hover {
   background: var(--primary-hover);
+  box-shadow: 0 0 12px rgba(0,255,192,0.5);
 }
 
+/* Badge elegante */
 .badge {
   position: absolute;
   top: -12px;
@@ -169,8 +162,19 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
   padding: 6px 16px;
   border-radius: 12px;
   font-weight: bold;
-  box-shadow: 0 0 15px rgba(255,191,0,0.5);
+  box-shadow: 0 0 15px rgba(255,191,0,0.4);
+  transition: transform 0.3s ease;
 }
+
+.pricing-card:hover .badge {
+  transform: scale(1.05);
+}
+
+/* --------------------- BOTONES FIJOS --------------------- */
+#whatsapp-btn{position:fixed;bottom:140px;right:20px;background:#25D366;color:white;border:none;border-radius:50%;width:60px;height:60px;font-size:1.8rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.3);transition:.3s;}
+#whatsapp-btn:hover{transform:scale(1.1);}
+#scrollTopBtn{position:fixed;bottom:60px;right:20px;background:var(--primary);color:white;border:none;padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;opacity:0;transition:.3s;}
+#scrollTopBtn.show{display:block;opacity:1;}
 
 /* --------------------- RESPONSIVE --------------------- */
 @media (max-width:768px){
@@ -277,7 +281,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 </section>
 
 <!-- BENEFICIOS INCLUIDOS -->
-<section id="incluye-todos">
+<section id="incluye-todos" style="margin-top:60px;">
 <h2>¿Qué incluyen todos los planes?</h2>
 <ul>
 <li><i class="fas fa-check-circle"></i> Rutina de Entrenamiento personalizada</li>
@@ -292,11 +296,11 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 <li><i class="fas fa-check-circle"></i> APP en tu móvil</li>
 <li><i class="fas fa-check-circle"></i> Acceso al grupo privado en Facebook</li>
 </ul>
-<p>RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
+<p style="font-weight:bold; color:var(--secondary);">RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
 </section>
 
 <!-- PLANES DE SUSCRIPCIÓN -->
-<section id="planes">
+<section id="planes" style="margin-top:60px;">
 <h2>Planes de Suscripción</h2>
 <div class="services">
 <div class="pricing-card">
@@ -350,12 +354,17 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 <button id="whatsapp-btn" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
 <button id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
 
-<footer>&copy; 2025 Gerard Valls | Nutrición Profesional</footer>
+<footer style="text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;">
+&copy; 2025 Gerard Valls | Nutrición Profesional
+</footer>
 
 <script>
 // Cambiar tema
 const toggleThemeBtn=document.getElementById('toggle-theme');
-toggleThemeBtn.addEventListener('click',()=>{document.body.classList.toggle('light');toggleThemeBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';});
+toggleThemeBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('light');
+  toggleThemeBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
+});
 
 // Scroll Top
 const scrollBtn=document.getElementById('scrollTopBtn');
