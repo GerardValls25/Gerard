@@ -286,278 +286,67 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 </section>
 
 <!-- FORMULARIO -->
-<!-- Importa fuente desde Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-
-<section id="consulta" aria-labelledby="consultaTitle" style="max-width: 480px; margin: 80px auto; font-family: 'Inter', sans-serif;">
-  <h2 id="consultaTitle" style="text-align:center; font-weight: 700; font-size: 2rem; color: #111; margin-bottom: 2rem;">Consulta</h2>
-
-  <form class="pro-form" action="https://formspree.io/f/your-form-id" method="POST" novalidate aria-describedby="formHelp" aria-live="polite" role="form">
-    <div class="input-group">
-      <input id="nombre" name="nombre" type="text" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$" autocomplete="name" aria-describedby="nombreError" />
-      <label for="nombre">Nombre</label>
-      <span class="input-icon" aria-hidden="true">👤</span>
-      <p id="nombreError" class="error-message" role="alert" aria-live="assertive"></p>
-    </div>
-
-    <div class="input-group">
-      <input id="email" name="_replyto" type="email" required autocomplete="email" aria-describedby="emailError" />
-      <label for="email">Email</label>
-      <span class="input-icon" aria-hidden="true">✉️</span>
-      <p id="emailError" class="error-message" role="alert" aria-live="assertive"></p>
-    </div>
-
-    <div class="input-group">
-      <textarea id="mensaje" name="mensaje" rows="4" required minlength="10" aria-describedby="mensajeError"></textarea>
-      <label for="mensaje">Mensaje</label>
-      <span class="input-icon textarea-icon" aria-hidden="true">💬</span>
-      <p id="mensajeError" class="error-message" role="alert" aria-live="assertive"></p>
-    </div>
-
-    <button type="submit" aria-label="Enviar consulta">Enviar</button>
-    <p id="formHelp" class="form-feedback" role="alert"></p>
-  </form>
+<section id="consulta" style="margin-top:60px; text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
+<h2>Consulta</h2>
+<form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST">
+<div class="form-group"><input type="text" id="nombre" name="nombre" placeholder=" " required><label for="nombre"><i class="fas fa-user"></i> Nombre</label></div>
+<div class="form-group"><input type="email" id="email" name="_replyto" placeholder=" " required><label for="email"><i class="fas fa-envelope"></i> Email</label></div>
+<div class="form-group"><textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required></textarea><label for="mensaje"><i class="fas fa-comment"></i> Mensaje</label></div>
+<button type="submit" style="width:100%;">Enviar</button>
+<div id="formMsg" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
+</form>
 </section>
 
-<style>
-  :root {
-    --color-primary: #005a9e;
-    --color-primary-light: #0078d4;
-    --color-error: #d93025;
-    --color-success: #0a7d30;
-    --color-gray-light: #e6e8ea;
-    --color-gray-dark: #555;
-    --transition-speed: 0.3s;
-  }
+</main>
 
-  /* Base */
-  body {
-    background: #fefefe;
-    color: var(--color-gray-dark);
-  }
+<!-- BOTONES FIJOS -->
+<button id="whatsapp-btn" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
+<button id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
 
-  #consulta {
-    padding: 0 1rem;
-  }
-
-  /* Form */
-  .pro-form {
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    padding: 2.5rem 2.8rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.8rem;
-  }
-
-  /* Input Groups */
-  .input-group {
-    position: relative;
-  }
-
-  /* Inputs and textarea */
-  input[type="text"],
-  input[type="email"],
-  textarea {
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid var(--color-gray-light);
-    font-size: 1rem;
-    padding: 1rem 2.8rem 0.5rem 0.5rem;
-    background: transparent;
-    color: var(--color-gray-dark);
-    font-weight: 500;
-    outline-offset: 4px;
-    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-    resize: none;
-  }
-
-  /* Remove textarea resize except vertical */
-  textarea {
-    resize: vertical;
-    min-height: 90px;
-  }
-
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  textarea:focus {
-    border-bottom-color: var(--color-primary-light);
-    box-shadow: 0 2px 6px var(--color-primary-light);
-  }
-
-  /* Floating labels */
-  label {
-    position: absolute;
-    top: 1rem;
-    left: 0.5rem;
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--color-gray-light);
-    pointer-events: none;
-    transition: all var(--transition-speed) ease;
-    user-select: none;
-  }
-
-  /* When input or textarea has value or focus */
-  input:not(:placeholder-shown) + label,
-  input:focus + label,
-  textarea:not(:placeholder-shown) + label,
-  textarea:focus + label {
-    top: -0.6rem;
-    font-size: 0.75rem;
-    color: var(--color-primary);
-  }
-
-  /* Placeholder transparent */
-  input::placeholder,
-  textarea::placeholder {
-    color: transparent;
-  }
-
-  /* Icon inside inputs */
-  .input-icon {
-    position: absolute;
-    right: 0.6rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.3rem;
-    color: var(--color-primary-light);
-    user-select: none;
-  }
-
-  .textarea-icon {
-    top: 1.6rem;
-  }
-
-  /* Error messages */
-  .error-message {
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-    color: var(--color-error);
-    min-height: 1.2rem;
-    font-weight: 600;
-  }
-
-  /* Input invalid styles */
-  input:invalid:not(:focus),
-  textarea:invalid:not(:focus) {
-    border-bottom-color: var(--color-error);
-    box-shadow: 0 0 8px var(--color-error);
-    background-color: #ffe6e6;
-  }
-
-  /* Submit Button */
-  button[type="submit"] {
-    margin-top: 1rem;
-    padding: 0.85rem 1.6rem;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: #fff;
-    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 6px 14px rgba(0, 120, 212, 0.5);
-    transition: background 0.35s ease, box-shadow 0.35s ease;
-  }
-
-  button[type="submit"]:hover,
-  button[type="submit"]:focus-visible {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-    box-shadow: 0 8px 20px rgba(0, 90, 158, 0.8);
-    outline: none;
-  }
-
-  /* Feedback message after submit */
-  .form-feedback {
-    margin-top: 1rem;
-    font-weight: 700;
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  /* Responsive */
-  @media (max-width: 480px) {
-    .pro-form {
-      padding: 2rem 1.5rem;
-    }
-  }
-</style>
+<footer>&copy; 2025 Gerard Valls | Nutrición Profesional</footer>
 
 <script>
-  const form = document.querySelector('.pro-form');
-  const formHelp = document.getElementById('formHelp');
+// Cambiar tema
+const toggleThemeBtn=document.getElementById('toggle-theme');
+toggleThemeBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('light');
+  toggleThemeBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
+});
 
-  const inputs = form.querySelectorAll('input, textarea');
+// Scroll Top
+const scrollBtn=document.getElementById('scrollTopBtn');
+window.addEventListener('scroll',()=>{scrollBtn.classList.toggle('show',window.scrollY>300);});
+scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-  // Real-time validation with accessible messages
-  inputs.forEach(input => {
-    input.addEventListener('input', () => {
-      const errorEl = document.getElementById(input.id + 'Error');
-      if (input.checkValidity()) {
-        input.setAttribute('aria-invalid', 'false');
-        errorEl.textContent = '';
-      } else {
-        input.setAttribute('aria-invalid', 'true');
-        if (input.validity.valueMissing) {
-          errorEl.textContent = 'Este campo es obligatorio.';
-        } else if (input.validity.typeMismatch) {
-          errorEl.textContent = 'Introduce un email válido.';
-        } else if (input.validity.patternMismatch) {
-          errorEl.textContent = 'Solo letras y espacios permitidos (2-50 caracteres).';
-        } else if (input.validity.tooShort) {
-          errorEl.textContent = `Mínimo ${input.minLength} caracteres requeridos.`;
-        } else {
-          errorEl.textContent = 'Campo inválido.';
-        }
-      }
-    });
-  });
+// WhatsApp
+const whatsappBtn=document.getElementById('whatsapp-btn');
+whatsappBtn.addEventListener('click',()=>window.open('https://wa.me/tu-numero-whatsapp','_blank'));
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    let valid = true;
+// GSAP Animaciones
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray(".service, .pricing-card, #incluye-todos").forEach(elem=>{
+  gsap.from(elem,{scrollTrigger:{trigger:elem,start:"top 80%"},opacity:0,y:50,duration:0.8,stagger:0.2,ease:"power2.out"});
+});
 
-    inputs.forEach(input => {
-      const errorEl = document.getElementById(input.id + 'Error');
-      if (!input.checkValidity()) {
-        input.setAttribute('aria-invalid', 'true');
-        errorEl.textContent = 'Por favor corrige este campo.';
-        valid = false;
-      }
-    });
-
-    if (!valid) {
-      formHelp.style.color = 'var(--color-error)';
-      formHelp.textContent = 'Por favor corrige los errores antes de enviar.';
-      return;
+// Formulario con mensaje de éxito/error
+const form=document.querySelector('.glass-form');
+const formMsg=document.getElementById('formMsg');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  fetch(form.action,{
+    method:'POST',
+    body:new FormData(form),
+    headers:{'Accept':'application/json'}
+  }).then(response=>{
+    if(response.ok){
+      formMsg.textContent="¡Gracias! Tu mensaje ha sido enviado.";
+      form.reset();
+    }else{
+      formMsg.textContent="Oops! Hubo un error. Intenta de nuevo.";
     }
-
-    // Submit con fetch API
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(response => {
-        if (response.ok) {
-          formHelp.style.color = 'var(--color-success)';
-          formHelp.textContent = '¡Gracias! Tu mensaje ha sido enviado.';
-          form.reset();
-          inputs.forEach(i => i.setAttribute('aria-invalid', 'false'));
-          form.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-        } else {
-          throw new Error('Error al enviar');
-        }
-      })
-      .catch(() => {
-        formHelp.style.color = 'var(--color-error)';
-        formHelp.textContent = 'Hubo un problema al enviar. Intenta nuevamente.';
-      });
   });
+});
 </script>
-
 
 </body>
 </html>
