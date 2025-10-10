@@ -286,48 +286,165 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 </section>
 
 <!-- FORMULARIO -->
-<section id="consulta" style="margin-top:60px; max-width:600px; margin-left:auto; margin-right:auto; text-align:left;">
-  <h2>Consulta</h2>
-  <form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST" novalidate>
+<section id="consulta" style="max-width:480px; margin:60px auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <h2 style="font-weight:700; color:#222; margin-bottom:1.5rem; font-size:1.8rem; text-align:center;">Consulta</h2>
+
+  <form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST" novalidate aria-label="Formulario de consulta">
+
     <div class="form-group">
-      <input type="text" id="nombre" name="nombre" placeholder=" " required aria-describedby="nombreHelp" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$" />
-      <label for="nombre"><i class="fas fa-user"></i> Nombre</label>
-      <small id="nombreHelp" class="form-error" aria-live="polite"></small>
+      <input type="text" id="nombre" name="nombre" placeholder=" " required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$" aria-describedby="nombreHelp" aria-invalid="false" autocomplete="name" />
+      <label for="nombre"><i class="fas fa-user" aria-hidden="true"></i> Nombre</label>
+      <small id="nombreHelp" class="form-error" role="alert" aria-live="polite"></small>
     </div>
 
     <div class="form-group">
-      <input type="email" id="email" name="_replyto" placeholder=" " required aria-describedby="emailHelp" />
-      <label for="email"><i class="fas fa-envelope"></i> Email</label>
-      <small id="emailHelp" class="form-error" aria-live="polite"></small>
+      <input type="email" id="email" name="_replyto" placeholder=" " required aria-describedby="emailHelp" aria-invalid="false" autocomplete="email" />
+      <label for="email"><i class="fas fa-envelope" aria-hidden="true"></i> Email</label>
+      <small id="emailHelp" class="form-error" role="alert" aria-live="polite"></small>
     </div>
 
     <div class="form-group">
-      <textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required aria-describedby="mensajeHelp" minlength="10"></textarea>
-      <label for="mensaje"><i class="fas fa-comment"></i> Mensaje</label>
-      <small id="mensajeHelp" class="form-error" aria-live="polite"></small>
+      <textarea id="mensaje" name="mensaje" rows="4" placeholder=" " required minlength="10" aria-describedby="mensajeHelp" aria-invalid="false"></textarea>
+      <label for="mensaje"><i class="fas fa-comment" aria-hidden="true"></i> Mensaje</label>
+      <small id="mensajeHelp" class="form-error" role="alert" aria-live="polite"></small>
     </div>
 
-    <button type="submit" style="width:100%;">Enviar</button>
-    <div id="formMsg" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
+    <button type="submit" aria-label="Enviar consulta">Enviar</button>
+    <div id="formMsg" role="alert" style="text-align:center; margin-top:1rem; font-weight:600;"></div>
   </form>
 </section>
 
 <style>
-  /* Ajustes para errores en inputs */
+  .glass-form {
+    background: #ffffffcc;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .form-group {
+    position: relative;
+  }
+
+  /* Inputs & textarea */
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 1rem 3.2rem 1rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus {
+    border-color: #0078d4;
+    box-shadow: 0 0 6px #0078d4;
+    outline: none;
+    background-color: #fff;
+  }
+
+  /* Floating labels */
+  label {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    padding: 0 0.3rem;
+    color: #999;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  /* Icons inside label */
+  label i {
+    color: #0078d4;
+    font-size: 1.1rem;
+  }
+
+  input:not(:placeholder-shown) + label,
+  input:focus + label,
+  textarea:not(:placeholder-shown) + label,
+  textarea:focus + label {
+    top: -0.6rem;
+    left: 0.8rem;
+    font-size: 0.8rem;
+    color: #0078d4;
+    background-color: #ffffffcc;
+    font-weight: 600;
+  }
+
+  /* Placeholder hack for textarea */
+  textarea::placeholder {
+    color: transparent;
+  }
+  input::placeholder {
+    color: transparent;
+  }
+
+  /* Error messages */
   .form-error {
-    color: #ff6b6b;
+    color: #d93025;
     font-size: 0.85rem;
-    margin-top: 4px;
-    display: block;
-    min-height: 18px;
+    margin-top: 0.25rem;
+    min-height: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
   }
-  input:invalid, textarea:invalid {
-    border-color: #ff6b6b !important;
-    box-shadow: 0 0 10px #ff6b6b !important;
+
+  .form-error::before {
+    content: "⚠️";
+    font-size: 1rem;
   }
-  input:valid, textarea:valid {
-    border-color: #00ffc0 !important;
-    box-shadow: 0 0 10px #00ffc0 !important;
+
+  /* Input error styles */
+  input:invalid:not(:focus),
+  textarea:invalid:not(:focus) {
+    border-color: #d93025;
+    box-shadow: 0 0 8px #d93025;
+    background-color: #ffe6e6;
+  }
+
+  /* Button */
+  button[type="submit"] {
+    background-color: #0078d4;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    box-shadow: 0 4px 14px rgb(0 120 212 / 0.4);
+  }
+
+  button[type="submit"]:hover,
+  button[type="submit"]:focus-visible {
+    background-color: #005a9e;
+    outline: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .glass-form {
+      padding: 1.5rem 1.8rem;
+    }
   }
 </style>
 
@@ -335,93 +452,74 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
   const form = document.querySelector('.glass-form');
   const formMsg = document.getElementById('formMsg');
 
-  // Inputs
-  const nombreInput = form.querySelector('#nombre');
-  const emailInput = form.querySelector('#email');
-  const mensajeInput = form.querySelector('#mensaje');
+  const inputs = form.querySelectorAll('input, textarea');
 
-  // Error message elements
-  const nombreHelp = document.getElementById('nombreHelp');
-  const emailHelp = document.getElementById('emailHelp');
-  const mensajeHelp = document.getElementById('mensajeHelp');
-
-  // Validación en tiempo real
-  function validateNombre() {
-    if (!nombreInput.validity.valid) {
-      if (nombreInput.validity.valueMissing) {
-        nombreHelp.textContent = 'El nombre es obligatorio.';
-      } else if (nombreInput.validity.patternMismatch) {
-        nombreHelp.textContent = 'Solo letras y espacios (2-50 caracteres).';
+  // Validación y actualización aria-invalid y mensajes en tiempo real
+  inputs.forEach(input => {
+    input.addEventListener('input', () => {
+      if (input.checkValidity()) {
+        input.setAttribute('aria-invalid', 'false');
+        const errorEl = document.getElementById(input.id + 'Help');
+        errorEl.textContent = '';
+      } else {
+        input.setAttribute('aria-invalid', 'true');
+        const errorEl = document.getElementById(input.id + 'Help');
+        if (input.validity.valueMissing) {
+          errorEl.textContent = 'Este campo es obligatorio.';
+        } else if (input.validity.typeMismatch) {
+          errorEl.textContent = 'Formato incorrecto.';
+        } else if (input.validity.patternMismatch) {
+          if(input.id === 'nombre') errorEl.textContent = 'Solo letras y espacios (2-50 caracteres).';
+          else errorEl.textContent = 'Formato inválido.';
+        } else if (input.validity.tooShort) {
+          errorEl.textContent = `Mínimo ${input.minLength} caracteres requeridos.`;
+        } else {
+          errorEl.textContent = 'Campo inválido.';
+        }
       }
-      return false;
-    }
-    nombreHelp.textContent = '';
-    return true;
-  }
-
-  function validateEmail() {
-    if (!emailInput.validity.valid) {
-      if (emailInput.validity.valueMissing) {
-        emailHelp.textContent = 'El email es obligatorio.';
-      } else if (emailInput.validity.typeMismatch) {
-        emailHelp.textContent = 'Introduce un email válido.';
-      }
-      return false;
-    }
-    emailHelp.textContent = '';
-    return true;
-  }
-
-  function validateMensaje() {
-    if (!mensajeInput.validity.valid) {
-      if (mensajeInput.validity.valueMissing) {
-        mensajeHelp.textContent = 'El mensaje es obligatorio.';
-      } else if (mensajeInput.validity.tooShort) {
-        mensajeHelp.textContent = `El mensaje debe tener al menos ${mensajeInput.minLength} caracteres.`;
-      }
-      return false;
-    }
-    mensajeHelp.textContent = '';
-    return true;
-  }
-
-  nombreInput.addEventListener('input', validateNombre);
-  emailInput.addEventListener('input', validateEmail);
-  mensajeInput.addEventListener('input', validateMensaje);
+    });
+  });
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    let isValid = true;
+    inputs.forEach(input => {
+      if (!input.checkValidity()) {
+        input.setAttribute('aria-invalid', 'true');
+        const errorEl = document.getElementById(input.id + 'Help');
+        errorEl.textContent = 'Por favor corrige este campo.';
+        isValid = false;
+      }
+    });
 
-    // Validar todos los campos antes de enviar
-    const validNombre = validateNombre();
-    const validEmail = validateEmail();
-    const validMensaje = validateMensaje();
+    if (!isValid) {
+      formMsg.style.color = '#d93025';
+      formMsg.textContent = 'Por favor corrige los errores antes de enviar.';
+      return;
+    }
 
-    if (validNombre && validEmail && validMensaje) {
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      }).then(response => {
+    // Enviar con fetch API
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(response => {
         if (response.ok) {
-          formMsg.style.color = 'var(--primary)';
-          formMsg.textContent = "¡Gracias! Tu mensaje ha sido enviado.";
+          formMsg.style.color = '#0a7d30';
+          formMsg.textContent = '¡Gracias! Tu mensaje ha sido enviado.';
           form.reset();
-          // Reset error messages and styles
-          nombreHelp.textContent = '';
-          emailHelp.textContent = '';
-          mensajeHelp.textContent = '';
+          inputs.forEach(i => i.setAttribute('aria-invalid', 'false'));
+          // Remover mensajes de error
+          form.querySelectorAll('.form-error').forEach(el => el.textContent = '');
         } else {
           throw new Error('Error en el envío');
         }
-      }).catch(() => {
-        formMsg.style.color = '#ff6b6b';
-        formMsg.textContent = "Oops! Hubo un error. Intenta de nuevo.";
+      })
+      .catch(() => {
+        formMsg.style.color = '#d93025';
+        formMsg.textContent = 'Hubo un problema al enviar. Intenta nuevamente.';
       });
-    } else {
-      formMsg.style.color = '#ff6b6b';
-      formMsg.textContent = "Por favor, corrige los errores en el formulario.";
-    }
   });
 </script>
 
