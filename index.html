@@ -286,67 +286,145 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 </section>
 
 <!-- FORMULARIO -->
-<section id="consulta" style="margin-top:60px; text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
-<h2>Consulta</h2>
-<form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST">
-<div class="form-group"><input type="text" id="nombre" name="nombre" placeholder=" " required><label for="nombre"><i class="fas fa-user"></i> Nombre</label></div>
-<div class="form-group"><input type="email" id="email" name="_replyto" placeholder=" " required><label for="email"><i class="fas fa-envelope"></i> Email</label></div>
-<div class="form-group"><textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required></textarea><label for="mensaje"><i class="fas fa-comment"></i> Mensaje</label></div>
-<button type="submit" style="width:100%;">Enviar</button>
-<div id="formMsg" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
-</form>
+<section id="consulta" style="margin-top:60px; max-width:600px; margin-left:auto; margin-right:auto; text-align:left;">
+  <h2>Consulta</h2>
+  <form class="glass-form" action="https://formspree.io/f/your-form-id" method="POST" novalidate>
+    <div class="form-group">
+      <input type="text" id="nombre" name="nombre" placeholder=" " required aria-describedby="nombreHelp" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$" />
+      <label for="nombre"><i class="fas fa-user"></i> Nombre</label>
+      <small id="nombreHelp" class="form-error" aria-live="polite"></small>
+    </div>
+
+    <div class="form-group">
+      <input type="email" id="email" name="_replyto" placeholder=" " required aria-describedby="emailHelp" />
+      <label for="email"><i class="fas fa-envelope"></i> Email</label>
+      <small id="emailHelp" class="form-error" aria-live="polite"></small>
+    </div>
+
+    <div class="form-group">
+      <textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required aria-describedby="mensajeHelp" minlength="10"></textarea>
+      <label for="mensaje"><i class="fas fa-comment"></i> Mensaje</label>
+      <small id="mensajeHelp" class="form-error" aria-live="polite"></small>
+    </div>
+
+    <button type="submit" style="width:100%;">Enviar</button>
+    <div id="formMsg" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
+  </form>
 </section>
 
-</main>
-
-<!-- BOTONES FIJOS -->
-<button id="whatsapp-btn" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
-<button id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
-
-<footer>&copy; 2025 Gerard Valls | Nutrición Profesional</footer>
+<style>
+  /* Ajustes para errores en inputs */
+  .form-error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+    min-height: 18px;
+  }
+  input:invalid, textarea:invalid {
+    border-color: #ff6b6b !important;
+    box-shadow: 0 0 10px #ff6b6b !important;
+  }
+  input:valid, textarea:valid {
+    border-color: #00ffc0 !important;
+    box-shadow: 0 0 10px #00ffc0 !important;
+  }
+</style>
 
 <script>
-// Cambiar tema
-const toggleThemeBtn=document.getElementById('toggle-theme');
-toggleThemeBtn.addEventListener('click',()=>{
-  document.body.classList.toggle('light');
-  toggleThemeBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
-});
+  const form = document.querySelector('.glass-form');
+  const formMsg = document.getElementById('formMsg');
 
-// Scroll Top
-const scrollBtn=document.getElementById('scrollTopBtn');
-window.addEventListener('scroll',()=>{scrollBtn.classList.toggle('show',window.scrollY>300);});
-scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  // Inputs
+  const nombreInput = form.querySelector('#nombre');
+  const emailInput = form.querySelector('#email');
+  const mensajeInput = form.querySelector('#mensaje');
 
-// WhatsApp
-const whatsappBtn=document.getElementById('whatsapp-btn');
-whatsappBtn.addEventListener('click',()=>window.open('https://wa.me/tu-numero-whatsapp','_blank'));
+  // Error message elements
+  const nombreHelp = document.getElementById('nombreHelp');
+  const emailHelp = document.getElementById('emailHelp');
+  const mensajeHelp = document.getElementById('mensajeHelp');
 
-// GSAP Animaciones
-gsap.registerPlugin(ScrollTrigger);
-gsap.utils.toArray(".service, .pricing-card, #incluye-todos").forEach(elem=>{
-  gsap.from(elem,{scrollTrigger:{trigger:elem,start:"top 80%"},opacity:0,y:50,duration:0.8,stagger:0.2,ease:"power2.out"});
-});
+  // Validación en tiempo real
+  function validateNombre() {
+    if (!nombreInput.validity.valid) {
+      if (nombreInput.validity.valueMissing) {
+        nombreHelp.textContent = 'El nombre es obligatorio.';
+      } else if (nombreInput.validity.patternMismatch) {
+        nombreHelp.textContent = 'Solo letras y espacios (2-50 caracteres).';
+      }
+      return false;
+    }
+    nombreHelp.textContent = '';
+    return true;
+  }
 
-// Formulario con mensaje de éxito/error
-const form=document.querySelector('.glass-form');
-const formMsg=document.getElementById('formMsg');
-form.addEventListener('submit',e=>{
-  e.preventDefault();
-  fetch(form.action,{
-    method:'POST',
-    body:new FormData(form),
-    headers:{'Accept':'application/json'}
-  }).then(response=>{
-    if(response.ok){
-      formMsg.textContent="¡Gracias! Tu mensaje ha sido enviado.";
-      form.reset();
-    }else{
-      formMsg.textContent="Oops! Hubo un error. Intenta de nuevo.";
+  function validateEmail() {
+    if (!emailInput.validity.valid) {
+      if (emailInput.validity.valueMissing) {
+        emailHelp.textContent = 'El email es obligatorio.';
+      } else if (emailInput.validity.typeMismatch) {
+        emailHelp.textContent = 'Introduce un email válido.';
+      }
+      return false;
+    }
+    emailHelp.textContent = '';
+    return true;
+  }
+
+  function validateMensaje() {
+    if (!mensajeInput.validity.valid) {
+      if (mensajeInput.validity.valueMissing) {
+        mensajeHelp.textContent = 'El mensaje es obligatorio.';
+      } else if (mensajeInput.validity.tooShort) {
+        mensajeHelp.textContent = `El mensaje debe tener al menos ${mensajeInput.minLength} caracteres.`;
+      }
+      return false;
+    }
+    mensajeHelp.textContent = '';
+    return true;
+  }
+
+  nombreInput.addEventListener('input', validateNombre);
+  emailInput.addEventListener('input', validateEmail);
+  mensajeInput.addEventListener('input', validateMensaje);
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    // Validar todos los campos antes de enviar
+    const validNombre = validateNombre();
+    const validEmail = validateEmail();
+    const validMensaje = validateMensaje();
+
+    if (validNombre && validEmail && validMensaje) {
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          formMsg.style.color = 'var(--primary)';
+          formMsg.textContent = "¡Gracias! Tu mensaje ha sido enviado.";
+          form.reset();
+          // Reset error messages and styles
+          nombreHelp.textContent = '';
+          emailHelp.textContent = '';
+          mensajeHelp.textContent = '';
+        } else {
+          throw new Error('Error en el envío');
+        }
+      }).catch(() => {
+        formMsg.style.color = '#ff6b6b';
+        formMsg.textContent = "Oops! Hubo un error. Intenta de nuevo.";
+      });
+    } else {
+      formMsg.style.color = '#ff6b6b';
+      formMsg.textContent = "Por favor, corrige los errores en el formulario.";
     }
   });
-});
 </script>
+
 
 </body>
 </html>
