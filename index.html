@@ -21,7 +21,7 @@
   --primary-hover:#00e6b8;
   --secondary:#ffbf00;
   --dark-bg:#1a1f3f;
-  --light-bg:#f5f5f5;
+  --light-bg:#eaeaea;
   --text-dark:#e6e6e6;
   --text-light:#222;
   --radius:16px;
@@ -61,12 +61,12 @@ header p{
 
 /* NAV */
 nav{position:sticky;top:0;background:rgba(42,55,96,0.85);backdrop-filter:blur(10px);display:flex;justify-content:center;gap:1rem;padding:12px;z-index:1000;}
-body.light nav{background:rgba(245,245,245,0.9);}
+body.light nav{background:rgba(255,255,255,0.9);}
 nav a{font-weight:600;}
 
 /* MAIN WRAPPER */
 main.wrapper{max-width:1200px;margin:40px auto;padding:50px 30px 60px;border-radius:var(--radius);backdrop-filter:blur(15px);background:rgba(42,55,96,0.85);text-align:center;transition:background var(--transition);}
-body.light main.wrapper{background:rgba(245,245,245,0.9);}
+body.light main.wrapper{background:rgba(255,255,255,0.9);}
 
 /* TITULOS */
 h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
@@ -301,30 +301,30 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 <h2>Testimonios</h2>
 <div class="services">
 <div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>María G.</h3><p>“Gerard me ayudó a alcanzar mis objetivos con un plan sencillo y efectivo.”</p></div><div class="service-back"><p>Seguimiento cercano y motivador que marcó la diferencia.</p></div></div></div>
-<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>Carlos R.</h3><p>“Perdí 8 kg en 3 meses sin sentir hambre y con hábitos que se mantienen.”</p></div><div class="service-back"><p>Plan adaptado a mi rutina y preferencias alimenticias.</p></div></div></div>
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>Carlos R.</h3><p>“Gracias a las consultas online pude mejorar mi rendimiento sin salir de casa.”</p></div><div class="service-back"><p>Plan adaptado a mi estilo de vida y horarios.</p></div></div></div>
 </div>
 </section>
 
 <!-- FORMULARIO -->
 <section id="consulta" style="margin-top:60px;">
-<h2>Solicita tu consulta</h2>
+<h2>Solicita tu Consulta</h2>
 <form class="glass-form">
 <div class="form-group">
-<input type="text" id="name" required placeholder=" ">
-<label for="name">Nombre</label>
+<input type="text" placeholder=" " required>
+<label>Nombre</label>
 <i class="fas fa-user icon-input"></i>
 </div>
 <div class="form-group">
-<input type="email" id="email" required placeholder=" ">
-<label for="email">Correo electrónico</label>
+<input type="email" placeholder=" " required>
+<label>Email</label>
 <i class="fas fa-envelope icon-input"></i>
 </div>
 <div class="form-group">
-<textarea id="message" rows="4" required placeholder=" "></textarea>
-<label for="message">Mensaje</label>
+<textarea placeholder=" " required></textarea>
+<label>Mensaje</label>
 <i class="fas fa-comment icon-input"></i>
 </div>
-<button type="submit" style="background:var(--primary);color:#000;padding:14px 28px;border:none;border-radius:var(--radius);font-weight:bold;cursor:pointer;transition:.3s;">Enviar</button>
+<button type="submit">Enviar</button>
 </form>
 </section>
 
@@ -332,26 +332,87 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 
 <!-- BOTONES FIJOS -->
 <button id="whatsapp-btn"><i class="fab fa-whatsapp"></i></button>
-<button id="scrollTopBtn"><i class="fas fa-chevron-up"></i></button>
+<button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
 
-<footer>
-<p>© 2026 Gerard Valls - Nutrición Profesional. Todos los derechos reservados.</p>
-</footer>
+<footer>&copy; 2026 Gerard Valls. Todos los derechos reservados.</footer>
 
+<!-- SCRIPT PARA MODO CLARO -->
 <script>
-// Cambiar tema
+// Función para actualizar colores al cambiar el tema
+function updateLightModeStyles(isLight) {
+  // Iconos de servicios
+  const icons = document.querySelectorAll('.icon-planes, .icon-deporte, .icon-peso, .icon-online');
+  icons.forEach(icon => {
+    if (isLight) {
+      icon.style.boxShadow = '0 0 15px rgba(0,0,0,0.1)';
+      icon.style.color = '#004d40'; // verde oscuro para modo claro
+      icon.style.background = 'rgba(0,191,165,0.8)'; // verde suave
+    } else {
+      icon.style.boxShadow = '';
+      icon.style.color = '';
+      icon.style.background = '';
+    }
+  });
+
+  // Botones principales (formulario, planes)
+  const buttons = document.querySelectorAll('button, .pricing-card button, #toggle-theme');
+  buttons.forEach(btn => {
+    if (isLight) {
+      btn.style.background = '#00bfa5';
+      btn.style.color = '#fff';
+    } else {
+      btn.style.background = '';
+      btn.style.color = '';
+    }
+  });
+
+  // Inputs del formulario
+  const inputs = document.querySelectorAll('.glass-form input, .glass-form textarea');
+  inputs.forEach(input => {
+    if (isLight) {
+      input.style.background = 'rgba(255,255,255,0.85)';
+      input.style.color = '#222';
+      input.style.borderColor = 'rgba(0,0,0,0.2)';
+    } else {
+      input.style.background = '';
+      input.style.color = '';
+      input.style.borderColor = '';
+    }
+  });
+
+  // Labels e iconos dentro del input
+  const labels = document.querySelectorAll('.glass-form label, .glass-form .icon-input');
+  labels.forEach(el => {
+    if (isLight) {
+      el.style.color = 'rgba(0,0,0,0.6)';
+    } else {
+      el.style.color = '';
+    }
+  });
+}
+
+// Activar JS junto al toggle de tema
 const toggleTheme = document.getElementById('toggle-theme');
 toggleTheme.addEventListener('click', () => {
-  document.body.classList.toggle('light');
-  toggleTheme.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+  const isLight = document.body.classList.toggle('light');
+  toggleTheme.textContent = isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+  updateLightModeStyles(isLight);
+});
+
+// Inicializar colores si la página carga en modo claro
+window.addEventListener('DOMContentLoaded', () => {
+  if (document.body.classList.contains('light')) {
+    updateLightModeStyles(true);
+  }
 });
 
 // Scroll Top
-const scrollBtn = document.getElementById('scrollTopBtn');
+const scrollTopBtn = document.getElementById('scrollTopBtn');
 window.addEventListener('scroll', () => {
-  scrollBtn.classList.toggle('show', window.scrollY > 300);
+  if(window.scrollY > 300) scrollTopBtn.classList.add('show');
+  else scrollTopBtn.classList.remove('show');
 });
-scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+scrollTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 
 </body>
