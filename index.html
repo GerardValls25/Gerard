@@ -99,14 +99,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 #incluye-todos p{margin-top:20px;font-weight:bold;color:var(--secondary);animation:blink 1.5s infinite;}
 @keyframes blink{0%,50%,100%{opacity:1;}25%,75%{opacity:0.6;}}
 
-/* PLANES DE SUSCRIPCIÓN */
-.pricing-card{padding:30px;border-radius:20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;transition:transform .4s,box-shadow .4s;position:relative;cursor:pointer;}
-.pricing-card:hover{transform:translateY(-10px);box-shadow:0 20px 50px rgba(0,255,192,0.5);}
-.pricing-card button{background:var(--primary);color:#000;font-weight:700;padding:14px 28px;border:none;border-radius:var(--radius);cursor:pointer;transition:.3s;}
-.pricing-card button:hover{background:var(--primary-hover);}
-.badge{position:absolute;top:-12px;right:-12px;background:var(--secondary);color:#000;padding:6px 16px;border-radius:12px;font-weight:bold;box-shadow:var(--badge-shadow);animation:badgePulse 1.5s infinite alternate;}
-@keyframes badgePulse{0%{transform:scale(1);}100%{transform:scale(1.05);}}
-
 /* FORMULARIO */
 .glass-form{display:flex;flex-direction:column;gap:20px;margin-top:20px;padding:35px;border-radius:20px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 10px 40px rgba(0,0,0,0.2);transition:background var(--transition);position:relative;}
 .form-group{position:relative;}
@@ -138,8 +130,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 }
 
 /* BOTONES FIJOS */
-#whatsapp-btn{position:fixed;bottom:140px;right:20px;background:#25D366;color:white;border:none;border-radius:50%;width:60px;height:60px;font-size:1.8rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.3);transition:.3s;}
-#whatsapp-btn:hover{transform:scale(1.1);}
 #scrollTopBtn{position:fixed;bottom:60px;right:20px;background:var(--primary);color:white;border:none;padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;opacity:0;transition:.3s;}
 #scrollTopBtn.show{display:block;opacity:1;}
 footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
@@ -270,70 +260,70 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 
 <!-- PLANES DE SUSCRIPCIÓN -->
 <section id="planes">
-  <h2>Planes de Suscripción</h2>
-  <div class="services">
-    
-    <!-- Suscripción Anual -->
-    <div class="service">
-      <div class="service-inner">
-        <div class="service-front">
-          <i class="fas fa-star icon-planes"></i>
-          <h3>Suscripción Anual</h3>
-          <p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
-          <small>*Facturado anualmente</small>
-        </div>
-        <div class="service-back">
-          <ul>
-            <li>Mejor valor</li>
-            <li>Acceso completo a todos los planes</li>
-            <li>Soporte 24/7</li>
-          </ul>
-          <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-        </div>
-      </div>
-    </div>
+<h2>Planes de Suscripción</h2>
+<div class="services">
 
-    <!-- Suscripción Trimestral -->
-    <div class="service">
-      <div class="service-inner">
-        <div class="service-front">
-          <i class="fas fa-calendar-alt icon-deporte"></i>
-          <h3>Suscripción Trimestral</h3>
-          <p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
-          <small>*Facturado trimestral</small>
-        </div>
-        <div class="service-back">
-          <ul>
-            <li>Plan flexible</li>
-            <li>Actualización periódica</li>
-            <li>Soporte online</li>
-          </ul>
-          <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-        </div>
-      </div>
-    </div>
+<!-- Suscripción Anual -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-star icon-planes"></i>
+<h3>Suscripción Anual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
+<small>*Facturado anualmente</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Mejor valor</li>
+<li>Acceso completo a todos los planes</li>
+<li>Soporte 24/7</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
 
-    <!-- Suscripción Mensual -->
-    <div class="service">
-      <div class="service-inner">
-        <div class="service-front">
-          <i class="fas fa-dollar-sign icon-peso"></i>
-          <h3>Suscripción Mensual</h3>
-          <p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
-          <small>*Facturado mensualmente</small>
-        </div>
-        <div class="service-back">
-          <ul>
-            <li>Acceso mensual</li>
-            <li>Ideal para probar</li>
-            <li>Soporte básico</li>
-          </ul>
-          <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-        </div>
-      </div>
-    </div>
+<!-- Suscripción Trimestral -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-calendar-alt icon-deporte"></i>
+<h3>Suscripción Trimestral</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
+<small>*Facturado trimestral</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Plan flexible</li>
+<li>Actualización periódica</li>
+<li>Soporte online</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
 
-  </div>
+<!-- Suscripción Mensual -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-dollar-sign icon-peso"></i>
+<h3>Suscripción Mensual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
+<small>*Facturado mensualmente</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Acceso mensual</li>
+<li>Ideal para probar</li>
+<li>Soporte básico</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
+
+</div>
 </section>
 
 <!-- TESTIMONIOS -->
@@ -341,118 +331,79 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 <h2>Testimonios</h2>
 <div class="services">
 <div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>María G.</h3><p>“Gerard me ayudó a alcanzar mis objetivos con un plan sencillo y efectivo.”</p></div><div class="service-back"><p>Seguimiento cercano y motivador que marcó la diferencia.</p></div></div></div>
-<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>Carlos R.</h3><p>“Gracias a las consultas online pude mejorar mi rendimiento sin salir de casa.”</p></div><div class="service-back"><p>Plan adaptado a mi estilo de vida y horarios.</p></div></div></div>
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>Carlos R.</h3><p>“Gracias a las consultas online pude mejorar mi rendimiento sin salir de casa.”</p></div><div class="service-back"><p>Plan adaptado a mi entrenamiento y horarios.</p></div></div></div>
 </div>
 </section>
 
 <!-- FORMULARIO -->
 <section id="consulta" style="margin-top:60px;">
-<h2>Solicita tu Consulta</h2>
+<h2>Contáctame</h2>
 <form class="glass-form">
 <div class="form-group">
-<input type="text" placeholder=" " required>
-<label>Nombre</label>
+<input type="text" placeholder="Nombre" required>
 <i class="fas fa-user icon-input"></i>
+<label>Nombre</label>
 </div>
 <div class="form-group">
-<input type="email" placeholder=" " required>
-<label>Email</label>
+<input type="email" placeholder="Email" required>
 <i class="fas fa-envelope icon-input"></i>
+<label>Email</label>
 </div>
 <div class="form-group">
-<textarea placeholder=" " required></textarea>
-<label>Mensaje</label>
+<textarea placeholder="Mensaje" required></textarea>
 <i class="fas fa-comment icon-input"></i>
+<label>Mensaje</label>
 </div>
-<button type="submit">Enviar</button>
+<button type="submit" style="padding:14px 28px;border-radius:var(--radius);border:none;background:var(--primary);color:#000;font-weight:600;cursor:pointer;transition:.3s;">Enviar</button>
 </form>
 </section>
 
 </main>
 
-<!-- BOTONES FIJOS -->
-<button id="whatsapp-btn"><i class="fab fa-whatsapp"></i></button>
+<!-- BOTON WHATSAPP -->
+<div id="whatsapp-btn-container" style="position:fixed;bottom:140px;right:20px;z-index:1000;">
+<button id="whatsapp-btn" style="background:var(--primary);color:#000;border:none;padding:16px;border-radius:50%;font-size:1.6rem;cursor:pointer;box-shadow:var(--shadow);">
+<i class="fab fa-whatsapp"></i>
+</button>
+<div id="whatsapp-menu" style="display:none;position:absolute;bottom:70px;right:0;background:var(--primary);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;">
+<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20mensuales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Mensuales</a>
+<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20trimestrales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Trimestrales</a>
+<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20anuales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Anuales</a>
+</div>
+</div>
+
 <button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
 
-<footer>&copy; 2026 Gerard Valls. Todos los derechos reservados.</footer>
+<footer>
+<p>© 2026 Gerard Valls - Todos los derechos reservados</p>
+</footer>
 
-<!-- SCRIPT PARA MODO CLARO -->
 <script>
-// Función para actualizar colores al cambiar el tema
-function updateLightModeStyles(isLight) {
-  // Iconos de servicios
-  const icons = document.querySelectorAll('.icon-planes, .icon-deporte, .icon-peso, .icon-online');
-  icons.forEach(icon => {
-    if (isLight) {
-      icon.style.boxShadow = '0 0 15px rgba(0,0,0,0.1)';
-      icon.style.color = '#004d40'; // verde oscuro para modo claro
-      icon.style.background = 'rgba(0,191,165,0.8)'; // verde suave
-    } else {
-      icon.style.boxShadow = '';
-      icon.style.color = '';
-      icon.style.background = '';
-    }
-  });
-
-  // Botones principales (formulario, planes)
-  const buttons = document.querySelectorAll('button, .pricing-card button, #toggle-theme');
-  buttons.forEach(btn => {
-    if (isLight) {
-      btn.style.background = '#00bfa5';
-      btn.style.color = '#fff';
-    } else {
-      btn.style.background = '';
-      btn.style.color = '';
-    }
-  });
-
-  // Inputs del formulario
-  const inputs = document.querySelectorAll('.glass-form input, .glass-form textarea');
-  inputs.forEach(input => {
-    if (isLight) {
-      input.style.background = 'rgba(255,255,255,0.85)';
-      input.style.color = '#222';
-      input.style.borderColor = 'rgba(0,0,0,0.2)';
-    } else {
-      input.style.background = '';
-      input.style.color = '';
-      input.style.borderColor = '';
-    }
-  });
-
-  // Labels e iconos dentro del input
-  const labels = document.querySelectorAll('.glass-form label, .glass-form .icon-input');
-  labels.forEach(el => {
-    if (isLight) {
-      el.style.color = 'rgba(0,0,0,0.6)';
-    } else {
-      el.style.color = '';
-    }
-  });
-}
-
-// Activar JS junto al toggle de tema
+// CAMBIAR TEMA
 const toggleTheme = document.getElementById('toggle-theme');
 toggleTheme.addEventListener('click', () => {
-  const isLight = document.body.classList.toggle('light');
-  toggleTheme.textContent = isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
-  updateLightModeStyles(isLight);
+  document.body.classList.toggle('light');
+  toggleTheme.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
 });
 
-// Inicializar colores si la página carga en modo claro
-window.addEventListener('DOMContentLoaded', () => {
-  if (document.body.classList.contains('light')) {
-    updateLightModeStyles(true);
+// BOTON SCROLL TOP
+const scrollBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('show', window.scrollY > 400);
+});
+scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+// WHATSAPP MENU
+const whatsappBtn = document.getElementById('whatsapp-btn');
+const whatsappMenu = document.getElementById('whatsapp-menu');
+whatsappBtn.addEventListener('click', () => {
+  whatsappMenu.style.display = whatsappMenu.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('whatsapp-btn-container').contains(e.target)) {
+    whatsappMenu.style.display = 'none';
   }
 });
-
-// Scroll Top
-const scrollTopBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  if(window.scrollY > 300) scrollTopBtn.classList.add('show');
-  else scrollTopBtn.classList.remove('show');
-});
-scrollTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 
 </body>
