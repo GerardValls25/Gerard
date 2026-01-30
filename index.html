@@ -73,21 +73,17 @@ main.wrapper{
   text-align:center;
 }
 
-/* TITULOS */
-h2{
-  font-size:2rem;
-  margin-bottom:20px;
-}
-
 /* FORMULARIO */
 .glass-form{
   display:flex;
   flex-direction:column;
   gap:20px;
+  margin-top:20px;
   padding:35px;
   border-radius:20px;
   background:rgba(255,255,255,0.05);
   backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.2);
   box-shadow:0 10px 40px rgba(0,0,0,0.2);
 }
 
@@ -113,7 +109,6 @@ h2{
   background:rgba(255,255,255,0.1);
   color:white;
   font-size:1rem;
-  transition:.3s;
 }
 
 .form-group label{
@@ -124,7 +119,7 @@ h2{
   color:rgba(255,255,255,0.6);
   font-size:1rem;
   pointer-events:none;
-  transition:all .25s ease;
+  transition:.25s ease;
 }
 
 .form-group input:focus,
@@ -152,17 +147,39 @@ button{
   border-radius:var(--radius);
   cursor:pointer;
 }
+button:hover{background:var(--primary-hover);}
 
-button:hover{
-  background:var(--primary-hover);
+/* BOTONES FIJOS */
+#whatsapp-btn{
+  position:fixed;
+  bottom:100px;
+  right:20px;
+  background:#25D366;
+  color:white;
+  border:none;
+  border-radius:50%;
+  width:60px;
+  height:60px;
+  font-size:1.8rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,0,0,0.3);
 }
-
-/* RESPONSIVE */
-@media (max-width:480px){
-  .glass-form{padding:25px 20px;}
-  .form-group input,
-  .form-group textarea{font-size:16px;}
+#scrollTopBtn{
+  position:fixed;
+  bottom:30px;
+  right:20px;
+  background:var(--primary);
+  color:white;
+  border:none;
+  padding:14px;
+  border-radius:50%;
+  font-size:1.2rem;
+  display:none;
 }
+#scrollTopBtn.show{display:block;}
 </style>
 </head>
 
@@ -174,7 +191,7 @@ button:hover{
 </header>
 
 <nav>
-<a href="#consulta">Contacto</a>
+<a href="#consulta">Formulario</a>
 </nav>
 
 <main class="wrapper">
@@ -202,7 +219,7 @@ button:hover{
   <label for="mensaje">Mensaje</label>
 </div>
 
-<button type="submit" aria-label="Enviar formulario de contacto">Enviar</button>
+<button type="submit">Enviar</button>
 <div id="formMsg" style="text-align:center;margin-top:10px;font-weight:bold;"></div>
 
 </form>
@@ -210,7 +227,17 @@ button:hover{
 
 </main>
 
+<button id="whatsapp-btn"><i class="fab fa-whatsapp"></i></button>
+<button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
+
 <script>
+const scrollBtn=document.getElementById('scrollTopBtn');
+window.addEventListener('scroll',()=>scrollBtn.classList.toggle('show',window.scrollY>300));
+scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+document.getElementById('whatsapp-btn')
+  .addEventListener('click',()=>window.open('https://wa.me/XXXXXXXXX','_blank'));
+
 const form=document.querySelector('.glass-form');
 const formMsg=document.getElementById('formMsg');
 
@@ -220,9 +247,9 @@ form.addEventListener('submit',e=>{
     method:'POST',
     body:new FormData(form),
     headers:{'Accept':'application/json'}
-  }).then(res=>{
-    if(res.ok){
-      formMsg.textContent="¡Gracias! Tu mensaje ha sido enviado.";
+  }).then(r=>{
+    if(r.ok){
+      formMsg.textContent="¡Mensaje enviado correctamente!";
       form.reset();
     }else{
       formMsg.textContent="Error al enviar. Intenta de nuevo.";
