@@ -73,7 +73,7 @@ h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
 h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;border-radius:2px;background:var(--primary);transform:scaleX(0);animation:lineDraw 1s forwards;}
 @keyframes lineDraw{to{transform:scaleX(1);}}
 
-/* SERVICIOS */
+/* SERVICIOS Y PLANES */
 .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;perspective:1200px;}
 .service-inner{position:relative;width:100%;min-height:250px;transform-style:preserve-3d;transition:transform 0.8s ease;}
 .service:hover .service-inner{transform:rotateY(180deg);}
@@ -111,16 +111,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 }
 
 /* ICONOS DENTRO DEL INPUT */
-.icon-input {
-  position: absolute;
-  left:12px;
-  top:50%;
-  transform: translateY(-50%);
-  color: rgba(255,255,255,0.6);
-  pointer-events: none;
-  font-size:1rem;
-  transition: all 0.3s ease;
-}
+.icon-input {position: absolute;left:12px;top:50%;transform: translateY(-50%);color: rgba(255,255,255,0.6);pointer-events: none;font-size:1rem;transition: all 0.3s ease;}
 .form-group input:focus + .icon-input,
 .form-group textarea:focus + .icon-input,
 .form-group input:not(:placeholder-shown) + .icon-input,
@@ -133,6 +124,17 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 #scrollTopBtn{position:fixed;bottom:60px;right:20px;background:var(--primary);color:white;border:none;padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;opacity:0;transition:.3s;}
 #scrollTopBtn.show{display:block;opacity:1;}
 footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
+
+/* WHATSAPP BUTTON */
+#whatsapp-btn {background: var(--primary);color:#000;border:none;padding:16px;border-radius:50%;font-size:1.6rem;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.3);transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s, color 0.3s;}
+#whatsapp-menu {display:flex;flex-direction:column;position:absolute;bottom:70px;right:0;border-radius:16px;overflow:hidden;pointer-events:none;}
+#whatsapp-menu a {display:block;padding:12px 20px;font-weight:600;text-align:center;text-decoration:none;transform:translateY(20px);opacity:0;transition:transform 0.3s ease, opacity 0.3s ease, background 0.3s, color 0.3s;}
+#whatsapp-menu.show a:nth-child(1){transition-delay:0.05s;}
+#whatsapp-menu.show a:nth-child(2){transition-delay:0.15s;}
+#whatsapp-menu.show a:nth-child(3){transition-delay:0.25s;}
+body.light #whatsapp-btn{background:#00bfa5;color:#fff;box-shadow:0 8px 25px rgba(0,0,0,0.15);}
+body.light #whatsapp-menu{background:#a0f0de;box-shadow:0 12px 35px rgba(0,0,0,0.2);}
+body.light #whatsapp-menu a{color:#004d40;}
 
 /* RESPONSIVE */
 @media (max-width:768px){
@@ -258,150 +260,147 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 <p>RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
 </section>
 
-<!-- PLANES DE SUSCRIPCIÓN -->
+<!-- PLANES DE SUSCRIPCIÓN COMO SERVICIOS -->
 <section id="planes">
 <h2>Planes de Suscripción</h2>
 <div class="services">
-
-<!-- Suscripción Anual -->
 <div class="service">
 <div class="service-inner">
 <div class="service-front">
-<i class="fas fa-star icon-planes"></i>
+<i class="fas fa-gem icon-planes"></i>
 <h3>Suscripción Anual</h3>
 <p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
 <small>*Facturado anualmente</small>
 </div>
 <div class="service-back">
 <ul>
-<li>Mejor valor</li>
-<li>Acceso completo a todos los planes</li>
-<li>Soporte 24/7</li>
+<li>Mejor Valor</li>
+<li>Acceso completo a todos los beneficios</li>
+<li>Seguimiento quincenal personalizado</li>
 </ul>
 <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
 </div>
 </div>
 </div>
 
-<!-- Suscripción Trimestral -->
 <div class="service">
 <div class="service-inner">
 <div class="service-front">
-<i class="fas fa-calendar-alt icon-deporte"></i>
+<i class="fas fa-star icon-deporte"></i>
 <h3>Suscripción Trimestral</h3>
 <p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
 <small>*Facturado trimestral</small>
 </div>
 <div class="service-back">
 <ul>
-<li>Plan flexible</li>
-<li>Actualización periódica</li>
-<li>Soporte online</li>
+<li>Acceso completo a beneficios</li>
+<li>Seguimiento mensual</li>
+<li>Flexibilidad para cambiar de plan</li>
 </ul>
 <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
 </div>
 </div>
 </div>
 
-<!-- Suscripción Mensual -->
 <div class="service">
 <div class="service-inner">
 <div class="service-front">
-<i class="fas fa-dollar-sign icon-peso"></i>
+<i class="fas fa-circle-half-stroke icon-peso"></i>
 <h3>Suscripción Mensual</h3>
 <p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
 <small>*Facturado mensualmente</small>
 </div>
 <div class="service-back">
 <ul>
-<li>Acceso mensual</li>
-<li>Ideal para probar</li>
-<li>Soporte básico</li>
+<li>Acceso limitado a beneficios</li>
+<li>Seguimiento básico</li>
+<li>Cambio de plan cada mes</li>
 </ul>
 <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
 </div>
 </div>
 </div>
-
 </div>
 </section>
 
-<!-- TESTIMONIOS -->
-<section id="testimonios" style="margin-top:60px;">
-<h2>Testimonios</h2>
-<div class="services">
-<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>María G.</h3><p>“Gerard me ayudó a alcanzar mis objetivos con un plan sencillo y efectivo.”</p></div><div class="service-back"><p>Seguimiento cercano y motivador que marcó la diferencia.</p></div></div></div>
-<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>Carlos R.</h3><p>“Gracias a las consultas online pude mejorar mi rendimiento sin salir de casa.”</p></div><div class="service-back"><p>Plan adaptado a mi entrenamiento y horarios.</p></div></div></div>
-</div>
-</section>
-
-<!-- FORMULARIO -->
-<section id="consulta" style="margin-top:60px;">
-<h2>Contáctame</h2>
+<!-- FORMULARIO DE CONSULTA -->
+<section id="consulta">
+<h2>Consulta con Gerard</h2>
 <form class="glass-form">
 <div class="form-group">
-<input type="text" placeholder="Nombre" required>
-<i class="fas fa-user icon-input"></i>
+<input type="text" required placeholder=" ">
 <label>Nombre</label>
+<i class="fas fa-user icon-input"></i>
 </div>
 <div class="form-group">
-<input type="email" placeholder="Email" required>
-<i class="fas fa-envelope icon-input"></i>
+<input type="email" required placeholder=" ">
 <label>Email</label>
+<i class="fas fa-envelope icon-input"></i>
 </div>
 <div class="form-group">
-<textarea placeholder="Mensaje" required></textarea>
-<i class="fas fa-comment icon-input"></i>
+<textarea required placeholder=" " rows="4"></textarea>
 <label>Mensaje</label>
+<i class="fas fa-comment icon-input"></i>
 </div>
-<button type="submit" style="padding:14px 28px;border-radius:var(--radius);border:none;background:var(--primary);color:#000;font-weight:600;cursor:pointer;transition:.3s;">Enviar</button>
+<button type="submit" style="background:var(--primary);color:#000;border:none;padding:14px 20px;border-radius:var(--radius);cursor:pointer;font-weight:bold;">Enviar</button>
 </form>
 </section>
 
 </main>
 
-<!-- BOTON WHATSAPP -->
+<!-- BOTÓN WHATSAPP FIJO -->
 <div id="whatsapp-btn-container" style="position:fixed;bottom:140px;right:20px;z-index:1000;">
-<button id="whatsapp-btn" style="background:var(--primary);color:#000;border:none;padding:16px;border-radius:50%;font-size:1.6rem;cursor:pointer;box-shadow:var(--shadow);">
-<i class="fab fa-whatsapp"></i>
-</button>
-<div id="whatsapp-menu" style="display:none;position:absolute;bottom:70px;right:0;background:var(--primary);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;">
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20mensuales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Mensuales</a>
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20trimestrales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Trimestrales</a>
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20anuales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Anuales</a>
-</div>
+  <button id="whatsapp-btn"><i class="fab fa-whatsapp"></i></button>
+  <div id="whatsapp-menu">
+    <a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20mensuales" target="_blank">Planes Mensuales</a>
+    <a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20trimestrales" target="_blank">Planes Trimestrales</a>
+    <a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20anuales" target="_blank">Planes Anuales</a>
+  </div>
 </div>
 
+<!-- BOTÓN SCROLL TOP -->
 <button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
 
-<footer>
-<p>© 2026 Gerard Valls - Todos los derechos reservados</p>
-</footer>
+<footer>&copy; 2026 Gerard Valls. Todos los derechos reservados.</footer>
 
 <script>
-// CAMBIAR TEMA
+// MODO CLARO / OSCURO
 const toggleTheme = document.getElementById('toggle-theme');
 toggleTheme.addEventListener('click', () => {
   document.body.classList.toggle('light');
-  toggleTheme.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+  toggleTheme.textContent = document.body.classList.contains('light') ? "Cambiar a modo oscuro" : "Cambiar a modo claro";
 });
 
-// BOTON SCROLL TOP
+// SCROLL TOP
 const scrollBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  scrollBtn.classList.toggle('show', window.scrollY > 400);
+window.addEventListener('scroll', ()=>{
+  if(window.scrollY>400){scrollBtn.classList.add('show');}
+  else{scrollBtn.classList.remove('show');}
 });
-scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+scrollBtn.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
 
-// WHATSAPP MENU
+// WHATSAPP BUTTON
 const whatsappBtn = document.getElementById('whatsapp-btn');
 const whatsappMenu = document.getElementById('whatsapp-menu');
 whatsappBtn.addEventListener('click', () => {
-  whatsappMenu.style.display = whatsappMenu.style.display === 'block' ? 'none' : 'block';
+  const isOpen = whatsappMenu.classList.contains('show');
+  if(isOpen){
+    whatsappMenu.classList.remove('show');
+    whatsappMenu.style.pointerEvents = 'none';
+    whatsappMenu.querySelectorAll('a').forEach(link => {link.style.transform='translateY(20px)';link.style.opacity='0';});
+  } else {
+    whatsappMenu.classList.add('show');
+    whatsappMenu.style.pointerEvents = 'auto';
+    whatsappMenu.querySelectorAll('a').forEach((link,i)=>{setTimeout(()=>{link.style.transform='translateY(0)';link.style.opacity='1';}, i*100);});
+  }
 });
-document.addEventListener('click', (e) => {
-  if (!document.getElementById('whatsapp-btn-container').contains(e.target)) {
-    whatsappMenu.style.display = 'none';
+document.addEventListener('click',(e)=>{
+  if(!document.getElementById('whatsapp-btn-container').contains(e.target)){
+    if(whatsappMenu.classList.contains('show')){
+      whatsappMenu.classList.remove('show');
+      whatsappMenu.style.pointerEvents = 'none';
+      whatsappMenu.querySelectorAll('a').forEach(link=>{link.style.transform='translateY(20px)';link.style.opacity='0';});
+    }
   }
 });
 </script>
