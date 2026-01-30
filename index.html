@@ -132,7 +132,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 /* BOTONES FIJOS */
 #scrollTopBtn{position:fixed;bottom:60px;right:20px;background:var(--primary);color:white;border:none;padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;opacity:0;transition:.3s;}
 #scrollTopBtn.show{display:block;opacity:1;}
-footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
+footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 
 /* RESPONSIVE */
 @media (max-width:768px){
@@ -339,71 +339,47 @@ footer{text-align:center;padding:20px;font-size:.9rem;opacity:.8;}
 <section id="consulta" style="margin-top:60px;">
 <h2>Contáctame</h2>
 <form class="glass-form">
-<div class="form-group">
-<input type="text" placeholder="Nombre" required>
-<i class="fas fa-user icon-input"></i>
-<label>Nombre</label>
-</div>
-<div class="form-group">
-<input type="email" placeholder="Email" required>
-<i class="fas fa-envelope icon-input"></i>
-<label>Email</label>
-</div>
-<div class="form-group">
-<textarea placeholder="Mensaje" required></textarea>
-<i class="fas fa-comment icon-input"></i>
-<label>Mensaje</label>
-</div>
-<button type="submit" style="padding:14px 28px;border-radius:var(--radius);border:none;background:var(--primary);color:#000;font-weight:600;cursor:pointer;transition:.3s;">Enviar</button>
+  <div class="form-group">
+    <input type="text" required>
+    <i class="fas fa-user icon-input"></i>
+    <label>Nombre</label>
+  </div>
+  <div class="form-group">
+    <input type="email" required>
+    <i class="fas fa-envelope icon-input"></i>
+    <label>Email</label>
+  </div>
+  <div class="form-group">
+    <textarea required></textarea>
+    <i class="fas fa-comment icon-input"></i>
+    <label>Mensaje</label>
+  </div>
+  <button type="submit" style="padding:14px 28px;border-radius:var(--radius);border:none;background:var(--primary);color:#000;font-weight:600;cursor:pointer;transition:.3s;">
+    Enviar
+  </button>
 </form>
 </section>
 
 </main>
 
-<!-- BOTON WHATSAPP -->
-<div id="whatsapp-btn-container" style="position:fixed;bottom:140px;right:20px;z-index:1000;">
-<button id="whatsapp-btn" style="background:var(--primary);color:#000;border:none;padding:16px;border-radius:50%;font-size:1.6rem;cursor:pointer;box-shadow:var(--shadow);">
-<i class="fab fa-whatsapp"></i>
-</button>
-<div id="whatsapp-menu" style="display:none;position:absolute;bottom:70px;right:0;background:var(--primary);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;">
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20mensuales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Mensuales</a>
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20trimestrales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Trimestrales</a>
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20información%20de%20planes%20anuales" target="_blank" style="display:block;padding:12px 20px;color:#000;font-weight:600;text-align:center;text-decoration:none;transition:.3s;">Planes Anuales</a>
-</div>
-</div>
-
 <button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
 
 <footer>
-<p>© 2026 Gerard Valls - Todos los derechos reservados</p>
+<p>&copy; 2026 Gerard Valls - Todos los derechos reservados</p>
 </footer>
 
 <script>
-// CAMBIAR TEMA
-const toggleTheme = document.getElementById('toggle-theme');
-toggleTheme.addEventListener('click', () => {
+// Modo Claro/Oscuro
+const toggleBtn=document.getElementById('toggle-theme');
+toggleBtn.addEventListener('click',()=>{
   document.body.classList.toggle('light');
-  toggleTheme.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+  toggleBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
 });
 
-// BOTON SCROLL TOP
-const scrollBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  scrollBtn.classList.toggle('show', window.scrollY > 400);
-});
-scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
-
-// WHATSAPP MENU
-const whatsappBtn = document.getElementById('whatsapp-btn');
-const whatsappMenu = document.getElementById('whatsapp-menu');
-whatsappBtn.addEventListener('click', () => {
-  whatsappMenu.style.display = whatsappMenu.style.display === 'block' ? 'none' : 'block';
-});
-document.addEventListener('click', (e) => {
-  if (!document.getElementById('whatsapp-btn-container').contains(e.target)) {
-    whatsappMenu.style.display = 'none';
-  }
-});
+// Scroll top
+const scrollBtn=document.getElementById('scrollTopBtn');
+window.addEventListener('scroll',()=>{scrollBtn.classList.toggle('show',window.scrollY>300);});
+scrollBtn.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
 </script>
 
 </body>
