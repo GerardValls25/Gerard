@@ -134,9 +134,6 @@ body.light .form-group input, body.light .form-group textarea{background:white;c
 /* BOTONES FIJOS */
 #scrollTopBtn{position:fixed;bottom:60px;right:20px;background:var(--primary);color:white;border:none;padding:14px 18px;border-radius:50%;font-size:1.3rem;display:none;cursor:pointer;opacity:0;transition:.3s;}
 #scrollTopBtn.show{display:block;opacity:1;}
-footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
-
-/* BOTÓN WHATSAPP */
 #whatsappBtn {
   position: fixed;
   bottom: 120px;
@@ -146,21 +143,20 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  display: flex;
+  display: none; /* oculto por defecto */
   align-items: center;
   justify-content: center;
   font-size: 2rem;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   z-index: 999;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+  opacity: 0;
 }
-#whatsappBtn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+#whatsappBtn.show {
+  display: flex;
+  opacity: 1;
 }
-body.light #whatsappBtn {
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
+footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 
 /* RESPONSIVE */
 @media (max-width:768px){
@@ -356,39 +352,35 @@ body.light #whatsappBtn {
 
 <!-- FORMULARIO -->
 <section id="consulta">
-<h2>Formulario de Contacto</h2>
+<h2>Formulario de Consulta</h2>
 <form class="glass-form">
 <div class="form-group">
-<input type="text" placeholder=" " required>
-<label>Nombre Completo</label>
+<input type="text" required placeholder=" ">
+<label>Nombre</label>
 <i class="fas fa-user icon-input"></i>
 </div>
 <div class="form-group">
-<input type="email" placeholder=" " required>
+<input type="email" required placeholder=" ">
 <label>Email</label>
 <i class="fas fa-envelope icon-input"></i>
 </div>
 <div class="form-group">
-<textarea placeholder=" " required></textarea>
+<textarea required placeholder=" "></textarea>
 <label>Mensaje</label>
 <i class="fas fa-comment icon-input"></i>
 </div>
-<button type="submit">Enviar</button>
+<button type="submit" style="background:var(--primary);color:#000;padding:14px 28px;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer;">Enviar</button>
 </form>
 </section>
 
 </main>
 
-<!-- BOTÓN SCROLL TOP -->
-<button id="scrollTopBtn"><i class="fas fa-chevron-up"></i></button>
-
-<!-- BOTÓN WHATSAPP -->
-<a href="https://wa.me/34123456789" target="_blank" id="whatsappBtn">
-  <i class="fab fa-whatsapp"></i>
-</a>
+<!-- BOTONES FIJOS -->
+<button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
+<a id="whatsappBtn" href="https://wa.me/tu-numero" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <footer>
-<p>&copy; 2026 Gerard Valls. Todos los derechos reservados.</p>
+<p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
 </footer>
 
 <script>
@@ -399,12 +391,20 @@ toggleBtn.addEventListener('click', () => {
   toggleBtn.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
 });
 
-// SCROLL TOP BUTTON
+// SCROLL TOP & WHATSAPP BUTTON
 const scrollBtn = document.getElementById('scrollTopBtn');
+const whatsappBtn = document.getElementById('whatsappBtn');
+
 window.addEventListener('scroll', () => {
-  if(window.scrollY > 300) scrollBtn.classList.add('show');
-  else scrollBtn.classList.remove('show');
+  if(window.scrollY > 300){
+    scrollBtn.classList.add('show');
+    whatsappBtn.classList.add('show'); // Aparece WhatsApp
+  } else {
+    scrollBtn.classList.remove('show');
+    whatsappBtn.classList.remove('show'); // Desaparece WhatsApp
+  }
 });
+
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 
