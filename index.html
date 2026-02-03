@@ -140,6 +140,30 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   header p{font-size:1.1rem;}
   .services{grid-template-columns:1fr;}
 }
+
+/* ===== FIX FORMULARIO MODO CLARO ===== */
+body.light .glass-form{
+  background: rgba(240,240,240,0.95);
+  border: 1px solid rgba(0,0,0,0.2);
+}
+
+body.light .form-group input,
+body.light .form-group textarea{
+  background:#fff;
+  color:#222;
+  border:2px solid rgba(0,0,0,0.35);
+}
+
+body.light .form-group label,
+body.light .icon-input{
+  color:rgba(0,0,0,0.65);
+}
+
+body.light .form-group input:focus,
+body.light .form-group textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(0,255,192,0.35);
+}
 </style>
 </head>
 <body>
@@ -330,33 +354,32 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 <section id="testimonios" style="margin-top:60px;">
 <h2>Testimonios</h2>
 <div class="services">
-<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>María G.</h3><p>“Gerard me ayudó a alcanzar mis objetivos con un plan sencillo y efectivo.”</p></div><div class="service-back"><p>Seguimiento cercano y motivador que marcó la diferencia.</p></div></div></div>
-<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left" style="font-size:3rem;"></i><h3>Carlos R.</h3><p>“Gracias a las consultas online pude mejorar mi rendimiento sin salir de casa.”</p></div><div class="service-back"><p>Plan adaptado a mi entrenamiento y horarios.</p></div></div></div>
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left icon-planes"></i><p>"¡Excelente asesoría! He perdido peso de manera sostenible."</p><strong>- Marta R.</strong></div></div></div>
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left icon-deporte"></i><p>"Me ayudó a mejorar mi rendimiento deportivo."</p><strong>- Carlos G.</strong></div></div></div>
+<div class="service"><div class="service-inner"><div class="service-front"><i class="fas fa-quote-left icon-peso"></i><p>"La mejor inversión en mi salud que he hecho."</p><strong>- Laura M.</strong></div></div></div>
 </div>
 </section>
 
 <!-- FORMULARIO -->
 <section id="consulta" style="margin-top:60px;">
-<h2>Contáctame</h2>
+<h2>Formulario de Contacto</h2>
 <form class="glass-form">
-  <div class="form-group">
-    <input type="text" required>
-    <i class="fas fa-user icon-input"></i>
-    <label>Nombre</label>
-  </div>
-  <div class="form-group">
-    <input type="email" required>
-    <i class="fas fa-envelope icon-input"></i>
-    <label>Email</label>
-  </div>
-  <div class="form-group">
-    <textarea required></textarea>
-    <i class="fas fa-comment icon-input"></i>
-    <label>Mensaje</label>
-  </div>
-  <button type="submit" style="padding:14px 28px;border-radius:var(--radius);border:none;background:var(--primary);color:#000;font-weight:600;cursor:pointer;transition:.3s;">
-    Enviar
-  </button>
+<div class="form-group">
+<input type="text" id="name" placeholder=" " required>
+<label for="name">Nombre completo</label>
+<i class="fas fa-user icon-input"></i>
+</div>
+<div class="form-group">
+<input type="email" id="email" placeholder=" " required>
+<label for="email">Correo electrónico</label>
+<i class="fas fa-envelope icon-input"></i>
+</div>
+<div class="form-group">
+<textarea id="message" placeholder=" " required></textarea>
+<label for="message">Mensaje</label>
+<i class="fas fa-comment icon-input"></i>
+</div>
+<button type="submit" style="padding:16px 24px;border:none;border-radius:16px;background:var(--primary);color:#000;font-weight:600;cursor:pointer;transition:.3s;">Enviar</button>
 </form>
 </section>
 
@@ -365,21 +388,21 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
 <button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
 
 <footer>
-<p>&copy; 2026 Gerard Valls - Todos los derechos reservados</p>
+<p>&copy; 2026 Gerard Valls. Todos los derechos reservados.</p>
 </footer>
 
 <script>
-// Modo Claro/Oscuro
+// SCROLL TOP BUTTON
+const scrollBtn=document.getElementById('scrollTopBtn');
+window.onscroll=()=>{if(window.scrollY>200){scrollBtn.classList.add('show');}else{scrollBtn.classList.remove('show');}};
+scrollBtn.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
+
+// TOGGLE THEME
 const toggleBtn=document.getElementById('toggle-theme');
 toggleBtn.addEventListener('click',()=>{
   document.body.classList.toggle('light');
-  toggleBtn.textContent=document.body.classList.contains('light')?'Cambiar a modo oscuro':'Cambiar a modo claro';
+  toggleBtn.textContent=document.body.classList.contains('light')?"Cambiar a modo oscuro":"Cambiar a modo claro";
 });
-
-// Scroll top
-const scrollBtn=document.getElementById('scrollTopBtn');
-window.addEventListener('scroll',()=>{scrollBtn.classList.toggle('show',window.scrollY>300);});
-scrollBtn.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
 </script>
 
 </body>
