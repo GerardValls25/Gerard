@@ -164,6 +164,29 @@ footer{text-align:center;padding:20px;font-size:0.9rem;opacity:0.8;}
   header p{font-size:1.1rem;}
   .services{grid-template-columns:1fr;}
 }
+  /* ===== FIX FORMULARIO MODO CLARO ===== */
+body.light .form-group label {
+  color: #555;
+}
+
+body.light .icon-input {
+  color: #555;
+}
+
+body.light .form-group input,
+body.light .form-group textarea {
+  background: #fff;
+  color: #222;
+  border: 1px solid #bbb;
+}
+
+body.light .form-group input:focus + label,
+body.light .form-group textarea:focus + label,
+body.light .form-group input:not(:placeholder-shown) + label,
+body.light .form-group textarea:not(:placeholder-shown) + label {
+  color: var(--primary);
+}
+
 </style>
 </head>
 <body>
