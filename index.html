@@ -186,6 +186,24 @@ body.light .form-group input:not(:placeholder-shown) + label,
 body.light .form-group textarea:not(:placeholder-shown) + label {
   color: var(--primary);
 }
+/* ===== FIX DEFINITIVO FORMULARIO MODO CLARO ===== */
+body.light .form-group label {
+  color: #555;
+  background: white;
+  padding: 0 6px;
+}
+
+body.light .form-group .icon-input {
+  color: #555;
+}
+
+.form-group input:focus ~ .icon-input,
+.form-group textarea:focus ~ .icon-input,
+.form-group input:not(:placeholder-shown) ~ .icon-input,
+.form-group textarea:not(:placeholder-shown) ~ .icon-input {
+  color: var(--primary);
+  transform: translateY(-50%) scale(1.2);
+}
 
 </style>
 </head>
