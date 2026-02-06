@@ -221,10 +221,10 @@ form.addEventListener("submit", e => {
   }
 });
 
-// Volver atrás en navegador
-cerrarBtn.addEventListener("click", e=>{
+// Volver atrás sí o sí
+cerrarBtn.addEventListener("click", e => {
   e.preventDefault();
-  history.back();
+  window.history.go(-1);  // Forzar volver atrás
 });
 </script>
 </body>
