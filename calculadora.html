@@ -81,7 +81,24 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
 #error { color: #ff4d4d; text-align: center; display: none; }
 #resultado { margin-top: 15px; font-weight: bold; text-align: center; transition: opacity 0.5s ease; }
 .chart-container, .tips-container { transition: opacity 0.5s ease, transform 0.5s ease; }
-.chart-container, .tips-container { opacity: 1; }
+.chart-container, .tips-container { opacity: 1; display: none; }
+
+#btn-atras {
+  background: #00ffc0;
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#btn-atras:hover { background: #00e6b8; }
 
 body.light {
   background: #f5f5f5; color: #222;
@@ -142,7 +159,7 @@ body.light .theme-toggle:hover { background: #00000022; }
   <p><strong>Carbohidratos:</strong> fuente principal de energía.</p>
 </div>
 
-<a href="#" class="cerrar-btn" id="cerrar-btn">⬅ Volver</a>
+<a href="#" id="btn-atras">⬅ Volver</a>
 
 <script>
 let chart = null;
@@ -151,7 +168,7 @@ const error = document.getElementById("error");
 const resultado = document.getElementById("resultado");
 const chartContainer = document.getElementById("chart-container");
 const tipsContainer = document.getElementById("tips-container");
-const cerrarBtn = document.getElementById("cerrar-btn");
+const btnAtras = document.getElementById("btn-atras");
 
 const body = document.body;
 const themeToggle = document.getElementById("theme-toggle");
@@ -221,24 +238,16 @@ form.addEventListener("submit", e => {
   }
 });
 
-/* Botón Atrás */
-#btn-atras {
-  background: var(--text-secondary);
-  color: var(--card-bg);
-  border: none;
-  padding: 10px 16px;
-  border-radius: var(--radius);
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 20px;
-}
-
-#btn-atras:hover {
-  background: var(--primary);
-  color: #fff;
-}
+// Botón "Atrás"
+btnAtras.addEventListener("click", (e) => {
+  e.preventDefault();
+  chartContainer.style.display = "none";
+  tipsContainer.style.display = "none";
+  resultado.innerHTML = "";
+  form.reset();
+  error.textContent = "";
+  form.scrollIntoView({ behavior: "smooth" });
+});
 </script>
 </body>
 </html>
