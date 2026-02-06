@@ -221,11 +221,24 @@ form.addEventListener("submit", e => {
   }
 });
 
-// Volver atrás sí o sí
-cerrarBtn.addEventListener("click", e => {
-  e.preventDefault();
-  window.history.go(-1);  // Forzar volver atrás
-});
+/* Botón Atrás */
+#btn-atras {
+  background: var(--text-secondary);
+  color: var(--card-bg);
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+#btn-atras:hover {
+  background: var(--primary);
+  color: #fff;
+}
 </script>
 </body>
 </html>
