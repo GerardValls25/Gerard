@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Calorías y Macros</title>
-<meta name="description" content="Calculadora profesional de calorías y macronutrientes basada en tu peso, altura, edad, nivel de actividad y objetivo fitness.">
+<title>Calculadora PRO de Calorías y Macros</title>
+<meta name="description" content="Calculadora profesional de calorías y macronutrientes ajustada a tu peso, altura, edad, nivel de actividad y objetivo fitness.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="icon" href="icon-192.png" type="image/png">
@@ -12,43 +12,62 @@
 <meta name="theme-color" content="#1a1f3f">
 
 <style>
+:root {
+  --primary-color: #00ffc0;
+  --secondary-color: #ffcc00;
+  --danger-color: #ff4d4d;
+  --bg-dark: #1a1f3f;
+  --bg-light: #f5f5f5;
+  --text-dark: #222;
+  --text-light: #fff;
+  --input-bg-dark: rgba(0,0,0,0.3);
+  --input-bg-light: rgba(255,255,255,0.9);
+}
+
+* { box-sizing: border-box; }
+
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #1a1f3f;
-  color: white;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  margin: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  margin: 0;
   padding: 20px;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.3s, color 0.3s;
 }
-@keyframes aparecer {
-  0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+
+body.light {
+  background: var(--bg-light);
+  color: var(--text-dark);
 }
+
 h1 {
-  color: #00ffc0;
-  margin-bottom: 10px;
+  color: var(--primary-color);
   text-align: center;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 0.2s;
+  margin-bottom: 15px;
+  animation: fadeIn 0.8s ease forwards;
 }
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 .theme-toggle {
-  background: #ffffff22;
-  color: white;
+  background: rgba(255,255,255,0.15);
+  color: inherit;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  margin-bottom: 15px;
-  transition: background 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  margin-bottom: 20px;
+  transition: 0.2s;
 }
-.theme-toggle:hover { background: #ffffff44; transform: scale(1.05); }
+.theme-toggle:hover { transform: scale(1.05); }
 
 form {
   background: rgba(255,255,255,0.08);
@@ -60,175 +79,126 @@ form {
   gap: 15px;
   max-width: 400px;
   width: 100%;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 0.6s;
-  transition: background 0.3s ease;
+  transition: background 0.3s;
 }
-input, select {
-  appearance: none;
-  padding: 12px;
+
+body.light form { background: rgba(0,0,0,0.05); }
+
+input, select, button {
   border-radius: 8px;
   border: none;
-  background: rgba(0,0,0,0.3);
-  color: white;
+  padding: 12px;
   outline: none;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+input, select {
+  background: var(--input-bg-dark);
+  color: var(--text-light);
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease;
 }
-input:focus, select:focus {
-  background: rgba(0,0,0,0.5);
-  transform: scale(1.02);
-  box-shadow: 0 0 10px #00ffc0;
-}
+body.light input, body.light select { background: var(--input-bg-light); color: var(--text-dark); }
+
+input:focus, select:focus { box-shadow: 0 0 10px var(--primary-color); transform: scale(1.02); }
+
 select {
-  background: rgba(0,0,0,0.3)
+  padding-right: 40px;
+  background: var(--input-bg-dark)
     url('data:image/svg+xml;utf8,<svg fill="%2300ffc0" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
     no-repeat right 12px center;
   background-size: 20px;
-  padding-right: 40px;
 }
-select option { background-color: #1a1f3f; color: white; }
+body.light select { background: var(--input-bg-light) url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center; }
+
 button {
-  background: #00ffc0;
+  background: var(--primary-color);
   color: black;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
 }
-button:hover { background: #00e6b8; transform: scale(1.02); }
+body.light button { background: #0077ff; color: white; }
+button:hover { transform: scale(1.02); }
 
 #error {
-  color: #ff4d4d;
+  color: var(--danger-color);
   text-align: center;
-  display: none;
   font-size: 0.9rem;
+  display: none;
 }
+
 #resultado {
   margin-top: 15px;
   font-weight: bold;
   text-align: center;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s;
 }
+
 .chart-container {
   margin-top: 20px;
   max-width: 350px;
   width: 100%;
   display: none;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 1s;
 }
+
+.tips-container {
+  margin-top: 15px;
+  color: #ccc;
+  max-width: 400px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+body.loaded .tips-container { opacity: 1; }
+
 .cerrar-btn {
   margin-top: 20px;
-  background: #ffffff33;
-  color: white;
+  background: rgba(255,255,255,0.2);
+  color: inherit;
+  text-decoration: none;
   padding: 10px 20px;
   border-radius: 8px;
-  text-decoration: none;
   font-weight: bold;
   display: inline-block;
   text-align: center;
-  transition: background 0.3s ease, transform 0.2s ease;
-  opacity: 0;
-  animation: aparecer 0.8s ease forwards;
-  animation-delay: 1.3s;
+  transition: 0.2s;
 }
-.cerrar-btn:hover { background: #ffffff55; transform: scale(1.05); }
+.cerrar-btn:hover { transform: scale(1.05); }
+
 .sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
-  padding: 0;
-  margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  clip: rect(0,0,0,0);
 }
-/* Texto dinámico */
-.info-text {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #cccccc;
-  margin-top: 5px;
-  opacity: 0;
-  transform: translateY(-5px);
-  transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s ease;
-}
-body.loaded .info-text {
-  opacity: 1;
-  transform: translateY(0);
-}
-.tips-container {
-  opacity: 0;
-  transform: translateY(-5px);
-  transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s ease;
-  max-width: 400px;
-  text-align: left;
-  margin-top: 15px;
-  color: #cccccc;
-}
-body.loaded .tips-container {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* --- Tema Claro manual (funciona siempre con body.light) --- */
-body.light {
-  background: #f5f5f5;
-  color: #222;
-}
-body.light form { background: rgba(0,0,0,0.05); }
-body.light input, body.light select { background: rgba(255,255,255,0.9); color: #222; }
-body.light input:focus, body.light select:focus { background: white; box-shadow: 0 0 8px #0077ff; }
-body.light select {
-  background: rgba(255,255,255,0.9)
-    url('data:image/svg+xml;utf8,<svg fill="%230077ff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
-    no-repeat right 12px center;
-}
-body.light button { background: #0077ff; color: white; }
-body.light button:hover { background: #005fd4; }
-body.light .theme-toggle { background: #00000011; color: #222; }
-body.light .theme-toggle:hover { background: #00000022; }
-body.light .info-text,
-body.light .tips-container { color: #555; }
 </style>
 </head>
 <body>
 
-<h1>Calculadora Profesional de Calorías y Macros</h1>
-<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo de color">🌙 Modo Oscuro</button>
+<h1>Calculadora PRO de Calorías y Macros</h1>
+<button id="theme-toggle" class="theme-toggle">🌙 Modo Oscuro</button>
 
 <form id="macro-form">
-  <label for="peso" class="sr-only">Peso en kg</label>
-  <input type="number" id="peso" inputmode="decimal" placeholder="Peso (kg)" min="30" max="250" step="0.1" required>
-  
-  <label for="altura" class="sr-only">Altura en cm</label>
-  <input type="number" id="altura" inputmode="numeric" placeholder="Altura (cm)" min="100" max="250" required>
-  
-  <label for="edad" class="sr-only">Edad</label>
-  <input type="number" id="edad" inputmode="numeric" placeholder="Edad" min="10" max="100" required>
-  
+  <input type="number" id="peso" placeholder="Peso (kg)" min="30" max="250" step="0.1" required>
+  <input type="number" id="altura" placeholder="Altura (cm)" min="100" max="250" required>
+  <input type="number" id="edad" placeholder="Edad" min="10" max="100" required>
+
   <select id="genero" required>
-    <option value="">Selecciona tu género</option>
+    <option value="">Género</option>
     <option value="hombre">Hombre</option>
     <option value="mujer">Mujer</option>
   </select>
-  
+
   <select id="actividad" required>
     <option value="">Nivel de actividad</option>
     <option value="1.2">Sedentario</option>
-    <option value="1.375">Ligero (1-3 días de ejercicio)</option>
-    <option value="1.55">Moderado (3-5 días de ejercicio)</option>
-    <option value="1.725">Activo (6-7 días de ejercicio)</option>
-    <option value="1.9">Muy Activo (2 entrenamientos/día)</option>
+    <option value="1.375">Ligero</option>
+    <option value="1.55">Moderado</option>
+    <option value="1.725">Activo</option>
+    <option value="1.9">Muy activo</option>
   </select>
-  
+
   <select id="objetivo" required>
     <option value="">Objetivo</option>
     <option value="mantener">Mantener peso</option>
@@ -238,7 +208,6 @@ body.light .tips-container { color: #555; }
 
   <p id="error" role="alert"></p>
   <button type="submit">Calcular</button>
-  <p id="info" class="info-text">Todos los campos son obligatorios y deben estar dentro del rango válido.</p>
   <div id="resultado" aria-live="polite"></div>
 </form>
 
@@ -247,122 +216,101 @@ body.light .tips-container { color: #555; }
 </div>
 
 <div class="tips-container" id="tips-container">
-  <p><strong>Proteínas:</strong> ayudan a construir y reparar músculo. Son esenciales si buscas ganar fuerza o perder grasa.</p>
-  <p><strong>Grasas:</strong> importantes para hormonas y energía sostenida. Prefiere grasas saludables como aceite de oliva y frutos secos.</p>
-  <p><strong>Carbohidratos:</strong> principal fuente de energía. Ajusta según tu actividad física y objetivos.</p>
+  <p><strong>Proteínas:</strong> construcción y reparación muscular. Ajusta según objetivo.</p>
+  <p><strong>Grasas:</strong> esenciales para hormonas y energía. Prefiere grasas saludables.</p>
+  <p><strong>Carbohidratos:</strong> principal fuente de energía. Ajusta según actividad.</p>
 </div>
 
-<a href="#" class="cerrar-btn" id="cerrar-btn">❌ Cerrar Ventana</a>
+<a href="#" class="cerrar-btn" id="cerrar-btn">❌ Cerrar</a>
 
 <script>
 let chart = null;
+const body = document.body;
+const themeToggle = document.getElementById("theme-toggle");
 const form = document.getElementById("macro-form");
-const inputs = form.querySelectorAll("input, select");
 const error = document.getElementById("error");
 const resultado = document.getElementById("resultado");
-const info = document.getElementById("info");
 const tipsContainer = document.getElementById("tips-container");
+const chartContainer = document.getElementById("chart-container");
 const objetivoSelect = document.getElementById("objetivo");
 const cerrarBtn = document.getElementById("cerrar-btn");
 
-const body = document.body;
-const themeToggle = document.getElementById("theme-toggle");
-if (localStorage.getItem("theme") === "light") {
+// Tema oscuro/claro
+if(localStorage.getItem("theme") === "light") {
   body.classList.add("light");
   themeToggle.textContent = "🌞 Modo Claro";
 }
+
 themeToggle.addEventListener("click", () => {
   body.classList.toggle("light");
   const isLight = body.classList.contains("light");
   themeToggle.textContent = isLight ? "🌞 Modo Claro" : "🌙 Modo Oscuro";
   localStorage.setItem("theme", isLight ? "light" : "dark");
-  if (chart) {
-    chart.options.plugins.legend.labels.color = isLight ? '#222' : 'white';
+  if(chart) {
+    chart.options.plugins.legend.labels.color = isLight ? '#222' : '#fff';
     chart.update();
   }
 });
 
-function actualizarInfoObjetivo() {
-  const objetivo = objetivoSelect.value;
-  if (objetivo === "perder") {
-    info.textContent = "Objetivo: perder grasa. Mantén proteínas altas y controla calorías.";
-  } else if (objetivo === "mantener") {
-    info.textContent = "Objetivo: mantener peso. Balancea proteínas, grasas y carbohidratos.";
-  } else if (objetivo === "ganar") {
-    info.textContent = "Objetivo: ganar músculo. Prioriza proteínas y calorías ligeramente superiores.";
-  } else {
-    info.textContent = "Todos los campos son obligatorios y deben estar dentro del rango válido.";
-  }
-}
-objetivoSelect.addEventListener("change", actualizarInfoObjetivo);
+// Actualizar tips según objetivo
+objetivoSelect.addEventListener("change", () => {
+  tipsContainer.style.opacity = 1;
+});
 
-inputs.forEach(el => el.addEventListener("input", () => {
-  resultado.style.opacity = 0;
-  document.getElementById("chart-container").style.display = "none";
-  tipsContainer.style.display = "none";
-  actualizarInfoObjetivo();
-}));
-
-form.addEventListener("submit", function (e) {
+// Formulario
+form.addEventListener("submit", e => {
   e.preventDefault();
 
-  const peso = parseFloat(document.getElementById('peso').value);
-  const altura = parseFloat(document.getElementById('altura').value);
-  const edad = parseFloat(document.getElementById('edad').value);
-  const genero = document.getElementById('genero').value;
-  const actividad = parseFloat(document.getElementById('actividad').value);
+  const peso = parseFloat(document.getElementById("peso").value);
+  const altura = parseFloat(document.getElementById("altura").value);
+  const edad = parseFloat(document.getElementById("edad").value);
+  const genero = document.getElementById("genero").value;
+  const actividad = parseFloat(document.getElementById("actividad").value);
   const objetivo = objetivoSelect.value;
 
-  if (isNaN(peso) || isNaN(altura) || isNaN(edad) || !genero || !actividad || !objetivo) {
-    error.textContent = "Por favor introduce valores válidos en todos los campos.";
+  if(!peso || !altura || !edad || !genero || !actividad || !objetivo){
+    error.textContent = "Introduce valores válidos en todos los campos.";
     error.style.display = "block";
     return;
   }
   error.style.display = "none";
 
-  let tmb = genero === 'hombre'
-    ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
-    : (10 * peso) + (6.25 * altura) - (5 * edad) - 161;
+  // TMB
+  let tmb = genero === "hombre"
+    ? 10*peso + 6.25*altura - 5*edad + 5
+    : 10*peso + 6.25*altura - 5*edad -161;
 
   let calorias = tmb * actividad;
-  if (objetivo === 'perder') calorias *= 0.8;
-  if (objetivo === 'ganar') calorias *= 1.15;
+  if(objetivo === "perder") calorias *= 0.8;
+  if(objetivo === "ganar") calorias *= 1.15;
   calorias = Math.round(calorias);
 
-  let proteinasPorKg = objetivo === 'ganar' ? 2.2 : objetivo === 'perder' ? 2 : 1.8;
-  let proteinas = proteinasPorKg * peso;
-  let grasas = (calorias * 0.25) / 9;
-  let carbohidratos = (calorias - (proteinas * 4) - (grasas * 9)) / 4;
+  let proteinas = objetivo === "ganar" ? 2.2*peso : objetivo === "perder" ? 2*peso : 1.8*peso;
+  let grasas = (calorias*0.25)/9;
+  let carbohidratos = (calorias - (proteinas*4) - (grasas*9))/4;
 
-  resultado.style.opacity = 0;
-  requestAnimationFrame(() => {
-    resultado.innerHTML = `
-      <p>Calorías diarias: <strong>${calorias}</strong></p>
-      <p>Proteínas: <strong>${proteinas.toFixed(0)} g</strong></p>
-      <p>Grasas: <strong>${grasas.toFixed(0)} g</strong></p>
-      <p>Carbohidratos: <strong>${carbohidratos.toFixed(0)} g</strong></p>
-    `;
-    requestAnimationFrame(() => resultado.style.opacity = 1);
-  });
-
-  const chartContainer = document.getElementById("chart-container");
+  resultado.innerHTML = `
+    <p>Calorías diarias: <strong>${calorias}</strong></p>
+    <p>Proteínas: <strong>${proteinas.toFixed(1)} g</strong></p>
+    <p>Grasas: <strong>${grasas.toFixed(1)} g</strong></p>
+    <p>Carbohidratos: <strong>${carbohidratos.toFixed(1)} g</strong></p>
+  `;
+  resultado.style.opacity = 1;
   chartContainer.style.display = "block";
   tipsContainer.style.display = "block";
 
-  const data = [(proteinas * 4).toFixed(0), (grasas * 9).toFixed(0), (carbohidratos * 4).toFixed(0)];
-  if (!chart) {
-    const ctx = document.getElementById('macrosChart').getContext('2d');
+  const data = [(proteinas*4).toFixed(0),(grasas*9).toFixed(0),(carbohidratos*4).toFixed(0)];
+  if(!chart){
+    const ctx = document.getElementById("macrosChart").getContext("2d");
     chart = new Chart(ctx, {
-      type: 'pie',
+      type: "pie",
       data: {
-        labels: ['Proteínas', 'Grasas', 'Carbohidratos'],
-        datasets: [{ data, backgroundColor: ['#00ffc0', '#ffcc00', '#ff4d4d'] }]
+        labels:["Proteínas","Grasas","Carbohidratos"],
+        datasets:[{data, backgroundColor:["#00ffc0","#ffcc00","#ff4d4d"]}]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { labels: { color: document.body.classList.contains("light") ? '#222' : 'white' } }
-        }
+      options:{
+        responsive:true,
+        plugins:{legend:{labels:{color: body.classList.contains("light") ? "#222" : "#fff"}}}
       }
     });
   } else {
@@ -371,22 +319,24 @@ form.addEventListener("submit", function (e) {
   }
 });
 
-// Botón cerrar - siempre intentar cerrar la pestaña
-cerrarBtn.addEventListener("click", (e) => {
+// Cerrar ventana (mejor ocultar)
+cerrarBtn.addEventListener("click", e => {
   e.preventDefault();
-  window.open('', '_self');
-  window.close();
+  form.style.display = "none";
+  chartContainer.style.display = "none";
+  tipsContainer.style.display = "none";
+  resultado.style.opacity = 0;
 });
 
-// Service Worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js')
-    .then(() => console.log("✅ Service Worker registrado"))
-    .catch(err => console.log("❌ Error en Service Worker", err));
-}
-
 // Animación de carga
-window.addEventListener('load', () => body.classList.add('loaded'));
+window.addEventListener("load", () => body.classList.add("loaded"));
+
+// Service Worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./service-worker.js')
+    .then(()=>console.log("✅ Service Worker registrado"))
+    .catch(err=>console.log("❌ Error Service Worker", err));
+}
 </script>
 
 </body>
