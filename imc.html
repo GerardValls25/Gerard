@@ -48,6 +48,54 @@ h1 {
   font-size: 2.2rem;
 }
 
+button {
+  cursor: pointer;
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+/* Botón Atrás */
+#btn-atras {
+  background: var(--text-secondary);
+  color: var(--card-bg);
+  border: none;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+#btn-atras:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Botón modo oscuro */
+#toggle-dark {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 2px 8px var(--shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  transition: background var(--transition), color var(--transition);
+}
+
+body.dark #toggle-dark {
+  color: #ffd600;
+}
+
+/* Formulario y estilos existentes */
 form {
   background: var(--card-bg);
   padding: 32px 36px;
@@ -84,7 +132,7 @@ input[type="number"]:focus {
   box-shadow: 0 0 8px rgba(0,123,255,0.4);
 }
 
-button {
+form button {
   background: var(--primary);
   color: #fff;
   border: none;
@@ -94,19 +142,42 @@ button {
   font-size: 1.1rem;
   cursor: pointer;
   box-shadow: 0 6px 12px rgba(0,123,255,0.3);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-button:hover {
+form button:hover {
   background: #0056b3;
   box-shadow: 0 8px 16px rgba(0,86,179,0.5);
 }
 
+/* Resultado y explicaciones */
 #resultado {
   margin-top: 20px;
   font-size: 1.3rem;
   font-weight: 700;
   text-align: center;
+}
+
+#valor-imc {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+#explicacion {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  text-align: center;
+  max-width: 360px;
+}
+
+@media (max-width: 400px) {
+  form {
+    width: 100%;
+    padding: 28px 20px;
+  }
 }
 
 /* Velocímetro */
@@ -136,10 +207,10 @@ button:hover {
   border-radius: 260px 260px 0 0;
   background: conic-gradient(
     from 180deg,
-    #2196f3 0deg 90deg,   /* Bajo peso */
-    #4caf50 90deg 135deg,  /* Normal */
-    #ffeb3b 135deg 160deg, /* Sobrepeso */
-    #f44336 160deg 180deg   /* Obesidad */
+    #2196f3 0deg 90deg,
+    #4caf50 90deg 135deg,
+    #ffeb3b 135deg 160deg,
+    #f44336 160deg 180deg
   );
   transform-origin: center;
   transform: scaleY(0);
@@ -150,7 +221,6 @@ button:hover {
   transform: scaleY(1);
 }
 
-/* Aguja con rebote y resplandor */
 .aguja {
   position: absolute;
   bottom: 0;
@@ -177,51 +247,6 @@ button:hover {
   box-shadow: 0 0 12px rgba(255,255,255,0.8);
 }
 
-#valor-imc {
-  text-align: center;
-  margin-top: 10px;
-  font-weight: 700;
-  font-size: 1.4rem;
-}
-
-#explicacion {
-  margin-top: 20px;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  text-align: center;
-  max-width: 360px;
-}
-
-#toggle-dark {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--card-bg);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  box-shadow: 0 2px 8px var(--shadow);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary);
-  transition: background var(--transition), color var(--transition);
-}
-
-body.dark #toggle-dark {
-  color: #ffd600;
-}
-
-@media (max-width: 400px) {
-  form {
-    width: 100%;
-    padding: 28px 20px;
-  }
-}
-
 /* Animación de rebote */
 @keyframes rebote {
   0% { transform: rotate(var(--angulo)) translateY(0); }
@@ -238,11 +263,15 @@ body.dark #toggle-dark {
 </head>
 <body>
 
+<!-- Botón modo oscuro -->
 <button id="toggle-dark" title="Alternar modo claro/oscuro">
   <i class="fas fa-moon"></i>
 </button>
 
 <h1>Calculadora IMC</h1>
+
+<!-- Botón Atrás -->
+<button id="btn-atras"><i class="fas fa-arrow-left"></i> Atrás</button>
 
 <form id="imc-form" novalidate>
   <div>
@@ -286,6 +315,7 @@ const velocimetro = document.getElementById('velocimetro');
 const aguja = document.getElementById('aguja');
 const valorIMC = document.getElementById('valor-imc');
 const arco = document.getElementById('arco');
+const btnAtras = document.getElementById('btn-atras');
 
 // Modo oscuro
 function aplicarModoInicial() {
@@ -303,7 +333,12 @@ toggleDark.addEventListener('click', () => {
 });
 aplicarModoInicial();
 
-// Calcular IMC y animar velocímetro con rebote y resplandor
+// Botón Atrás
+btnAtras.addEventListener('click', () => {
+  window.history.back();
+});
+
+// Calcular IMC y animar velocímetro
 document.getElementById('imc-form').addEventListener('submit', e => {
   e.preventDefault();
 
@@ -335,16 +370,16 @@ document.getElementById('imc-form').addEventListener('submit', e => {
 
   // Animar arco
   arco.classList.remove("animando");
-  void arco.offsetWidth; // forzar reflow
+  void arco.offsetWidth;
   arco.classList.add("animando");
 
-  // Mover la aguja con rebote y resplandor
+  // Mover aguja con rebote
   const angulo = Math.max(0, Math.min(180 - imc * 4.5, 180));
   aguja.style.setProperty('--angulo', angulo + 'deg');
   aguja.style.background = color;
   aguja.style.boxShadow = `0 0 12px ${color}, 0 0 20px ${color}55`;
   aguja.classList.remove('rebotando');
-  void aguja.offsetWidth; // forzar reflow
+  void aguja.offsetWidth;
   aguja.classList.add('rebotando');
 });
 </script>
