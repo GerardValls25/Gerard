@@ -80,9 +80,8 @@ button:hover { background: #00e6b8; transform: scale(1.02); }
 
 #error { color: #ff4d4d; text-align: center; display: none; }
 #resultado { margin-top: 15px; font-weight: bold; text-align: center; transition: opacity 0.5s ease; }
-.chart-container, .tips-container, .cerrar-btn { transition: opacity 0.5s ease, transform 0.5s ease; }
+.chart-container, .tips-container, .cerrar-btn, #abrirBtn { transition: opacity 0.5s ease, transform 0.5s ease; }
 .chart-container, .tips-container, .cerrar-btn { opacity: 1; }
-
 .hidden {
   opacity: 0 !important;
   transform: translateY(-20px) !important;
@@ -148,16 +147,17 @@ body.light .theme-toggle:hover { background: #00000022; }
 </div>
 
 <a href="#" class="cerrar-btn" id="cerrar-btn">❌ Cerrar Calculadora</a>
+<button id="abrirBtn" style="display:none; margin-top: 20px; padding: 12px; border-radius:8px; background:#0077ff; color:white; font-weight:bold; cursor:pointer;">Abrir Calculadora</button>
 
 <script>
 let chart = null;
 const form = document.getElementById("macro-form");
-const inputs = form.querySelectorAll("input, select");
 const error = document.getElementById("error");
 const resultado = document.getElementById("resultado");
 const chartContainer = document.getElementById("chart-container");
 const tipsContainer = document.getElementById("tips-container");
 const cerrarBtn = document.getElementById("cerrar-btn");
+const abrirBtn = document.getElementById("abrirBtn");
 
 const body = document.body;
 const themeToggle = document.getElementById("theme-toggle");
@@ -175,6 +175,7 @@ themeToggle.addEventListener("click", () => {
   localStorage.setItem("theme", body.classList.contains("light") ? "light" : "dark");
 });
 
+// Calcular macros
 form.addEventListener("submit", e => {
   e.preventDefault();
   const peso = parseFloat(document.getElementById("peso").value);
@@ -226,13 +227,23 @@ form.addEventListener("submit", e => {
   }
 });
 
-// Botón Cerrar con animación PRO
+// Cerrar con animación y mostrar botón Abrir
 cerrarBtn.addEventListener("click", e=>{
   e.preventDefault();
   form.classList.add("hidden");
   chartContainer.classList.add("hidden");
   tipsContainer.classList.add("hidden");
   cerrarBtn.classList.add("hidden");
+  setTimeout(() => { abrirBtn.style.display="block"; }, 500);
+});
+
+// Abrir calculadora de nuevo
+abrirBtn.addEventListener("click", ()=>{
+  form.classList.remove("hidden");
+  chartContainer.classList.remove("hidden");
+  tipsContainer.classList.remove("hidden");
+  cerrarBtn.classList.remove("hidden");
+  abrirBtn.style.display="none";
 });
 </script>
 </body>
