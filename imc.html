@@ -335,11 +335,7 @@ aplicarModoInicial();
 
 // Botón Atrás
 btnAtras.addEventListener('click', () => {
-  if (window.history.length > 1) {
-    window.history.back(); // regresa si hay historial
-  } else {
-    window.location.href = "index.html"; // cambia a tu página principal
-  }
+  window.close();
 });
 
 // Calcular IMC y animar velocímetro
