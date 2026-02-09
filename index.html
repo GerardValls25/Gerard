@@ -450,5 +450,15 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 function abrirVentana(url){
   window.open(url, '_blank', 'width=420,height=750');
 }
+  <script>
+function abrirVentana(e, url){
+  e.preventDefault(); // evita que el href="#" bloquee todo
+  window.open(
+    url,
+    '_blank',
+    'width=420,height=750,menubar=no,toolbar=no,location=no,status=no'
+  );
+}
+</script>
 </body>
 </html>
