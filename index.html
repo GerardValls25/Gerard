@@ -216,9 +216,11 @@ body.light .form-group .icon-input {
 </header>
 
 <nav>
-  <a href="#" onclick="abrirVentana(event, 'calculadora.html')">Calculadora</a>
-  <a href="#" onclick="abrirVentana(event, 'imc.html')">IMC</a>
-  <a href="#testimonios">Testimonios</a>
+<a href="#servicios">Servicios</a>
+<a href="#testimonios">Testimonios</a>
+<a href="#consulta">Formulario</a>
+<a href="calculadora.html" target="_blank">Calculadora</a>
+<a href="imc.html" target="_blank">IMC</a>
 </nav>
 
 <main class="wrapper">
@@ -446,19 +448,6 @@ window.addEventListener('scroll', () => {
 
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
-<script>
-function abrirVentana(url){
-  window.open(url, '_blank', 'width=420,height=750');
-}
-  <script>
-function abrirVentana(e, url){
-  e.preventDefault(); // evita que el href="#" bloquee todo
-  window.open(
-    url,
-    '_blank',
-    'width=420,height=750,menubar=no,toolbar=no,location=no,status=no'
-  );
-}
-</script>
+
 </body>
 </html>
