@@ -239,14 +239,9 @@ form.addEventListener("submit", e => {
 });
 
 // Botón "Atrás"
-btnAtras.addEventListener("click", (e) => {
-  e.preventDefault();
-  chartContainer.style.display = "none";
-  tipsContainer.style.display = "none";
-  resultado.innerHTML = "";
-  form.reset();
-  error.textContent = "";
-  form.scrollIntoView({ behavior: "smooth" });
+// Botón Atrás
+btnAtras.addEventListener('click', () => {
+  window.close();
 });
 </script>
 </body>
