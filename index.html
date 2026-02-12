@@ -372,15 +372,7 @@ body.light .icon-input {
   .services { grid-template-columns: 1fr; }
 }
 
-/* COMPARADOR ANTES/DESPUÉS */
-#comparador { margin: 60px auto; text-align: center; }
-.comparador { position: relative; max-width: 800px; margin: 40px auto; }
-.comparador .img-container { position: relative; width: 100%; overflow: hidden; border-radius: var(--radius); box-shadow: var(--shadow); }
-.comparador img { width: 100%; display: block; object-fit: cover; }
-.comparador .img-antes { position: absolute; top: 0; left: 0; height: 100%; width: 50%; clip-path: inset(0 50% 0 0); transition: clip-path 0.2s; z-index: 2; }
-.comparador .img-despues { display: block; }
-.comparador .slider { width: 100%; margin-top: 15px; cursor: pointer; }
-.comparador .slider-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 3px; height: 100%; background: var(--primary); z-index: 3; pointer-events: none; }
+
 </style>
 </head>
 <body>
@@ -393,7 +385,6 @@ body.light .icon-input {
 
 <nav>
 <a href="#servicios">Servicios</a>
-<a href="#comparador">Transformación</a>
 <a href="#testimonios">Testimonios</a>
 <a href="#consulta">Formulario</a>
 <a href="calculadora.html" target="_blank">Calculadora</a>
@@ -406,36 +397,204 @@ body.light .icon-input {
 <section id="servicios">
 <h2>Servicios</h2>
 <div class="services">
-<!-- tus servicios aquí, como en tu HTML original -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-bowl-food icon-planes"></i>
+<h3>Planes Personalizados</h3>
+<p>Adaptados a tu estilo de vida y objetivos.</p>
 </div>
-</section>
+<div class="service-back">
+<ul>
+<li>Evaluación inicial completa</li>
+<li>Plan nutricional flexible</li>
+<li>Seguimiento quincenal</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
 
-<!-- COMPARADOR ANTES/DESPUÉS -->
-<section id="comparador">
-  <h2>Transformación</h2>
-  <div class="comparador">
-    <div class="img-container">
-      <img src="antes.jpg" alt="Antes" class="img-antes">
-      <img src="despues.jpg" alt="Después" class="img-despues">
-      <div class="slider-line"></div>
-    </div>
-    <input type="range" min="0" max="100" value="50" class="slider">
-  </div>
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-person-running icon-deporte"></i>
+<h3>Asesoría Deportiva</h3>
+<p>Optimiza tu rendimiento y recuperación.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Plan de macronutrientes</li>
+<li>Recomendaciones de suplementación</li>
+<li>Ajuste de cargas de entrenamiento</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
+
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-scale-balanced icon-peso"></i>
+<h3>Pérdida de Peso</h3>
+<p>Programas sostenibles y personalizados.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Reducción de grasa saludable</li>
+<li>Hábitos de alimentación duraderos</li>
+<li>Soporte psicológico</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
+
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-laptop icon-online"></i>
+<h3>Consultas Online</h3>
+<p>Asesoría desde la comodidad de tu hogar.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Videollamadas semanales</li>
+<li>Soporte vía chat</li>
+<li>Material exclusivo</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
+
+</div>
 </section>
 
 <!-- BENEFICIOS INCLUIDOS -->
 <section id="incluye-todos">
-<!-- contenido de beneficios -->
+<h2>¿Qué incluyen todos los planes?</h2>
+<ul>
+<li><i class="fas fa-check-circle"></i> Rutina de Entrenamiento personalizada</li>
+<li><i class="fas fa-check-circle"></i> Plan de Comidas Personalizado</li>
+<li><i class="fas fa-check-circle"></i> Cambios de comidas y entrenamiento periódicos</li>
+<li><i class="fas fa-check-circle"></i> Videos de Ejercicios</li>
+<li><i class="fas fa-check-circle"></i> Lista de compras descargable</li>
+<li><i class="fas fa-check-circle"></i> Sustitución de alimentos</li>
+<li><i class="fas fa-check-circle"></i> Adaptación a Alergias/intolerancias</li>
+<li><i class="fas fa-check-circle"></i> Registro de Ejercicios y Progreso</li>
+<li><i class="fas fa-check-circle"></i> Atención Email Online 24/7</li>
+<li><i class="fas fa-check-circle"></i> APP en tu móvil</li>
+<li><i class="fas fa-check-circle"></i> Acceso al grupo privado en Facebook</li>
+</ul>
+<p>RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
 </section>
-
 <!-- TESTIMONIOS -->
 <section id="testimonios">
-<!-- contenido de testimonios -->
+<h2>Resultados Reales</h2>
+
+<div class="testimonios-container">
+
+  <div class="testimonio-card">
+    <p class="testimonio-text">
+      “Perdí 8kg en 4 meses sin pasar hambre. Aprendí a comer bien y mantener resultados.”
+    </p>
+    <div class="testimonio-user">
+      <strong>Carlos M.</strong>
+      <span>Valencia</span>
+    </div>
+  </div>
+
+  <div class="testimonio-card">
+    <p class="testimonio-text">
+      “Me ayudó a mejorar mi rendimiento en competición. Más energía y mejor recuperación.”
+    </p>
+    <div class="testimonio-user">
+      <strong>Laura G.</strong>
+      <span>Barcelona</span>
+    </div>
+  </div>
+
+  <div class="testimonio-card">
+    <p class="testimonio-text">
+      “Por fin encontré un plan que se adapta a mi trabajo y horarios.”
+    </p>
+    <div class="testimonio-user">
+      <strong>David R.</strong>
+      <span>Madrid</span>
+    </div>
+  </div>
+
+</div>
 </section>
 
 <!-- PLANES DE SUSCRIPCIÓN -->
 <section id="planes">
-<!-- contenido de planes -->
+<h2>Planes de Suscripción</h2>
+<div class="services">
+
+<!-- Suscripción Anual -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-star icon-planes"></i>
+<h3>Suscripción Anual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
+<small>*Facturado anualmente</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Mejor valor</li>
+<li>Acceso completo a todos los planes</li>
+<li>Soporte 24/7</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
+
+<!-- Suscripción Trimestral -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-calendar-alt icon-deporte"></i>
+<h3>Suscripción Trimestral</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
+<small>*Facturado trimestral</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Plan flexible</li>
+<li>Actualización periódica</li>
+<li>Soporte online</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
+
+<!-- Suscripción Mensual -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-dollar-sign icon-peso"></i>
+<h3>Suscripción Mensual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
+<small>*Facturado mensualmente</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Acceso mensual</li>
+<li>Ideal para probar</li>
+<li>Soporte básico</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
+
+</div>
 </section>
 
 <!-- FORMULARIO -->
@@ -467,41 +626,46 @@ body.light .icon-input {
 <button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
 <a id="whatsappBtn" href="https://wa.me/tu-numero" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-<!-- SCRIPTS -->
+<footer>
+<p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
+</footer>
+
 <script>
-  // Modo Claro/Oscuro
-  const toggleBtn = document.getElementById('toggle-theme');
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    toggleBtn.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
-  });
+// TOGGLE THEME
+const toggleBtn = document.getElementById('toggle-theme');
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  toggleBtn.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+});
 
-  // Scroll y WhatsApp
-  const scrollBtn = document.getElementById('scrollTopBtn');
-  const whatsappBtn = document.getElementById('whatsappBtn');
-  window.addEventListener('scroll', () => {
-    if(window.scrollY > 300){
-      scrollBtn.classList.add('show');
-      whatsappBtn.classList.add('show');
-    } else {
-      scrollBtn.classList.remove('show');
-      whatsappBtn.classList.remove('show');
-    }
-  });
-  scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+// SCROLL TOP & WHATSAPP BUTTON
+const scrollBtn = document.getElementById('scrollTopBtn');
+const whatsappBtn = document.getElementById('whatsappBtn');
 
-  // COMPARADOR ANTES/DESPUÉS
-  document.querySelectorAll(".comparador").forEach(comp => {
-    const slider = comp.querySelector(".slider");
-    const beforeImg = comp.querySelector(".img-antes");
-    const line = comp.querySelector(".slider-line");
+window.addEventListener('scroll', () => {
+  if(window.scrollY > 300){
+    scrollBtn.classList.add('show');
+    whatsappBtn.classList.add('show'); // Aparece WhatsApp
+  } else {
+    scrollBtn.classList.remove('show');
+    whatsappBtn.classList.remove('show'); // Desaparece WhatsApp
+  }
+});
 
-    slider.addEventListener("input", e => {
-      const value = e.target.value;
-      beforeImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
-      line.style.left = value + "%";
-    });
+scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+<script>
+document.querySelectorAll(".comparador").forEach(comp => {
+  const slider = comp.querySelector(".slider");
+  const beforeImg = comp.querySelector(".img-antes");
+  const line = comp.querySelector(".slider-line");
+
+  slider.addEventListener("input", e => {
+    const value = e.target.value;
+    beforeImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+    line.style.left = value + "%";
   });
+});
 </script>
 
 </body>
