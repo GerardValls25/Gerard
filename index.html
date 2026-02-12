@@ -138,18 +138,6 @@ h2::after {
   animation: lineDraw 1s forwards;
 }
 @keyframes lineDraw { to { transform: scaleX(1); } }
-<!-- TRANSFORMACIÓN ANTES / DESPUÉS -->
-<section id="antes-despues">
-  <h2>Transformaciones</h2>
-  <div class="comparador">
-    <div class="img-container">
-      <img src="antes.jpg" alt="Antes" class="img-antes">
-      <img src="despues.jpg" alt="Después" class="img-despues">
-    </div>
-    <input type="range" min="0" max="100" value="50" class="slider">
-    <div class="slider-line"></div>
-  </div>
-</section>
 
 /* SERVICIOS */
 .services {
@@ -382,19 +370,6 @@ body.light .icon-input {
   header h1 { font-size: 2.2rem; }
   header p { font-size:1.1rem; }
   .services { grid-template-columns: 1fr; }
-}
-/* ESTILOS RESPONSIVOS EXISTENTES */
-@media (max-width:768px) {
-  header h1 { font-size: 2.2rem; }
-  header p { font-size:1.1rem; }
-  .services { grid-template-columns: 1fr; }
-}
-
-/* RESPONSIVO DEL COMPARADOR ANTES / DESPUÉS */
-@media (max-width:768px){
-  .comparador { max-width: 100%; }
-  .slider { height: 4px; }
-  .slider::-webkit-slider-thumb { width: 16px; height: 16px; }
 }
 
 
