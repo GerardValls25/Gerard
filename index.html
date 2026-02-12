@@ -371,7 +371,60 @@ body.light .icon-input {
   header p { font-size:1.1rem; }
   .services { grid-template-columns: 1fr; }
 }
+.comparador {
+  position: relative;
+  max-width: 800px;
+  margin: 40px auto;
+  text-align: center;
+}
 
+.comparador .img-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.comparador img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.comparador .img-antes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 50%; /* empieza mostrando la mitad */
+  object-fit: cover;
+  clip-path: inset(0 50% 0 0);
+  transition: clip-path 0.2s;
+  z-index: 2;
+}
+
+.comparador .img-despues {
+  display: block;
+}
+
+.comparador .slider {
+  width: 100%;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.comparador .slider-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 100%;
+  background: var(--primary);
+  z-index: 3;
+  pointer-events: none;
+}
 
 </style>
 </head>
@@ -667,6 +720,17 @@ document.querySelectorAll(".comparador").forEach(comp => {
   });
 });
 </script>
+document.querySelectorAll(".comparador").forEach(comp => {
+  const slider = comp.querySelector(".slider");
+  const beforeImg = comp.querySelector(".img-antes");
+  const line = comp.querySelector(".slider-line");
+
+  slider.addEventListener("input", e => {
+    const value = e.target.value;
+    beforeImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+    line.style.left = value + "%";
+  });
+});
 
 </body>
 </html>
