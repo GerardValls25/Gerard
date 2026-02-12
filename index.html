@@ -215,36 +215,21 @@ body.light .form-group .icon-input {
 
 <div class="transformaciones-container">
 
-  <div class="transformacion-card">
-    <div class="transformacion-img">
-      <img src="antes1.jpg" alt="Antes">
-      <img src="despues1.jpg" alt="Después">
-    </div>
-    <div class="transformacion-info">
-      <h3>-8kg en 4 meses</h3>
-      <p>“Aprendí a comer sin restricciones y mantengo resultados.”</p>
-      <span>Carlos M. • Valencia</span>
-    </div>
+<div class="transformacion-card premium">
+
+  <div class="comparador">
+    <img src="despues1.jpg" class="img-despues" alt="Después">
+    <img src="antes1.jpg" class="img-antes" alt="Antes">
+    <div class="slider-line"></div>
+    <input type="range" min="0" max="100" value="50" class="slider">
   </div>
 
-  <div class="transformacion-card">
-    <div class="transformacion-img">
-      <img src="antes2.jpg" alt="Antes">
-      <img src="despues2.jpg" alt="Después">
-    </div>
-    <div class="transformacion-info">
-      <h3>Mejor rendimiento deportivo</h3>
-      <p>“Más energía, mejor recuperación y mejores marcas.”</p>
-      <span>Laura G. • Barcelona</span>
-    </div>
+  <div class="transformacion-info">
+    <h3>-8kg en 4 meses</h3>
+    <p>“Aprendí a comer sin restricciones y mantengo resultados.”</p>
+    <span>Carlos M. • Valencia</span>
   </div>
 
-</div>
-
-<div class="cta-transformacion">
-  <a href="#consulta" class="btn-transformacion">
-    QUIERO MI TRANSFORMACIÓN
-  </a>
 </div>
 
 </section>
@@ -378,6 +363,50 @@ body.light .transformacion-card {
 .btn-transformacion:hover {
   transform: scale(1.05);
   box-shadow: 0 0 25px rgba(0,255,192,0.6);
+}
+/* ===== COMPARADOR PREMIUM ===== */
+
+.comparador {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
+.comparador img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img-antes {
+  clip-path: inset(0 50% 0 0);
+  z-index: 2;
+}
+
+.img-despues {
+  z-index: 1;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 4;
+}
+
+.slider-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  z-index: 3;
+  transition: left 0.1s;
 }
 
 </style>
@@ -660,6 +689,19 @@ window.addEventListener('scroll', () => {
 });
 
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+<script>
+document.querySelectorAll(".comparador").forEach(comp => {
+  const slider = comp.querySelector(".slider");
+  const beforeImg = comp.querySelector(".img-antes");
+  const line = comp.querySelector(".slider-line");
+
+  slider.addEventListener("input", e => {
+    const value = e.target.value;
+    beforeImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+    line.style.left = value + "%";
+  });
+});
 </script>
 
 </body>
