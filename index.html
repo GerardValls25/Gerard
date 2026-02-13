@@ -537,16 +537,13 @@ orientado a la mejora de la composición corporal, el rendimiento y la salud met
 <li><i class="fas fa-check-circle"></i> APP en tu móvil</li>
 <li><i class="fas fa-check-circle"></i> Acceso al grupo privado en Facebook</li>
 </ul>
-  let plazas = 5;
+  <!-- Contenedor del contador dinámico -->
+<p id="contador-plazas" style="font-weight:bold; color:#ff4d4d; font-size:1.2rem; text-align:center; animation: blink 1.5s infinite;"></p>
 
-function actualizarContador() {
-  const contador = document.getElementById("contador-plazas");
-  if (plazas > 0) {
-    contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-  } else {
-    contador.innerHTML = `❌ Todas las plazas están agotadas`;
-  }
-}
+<!-- Mensaje fijo debajo -->
+<p style="text-align:center; font-weight:bold; color:#ff4d4d; margin-top:10px;">
+RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!
+</p>
   
 <p>RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!</p>
 </section>
