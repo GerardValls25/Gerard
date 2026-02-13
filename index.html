@@ -817,8 +817,17 @@ gsap.from(".testimonio-card", {
 </script>
 <script>
 function startCountdown() {
-  let endDate = new Date();
-  endDate.setHours(endDate.getHours() + 48); // 48 horas
+  // Revisamos si ya hay una fecha guardada
+  let savedEndDate = localStorage.getItem("endDate");
+  let endDate;
+
+  if (!savedEndDate) {
+    endDate = new Date();
+    endDate.setHours(endDate.getHours() + 48); // 48 horas desde ahora
+    localStorage.setItem("endDate", endDate);  // guardamos la fecha
+  } else {
+    endDate = new Date(savedEndDate);
+  }
 
   const timer = setInterval(() => {
     const now = new Date().getTime();
@@ -840,6 +849,7 @@ function startCountdown() {
 }
 
 startCountdown();
+
 </script>
 
 </body>
