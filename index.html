@@ -778,6 +778,33 @@ document.querySelectorAll(".service-back button").forEach(btn => {
   });
 });
 </script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Animación servicios
+gsap.from(".service", {
+  opacity: 0,
+  y: 80,
+  duration: 1,
+  stagger: 0.2,
+  scrollTrigger: {
+    trigger: ".services",
+    start: "top 80%"
+  }
+});
+
+// Animación testimonios
+gsap.from(".testimonio-card", {
+  opacity: 0,
+  scale: 0.9,
+  duration: 1,
+  stagger: 0.2,
+  scrollTrigger: {
+    trigger: "#testimonios",
+    start: "top 80%"
+  }
+});
+</script>
 
 </body>
 </html>
