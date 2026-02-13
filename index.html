@@ -376,6 +376,7 @@ body.light .icon-input {
 </style>
 </head>
 <body>
+
 <header>
 <h1>Gerard Valls</h1>
 
@@ -399,7 +400,6 @@ QUIERO MI PLAN
 <button id="toggle-theme" style="margin-top:25px;">Cambiar a modo claro</button>
 </header>
 
-
 <nav>
 <a href="#servicios">Servicios</a>
 <a href="#testimonios">Testimonios</a>
@@ -414,83 +414,80 @@ QUIERO MI PLAN
 <section id="servicios">
 <h2>Servicios</h2>
 <div class="services">
-  <!-- Planes Personalizados -->
-  <div class="service">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-bowl-food icon-planes"></i>
-        <h3>Planes Personalizados</h3>
-        <p>Adaptados a tu estilo de vida y objetivos.</p>
-      </div>
-      <div class="service-back">
-        <ul>
-          <li>Evaluación inicial completa</li>
-          <li>Plan nutricional flexible</li>
-          <li>Seguimiento quincenal</li>
-        </ul>
-        <button onclick="document.querySelector('.glass-form input').focus()">Solicitar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Asesoría Deportiva -->
-  <div class="service">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-person-running icon-deporte"></i>
-        <h3>Asesoría Deportiva</h3>
-        <p>Optimiza tu rendimiento y recuperación.</p>
-      </div>
-      <div class="service-back">
-        <ul>
-          <li>Plan de macronutrientes</li>
-          <li>Recomendaciones de suplementación</li>
-          <li>Ajuste de cargas de entrenamiento</li>
-        </ul>
-        <button onclick="document.querySelector('.glass-form input').focus()">Solicitar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pérdida de Peso -->
-  <div class="service">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-scale-balanced icon-peso"></i>
-        <h3>Pérdida de Peso</h3>
-        <p>Programas sostenibles y personalizados.</p>
-      </div>
-      <div class="service-back">
-        <ul>
-          <li>Reducción de grasa saludable</li>
-          <li>Hábitos de alimentación duraderos</li>
-          <li>Soporte psicológico</li>
-        </ul>
-        <button onclick="document.querySelector('.glass-form input').focus()">Solicitar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Consultas Online -->
-  <div class="service">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-laptop icon-online"></i>
-        <h3>Consultas Online</h3>
-        <p>Asesoría desde la comodidad de tu hogar.</p>
-      </div>
-      <div class="service-back">
-        <ul>
-          <li>Videollamadas semanales</li>
-          <li>Soporte vía chat</li>
-          <li>Material exclusivo</li>
-        </ul>
-        <button onclick="document.querySelector('.glass-form input').focus()">Solicitar</button>
-      </div>
-    </div>
-  </div>
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-bowl-food icon-planes"></i>
+<h3>Planes Personalizados</h3>
+<p>Adaptados a tu estilo de vida y objetivos.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Evaluación inicial completa</li>
+<li>Plan nutricional flexible</li>
+<li>Seguimiento quincenal</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
 </div>
 
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-person-running icon-deporte"></i>
+<h3>Asesoría Deportiva</h3>
+<p>Optimiza tu rendimiento y recuperación.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Plan de macronutrientes</li>
+<li>Recomendaciones de suplementación</li>
+<li>Ajuste de cargas de entrenamiento</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
+
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-scale-balanced icon-peso"></i>
+<h3>Pérdida de Peso</h3>
+<p>Programas sostenibles y personalizados.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Reducción de grasa saludable</li>
+<li>Hábitos de alimentación duraderos</li>
+<li>Soporte psicológico</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
+
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-laptop icon-online"></i>
+<h3>Consultas Online</h3>
+<p>Asesoría desde la comodidad de tu hogar.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Videollamadas semanales</li>
+<li>Soporte vía chat</li>
+<li>Material exclusivo</li>
+</ul>
+<button onclick="location.href='#consulta'">Solicitar</button>
+</div>
+</div>
+</div>
+
+</div>
+</section>
 </section>  <!-- FIN SERVICIOS -->
 
 <!-- PROCESO DE INTERVENCIÓN NUTRICIONAL -->
@@ -575,18 +572,7 @@ orientado a la mejora de la composición corporal, el rendimiento y la salud met
   <p style="margin-top:12px; font-size:1rem; animation:none;">
     RECUERDA APROVECHAR EL DESCUENTO. LAS PLAZAS SON LIMITADAS. ¡APROVECHA Y HAZ TU CAMBIO YA!
   </p>
-  <div id="countdown" style="margin-top:20px;font-size:1.3rem;color:var(--secondary);font-weight:bold;"></div>
 </div>
-<section id="autoridad" style="margin:80px 0;">
-<h2>¿Por qué confiar en mí?</h2>
-
-<div style="max-width:800px;margin:auto;text-align:center;line-height:1.8;">
-<p><strong>+200 clientes transformados</strong></p>
-<p>Especializado en recomposición corporal y rendimiento deportivo.</p>
-<p>Metodología basada en evidencia científica.</p>
-<p>Resultados sostenibles sin dietas extremas.</p>
-</div>
-</section>
 
 <!-- TESTIMONIOS -->
 <section id="testimonios">
@@ -634,100 +620,90 @@ orientado a la mejora de la composición corporal, el rendimiento y la salud met
 Programas estructurados de intervención nutricional y entrenamiento,
 adaptados al nivel de acompañamiento y seguimiento requerido.
 </p>
-
-</section>
 <div class="services">
-  <!-- Suscripción Anual -->
-  <div class="service">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-star icon-planes"></i>
-        <h3>Suscripción Anual</h3>
-        <p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
-        <small>*Facturado anualmente</small>
-      </div>
-      <div class="service-back">
-        <ul>
-          <li>Mejor valor</li>
-          <li>Acceso completo a todos los planes</li>
-          <li>Soporte 24/7</li>
-        </ul>
-        <button onclick="document.querySelector('.glass-form input').focus()">ÚNETE AHORA</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Suscripción Trimestral -->
-  <div class="service">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-calendar-alt icon-deporte"></i>
-        <h3>Suscripción Trimestral</h3>
-        <p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
-        <small>*Facturado trimestral</small>
-      </div>
-      <div class="service-back">
-        <ul>
-          <li>Plan flexible</li>
-          <li>Actualización periódica</li>
-          <li>Soporte online</li>
-        </ul>
-        <button onclick="document.querySelector('.glass-form input').focus()">ÚNETE AHORA</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Suscripción Mensual -->
-  <div class="service">
-    <div class="service-inner">
-      <div class="service-front">
-        <i class="fas fa-dollar-sign icon-peso"></i>
-        <h3>Suscripción Mensual</h3>
-        <p style="font-size:1.5rem;font-weight:bold;">€49 / 1 mes</p>
-        <small>*Facturado mensualmente</small>
-      </div>
-      <div class="service-back">
-        <ul>
-          <li>Acceso mensual</li>
-          <li>Ideal para probar</li>
-          <li>Soporte básico</li>
-        </ul>
-        <button onclick="document.querySelector('.glass-form input').focus()">ÚNETE AHORA</button>
-      </div>
-    </div>
-  </div>
+<!-- Suscripción Anual -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-star icon-planes"></i>
+<h3>Suscripción Anual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
+<small>*Facturado anualmente</small>
 </div>
+<div class="service-back">
+<ul>
+<li>Mejor valor</li>
+<li>Acceso completo a todos los planes</li>
+<li>Soporte 24/7</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
+
+<!-- Suscripción Trimestral -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-calendar-alt icon-deporte"></i>
+<h3>Suscripción Trimestral</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
+<small>*Facturado trimestral</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Plan flexible</li>
+<li>Actualización periódica</li>
+<li>Soporte online</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
+
+<!-- Suscripción Mensual -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-dollar-sign icon-peso"></i>
+<h3>Suscripción Mensual</h3>
+<p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
+<small>*Facturado mensualmente</small>
+</div>
+<div class="service-back">
+<ul>
+<li>Acceso mensual</li>
+<li>Ideal para probar</li>
+<li>Soporte básico</li>
+</ul>
+<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+</div>
+</div>
+</div>
+
+</div>
+</section>
 
 <!-- FORMULARIO -->
 <section id="consulta">
-  <h2>Formulario de Consulta</h2>
-  <form class="glass-form">
-    <!-- Nombre -->
-    <div class="form-group">
-      <input type="text" id="nombre" required placeholder=" ">
-      <label for="nombre">Nombre</label>
-      <i class="fas fa-user icon-input"></i>
-    </div>
-
-    <!-- Email -->
-    <div class="form-group">
-      <input type="email" id="email" required placeholder=" ">
-      <label for="email">Email</label>
-      <i class="fas fa-envelope icon-input"></i>
-    </div>
-
-    <!-- Mensaje -->
-    <div class="form-group">
-      <textarea id="mensaje" required placeholder=" "></textarea>
-      <label for="mensaje">Mensaje</label>
-      <i class="fas fa-comment icon-input"></i>
-    </div>
-
-    <!-- Botón de Enviar -->
-    <button type="submit">Enviar</button>
-  </form>
-</section>
-
+<h2>Formulario de Consulta</h2>
+<form class="glass-form">
+<div class="form-group">
+<input type="text" required placeholder=" ">
+<label>Nombre</label>
+<i class="fas fa-user icon-input"></i>
+</div>
+<div class="form-group">
+<input type="email" required placeholder=" ">
+<label>Email</label>
+<i class="fas fa-envelope icon-input"></i>
+</div>
+<div class="form-group">
+<textarea required placeholder=" "></textarea>
+<label>Mensaje</label>
+<i class="fas fa-comment icon-input"></i>
+</div>
 <button type="submit" style="background:var(--primary);color:#000;padding:14px 28px;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer;">Enviar</button>
 </form>
 </section>
@@ -801,69 +777,6 @@ document.querySelectorAll(".service-back button").forEach(btn => {
     }
   });
 });
-</script>
-<script>
-gsap.registerPlugin(ScrollTrigger);
-
-// Animación servicios
-gsap.from(".service", {
-  opacity: 0,
-  y: 80,
-  duration: 1,
-  stagger: 0.2,
-  scrollTrigger: {
-    trigger: ".services",
-    start: "top 80%"
-  }
-});
-
-// Animación testimonios
-gsap.from(".testimonio-card", {
-  opacity: 0,
-  scale: 0.9,
-  duration: 1,
-  stagger: 0.2,
-  scrollTrigger: {
-    trigger: "#testimonios",
-    start: "top 80%"
-  }
-});
-</script>
-<script>
-function startCountdown() {
-  // Revisamos si ya hay una fecha guardada
-  let savedEndDate = localStorage.getItem("endDate");
-  let endDate;
-
-  if (!savedEndDate) {
-    endDate = new Date();
-    endDate.setHours(endDate.getHours() + 48); // 48 horas desde ahora
-    localStorage.setItem("endDate", endDate);  // guardamos la fecha
-  } else {
-    endDate = new Date(savedEndDate);
-  }
-
-  const timer = setInterval(() => {
-    const now = new Date().getTime();
-    const distance = endDate - now;
-
-    if (distance < 0) {
-      clearInterval(timer);
-      document.getElementById("countdown").innerHTML = "La promoción ha terminado";
-      return;
-    }
-
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("countdown").innerHTML =
-      `⏳ Descuento disponible por: ${hours}h ${minutes}m ${seconds}s`;
-  }, 1000);
-}
-
-startCountdown();
-
 </script>
 
 </body>
