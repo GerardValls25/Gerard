@@ -816,6 +816,32 @@ gsap.from(".testimonio-card", {
   }
 });
 </script>
+<script>
+function startCountdown() {
+  let endDate = new Date();
+  endDate.setHours(endDate.getHours() + 48); // 48 horas
+
+  const timer = setInterval(() => {
+    const now = new Date().getTime();
+    const distance = endDate - now;
+
+    if (distance < 0) {
+      clearInterval(timer);
+      document.getElementById("countdown").innerHTML = "La promoción ha terminado";
+      return;
+    }
+
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+      `⏳ Descuento disponible por: ${hours}h ${minutes}m ${seconds}s`;
+  }, 1000);
+}
+
+startCountdown();
+</script>
 
 </body>
 </html>
