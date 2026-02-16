@@ -827,8 +827,8 @@ document.querySelectorAll(".service-back button").forEach(btn => {
     }
   });
 });
-</script>
-let plazas = 5; // Número inicial de plazas
+<script>
+let plazas = parseInt(localStorage.getItem('plazas')) || 5;
 
 function actualizarContador() {
   const contador = document.getElementById("contador-plazas");
@@ -837,12 +837,13 @@ function actualizarContador() {
   } else {
     contador.innerHTML = `❌ Todas las plazas están agotadas`;
   }
+  localStorage.setItem('plazas', plazas);
 }
 
 // Actualización inicial
 actualizarContador();
 
-// FUNCIONALIDAD EXTRA: decrementar cuando alguien hace clic en "ÚNETE AHORA"
+// Decrementar cuando alguien hace clic en "ÚNETE AHORA"
 document.querySelectorAll(".service-back button").forEach(btn => {
   btn.addEventListener("click", () => {
     if(plazas > 0){
@@ -851,6 +852,6 @@ document.querySelectorAll(".service-back button").forEach(btn => {
     }
   });
 });
-
+</script>
 </body>
 </html>
