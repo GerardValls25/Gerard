@@ -372,34 +372,64 @@ body.light .icon-input {
 }
   .hero-content {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 auto 60px;
   text-align: center;
+  animation: fadeInUp 1s ease forwards;
 }
 
 .hero-main {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 20px auto 10px;
-  line-height: 1.3;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 10s linear infinite;
 }
 
 .hero-sub {
-  font-size: 1.2rem;
-  opacity: 0.85;
-  margin-bottom: 25px;
+  font-size: 1.3rem;
+  opacity: 0.9;
+  margin-bottom: 30px;
+  color: rgba(255,255,255,0.9);
 }
 
 .hero-checks {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 40px;
   flex-wrap: wrap;
-  font-size: 1rem;
-  opacity: 0.9;
 }
 
 .hero-checks span {
+  position: relative;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  padding-left: 24px;
   white-space: nowrap;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.hero-checks span::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #00ffc0;
+  font-weight: bold;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px);}
+  100% { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0 0; }
+  50% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
 }
 </style>
 </head>
@@ -417,10 +447,17 @@ body.light .icon-input {
     Plan personalizado, seguimiento real y resultados medibles.
   </p>
 
+  <div class="hero-content">
+  <p class="hero-main">Transforma tu cuerpo en 90 días sin dietas extremas.</p>
+
+  <p class="hero-sub">
+    Plan personalizado, seguimiento real y resultados medibles.
+  </p>
+
   <div class="hero-checks">
-    <span>✔ +200 clientes transformados</span>
-    <span>✔ Plan 100% adaptado a tu vida</span>
-    <span>✔ Seguimiento constante</span>
+    <span>Clientes transformados</span>
+    <span>Plan 100% adaptado a tu vida</span>
+    <span>Seguimiento constante</span>
   </div>
 </div>
 
