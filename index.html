@@ -837,34 +837,5 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-<script>
-document.addEventListener("DOMContentLoaded", function()
-{
-function actualizarContador() {
-    const contador = document.getElementById("contador-plazas");
-    if (!contador) return;
-
-    if (plazas > 0) {
-      contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-    } else {
-      contador.innerHTML = `❌ Todas las plazas están agotadas`;
-    }
-
-    localStorage.setItem('plazas', plazas);
-  }
-
-  actualizarContador();
-
-  document.querySelectorAll("#planes .service-back button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      if (plazas > 0) {
-        plazas--;
-        actualizarContador();
-      }
-    });
-  });
-
-});
-</script>
 </body>
 </html>
