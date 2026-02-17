@@ -813,11 +813,12 @@ function actualizarContador() {
   } else {
     contador.innerHTML = `❌ Todas las plazas están agotadas`;
   }
+  localStorage.setItem('plazas', plazas);
 }
 
-// Actualización inicial
+// Inicializar contador
 actualizarContador();
-
+  
 // FUNCIONALIDAD EXTRA: decrementar cuando alguien hace clic en "ÚNETE AHORA"
 document.querySelectorAll(".service-back button").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -827,6 +828,7 @@ document.querySelectorAll(".service-back button").forEach(btn => {
     }
   });
 });
+</script>
 <script>
 let plazas = parseInt(localStorage.getItem('plazas')) || 5;
 
