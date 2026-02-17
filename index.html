@@ -794,23 +794,39 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Obtener plazas del localStorage o inicializar a 5
-  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
   const contador = document.getElementById("contador-plazas");
+  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
 
+  // Función para actualizar el texto del contador
   function actualizarContador() {
     if (!contador) return;
+
     if (plazas > 0) {
       contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
     } else {
       contador.innerHTML = `❌ Todas las plazas están agotadas`;
     }
+
     localStorage.setItem('plazas', plazas);
   }
 
+  // Inicializa contador
   actualizarContador();
 
-  // Cada botón de "ÚNETE AHORA" reduce plazas
+  // Reducir plazas cada 10-20 segundos aleatoriamente
+  function disminuirPlazasAutomatico() {
+    if (plazas > 0) {
+      plazas--;
+      actualizarContador();
+    }
+    // Llamar nuevamente después de 10-20 segundos
+    const tiempoAleatorio = Math.floor(Math.random() * 10000) + 10000; // 10-20s
+    setTimeout(disminuirPlazasAutomatico, tiempoAleatorio);
+  }
+
+  disminuirPlazasAutomatico();
+
+  // Reducir plazas al hacer clic en botones de planes
   document.querySelectorAll("#planes .service-back button").forEach(btn => {
     btn.addEventListener("click", () => {
       if (plazas > 0) {
@@ -821,7 +837,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function()
 {
