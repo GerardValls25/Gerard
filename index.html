@@ -793,10 +793,11 @@ window.addEventListener('scroll', () => {
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
   let plazas = parseInt(localStorage.getItem('plazas')) || 5;
+  const contador = document.getElementById("contador-plazas");
 
   function actualizarContador() {
-    const contador = document.getElementById("contador-plazas");
     if (!contador) return;
 
     if (plazas > 0) {
@@ -818,7 +819,6 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
       }
     });
   });
-
 });
 </script>
 <script>
