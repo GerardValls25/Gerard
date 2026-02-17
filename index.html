@@ -797,21 +797,25 @@ document.querySelectorAll(".comparador").forEach(comp => {
     line.style.left = value + "%";
   });
 });
-  let plazas = 5; // Número inicial de plazas
+  let plazas = localStorage.getItem('plazas') 
+  ? parseInt(localStorage.getItem('plazas')) 
+  : 5;
+
+const contador = document.getElementById("contador-plazas");
 
 function actualizarContador() {
-  const contador = document.getElementById("contador-plazas");
   if (plazas > 0) {
     contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
   } else {
     contador.innerHTML = `❌ Todas las plazas están agotadas`;
   }
+  localStorage.setItem('plazas', plazas);
 }
 
 // Actualización inicial
 actualizarContador();
 
-// FUNCIONALIDAD EXTRA: decrementar cuando alguien hace clic en "ÚNETE AHORA"
+// Decrementar al hacer clic en "ÚNETE AHORA"
 document.querySelectorAll(".service-back button").forEach(btn => {
   btn.addEventListener("click", () => {
     if(plazas > 0){
@@ -820,6 +824,23 @@ document.querySelectorAll(".service-back button").forEach(btn => {
     }
   });
 });
+
+// SIMULACIÓN DINÁMICA: disminuir plazas automáticamente cada cierto tiempo
+function simularOtrasInscripciones() {
+  if (plazas > 0) {
+    // Restamos entre 0 y 1 plaza de forma aleatoria cada 10-20 segundos
+    let resta = Math.random() < 0.7 ? 1 : 0; // 70% probabilidad de restar 1
+    plazas = Math.max(plazas - resta, 0);
+    actualizarContador();
+  }
+  // Próxima simulación entre 10 y 20 segundos
+  let proximo = 10000 + Math.random() * 10000;
+  setTimeout(simularOtrasInscripciones, proximo);
+}
+
+// Iniciar simulación
+simularOtrasInscripciones();
+
 </script>
 
 </body>
