@@ -799,13 +799,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function actualizarContador() {
     if (!contador) return;
-
     if (plazas > 0) {
       contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
     } else {
       contador.innerHTML = `❌ Todas las plazas están agotadas`;
     }
-
     localStorage.setItem('plazas', plazas);
   }
 
