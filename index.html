@@ -794,6 +794,7 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+  // Obtener plazas del localStorage o inicializar a 5
   let plazas = parseInt(localStorage.getItem('plazas')) || 5;
   const contador = document.getElementById("contador-plazas");
 
@@ -809,6 +810,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   actualizarContador();
 
+  // Cada botón de "ÚNETE AHORA" reduce plazas
   document.querySelectorAll("#planes .service-back button").forEach(btn => {
     btn.addEventListener("click", () => {
       if (plazas > 0) {
@@ -818,8 +820,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 });
-
 </script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function()
 {
