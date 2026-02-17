@@ -822,11 +822,9 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 });
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function(){
-
-  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
-
-  function actualizarContador() {
+document.addEventListener("DOMContentLoaded", function()
+{
+function actualizarContador() {
     const contador = document.getElementById("contador-plazas");
     if (!contador) return;
 
