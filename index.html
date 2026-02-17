@@ -49,125 +49,27 @@ a { text-decoration: none; color: var(--primary); transition: .3s; }
 a:hover { color: var(--primary-hover); }
 
 /* HEADER */
-<!-- --------------------------- -->
-<!-- SCRIPT COMPLETO MEJORADO -->
-<!-- --------------------------- -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-  // ==========================
-  // TEMA CLARO/OSCURA PERSISTENTE
-  // ==========================
-  const toggleBtn = document.getElementById('toggle-theme');
-  const userTheme = localStorage.getItem('theme') || 'dark';
-  if(userTheme === 'light') document.body.classList.add('light');
-  toggleBtn.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
-
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    const isLight = document.body.classList.contains('light');
-    toggleBtn.textContent = isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  });
-
-  // ==========================
-  // BOTONES FIJOS SCROLL / WHATSAPP
-  // ==========================
-  const scrollBtn = document.getElementById('scrollTopBtn');
-  const whatsappBtn = document.getElementById('whatsappBtn');
-
-  window.addEventListener('scroll', () => {
-    if(window.scrollY > 300){
-      scrollBtn.classList.add('show');
-      whatsappBtn.classList.add('show');
-    } else {
-      scrollBtn.classList.remove('show');
-      whatsappBtn.classList.remove('show');
-    }
-  });
-
-  scrollBtn.addEventListener('click', () => {
-    gsap.to(window, {scrollTo:0, duration:1, ease:"power2.out"});
-  });
-
-  // ==========================
-  // CONTADOR DE PLAZAS
-  // ==========================
-  const contador = document.getElementById("contador-plazas");
-  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
-
-  function actualizarContador() {
-    if (!contador) return;
-    if(plazas > 0) {
-      contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-    } else {
-      contador.innerHTML = `❌ Todas las plazas están agotadas`;
-      plazas = 0; // Nunca negativo
-    }
-    localStorage.setItem('plazas', plazas);
-  }
-
-  actualizarContador();
-
-  function disminuirPlazasAutomatico() {
-    if(plazas > 0) {
-      plazas--;
-      actualizarContador();
-    }
-    const tiempoAleatorio = Math.floor(Math.random() * 10000) + 10000; // 10-20s
-    setTimeout(disminuirPlazasAutomatico, tiempoAleatorio);
-  }
-
-  disminuirPlazasAutomatico();
-
-  document.querySelectorAll("#planes .service-back button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      if(plazas > 0) {
-        plazas--;
-        actualizarContador();
-      }
-    });
-  });
-
-  // ==========================
-  // ANIMACIONES GSAP
-  // ==========================
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Fade-in de secciones
-  gsap.utils.toArray("section").forEach(section => {
-    gsap.from(section, {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
-        toggleActions: "play none none none"
-      }
-    });
-  });
-
-  // Fade-in de cada carta de servicios
-  gsap.utils.toArray(".service").forEach(card => {
-    gsap.from(card, {
-      opacity: 0,
-      y: 40,
-      scale: 0.95,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: card,
-        start: "top 90%",
-        toggleActions: "play none none none"
-      }
-    });
-  });
-
-});
-</script>
-
+header {
+  text-align: center;
+  padding: 120px 20px 80px;
+  position: relative;
+}
+header h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(0,255,192,0.4);
+  animation: gradMove 12s linear infinite;
+}
+header p {
+  margin-top: 12px;
+  font-size: 1.3rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s forwards 0.5s;
+}
 #toggle-theme {
   margin-top: 20px;
   background: var(--primary);
@@ -518,21 +420,27 @@ body.light .icon-input {
 
 <header>
 <h1>Gerard Valls</h1>
-
 <div class="hero-content">
   <p class="hero-main">Transforma tu cuerpo en 90 días sin dietas extremas.</p>
-
-  <p class="hero-sub">
-    Plan personalizado, seguimiento real y resultados medibles.
-  </p>
-
+  <p class="hero-sub">Plan personalizado, seguimiento real y resultados medibles.</p>
   <div class="hero-checks">
     <span>+200 clientes transformados</span>
     <span>Plan 100% adaptado a tu vida</span>
     <span>Seguimiento constante</span>
   </div>
-</div>
 
+  <div style="margin-top:25px;">
+    <button onclick="location.href='#planes'" 
+      style="background:var(--secondary);color:#000;padding:16px 32px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;margin-right:10px;">
+      VER PROGRAMAS
+    </button>
+
+    <button onclick="location.href='#consulta'" 
+      style="background:transparent;color:var(--primary);padding:16px 32px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">
+      QUIERO MI PLAN
+    </button>
+  </div>
+</div>
 <div style="margin-top:25px;">
 <button onclick="location.href='#planes'" 
 style="background:var(--secondary);color:#000;padding:16px 32px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;margin-right:10px;">
@@ -891,166 +799,39 @@ window.addEventListener('scroll', () => {
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const contador = document.getElementById("contador-plazas");
-  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
+document.querySelectorAll(".comparador").forEach(comp => {
+  const slider = comp.querySelector(".slider");
+  const beforeImg = comp.querySelector(".img-antes");
+  const line = comp.querySelector(".slider-line");
 
-  // Función para actualizar el texto del contador
-  function actualizarContador() {
-    if (!contador) return;
-
-    if (plazas > 0) {
-      contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-    } else {
-      contador.innerHTML = `❌ Todas las plazas están agotadas`;
-    }
-
-    localStorage.setItem('plazas', plazas);
-  }
-
-  // Inicializa contador
-  actualizarContador();
-
-  // Reducir plazas cada 10-20 segundos aleatoriamente
-  function disminuirPlazasAutomatico() {
-    if (plazas > 0) {
-      plazas--;
-      actualizarContador();
-    }
-    // Llamar nuevamente después de 10-20 segundos
-    const tiempoAleatorio = Math.floor(Math.random() * 10000) + 10000; // 10-20s
-    setTimeout(disminuirPlazasAutomatico, tiempoAleatorio);
-  }
-
-  disminuirPlazasAutomatico();
-
-  // Reducir plazas al hacer clic en botones de planes
-  document.querySelectorAll("#planes .service-back button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      if (plazas > 0) {
-        plazas--;
-        actualizarContador();
-      }
-    });
+  slider.addEventListener("input", e => {
+    const value = e.target.value;
+    beforeImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+    line.style.left = value + "%";
   });
 });
-</script>
-  <!-- --------------------------- -->
-<!-- SCRIPT COMPLETO MEJORADO -->
-<!-- --------------------------- -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
+  let plazas = 5; // Número inicial de plazas
 
-  // ==========================
-  // TEMA CLARO/OSCURA PERSISTENTE
-  // ==========================
-  const toggleBtn = document.getElementById('toggle-theme');
-  const userTheme = localStorage.getItem('theme') || 'dark';
-  if(userTheme === 'light') document.body.classList.add('light');
-  toggleBtn.textContent = document.body.classList.contains('light') ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
-
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    const isLight = document.body.classList.contains('light');
-    toggleBtn.textContent = isLight ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  });
-
-  // ==========================
-  // BOTONES FIJOS SCROLL / WHATSAPP
-  // ==========================
-  const scrollBtn = document.getElementById('scrollTopBtn');
-  const whatsappBtn = document.getElementById('whatsappBtn');
-
-  window.addEventListener('scroll', () => {
-    if(window.scrollY > 300){
-      scrollBtn.classList.add('show');
-      whatsappBtn.classList.add('show');
-    } else {
-      scrollBtn.classList.remove('show');
-      whatsappBtn.classList.remove('show');
-    }
-  });
-
-  scrollBtn.addEventListener('click', () => {
-    gsap.to(window, {scrollTo:0, duration:1, ease:"power2.out"});
-  });
-
-  // ==========================
-  // CONTADOR DE PLAZAS
-  // ==========================
+function actualizarContador() {
   const contador = document.getElementById("contador-plazas");
-  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
-
-  function actualizarContador() {
-    if (!contador) return;
-    if(plazas > 0) {
-      contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-    } else {
-      contador.innerHTML = `❌ Todas las plazas están agotadas`;
-      plazas = 0; // Nunca negativo
-    }
-    localStorage.setItem('plazas', plazas);
+  if (plazas > 0) {
+    contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
+  } else {
+    contador.innerHTML = `❌ Todas las plazas están agotadas`;
   }
+}
 
-  actualizarContador();
+// Actualización inicial
+actualizarContador();
 
-  function disminuirPlazasAutomatico() {
-    if(plazas > 0) {
+// FUNCIONALIDAD EXTRA: decrementar cuando alguien hace clic en "ÚNETE AHORA"
+document.querySelectorAll(".service-back button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if(plazas > 0){
       plazas--;
       actualizarContador();
     }
-    const tiempoAleatorio = Math.floor(Math.random() * 10000) + 10000; // 10-20s
-    setTimeout(disminuirPlazasAutomatico, tiempoAleatorio);
-  }
-
-  disminuirPlazasAutomatico();
-
-  document.querySelectorAll("#planes .service-back button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      if(plazas > 0) {
-        plazas--;
-        actualizarContador();
-      }
-    });
   });
-
-  // ==========================
-  // ANIMACIONES GSAP
-  // ==========================
-  gsap.registerPlugin(ScrollTrigger);
-
-  // Fade-in de secciones
-  gsap.utils.toArray("section").forEach(section => {
-    gsap.from(section, {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
-        toggleActions: "play none none none"
-      }
-    });
-  });
-
-  // Fade-in de cada carta de servicios
-  gsap.utils.toArray(".service").forEach(card => {
-    gsap.from(card, {
-      opacity: 0,
-      y: 40,
-      scale: 0.95,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: card,
-        start: "top 90%",
-        toggleActions: "play none none none"
-      }
-    });
-  });
-
 });
 </script>
 
