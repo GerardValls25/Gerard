@@ -829,29 +829,35 @@ document.querySelectorAll(".service-back button").forEach(btn => {
 });
 </script>
 <script>
-let plazas = parseInt(localStorage.getItem('plazas')) || 5;
+document.addEventListener("DOMContentLoaded", function(){
 
-function actualizarContador() {
-  const contador = document.getElementById("contador-plazas");
-  if (plazas > 0) {
-    contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-  } else {
-    contador.innerHTML = `❌ Todas las plazas están agotadas`;
-  }
-  localStorage.setItem('plazas', plazas);
-}
+  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
 
-// Actualización inicial
-actualizarContador();
+  function actualizarContador() {
+    const contador = document.getElementById("contador-plazas");
+    if (!contador) return;
 
-// Decrementar cuando alguien hace clic en "ÚNETE AHORA"
-document.querySelectorAll(".service-back button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if(plazas > 0){
-      plazas--;
-      actualizarContador();
+    if (plazas > 0) {
+      contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
+    } else {
+      contador.innerHTML = `❌ Todas las plazas están agotadas`;
     }
+
+    localStorage.setItem('plazas', plazas);
+  }
+
+  actualizarContador();
+
+  // SOLO botones de PLANES
+  document.querySelectorAll("#planes .service-back button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (plazas > 0) {
+        plazas--;
+        actualizarContador();
+      }
+    });
   });
+
 });
 </script>
 </body>
