@@ -786,56 +786,44 @@ window.addEventListener('scroll', () => {
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 <script>
-document.querySelectorAll(".comparador").forEach(comp => {
-  const slider = comp.querySelector(".slider");
-  const beforeImg = comp.querySelector(".img-antes");
-  const line = comp.querySelector(".slider-line");
+const contador = document.getElementById("contador-plazas");
 
-  slider.addEventListener("input", e => {
-    const value = e.target.value;
-    beforeImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
-    line.style.left = value + "%";
-  });
-});
-  let plazas = localStorage.getItem('plazas') 
+// Obtener plazas desde localStorage o iniciar en 5
+let plazas = localStorage.getItem('plazas') 
   ? parseInt(localStorage.getItem('plazas')) 
   : 5;
 
-const contador = document.getElementById("contador-plazas");
-
-// SIMULACIÓN DINÁMICA REALISTA DE PLAZAS
-function simularUrgencia() {
-  if (plazas > 0) {
-    let resta;
-
-    // Disminución más rápida cuando hay muchas plazas
-    if (plazas > 3) {
-      resta = Math.random() < 0.8 ? 1 : 0; // 80% de probabilidad de restar 1
-    } 
-    // Disminución más lenta cuando quedan pocas plazas
-    else if (plazas > 1) {
-      resta = Math.random() < 0.5 ? 1 : 0; // 50% de probabilidad
-    } 
-    else {
-      resta = 1; // última plaza se va seguro
-    }
-
-    plazas = Math.max(plazas - resta, 0);
-    actualizarContador();
-  }
-
-  // Intervalo dinámico según plazas restantes
-  let intervalo;
-  if (plazas > 3) intervalo = 5000 + Math.random() * 5000;  // 5–10s
-  else if (plazas > 1) intervalo = 8000 + Math.random() * 7000; // 8–15s
-  else intervalo = 5000; // última plaza en 5s
-  setTimeout(simularUrgencia, intervalo);
+// Reducir 1 plaza al cargar, si queda alguna
+if(plazas > 0) {
+  plazas -= 1;
+  localStorage.setItem('plazas', plazas);
 }
 
-// Inicia la simulación
-simularUrgencia();
+// Función para actualizar visualmente el contador
+function actualizarContador() {
+  if(plazas > 0) {
+    contador.innerHTML = `<span style="animation: blink 1.5s infinite; color:#ff4d4d;">
+      ¡Solo quedan ${plazas} plazas disponibles!
+    </span>`;
+  } else {
+    contador.innerHTML = `<span style="animation: blink 1.5s infinite; color:#ff0000; font-weight:bold;">
+      ¡Todas las plazas están ocupadas!
+    </span>`;
+  }
+}
 
+// Actualizar contador al cargar
+actualizarContador();
+
+// Opcional: simular parpadeo y urgencia cada pocos segundos
+function parpadeoUrgencia() {
+  if(plazas > 0) {
+    const span = contador.querySelector('span');
+    span.style.opacity = '0.6';
+    setTimeout(() => { span.style.opacity = '1'; }, 700);
+  }
+}
+setInterval(parpadeoUrgencia, 2000);
 </script>
-
 </body>
 </html>
