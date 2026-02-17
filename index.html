@@ -803,43 +803,37 @@ document.querySelectorAll(".comparador").forEach(comp => {
 
 const contador = document.getElementById("contador-plazas");
 
-function actualizarContador() {
+// SIMULACIÓN DINÁMICA REALISTA DE PLAZAS
+function simularUrgencia() {
   if (plazas > 0) {
-    contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-  } else {
-    contador.innerHTML = `❌ Todas las plazas están agotadas`;
-  }
-  localStorage.setItem('plazas', plazas);
-}
+    let resta;
 
-// Actualización inicial
-actualizarContador();
-
-// Decrementar al hacer clic en "ÚNETE AHORA"
-document.querySelectorAll(".service-back button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if(plazas > 0){
-      plazas--;
-      actualizarContador();
+    // Disminución más rápida cuando hay muchas plazas
+    if (plazas > 3) {
+      resta = Math.random() < 0.8 ? 1 : 0; // 80% de probabilidad de restar 1
+    } 
+    // Disminución más lenta cuando quedan pocas plazas
+    else if (plazas > 1) {
+      resta = Math.random() < 0.5 ? 1 : 0; // 50% de probabilidad
+    } 
+    else {
+      resta = 1; // última plaza se va seguro
     }
-  });
-});
 
-// SIMULACIÓN DINÁMICA: disminuir plazas automáticamente cada cierto tiempo
-function simularOtrasInscripciones() {
-  if (plazas > 0) {
-    // Restamos entre 0 y 1 plaza de forma aleatoria cada 10-20 segundos
-    let resta = Math.random() < 0.7 ? 1 : 0; // 70% probabilidad de restar 1
     plazas = Math.max(plazas - resta, 0);
     actualizarContador();
   }
-  // Próxima simulación entre 10 y 20 segundos
-  let proximo = 10000 + Math.random() * 10000;
-  setTimeout(simularOtrasInscripciones, proximo);
+
+  // Intervalo dinámico según plazas restantes
+  let intervalo;
+  if (plazas > 3) intervalo = 5000 + Math.random() * 5000;  // 5–10s
+  else if (plazas > 1) intervalo = 8000 + Math.random() * 7000; // 8–15s
+  else intervalo = 5000; // última plaza en 5s
+  setTimeout(simularUrgencia, intervalo);
 }
 
-// Iniciar simulación
-simularOtrasInscripciones();
+// Inicia la simulación
+simularUrgencia();
 
 </script>
 
