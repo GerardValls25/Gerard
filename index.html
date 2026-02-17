@@ -793,39 +793,34 @@ window.addEventListener('scroll', () => {
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 <script>
-document.querySelectorAll(".comparador").forEach(comp => {
-  const slider = comp.querySelector(".slider");
-  const beforeImg = comp.querySelector(".img-antes");
-  const line = comp.querySelector(".slider-line");
+document.addEventListener("DOMContentLoaded", function(){
 
-  slider.addEventListener("input", e => {
-    const value = e.target.value;
-    beforeImg.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
-    line.style.left = value + "%";
-  });
-});
-  let plazas = 5; // Número inicial de plazas
+  let plazas = parseInt(localStorage.getItem('plazas')) || 5;
 
-function actualizarContador() {
-  const contador = document.getElementById("contador-plazas");
-  if (plazas > 0) {
-    contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
-  } else {
-    contador.innerHTML = `❌ Todas las plazas están agotadas`;
-  }
-  localStorage.setItem('plazas', plazas);
-}
+  function actualizarContador() {
+    const contador = document.getElementById("contador-plazas");
+    if (!contador) return;
 
-// Inicializar contador
-actualizarContador();
-  
-document.querySelectorAll(".service-back button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if(plazas > 0){
-      plazas--;
-      actualizarContador();
+    if (plazas > 0) {
+      contador.innerHTML = `🔥 Solo <span style="font-size:1.4rem;">${plazas}</span> plazas disponibles este mes`;
+    } else {
+      contador.innerHTML = `❌ Todas las plazas están agotadas`;
     }
+
+    localStorage.setItem('plazas', plazas);
+  }
+
+  actualizarContador();
+
+  document.querySelectorAll("#planes .service-back button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (plazas > 0) {
+        plazas--;
+        actualizarContador();
+      }
+    });
   });
+
 });
 </script>
 <script>
