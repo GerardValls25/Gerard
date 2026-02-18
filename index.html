@@ -255,7 +255,7 @@ body.light .testimonio-card { background: rgba(255,255,255,0.9); }
   padding:35px;
   border-radius:20px;
   background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur20px;
   border:1px solid rgba(255,255,255,0.2);
   box-shadow: 0 10px 40px rgba(0,0,0,0.2);
   transition: background var(--transition);
@@ -370,49 +370,54 @@ body.light .icon-input {
   header p { font-size:1.1rem; }
   .services { grid-template-columns: 1fr; }
 }
- .hero-content {
+.hero-content {
   max-width: 800px;
-  margin: 0 auto 40px; /* Reduce el margen inferior */
+  margin: 0 auto 40px; 
   text-align: center;
 }
-
 .hero-main {
-  font-size: 2rem;       /* Más compacto que antes */
+  font-size: 2rem;
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 12px;   /* Menos espacio con el subtítulo */
+  margin-bottom: 12px;
   background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
   -webkit-background-clip: text;
   color: transparent;
 }
-
 .hero-sub {
-  font-size: 1.1rem;    /* Más pequeño, menos altura */
+  font-size: 1.1rem;
   opacity: 0.9;
-  margin-bottom: 20px;  /* Ajustado con los checks */
+  margin-bottom: 20px;
   color: rgba(255,255,255,0.9);
 }
-
 .hero-checks {
   display: flex;
   justify-content: center;
-  gap: 25px;            /* Menor separación horizontal */
+  gap: 25px;
   flex-wrap: wrap;
 }
-
 .hero-checks span {
   position: relative;
-  font-size: 0.95rem;   /* Más compacto */
+  font-size: 0.95rem;
   font-weight: 600;
-  padding-left: 20px;   /* Ajusta el check */
+  padding-left: 20px;
 }
-
 .hero-checks span::before {
   content: "✔";
   position: absolute;
   left: 0;
   color: #00ffc0;
   font-weight: bold;
+}
+
+/* ===== NUEVO: Parpadeo header y contador de plazas ===== */
+@keyframes blinkPlazas {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.4; }
+}
+
+.blink {
+  animation: blinkPlazas 1.5s infinite;
 }
 </style>
 </head>
@@ -816,11 +821,19 @@ const headerPlazasMsg = document.getElementById("header-plazas");
 // ======== FUNCIONES DE ACTUALIZACIÓN ========
 function actualizarContador() {
   if (plazas > 0) {
-    contador.innerHTML = `<span style="animation: blink 1.5s infinite; color:#ff4d4d;">
+    contador.innerHTML = `<span style="color:#ff4d4d; font-weight:bold;">
       ¡Solo quedan ${plazas} plazas disponibles!
     </span>`;
+
+    const span = contador.querySelector('span');
+    if (plazas <= 3) {
+      span.classList.add('blink');
+    } else {
+      span.classList.remove('blink');
+    }
+
   } else {
-    contador.innerHTML = `<span style="animation: blink 1.5s infinite; color:#ff0000; font-weight:bold;">
+    contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">
       ¡Todas las plazas están ocupadas!
     </span>`;
   }
@@ -829,18 +842,30 @@ function actualizarContador() {
 function actualizarHeaderPlazas() {
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
+
+    if (plazas <= 3) {
+      headerPlazasNum.style.color = '#ff4d4d';
+      headerPlazasNum.style.fontWeight = 'bold';
+      headerPlazasNum.classList.add('blink');
+    } else {
+      headerPlazasNum.style.color = '';
+      headerPlazasNum.style.fontWeight = '';
+      headerPlazasNum.classList.remove('blink');
+    }
+
   } else {
     headerPlazasNum.textContent = 0;
     if(headerPlazasMsg) {
       headerPlazasMsg.textContent = "⚠️ Todas las plazas para este mes ya están ocupadas.";
     }
+    headerPlazasNum.classList.remove('blink');
   }
 }
 
-// ======== ANIMACIÓN DE PARPADEO ========
+// ======== ANIMACIÓN DE PARPADEO DEL CONTADOR PRINCIPAL ========
 function parpadeoUrgencia() {
   const span = contador.querySelector('span');
-  if (span && plazas > 0) {
+  if (span && plazas > 0 && plazas <= 3) {
     span.style.opacity = '0.6';
     setTimeout(() => { span.style.opacity = '1'; }, 700);
   }
@@ -861,10 +886,11 @@ function reducirPlaza() {
   }
 }
 
-// Ejemplo: si quieres que cada botón de "Solicitar" reste una plaza
+// Cada botón de "Solicitar" resta una plaza
 document.querySelectorAll(".service-back button").forEach(btn => {
   btn.addEventListener("click", reducirPlaza);
 });
+
 </script>
 </body>
 </html>
