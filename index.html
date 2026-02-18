@@ -795,22 +795,25 @@ window.addEventListener('scroll', () => {
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 <script>
-const contador = document.getElementById("contador-plazas");
-
-// Obtener plazas desde localStorage o iniciar en 5
+// ======== CONFIGURACIÓN DE PLAZAS ========
 let plazas = localStorage.getItem('plazas') 
   ? parseInt(localStorage.getItem('plazas')) 
-  : 5;
+  : 8; // Número inicial de plazas disponibles
 
-// Reducir 1 plaza al cargar, si queda alguna
-if(plazas > 0) {
+// Reducimos 1 plaza al cargar (opcional)
+if (plazas > 0) {
   plazas -= 1;
   localStorage.setItem('plazas', plazas);
 }
 
-// Función para actualizar visualmente el contador
+// Elementos del DOM
+const contador = document.getElementById("contador-plazas");
+const headerPlazasNum = document.getElementById("header-plazas-num");
+const headerPlazasMsg = document.getElementById("header-plazas");
+
+// ======== FUNCIONES DE ACTUALIZACIÓN ========
 function actualizarContador() {
-  if(plazas > 0) {
+  if (plazas > 0) {
     contador.innerHTML = `<span style="animation: blink 1.5s infinite; color:#ff4d4d;">
       ¡Solo quedan ${plazas} plazas disponibles!
     </span>`;
@@ -821,18 +824,45 @@ function actualizarContador() {
   }
 }
 
-// Actualizar contador al cargar
-actualizarContador();
+function actualizarHeaderPlazas() {
+  if (plazas > 0) {
+    headerPlazasNum.textContent = plazas;
+  } else {
+    headerPlazasNum.textContent = 0;
+    if(headerPlazasMsg) {
+      headerPlazasMsg.textContent = "⚠️ Todas las plazas para este mes ya están ocupadas.";
+    }
+  }
+}
 
-// Opcional: simular parpadeo y urgencia cada pocos segundos
+// ======== ANIMACIÓN DE PARPADEO ========
 function parpadeoUrgencia() {
-  if(plazas > 0) {
-    const span = contador.querySelector('span');
+  const span = contador.querySelector('span');
+  if (span && plazas > 0) {
     span.style.opacity = '0.6';
     setTimeout(() => { span.style.opacity = '1'; }, 700);
   }
 }
+
+// ======== EJECUTAMOS AL CARGAR ========
+actualizarContador();
+actualizarHeaderPlazas();
 setInterval(parpadeoUrgencia, 2000);
+
+// ======== FUNCION PARA REDUCIR PLAZAS DESDE BOTONES ========
+function reducirPlaza() {
+  if(plazas > 0) {
+    plazas -= 1;
+    localStorage.setItem('plazas', plazas);
+    actualizarContador();
+    actualizarHeaderPlazas();
+  }
+}
+
+// Ejemplo: si quieres que cada botón de "Solicitar" reste una plaza
+document.querySelectorAll(".service-back button").forEach(btn => {
+  btn.addEventListener("click", reducirPlaza);
+});
 </script>
 </body>
 </html>
