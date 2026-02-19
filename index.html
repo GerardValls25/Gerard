@@ -419,7 +419,17 @@ body.light .icon-input {
 .blink {
   animation: blinkPlazas 1.5s infinite;
 }
+/* Glow rojo urgente */
+.glow-urgente {
+  box-shadow: 0 0 25px rgba(255,0,0,0.7),
+              0 0 50px rgba(255,0,0,0.4);
+  animation: glowPulseUrgente 1.2s infinite alternate;
+}
 
+@keyframes glowPulseUrgente {
+  from { box-shadow: 0 0 15px rgba(255,0,0,0.5); }
+  to { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
+}
 </style>
 </head>
 <body>
@@ -822,7 +832,6 @@ const headerPlazasNum = document.getElementById("header-plazas-num");
 const headerPlazasMsg = document.getElementById("header-plazas");
 const botones = document.querySelectorAll(".service-back button");
 
-// ===== ACTUALIZAR CONTADOR =====
 function actualizarContador() {
 
   if (plazas > 3) {
@@ -848,6 +857,15 @@ function actualizarContador() {
       </span>`;
 
     bloquearBotones();
+  }
+
+  // 👇 AQUÍ VA EL GLOW
+  const contenedorPlazas = document.getElementById("plazas-container");
+
+  if (plazas <= 2 && plazas > 0) {
+    contenedorPlazas.classList.add("glow-urgente");
+  } else {
+    contenedorPlazas.classList.remove("glow-urgente");
   }
 }
 
