@@ -814,8 +814,7 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 <script>
 // ===== CONFIGURACIÓN =====
 const PLAZAS_INICIALES = 8;
-const OCUPACION_AUTOMATICA_MIN = 5000; // 5 segundos
-const OCUPACION_AUTOMATICA_MAX = 15000; // 15 segundos
+const OCUPACION_AUTOMATICA_INTERVAL = 8000; // cada 8s aprox
 
 // ===== ELEMENTOS =====
 const contador = document.getElementById("contador-plazas");
@@ -824,7 +823,7 @@ const headerPlazasMsg = document.getElementById("header-plazas");
 const botones = document.querySelectorAll(".service-back button, #consulta button");
 const contenedorPlazas = document.getElementById("plazas-container");
 
-// ===== REINICIO MENSUAL AUTOMÁTICO =====
+// ===== INICIALIZACIÓN =====
 const mesActual = new Date().getMonth();
 const mesGuardado = localStorage.getItem("mesPlazas");
 
@@ -839,24 +838,19 @@ let botonesTween = [];
 
 // ===== FUNCIONES =====
 function actualizarContador() {
-  let spanHTML = "";
-
   if (plazas > 3) {
-    spanHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
+    contador.innerHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
     quitarGlow();
   } else if (plazas > 0) {
-    spanHTML = `<span class="blink" style="color:#ff4d4d; font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
+    contador.innerHTML = `<span class="blink" style="color:#ff4d4d; font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
     aplicarGlow();
   } else {
-    spanHTML = `<span style="color:#ff0000; font-weight:bold;">
-      ❌ Todas las plazas están ocupadas.<br><br>
-      👉 Lista de espera disponible.
+    contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">
+      ❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.
     </span>`;
     bloquearBotones();
     quitarGlow();
   }
-
-  contador.innerHTML = spanHTML;
   actualizarHeaderPlazas();
 }
 
@@ -867,15 +861,14 @@ function actualizarHeaderPlazas() {
       headerPlazasNum.classList.add("blink");
       headerPlazasNum.style.color = "#ff4d4d";
       headerPlazasNum.style.fontWeight = "bold";
+      gsap.from(headerPlazasNum, { scale: 1.3, duration: 0.3, ease: "back.out(1.7)" });
     } else {
       headerPlazasNum.classList.remove("blink");
       headerPlazasNum.style.color = "";
       headerPlazasNum.style.fontWeight = "";
     }
-    gsap.from(headerPlazasNum, { scale: 1.5, duration: 0.4, ease: "back.out(1.7)" });
   } else {
-    headerPlazasMsg.innerHTML =
-      "❌ Este mes las plazas están completas. Lista de espera abierta.";
+    headerPlazasMsg.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 }
 
@@ -892,9 +885,10 @@ function bloquearBotones() {
     btn.disabled = true;
     btn.style.opacity = "0.5";
     btn.textContent = "Lista de espera";
-    gsap.killTweensOf(btn);
+    if (btn._tween) btn._tween.kill();
     btn.style.transform = "scale(1)";
   });
+  botonesTween = [];
 }
 
 function aplicarGlow() {
@@ -922,9 +916,9 @@ function quitarGlow() {
   if (glowTween) {
     glowTween.kill();
     glowTween = null;
+    contenedorPlazas.classList.remove("glow-urgente");
+    contenedorPlazas.style.transform = "scale(1)";
   }
-  contenedorPlazas.classList.remove("glow-urgente");
-  contenedorPlazas.style.transform = "scale(1)";
 
   botones.forEach(btn => {
     if (btn._tween) {
@@ -955,7 +949,6 @@ function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
     pointerEvents: "none",
     zIndex: "1000"
   });
-
   btn.style.position = "relative";
   btn.appendChild(feedback);
 
@@ -963,39 +956,29 @@ function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
   gsap.to(feedback, { opacity: 0, y: -30, duration: 0.5, delay: 2, onComplete: () => feedback.remove() });
 }
 
-// ===== EVENTO GLOBAL =====
+// ===== EVENTOS =====
 document.body.addEventListener("click", e => {
   const btn = e.target.closest(".service-back button, #consulta button");
-  if (btn) {
+  if (btn && !btn.disabled) {
     reducirPlaza();
     mostrarFeedback(btn);
   }
 });
 
-// ===== OCUPACIÓN AUTOMÁTICA SIMULANDO OTROS USUARIOS =====
-function ocupacionAutomaticaSimulada() {
+// ===== SIMULACIÓN AUTOMÁTICA =====
+setInterval(() => {
   if (plazas > 0) {
-    // Elegir un botón disponible al azar
     const disponibles = Array.from(botones).filter(btn => !btn.disabled);
-    if (disponibles.length > 0) {
+    if (disponibles.length) {
       const btnAleatorio = disponibles[Math.floor(Math.random() * disponibles.length)];
       reducirPlaza();
       mostrarFeedback(btnAleatorio, "¡Otro usuario acaba de reservar!");
-      // Simular animación de click
-      gsap.fromTo(btnAleatorio, 
-        { scale: 1 }, 
-        { scale: 1.1, yoyo: true, repeat: 1, duration: 0.2, ease: "power1.inOut" }
-      );
     }
   }
+}, OCUPACION_AUTOMATICA_INTERVAL);
 
-  const siguiente = Math.floor(Math.random() * (OCUPACION_AUTOMATICA_MAX - OCUPACION_AUTOMATICA_MIN + 1)) + OCUPACION_AUTOMATICA_MIN;
-  setTimeout(ocupacionAutomaticaSimulada, siguiente);
-}
-
-// ===== INICIALIZAR =====
+// ===== INICIAL =====
 actualizarContador();
-ocupacionAutomaticaSimulada();
 </script>
 
 </body>
