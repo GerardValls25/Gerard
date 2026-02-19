@@ -943,6 +943,40 @@ document.body.addEventListener("click", e => {
 // ===== INICIALIZAR =====
 actualizarContador();
 actualizarHeaderPlazas();
+// ===== NUEVO: FEEDBACK VISUAL EN BOTONES =====
+function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
+  const feedback = document.createElement("span");
+  feedback.textContent = mensaje;
+  feedback.style.position = "absolute";
+  feedback.style.top = "-30px";
+  feedback.style.left = "50%";
+  feedback.style.transform = "translateX(-50%)";
+  feedback.style.background = "#00ffc0";
+  feedback.style.color = "#000";
+  feedback.style.padding = "6px 12px";
+  feedback.style.borderRadius = "12px";
+  feedback.style.fontWeight = "600";
+  feedback.style.fontSize = "0.85rem";
+  feedback.style.boxShadow = "0 4px 12px rgba(0,0,0,0.3)";
+  feedback.style.opacity = "0";
+  feedback.style.pointerEvents = "none";
+  feedback.style.zIndex = "1000";
+
+  btn.style.position = "relative";
+  btn.appendChild(feedback);
+
+  gsap.to(feedback, { opacity: 1, y: -10, duration: 0.5, ease: "back.out(1.7)" });
+  gsap.to(feedback, { opacity: 0, y: -30, duration: 0.5, delay: 2, onComplete: () => feedback.remove() });
+}
+
+// Modificar el listener global para incluir feedback
+document.body.addEventListener("click", e => {
+  const btn = e.target.closest(".service-back button, #consulta button");
+  if (btn) {
+    reducirPlaza();
+    mostrarFeedback(btn);
+  }
+});
 </script>
 
 </body>
