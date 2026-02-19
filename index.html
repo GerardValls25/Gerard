@@ -819,12 +819,12 @@ const PLAZAS_INICIALES = 8;
 const contador = document.getElementById("contador-plazas");
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const headerPlazasMsg = document.getElementById("header-plazas");
-const botonesServicios = document.querySelectorAll(".service-back button"); // SOLO botones de servicios
+const botonesServicios = Array.from(document.querySelectorAll(".service-back button"));
 const contenedorPlazas = document.getElementById("plazas-container");
 
 let plazas = PLAZAS_INICIALES;
 let glowTween = null;
-let botonesTween = [];
+let botonesTween = null;
 
 // ===== ALMACENAMIENTO MENSUAL =====
 const mesActual = new Date().getMonth();
@@ -851,6 +851,7 @@ function actualizarContador() {
     </span>`;
     bloquearBotones();
     quitarGlow();
+    lanzarConfeti();
   }
   actualizarHeaderPlazas();
 }
@@ -862,10 +863,7 @@ function actualizarHeaderPlazas() {
       headerPlazasNum.classList.add("blink");
       headerPlazasNum.style.color = "#ff4d4d";
       headerPlazasNum.style.fontWeight = "bold";
-      gsap.fromTo(headerPlazasNum, 
-        { scale: 1 }, 
-        { scale: 1.3, duration: 0.3, yoyo: true, repeat: 1, ease: "back.out(1.7)" }
-      );
+      gsap.fromTo(headerPlazasNum, { scale:1 }, { scale:1.3, duration:0.3, yoyo:true, repeat:1, ease:"back.out(1.7)" });
     } else {
       headerPlazasNum.classList.remove("blink");
       headerPlazasNum.style.color = "";
@@ -889,10 +887,11 @@ function bloquearBotones() {
     btn.disabled = true;
     btn.style.opacity = "0.5";
     btn.textContent = "Lista de espera";
-    if (btn._tween) btn._tween.kill();
-    btn.style.transform = "scale(1)";
   });
-  botonesTween = [];
+  if (botonesTween) {
+    botonesTween.kill();
+    botonesTween = null;
+  }
 }
 
 function aplicarGlow() {
@@ -903,17 +902,11 @@ function aplicarGlow() {
       { scale: 1.05, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
     );
   }
-
-  botonesServicios.forEach(btn => {
-    if (!btn.disabled && !botonesTween.includes(btn)) {
-      const tween = gsap.fromTo(btn, 
-        { scale: 1 }, 
-        { scale: 1.1, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
-      );
-      botonesTween.push(btn);
-      btn._tween = tween;
-    }
-  });
+  if (!botonesTween) {
+    botonesTween = gsap.to(botonesServicios.filter(b => !b.disabled), 
+      { scale: 1.1, yoyo: true, repeat: -1, duration:0.6, ease:"power1.inOut", stagger:0.1 }
+    );
+  }
 }
 
 function quitarGlow() {
@@ -923,15 +916,11 @@ function quitarGlow() {
     contenedorPlazas.classList.remove("glow-urgente");
     contenedorPlazas.style.transform = "scale(1)";
   }
-
-  botonesServicios.forEach(btn => {
-    if (btn._tween) {
-      btn._tween.kill();
-      delete btn._tween;
-    }
-    btn.style.transform = "scale(1)";
-  });
-  botonesTween = [];
+  if (botonesTween) {
+    botonesTween.kill();
+    botonesTween = null;
+    botonesServicios.forEach(b => b.style.transform = "scale(1)");
+  }
 }
 
 function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
@@ -955,9 +944,26 @@ function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
   });
   btn.style.position = "relative";
   btn.appendChild(feedback);
+  gsap.to(feedback, { opacity:1, y:-10, duration:0.5, ease:"back.out(1.7)" });
+  gsap.to(feedback, { opacity:0, y:-30, duration:0.5, delay:2, onComplete: ()=>feedback.remove() });
+}
 
-  gsap.to(feedback, { opacity: 1, y: -10, duration: 0.5, ease: "back.out(1.7)" });
-  gsap.to(feedback, { opacity: 0, y: -30, duration: 0.5, delay: 2, onComplete: () => feedback.remove() });
+function lanzarConfeti() {
+  const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+  for (let i=0; i<100; i++) {
+    const conf = document.createElement("div");
+    conf.style.position="fixed";
+    conf.style.width="8px";
+    conf.style.height="8px";
+    conf.style.background=colors[Math.floor(Math.random()*colors.length)];
+    conf.style.top="-10px";
+    conf.style.left=Math.random()*window.innerWidth+"px";
+    conf.style.opacity="0.9";
+    conf.style.borderRadius="50%";
+    conf.style.pointerEvents="none";
+    document.body.appendChild(conf);
+    gsap.to(conf, { y:window.innerHeight+50, rotation:Math.random()*360, duration:2+Math.random()*2, ease:"power1.out", onComplete:()=>conf.remove() });
+  }
 }
 
 // ===== EVENTOS DE CLICK =====
@@ -972,13 +978,12 @@ document.body.addEventListener("click", e => {
 // ===== SIMULACIÓN ALEATORIA =====
 function simularReserva() {
   if (plazas <= 0) return;
-  const disponibles = Array.from(botonesServicios).filter(btn => !btn.disabled);
+  const disponibles = botonesServicios.filter(btn => !btn.disabled);
   if (!disponibles.length) return;
-  const btnAleatorio = disponibles[Math.floor(Math.random() * disponibles.length)];
+  const btnAleatorio = disponibles[Math.floor(Math.random()*disponibles.length)];
   reducirPlaza();
   mostrarFeedback(btnAleatorio, "¡Otro usuario acaba de reservar!");
-  // Siguiente simulación aleatoria entre 5-15s
-  setTimeout(simularReserva, 5000 + Math.random() * 10000);
+  setTimeout(simularReserva, 5000 + Math.random()*10000);
 }
 simularReserva();
 
