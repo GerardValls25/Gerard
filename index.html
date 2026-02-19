@@ -871,7 +871,6 @@ function actualizarContador() {
 
 // ===== ACTUALIZAR HEADER =====
 function actualizarHeaderPlazas() {
-
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
 
@@ -884,14 +883,14 @@ function actualizarHeaderPlazas() {
       headerPlazasNum.style.color = "";
       headerPlazasNum.style.fontWeight = "";
     }
-  }
 
-  else {
+    // ✅ Animación GSAP para el header
+    gsap.from(headerPlazasNum, { scale: 1.5, duration: 0.4, ease: "back.out(1.7)" });
+  } else {
     headerPlazasMsg.innerHTML =
       "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 }
-
 // ===== REDUCIR PLAZA =====
 function reducirPlaza() {
   if (plazas > 0) {
