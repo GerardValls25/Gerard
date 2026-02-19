@@ -814,7 +814,8 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 <script>
 // ===== CONFIGURACIÓN =====
 const PLAZAS_INICIALES = 8;
-const OCUPACION_AUTOMATICA_INTERVALO = 10000; // cada 10 segundos
+const OCUPACION_AUTOMATICA_MIN = 5000; // 5 segundos
+const OCUPACION_AUTOMATICA_MAX = 15000; // 15 segundos
 
 // ===== ELEMENTOS =====
 const contador = document.getElementById("contador-plazas");
@@ -978,20 +979,25 @@ document.body.addEventListener("click", e => {
   }
 });
 
-// ===== OCUPACIÓN AUTOMÁTICA =====
-function ocupacionAutomatica() {
+// ===== OCUPACIÓN AUTOMÁTICA ALEATORIA =====
+function ocupacionAutomaticaAleatoria() {
   if (plazas > 0) {
     plazas--;
     localStorage.setItem("plazas", plazas);
     actualizarContador();
+    
+    // Mensaje emergente de “otro usuario”
+    mostrarFeedback(contenedorPlazas, "¡Otro usuario acaba de reservar!");
   }
+
+  // Programar siguiente ocupación aleatoria
+  const siguiente = Math.floor(Math.random() * (OCUPACION_AUTOMATICA_MAX - OCUPACION_AUTOMATICA_MIN + 1)) + OCUPACION_AUTOMATICA_MIN;
+  setTimeout(ocupacionAutomaticaAleatoria, siguiente);
 }
-setInterval(ocupacionAutomatica, OCUPACION_AUTOMATICA_INTERVALO);
 
 // ===== INICIALIZAR =====
 actualizarContador();
+ocupacionAutomaticaAleatoria();
 </script>
-
-
 </body>
 </html>
