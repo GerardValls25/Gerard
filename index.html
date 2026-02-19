@@ -835,49 +835,36 @@ let plazas = parseInt(localStorage.getItem("plazas"));
 
 // ===== FUNCIONES =====
 
-// Actualiza el contador inferior
+// Actualiza contador inferior
 function actualizarContador() {
   let spanHTML = "";
 
   if (plazas > 3) {
     spanHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
+    quitarGlow();
   } else if (plazas > 0) {
     spanHTML = `<span class="blink" style="color:#ff4d4d; font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
+    aplicarGlow();
   } else {
     spanHTML = `<span style="color:#ff0000; font-weight:bold;">
       ❌ Todas las plazas están ocupadas.<br><br>
       👉 Lista de espera disponible.
     </span>`;
     bloquearBotones();
+    quitarGlow();
   }
 
   contador.innerHTML = spanHTML;
 
-  // Animación GSAP
+  // Animación GSAP del contador
   gsap.from("#contador-plazas span", { scale: 0, duration: 0.5, ease: "back.out(1.7)" });
-
-  // Glow urgente
-  if (plazas <= 2 && plazas > 0) {
-    contenedorPlazas.classList.add("glow-urgente");
-    // Animación de parpadeo del contenedor
-    gsap.fromTo(contenedorPlazas, 
-      { scale: 1 }, 
-      { scale: 1.05, duration: 0.6, yoyo: true, repeat: -1, ease: "power1.inOut" }
-    );
-  } else {
-    contenedorPlazas.classList.remove("glow-urgente");
-    gsap.killTweensOf(contenedorPlazas);
-    contenedorPlazas.style.transform = "scale(1)";
-  }
-
-  animarBotones();
+  actualizarHeaderPlazas();
 }
 
-// Actualiza el header
+// Actualiza header de plazas
 function actualizarHeaderPlazas() {
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
-
     if (plazas <= 3) {
       headerPlazasNum.classList.add("blink");
       headerPlazasNum.style.color = "#ff4d4d";
@@ -887,8 +874,6 @@ function actualizarHeaderPlazas() {
       headerPlazasNum.style.color = "";
       headerPlazasNum.style.fontWeight = "";
     }
-
-    // Animación GSAP para el header
     gsap.from(headerPlazasNum, { scale: 1.5, duration: 0.4, ease: "back.out(1.7)" });
   } else {
     headerPlazasMsg.innerHTML =
@@ -896,71 +881,76 @@ function actualizarHeaderPlazas() {
   }
 }
 
-// Reduce una plaza al hacer clic
+// Reducir una plaza
 function reducirPlaza() {
   if (plazas > 0) {
     plazas--;
     localStorage.setItem("plazas", plazas);
     actualizarContador();
-    actualizarHeaderPlazas();
   }
 }
 
-// Bloquea botones si no quedan plazas
+// Bloquea botones
 function bloquearBotones() {
   botones.forEach(btn => {
     btn.disabled = true;
     btn.style.opacity = "0.5";
     btn.textContent = "Lista de espera";
-    gsap.to(btn, { scale: 1, duration: 0 }); // Reset de animación
+    gsap.killTweensOf(btn);
+    btn.style.transform = "scale(1)";
   });
 }
 
-// Animación de botones cuando quedan pocas plazas
-function animarBotones() {
-  if (plazas > 0 && plazas <= 3) {
-    botones.forEach(btn => {
-      if (!btn.disabled) {
-        gsap.fromTo(btn, 
-          { scale: 1 }, 
-          { scale: 1.1, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
-        );
-      }
-    });
-  } else {
-    botones.forEach(btn => gsap.killTweensOf(btn));
-    botones.forEach(btn => btn.style.transform = "scale(1)");
-  }
+// Aplica glow y pulso cuando quedan pocas plazas
+function aplicarGlow() {
+  contenedorPlazas.classList.add("glow-urgente");
+  gsap.fromTo(contenedorPlazas, 
+    { scale: 1 }, 
+    { scale: 1.05, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
+  );
+
+  // Pulso botones
+  botones.forEach(btn => {
+    if (!btn.disabled) {
+      gsap.fromTo(btn, 
+        { scale: 1 }, 
+        { scale: 1.1, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
+      );
+    }
+  });
 }
 
-// ===== EVENTOS =====
-document.body.addEventListener("click", e => {
-  if (e.target.closest(".service-back button, #consulta button")) {
-    reducirPlaza();
-  }
-});
+// Quita glow y pulso
+function quitarGlow() {
+  contenedorPlazas.classList.remove("glow-urgente");
+  gsap.killTweensOf(contenedorPlazas);
+  contenedorPlazas.style.transform = "scale(1)";
+  botones.forEach(btn => {
+    gsap.killTweensOf(btn);
+    if (!btn.disabled) btn.style.transform = "scale(1)";
+  });
+}
 
-// ===== INICIALIZAR =====
-actualizarContador();
-actualizarHeaderPlazas();
-// ===== NUEVO: FEEDBACK VISUAL EN BOTONES =====
+// Feedback visual al reservar
 function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
   const feedback = document.createElement("span");
   feedback.textContent = mensaje;
-  feedback.style.position = "absolute";
-  feedback.style.top = "-30px";
-  feedback.style.left = "50%";
-  feedback.style.transform = "translateX(-50%)";
-  feedback.style.background = "#00ffc0";
-  feedback.style.color = "#000";
-  feedback.style.padding = "6px 12px";
-  feedback.style.borderRadius = "12px";
-  feedback.style.fontWeight = "600";
-  feedback.style.fontSize = "0.85rem";
-  feedback.style.boxShadow = "0 4px 12px rgba(0,0,0,0.3)";
-  feedback.style.opacity = "0";
-  feedback.style.pointerEvents = "none";
-  feedback.style.zIndex = "1000";
+  Object.assign(feedback.style, {
+    position: "absolute",
+    top: "-30px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    background: "#00ffc0",
+    color: "#000",
+    padding: "6px 12px",
+    borderRadius: "12px",
+    fontWeight: "600",
+    fontSize: "0.85rem",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+    opacity: "0",
+    pointerEvents: "none",
+    zIndex: "1000"
+  });
 
   btn.style.position = "relative";
   btn.appendChild(feedback);
@@ -969,7 +959,7 @@ function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
   gsap.to(feedback, { opacity: 0, y: -30, duration: 0.5, delay: 2, onComplete: () => feedback.remove() });
 }
 
-// Modificar el listener global para incluir feedback
+// ===== EVENTO GLOBAL =====
 document.body.addEventListener("click", e => {
   const btn = e.target.closest(".service-back button, #consulta button");
   if (btn) {
@@ -977,7 +967,11 @@ document.body.addEventListener("click", e => {
     mostrarFeedback(btn);
   }
 });
+
+// ===== INICIALIZAR =====
+actualizarContador();
 </script>
+
 
 </body>
 </html>
