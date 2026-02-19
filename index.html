@@ -831,11 +831,14 @@ if (!mesGuardado || parseInt(mesGuardado) !== mesActual) {
   localStorage.setItem("mesPlazas", mesActual);
 }
 
-let plazas = parseInt(localStorage.getItem("plazas"));
+let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
+let plazasPrevias = plazas;
+let glowTween = null;
+let botonesTween = [];
 
 // ===== FUNCIONES =====
 
-// Actualiza contador inferior
+// Actualiza el contador inferior
 function actualizarContador() {
   let spanHTML = "";
 
@@ -856,8 +859,12 @@ function actualizarContador() {
 
   contador.innerHTML = spanHTML;
 
-  // Animación GSAP del contador
-  gsap.from("#contador-plazas span", { scale: 0, duration: 0.5, ease: "back.out(1.7)" });
+  // Animación GSAP solo si cambia el valor
+  if (plazas !== plazasPrevias) {
+    plazasPrevias = plazas;
+    gsap.from("#contador-plazas span", { scale: 0, duration: 0.5, ease: "back.out(1.7)" });
+  }
+
   actualizarHeaderPlazas();
 }
 
@@ -903,32 +910,44 @@ function bloquearBotones() {
 
 // Aplica glow y pulso cuando quedan pocas plazas
 function aplicarGlow() {
-  contenedorPlazas.classList.add("glow-urgente");
-  gsap.fromTo(contenedorPlazas, 
-    { scale: 1 }, 
-    { scale: 1.05, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
-  );
+  if (!glowTween) {
+    contenedorPlazas.classList.add("glow-urgente");
+    glowTween = gsap.fromTo(contenedorPlazas, 
+      { scale: 1 }, 
+      { scale: 1.05, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
+    );
+  }
 
   // Pulso botones
   botones.forEach(btn => {
-    if (!btn.disabled) {
-      gsap.fromTo(btn, 
+    if (!btn.disabled && !botonesTween.includes(btn)) {
+      const tween = gsap.fromTo(btn, 
         { scale: 1 }, 
         { scale: 1.1, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
       );
+      botonesTween.push(btn); // marcar como animado
+      btn._tween = tween;     // guardar referencia para kill
     }
   });
 }
 
 // Quita glow y pulso
 function quitarGlow() {
+  if (glowTween) {
+    glowTween.kill();
+    glowTween = null;
+  }
   contenedorPlazas.classList.remove("glow-urgente");
-  gsap.killTweensOf(contenedorPlazas);
   contenedorPlazas.style.transform = "scale(1)";
+
   botones.forEach(btn => {
-    gsap.killTweensOf(btn);
-    if (!btn.disabled) btn.style.transform = "scale(1)";
+    if (btn._tween) {
+      btn._tween.kill();
+      delete btn._tween;
+    }
+    btn.style.transform = "scale(1)";
   });
+  botonesTween = [];
 }
 
 // Feedback visual al reservar
