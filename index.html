@@ -834,7 +834,6 @@ if (!mesGuardado || parseInt(mesGuardado) !== mesActual) {
 }
 
 let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
-let plazasPrevias = plazas;
 let glowTween = null;
 let botonesTween = [];
 
@@ -858,12 +857,6 @@ function actualizarContador() {
   }
 
   contador.innerHTML = spanHTML;
-
-  if (plazas !== plazasPrevias) {
-    plazasPrevias = plazas;
-    gsap.from("#contador-plazas span", { scale: 0, duration: 0.5, ease: "back.out(1.7)" });
-  }
-
   actualizarHeaderPlazas();
 }
 
@@ -979,25 +972,31 @@ document.body.addEventListener("click", e => {
   }
 });
 
-// ===== OCUPACIÓN AUTOMÁTICA ALEATORIA =====
-function ocupacionAutomaticaAleatoria() {
+// ===== OCUPACIÓN AUTOMÁTICA SIMULANDO OTROS USUARIOS =====
+function ocupacionAutomaticaSimulada() {
   if (plazas > 0) {
-    plazas--;
-    localStorage.setItem("plazas", plazas);
-    actualizarContador();
-    
-    // Mensaje emergente de “otro usuario”
-    mostrarFeedback(contenedorPlazas, "¡Otro usuario acaba de reservar!");
+    // Elegir un botón disponible al azar
+    const disponibles = Array.from(botones).filter(btn => !btn.disabled);
+    if (disponibles.length > 0) {
+      const btnAleatorio = disponibles[Math.floor(Math.random() * disponibles.length)];
+      reducirPlaza();
+      mostrarFeedback(btnAleatorio, "¡Otro usuario acaba de reservar!");
+      // Simular animación de click
+      gsap.fromTo(btnAleatorio, 
+        { scale: 1 }, 
+        { scale: 1.1, yoyo: true, repeat: 1, duration: 0.2, ease: "power1.inOut" }
+      );
+    }
   }
 
-  // Programar siguiente ocupación aleatoria
   const siguiente = Math.floor(Math.random() * (OCUPACION_AUTOMATICA_MAX - OCUPACION_AUTOMATICA_MIN + 1)) + OCUPACION_AUTOMATICA_MIN;
-  setTimeout(ocupacionAutomaticaAleatoria, siguiente);
+  setTimeout(ocupacionAutomaticaSimulada, siguiente);
 }
 
 // ===== INICIALIZAR =====
 actualizarContador();
-ocupacionAutomaticaAleatoria();
+ocupacionAutomaticaSimulada();
 </script>
+
 </body>
 </html>
