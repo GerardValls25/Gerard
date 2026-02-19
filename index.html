@@ -842,6 +842,7 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 // ===== CONFIGURACIÓN =====
 const PLAZAS_INICIALES = 8;
 let plazas = PLAZAS_INICIALES;
+let clickLocked = false;
 
 // Elementos
 const contador = document.getElementById("contador-plazas");
@@ -850,8 +851,9 @@ const headerPlazasMsg = document.getElementById("header-plazas");
 const botonesServicios = Array.from(document.querySelectorAll(".service-back button"));
 const contenedorPlazas = document.getElementById("plazas-container");
 
-let glowTween = null;
-let botonesTween = null;
+// Accesibilidad: lectores de pantalla escuchan cambios
+contador.setAttribute("aria-live", "polite");
+headerPlazasMsg.setAttribute("aria-live", "polite");
 
 // ===== LOCALSTORAGE =====
 const mesActual = new Date().getMonth();
@@ -863,7 +865,7 @@ if (!mesGuardado || parseInt(mesGuardado) !== mesActual) {
   plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
 }
 
-// ===== ACTUALIZAR CONTADOR =====
+// ===== FUNCIONES =====
 function actualizarContador() {
   if (plazas > 3) {
     contador.innerHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
@@ -877,12 +879,11 @@ function actualizarContador() {
     </span>`;
     bloquearBotones();
     quitarGlow();
-    lanzarConfeti(50); // solo 50 confeti en vez de 100
+    lanzarConfeti(50);
   }
   actualizarHeaderPlazas();
 }
 
-// ===== HEADER =====
 function actualizarHeaderPlazas() {
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
@@ -901,26 +902,30 @@ function actualizarHeaderPlazas() {
   }
 }
 
-// ===== REDUCIR PLAZA =====
+// Reducir plazas de manera segura
 function reducirPlaza() {
-  if (plazas > 0) {
-    plazas--;
-    localStorage.setItem("plazas", plazas);
-    actualizarContador();
-  }
+  if (plazas <= 0 || clickLocked) return;
+  clickLocked = true;
+  plazas--;
+  localStorage.setItem("plazas", plazas);
+  actualizarContador();
+  setTimeout(() => clickLocked = false, 1000); // bloqueo 1s
 }
 
-// ===== BLOQUEAR BOTONES =====
+// Bloquea botones cuando no hay plazas
 function bloquearBotones() {
   botonesServicios.forEach(btn => {
     btn.disabled = true;
     btn.style.opacity = "0.5";
     btn.textContent = "Lista de espera";
+    btn.setAttribute("aria-label", "Lista de espera");
   });
-  if (botonesTween) { botonesTween.kill(); botonesTween = null; }
+  quitarGlow();
 }
 
-// ===== ANIMACIONES GLOW =====
+// Glow optimizado
+let glowTween = null;
+let botonesTween = null;
 function aplicarGlow() {
   if (!glowTween) {
     contenedorPlazas.classList.add("glow-urgente");
@@ -935,12 +940,13 @@ function aplicarGlow() {
     );
   }
 }
+
 function quitarGlow() {
   if (glowTween) { glowTween.kill(); glowTween = null; contenedorPlazas.classList.remove("glow-urgente"); contenedorPlazas.style.transform="scale(1)"; }
   if (botonesTween) { botonesTween.kill(); botonesTween = null; botonesServicios.forEach(b => b.style.transform="scale(1)"); }
 }
 
-// ===== FEEDBACK =====
+// Feedback flotante
 function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
   const feedback = document.createElement("span");
   feedback.textContent = mensaje;
@@ -956,7 +962,7 @@ function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
   gsap.to(feedback, { opacity:0, y:-30, duration:0.5, delay:2, onComplete: ()=>feedback.remove() });
 }
 
-// ===== CONFETI LIMITADO =====
+// Confeti limitado
 function lanzarConfeti(cantidad=50) {
   const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
   for (let i=0; i<cantidad; i++) {
@@ -973,10 +979,13 @@ function lanzarConfeti(cantidad=50) {
 // ===== EVENTOS CLICK =====
 document.body.addEventListener("click", e => {
   const btn = e.target.closest(".service-back button");
-  if (btn && !btn.disabled) { reducirPlaza(); mostrarFeedback(btn); }
+  if (btn && !btn.disabled) { 
+    reducirPlaza(); 
+    mostrarFeedback(btn); 
+  }
 });
 
-// ===== SIMULACIÓN RESERVAS =====
+// ===== SIMULACIÓN DE RESERVAS =====
 function simularReserva() {
   if (plazas <= 0) return;
   const disponibles = botonesServicios.filter(btn => !btn.disabled);
@@ -984,7 +993,6 @@ function simularReserva() {
   const btnAleatorio = disponibles[Math.floor(Math.random()*disponibles.length)];
   reducirPlaza();
   mostrarFeedback(btnAleatorio, "¡Otro usuario acaba de reservar!");
-  // Solo programa nuevo timeout si quedan plazas
   if (plazas > 0) setTimeout(simularReserva, 5000 + Math.random()*10000);
 }
 simularReserva();
