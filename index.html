@@ -803,94 +803,107 @@ window.addEventListener('scroll', () => {
 scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 <script>
-// ======== CONFIGURACIÓN DE PLAZAS ========
-let plazas = localStorage.getItem('plazas') 
-  ? parseInt(localStorage.getItem('plazas')) 
-  : 8; // Número inicial de plazas disponibles
+// ===== CONFIGURACIÓN =====
+const PLAZAS_INICIALES = 8;
 
-// Reducimos 1 plaza al cargar (opcional)
-if (plazas > 0) {
-  plazas -= 1;
-  localStorage.setItem('plazas', plazas);
+// ===== REINICIO MENSUAL AUTOMÁTICO =====
+const mesActual = new Date().getMonth();
+const mesGuardado = localStorage.getItem("mesPlazas");
+
+if (mesGuardado === null || parseInt(mesGuardado) !== mesActual) {
+  localStorage.setItem("plazas", PLAZAS_INICIALES);
+  localStorage.setItem("mesPlazas", mesActual);
 }
 
-// Elementos del DOM
+let plazas = parseInt(localStorage.getItem("plazas"));
+
+// ===== ELEMENTOS =====
 const contador = document.getElementById("contador-plazas");
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const headerPlazasMsg = document.getElementById("header-plazas");
+const botones = document.querySelectorAll(".service-back button");
 
-// ======== FUNCIONES DE ACTUALIZACIÓN ========
+// ===== ACTUALIZAR CONTADOR =====
 function actualizarContador() {
-  if (plazas > 0) {
-    contador.innerHTML = `<span style="color:#ff4d4d; font-weight:bold;">
-      ¡Solo quedan ${plazas} plazas disponibles!
-    </span>`;
 
-    const span = contador.querySelector('span');
-    if (plazas <= 3) {
-      span.classList.add('blink');
-    } else {
-      span.classList.remove('blink');
-    }
+  if (plazas > 3) {
+    contador.innerHTML = `
+      <span style="color:#00ffc0; font-weight:bold;">
+        ¡Quedan ${plazas} plazas disponibles este mes!
+      </span>`;
+  }
 
-  } else {
-    contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">
-      ¡Todas las plazas están ocupadas!
-    </span>`;
+  else if (plazas > 0) {
+    contador.innerHTML = `
+      <span class="blink" style="color:#ff4d4d; font-weight:bold;">
+        ⚠️ ¡Solo quedan ${plazas} plazas!
+      </span>`;
+  }
+
+  else {
+    contador.innerHTML = `
+      <span style="color:#ff0000; font-weight:bold;">
+        ❌ Todas las plazas están ocupadas.
+        <br><br>
+        👉 Lista de espera disponible.
+      </span>`;
+
+    bloquearBotones();
   }
 }
 
+// ===== ACTUALIZAR HEADER =====
 function actualizarHeaderPlazas() {
+
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
 
     if (plazas <= 3) {
-      headerPlazasNum.style.color = '#ff4d4d';
-      headerPlazasNum.style.fontWeight = 'bold';
-      headerPlazasNum.classList.add('blink');
+      headerPlazasNum.classList.add("blink");
+      headerPlazasNum.style.color = "#ff4d4d";
+      headerPlazasNum.style.fontWeight = "bold";
     } else {
-      headerPlazasNum.style.color = '';
-      headerPlazasNum.style.fontWeight = '';
-      headerPlazasNum.classList.remove('blink');
+      headerPlazasNum.classList.remove("blink");
+      headerPlazasNum.style.color = "";
+      headerPlazasNum.style.fontWeight = "";
     }
+  }
 
-  } else {
-    headerPlazasNum.textContent = 0;
-    if(headerPlazasMsg) {
-      headerPlazasMsg.textContent = "⚠️ Todas las plazas para este mes ya están ocupadas.";
-    }
-    headerPlazasNum.classList.remove('blink');
+  else {
+    headerPlazasMsg.innerHTML =
+      "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 }
 
-// ======== ANIMACIÓN DE PARPADEO DEL CONTADOR PRINCIPAL ========
-function parpadeoUrgencia() {
-  const span = contador.querySelector('span');
-  if (span && plazas > 0 && plazas <= 3) {
-    span.style.opacity = '0.6';
-    setTimeout(() => { span.style.opacity = '1'; }, 700);
-  }
-}
-
-// ======== EJECUTAMOS AL CARGAR ========
-actualizarContador();
-actualizarHeaderPlazas();
-setInterval(parpadeoUrgencia, 2000);
-
-// ======== FUNCION PARA REDUCIR PLAZAS DESDE BOTONES ========
+// ===== REDUCIR PLAZA =====
 function reducirPlaza() {
-  if(plazas > 0) {
-    plazas -= 1;
-    localStorage.setItem('plazas', plazas);
+  if (plazas > 0) {
+    plazas--;
+    localStorage.setItem("plazas", plazas);
     actualizarContador();
     actualizarHeaderPlazas();
   }
 }
 
-// Cada botón de "Solicitar" resta una plaza
-document.querySelectorAll(".service-back button").forEach(btn => {
-  btn.addEventListener("click", reducirPlaza);
+// ===== BLOQUEAR BOTONES =====
+function bloquearBotones() {
+  botones.forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = "0.5";
+    btn.textContent = "Lista de espera";
+  });
+}
+
+// ===== EVENTOS =====
+document.body.addEventListener("click", e => {
+  if (e.target.closest(".service-back button")) {
+    reducirPlaza();
+  }
 });
+
+// ===== INICIALIZAR =====
+actualizarContador();
+actualizarHeaderPlazas();
 
 </script>
 </body>
