@@ -815,61 +815,65 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 // ===== CONFIGURACIÓN =====
 const PLAZAS_INICIALES = 8;
 
+// ===== ELEMENTOS =====
+const contador = document.getElementById("contador-plazas");
+const headerPlazasNum = document.getElementById("header-plazas-num");
+const headerPlazasMsg = document.getElementById("header-plazas");
+const botones = document.querySelectorAll(".service-back button, #consulta button");
+const contenedorPlazas = document.getElementById("plazas-container");
+
 // ===== REINICIO MENSUAL AUTOMÁTICO =====
 const mesActual = new Date().getMonth();
 const mesGuardado = localStorage.getItem("mesPlazas");
 
-if (mesGuardado === null || parseInt(mesGuardado) !== mesActual) {
+if (!mesGuardado || parseInt(mesGuardado) !== mesActual) {
   localStorage.setItem("plazas", PLAZAS_INICIALES);
   localStorage.setItem("mesPlazas", mesActual);
 }
 
 let plazas = parseInt(localStorage.getItem("plazas"));
 
-// ===== ELEMENTOS =====
-const contador = document.getElementById("contador-plazas");
-const headerPlazasNum = document.getElementById("header-plazas-num");
-const headerPlazasMsg = document.getElementById("header-plazas");
-const botones = document.querySelectorAll(".service-back button");
+// ===== FUNCIONES =====
 
+// Actualiza el contador inferior
 function actualizarContador() {
+  let spanHTML = "";
 
   if (plazas > 3) {
-    contador.innerHTML = `
-      <span style="color:#00ffc0; font-weight:bold;">
-        ¡Quedan ${plazas} plazas disponibles este mes!
-      </span>`;
-  }
-
-  else if (plazas > 0) {
-    contador.innerHTML = `
-      <span class="blink" style="color:#ff4d4d; font-weight:bold;">
-        ⚠️ ¡Solo quedan ${plazas} plazas!
-      </span>`;
-  }
-
-  else {
-    contador.innerHTML = `
-      <span style="color:#ff0000; font-weight:bold;">
-        ❌ Todas las plazas están ocupadas.
-        <br><br>
-        👉 Lista de espera disponible.
-      </span>`;
-
+    spanHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
+  } else if (plazas > 0) {
+    spanHTML = `<span class="blink" style="color:#ff4d4d; font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
+  } else {
+    spanHTML = `<span style="color:#ff0000; font-weight:bold;">
+      ❌ Todas las plazas están ocupadas.<br><br>
+      👉 Lista de espera disponible.
+    </span>`;
     bloquearBotones();
   }
 
-  // 👇 AQUÍ VA EL GLOW
-  const contenedorPlazas = document.getElementById("plazas-container");
+  contador.innerHTML = spanHTML;
 
+  // Animación GSAP
+  gsap.from("#contador-plazas span", { scale: 0, duration: 0.5, ease: "back.out(1.7)" });
+
+  // Glow urgente
   if (plazas <= 2 && plazas > 0) {
     contenedorPlazas.classList.add("glow-urgente");
+    // Animación de parpadeo del contenedor
+    gsap.fromTo(contenedorPlazas, 
+      { scale: 1 }, 
+      { scale: 1.05, duration: 0.6, yoyo: true, repeat: -1, ease: "power1.inOut" }
+    );
   } else {
     contenedorPlazas.classList.remove("glow-urgente");
+    gsap.killTweensOf(contenedorPlazas);
+    contenedorPlazas.style.transform = "scale(1)";
   }
+
+  animarBotones();
 }
 
-// ===== ACTUALIZAR HEADER =====
+// Actualiza el header
 function actualizarHeaderPlazas() {
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
@@ -884,14 +888,15 @@ function actualizarHeaderPlazas() {
       headerPlazasNum.style.fontWeight = "";
     }
 
-    // ✅ Animación GSAP para el header
+    // Animación GSAP para el header
     gsap.from(headerPlazasNum, { scale: 1.5, duration: 0.4, ease: "back.out(1.7)" });
   } else {
     headerPlazasMsg.innerHTML =
       "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 }
-// ===== REDUCIR PLAZA =====
+
+// Reduce una plaza al hacer clic
 function reducirPlaza() {
   if (plazas > 0) {
     plazas--;
@@ -901,18 +906,36 @@ function reducirPlaza() {
   }
 }
 
-// ===== BLOQUEAR BOTONES =====
+// Bloquea botones si no quedan plazas
 function bloquearBotones() {
   botones.forEach(btn => {
     btn.disabled = true;
     btn.style.opacity = "0.5";
     btn.textContent = "Lista de espera";
+    gsap.to(btn, { scale: 1, duration: 0 }); // Reset de animación
   });
+}
+
+// Animación de botones cuando quedan pocas plazas
+function animarBotones() {
+  if (plazas > 0 && plazas <= 3) {
+    botones.forEach(btn => {
+      if (!btn.disabled) {
+        gsap.fromTo(btn, 
+          { scale: 1 }, 
+          { scale: 1.1, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
+        );
+      }
+    });
+  } else {
+    botones.forEach(btn => gsap.killTweensOf(btn));
+    botones.forEach(btn => btn.style.transform = "scale(1)");
+  }
 }
 
 // ===== EVENTOS =====
 document.body.addEventListener("click", e => {
-  if (e.target.closest(".service-back button")) {
+  if (e.target.closest(".service-back button, #consulta button")) {
     reducirPlaza();
   }
 });
@@ -920,7 +943,7 @@ document.body.addEventListener("click", e => {
 // ===== INICIALIZAR =====
 actualizarContador();
 actualizarHeaderPlazas();
-
 </script>
+
 </body>
 </html>
