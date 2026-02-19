@@ -814,6 +814,7 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 <script>
 // ===== CONFIGURACIÓN =====
 const PLAZAS_INICIALES = 8;
+const OCUPACION_AUTOMATICA_INTERVALO = 10000; // cada 10 segundos
 
 // ===== ELEMENTOS =====
 const contador = document.getElementById("contador-plazas");
@@ -837,8 +838,6 @@ let glowTween = null;
 let botonesTween = [];
 
 // ===== FUNCIONES =====
-
-// Actualiza el contador inferior
 function actualizarContador() {
   let spanHTML = "";
 
@@ -859,7 +858,6 @@ function actualizarContador() {
 
   contador.innerHTML = spanHTML;
 
-  // Animación GSAP solo si cambia el valor
   if (plazas !== plazasPrevias) {
     plazasPrevias = plazas;
     gsap.from("#contador-plazas span", { scale: 0, duration: 0.5, ease: "back.out(1.7)" });
@@ -868,7 +866,6 @@ function actualizarContador() {
   actualizarHeaderPlazas();
 }
 
-// Actualiza header de plazas
 function actualizarHeaderPlazas() {
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
@@ -888,7 +885,6 @@ function actualizarHeaderPlazas() {
   }
 }
 
-// Reducir una plaza
 function reducirPlaza() {
   if (plazas > 0) {
     plazas--;
@@ -897,7 +893,6 @@ function reducirPlaza() {
   }
 }
 
-// Bloquea botones
 function bloquearBotones() {
   botones.forEach(btn => {
     btn.disabled = true;
@@ -908,7 +903,6 @@ function bloquearBotones() {
   });
 }
 
-// Aplica glow y pulso cuando quedan pocas plazas
 function aplicarGlow() {
   if (!glowTween) {
     contenedorPlazas.classList.add("glow-urgente");
@@ -918,20 +912,18 @@ function aplicarGlow() {
     );
   }
 
-  // Pulso botones
   botones.forEach(btn => {
     if (!btn.disabled && !botonesTween.includes(btn)) {
       const tween = gsap.fromTo(btn, 
         { scale: 1 }, 
         { scale: 1.1, yoyo: true, repeat: -1, duration: 0.6, ease: "power1.inOut" }
       );
-      botonesTween.push(btn); // marcar como animado
-      btn._tween = tween;     // guardar referencia para kill
+      botonesTween.push(btn);
+      btn._tween = tween;
     }
   });
 }
 
-// Quita glow y pulso
 function quitarGlow() {
   if (glowTween) {
     glowTween.kill();
@@ -950,7 +942,6 @@ function quitarGlow() {
   botonesTween = [];
 }
 
-// Feedback visual al reservar
 function mostrarFeedback(btn, mensaje = "¡Plaza reservada!") {
   const feedback = document.createElement("span");
   feedback.textContent = mensaje;
@@ -986,6 +977,16 @@ document.body.addEventListener("click", e => {
     mostrarFeedback(btn);
   }
 });
+
+// ===== OCUPACIÓN AUTOMÁTICA =====
+function ocupacionAutomatica() {
+  if (plazas > 0) {
+    plazas--;
+    localStorage.setItem("plazas", plazas);
+    actualizarContador();
+  }
+}
+setInterval(ocupacionAutomatica, OCUPACION_AUTOMATICA_INTERVALO);
 
 // ===== INICIALIZAR =====
 actualizarContador();
