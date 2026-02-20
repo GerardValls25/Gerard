@@ -492,7 +492,6 @@ document.addEventListener("DOMContentLoaded", () => {
     progressBar.style.width = porcentaje + "%";
 
     if(plazas <= 3 && plazas > 0) {
-      // parpadeo y glow rojo
       contador.style.color = "#ff4d4d";
       contador.style.fontWeight = "bold";
       contador.classList.add("blink");
@@ -504,9 +503,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if(plazas <= 0){
-      document.getElementById("header-plazas-num").textContent = "0";
+      contador.textContent = "0";
       progressBar.style.width = "0%";
-      document.getElementById("header-plazas-num").parentElement.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
+      contador.parentElement.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
     }
   }
   actualizarPlazas();
@@ -524,6 +523,15 @@ document.addEventListener("DOMContentLoaded", () => {
       lanzarConfeti(30);
     }
   });
+
+  // ===== SIMULACIÓN AUTOMÁTICA DE RESERVAS =====
+  setInterval(() => {
+    if(plazas>0){
+      plazas--;
+      localStorage.setItem("plazas", plazas);
+      actualizarPlazas();
+    }
+  }, 8000 + Math.random()*5000); // cada 8-13 segundos
 
   // Función confeti
   function lanzarConfeti(cantidad=30){
@@ -546,8 +554,6 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 .blink { animation: blinkPlazas 1.5s infinite; }
 </style>
-
-<style>
 /* Parpadeo plazas urgentes */
 @keyframes blinkPlazas {
   0%,50%,100%{opacity:1;}
