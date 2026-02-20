@@ -1084,7 +1084,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputNombre = document.querySelector('input[name="nombre"]');
   const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span');
 
-  if (!inputNombre) return;
+  if (!inputNombre) return; // Si no existe el input, salir
 
   inputNombre.addEventListener('input', () => {
     const hayTexto = inputNombre.value.trim() !== "";
