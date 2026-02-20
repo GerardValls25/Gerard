@@ -1079,22 +1079,22 @@ document.body.addEventListener("click", e => {
 // ===== INICIAL =====
 actualizarContador();
 </script>
-  <script>
-// --- Ocultar/mostrar nombres de testimonios según el input ---
-const inputNombre = document.querySelector('input[name="nombre"]'); // campo de nombre del formulario
-const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span'); // nombres y ciudades
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const inputNombre = document.querySelector('input[name="nombre"]'); // Cambia 'nombre' si tu input tiene otro name
+  const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span'); // Ajusta según tu HTML
 
-if (inputNombre) {
+  if (!inputNombre) return; // Si no existe el input, no hace nada
+
   inputNombre.addEventListener('input', () => {
-    if (inputNombre.value.trim() !== "") {
-      // Si hay texto, ocultar nombres
-      nombresTestimonios.forEach(el => el.style.display = 'none');
-    } else {
-      // Si el campo está vacío, mostrar nombres
-      nombresTestimonios.forEach(el => el.style.display = '');
-    }
+    const hayTexto = inputNombre.value.trim() !== "";
+
+    nombresTestimonios.forEach(el => {
+      // Si hay texto se oculta, si no, se muestra
+      el.style.display = hayTexto ? 'none' : '';
+    });
   });
-}
+});
 </script>
 </body>
 </html>
