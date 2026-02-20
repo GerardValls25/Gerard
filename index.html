@@ -1081,16 +1081,14 @@ actualizarContador();
 </script>
  <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const inputNombre = document.querySelector('input[name="nombre"]'); // Cambia 'nombre' si tu input tiene otro name
-  const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span'); // Ajusta según tu HTML
+  const inputNombre = document.querySelector('input[name="nombre"]');
+  const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span');
 
-  if (!inputNombre) return; // Si no existe el input, no hace nada
+  if (!inputNombre) return;
 
   inputNombre.addEventListener('input', () => {
     const hayTexto = inputNombre.value.trim() !== "";
-
     nombresTestimonios.forEach(el => {
-      // Si hay texto se oculta, si no, se muestra
       el.style.display = hayTexto ? 'none' : '';
     });
   });
