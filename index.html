@@ -49,11 +49,6 @@ a { text-decoration: none; color: var(--primary); transition: .3s; }
 a:hover { color: var(--primary-hover); }
 
 /* HEADER */
-header {
-  text-align: center;
-  padding: 120px 20px 80px;
-  position: relative;
-}
 header h1 {
   font-size: 3rem;
   background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
@@ -94,12 +89,11 @@ header p {
 nav {
   position: sticky;
   top: 0;
-  background: rgba(42,55,96,0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(26,31,63,0.95);
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  padding: 12px;
+  gap: 2rem;
+  padding: 16px;
   z-index: 1000;
 }
 body.light nav { background: rgba(255,255,255,0.9); }
@@ -108,13 +102,11 @@ nav a { font-weight: 600; }
 /* MAIN WRAPPER */
 main.wrapper {
   max-width: 1200px;
-  margin: 40px auto;
-  padding: 50px 30px 60px;
-  border-radius: var(--radius);
-  backdrop-filter: blur(15px);
-  background: rgba(42,55,96,0.85);
+  margin: 60px auto;
+  padding: 0 20px 60px;
   text-align: center;
-  transition: background var(--transition);
+  background: none;
+  backdrop-filter: none;
 }
 body.light main.wrapper { background: rgba(255,255,255,0.9); }
 
