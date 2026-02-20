@@ -881,23 +881,23 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 <section id="consulta">
   <h2>Formulario de Consulta</h2>
   <form class="glass-form">
-    <div class="form-group">
-      <input type="text" name="nombre" required placeholder=" ">
-      <label>Nombre</label>
-      <i class="fas fa-user icon-input"></i>
-    </div>
-    <div class="form-group">
-      <input type="email" name="email" required placeholder=" ">
-      <label>Email</label>
-      <i class="fas fa-envelope icon-input"></i>
-    </div>
-    <div class="form-group">
-      <textarea name="mensaje" required placeholder=" "></textarea>
-      <label>Mensaje</label>
-      <i class="fas fa-comment icon-input"></i>
-    </div>
-    <button type="submit" style="background:var(--primary);color:#000;padding:14px 28px;border:none;border-radius:var(--radius);font-weight:600;cursor:pointer;">Enviar</button>
-  </form>
+  <div class="form-group">
+    <input type="text" name="nombre" required placeholder=" ">
+    <label>Nombre</label>
+    <i class="fas fa-user icon-input"></i>
+  </div>
+  <div class="form-group">
+    <input type="email" name="email" required placeholder=" ">
+    <label>Email</label>
+    <i class="fas fa-envelope icon-input"></i>
+  </div>
+  <div class="form-group">
+    <textarea name="mensaje" required placeholder=" "></textarea>
+    <label>Mensaje</label>
+    <i class="fas fa-comment icon-input"></i>
+  </div>
+  <button type="submit">Enviar</button>
+</form>
 </section>
 
 </main>
@@ -1081,15 +1081,17 @@ actualizarContador();
 </script>
  <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // Seleccionamos el input del nombre
   const inputNombre = document.querySelector('input[name="nombre"]');
+  // Seleccionamos los elementos de los testimonios
   const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span');
 
-  if (!inputNombre) return; // Si no existe el input, salir
+  if (!inputNombre) return; // Salimos si no hay input
 
   inputNombre.addEventListener('input', () => {
-    const hayTexto = inputNombre.value.trim() !== "";
+    // Si hay texto, ocultamos los nombres de los testimonios
     nombresTestimonios.forEach(el => {
-      el.style.display = hayTexto ? 'none' : '';
+      el.style.display = inputNombre.value.trim() ? 'none' : '';
     });
   });
 });
