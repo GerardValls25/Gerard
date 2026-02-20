@@ -422,45 +422,59 @@ body.light .icon-input {
   <!-- Subtítulo -->
   <p style="font-size:1rem; margin:12px auto 20px; max-width:650px; color:rgba(255,255,255,0.9); opacity:0;" class="hero-fade">
     Pierde grasa, gana músculo y transforma tu cuerpo sin dietas extremas ni efecto rebote.
+    Método estratégico basado en evidencia científica para resultados reales y sostenibles.
   </p>
 
   <!-- Valoraciones -->
   <div style="margin-bottom:20px; font-weight:600; color:var(--secondary); font-size:0.9rem; opacity:0;" class="hero-fade">
-    ⭐⭐⭐⭐⭐ 4.9/5 basado en 187 valoraciones • Más de 200 transformaciones reales
+    ⭐⭐⭐⭐⭐ 4.9/5 basado en 187 valoraciones • Más de 200 transformaciones reales en España
   </div>
 
   <!-- CTA botones -->
   <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:10px; opacity:0;" class="hero-fade">
-    <button id="cta-reserva" onclick="location.href='#consulta'" 
-            style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.3);">
+    <button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.3);">
       RESERVAR EVALUACIÓN GRATUITA
     </button>
-    <button onclick="location.href='#planes'" 
-            style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.2);">
+    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.2);">
       VER PROGRAMAS
     </button>
   </div>
 
   <!-- Contador dinámico de plazas -->
-  <div style="margin-top:15px; font-weight:600; font-size:1rem; color:#fff; opacity:0;" class="hero-fade">
+  <p id="header-plazas" style="font-weight:600; font-size:1rem; margin-top:5px; opacity:0;" class="hero-fade">
     Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
-  </div>
-
-  <!-- Barra de progreso de plazas -->
-  <div style="width:100%; background:rgba(255,255,255,0.1); height:12px; border-radius:6px; overflow:hidden; margin-top:8px; opacity:0;" class="hero-fade">
-    <div id="progress-bar" style="width:100%; height:100%; background:linear-gradient(90deg,#00ffc0,#ffbf00,#ff4d4d); transition: width 0.5s ease;"></div>
-  </div>
+  </p>
 </header>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // FADE-IN SECUENCIAL
-  gsap.fromTo(".hero-fade", 
-    {opacity:0, y:20}, 
-    {opacity:1, y:0, duration:1, stagger:0.3, ease:"power2.out"}
-  );
+<!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
+<section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
+  <h2>Enfoque Basado en Evidencia</h2>
+  <p>La metodología aplicada integra principios de:</p>
+  <ul style="text-align:left; margin:0 auto; max-width:500px;">
+    <li>Balance energético y periodización nutricional</li>
+    <li>Optimización de la síntesis proteica</li>
+    <li>Control de adherencia conductual</li>
+    <li>Entrenamiento estructurado progresivo</li>
+  </ul>
+</section>
 
-  // CTA glow al hover
+<style>
+/* Parpadeo plazas urgentes */
+@keyframes blinkPlazas {
+  0%,50%,100%{opacity:1;}
+  25%,75%{opacity:0.4;}
+}
+.blink { animation: blinkPlazas 1.5s infinite; }
+</style>
+
+<script>
+// Espera a que cargue todo
+document.addEventListener("DOMContentLoaded", () => {
+
+  // --- FADE IN SECUENCIAL ---
+  gsap.fromTo(".hero-fade", {opacity:0, y:20}, {opacity:1, y:0, duration:1, stagger:0.3, ease:"power2.out"});
+
+  // --- CTA HOVER ---
   const ctas = document.querySelectorAll("header button");
   ctas.forEach(btn => {
     btn.addEventListener("mouseenter", () => {
@@ -471,45 +485,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ===== CONTADOR DE PLAZAS DYNAMIC =====
+  // --- CONTADOR DINÁMICO ---
   const PLAZAS_INICIALES = 8;
+  const headerPlazas = document.getElementById("header-plazas");
+  const headerPlazasNum = document.getElementById("header-plazas-num");
   let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
   const mesActual = new Date().getMonth();
   const mesGuardado = parseInt(localStorage.getItem("mesPlazas") || -1);
-  if (mesGuardado !== mesActual) {
+  if(mesGuardado !== mesActual){
     plazas = PLAZAS_INICIALES;
     localStorage.setItem("mesPlazas", mesActual);
     localStorage.setItem("plazas", plazas);
   }
 
-  const contador = document.getElementById("header-plazas-num");
-  const progressBar = document.getElementById("progress-bar");
-
   function actualizarPlazas() {
-    contador.textContent = plazas;
-    const porcentaje = (plazas / PLAZAS_INICIALES) * 100;
-    progressBar.style.width = porcentaje + "%";
-
-    if(plazas <= 3 && plazas > 0) {
-      contador.style.color = "#ff4d4d";
-      contador.style.fontWeight = "bold";
-      contador.classList.add("blink");
-      gsap.to(contador, { scale:1.3, duration:0.3, yoyo:true, repeat:1, ease:"back.out(1.7)" });
+    if(plazas > 3){
+      headerPlazasNum.textContent = plazas;
+      headerPlazasNum.style.color = "#00ffc0";
+      headerPlazasNum.style.fontWeight = "bold";
+      headerPlazasNum.classList.remove("blink");
+    } else if(plazas > 0){
+      headerPlazasNum.textContent = plazas;
+      headerPlazasNum.style.color = "#ff4d4d";
+      headerPlazasNum.style.fontWeight = "bold";
+      headerPlazasNum.classList.add("blink");
+      gsap.fromTo(headerPlazasNum, { scale:1 }, { scale:1.3, duration:0.3, yoyo:true, repeat:1, ease:"back.out(1.7)" });
     } else {
-      contador.style.color = "";
-      contador.style.fontWeight = "";
-      contador.classList.remove("blink");
-    }
-
-    if(plazas <= 0){
-      contador.textContent = "0";
-      progressBar.style.width = "0%";
-      contador.parentElement.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
+      headerPlazas.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
     }
   }
   actualizarPlazas();
 
-  // Reducir plaza al click CTA
+  // --- CLICK RESERVA ---
   const btnReserva = document.getElementById("cta-reserva");
   let clickLocked = false;
   btnReserva.addEventListener("click", () => {
@@ -523,16 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ===== SIMULACIÓN AUTOMÁTICA DE RESERVAS =====
-  setInterval(() => {
-    if(plazas>0){
-      plazas--;
-      localStorage.setItem("plazas", plazas);
-      actualizarPlazas();
-    }
-  }, 8000 + Math.random()*5000); // cada 8-13 segundos
-
-  // Función confeti
+  // --- CONFETI ---
   function lanzarConfeti(cantidad=30){
     const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
     for(let i=0;i<cantidad;i++){
@@ -544,7 +542,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
-
 <style>
 /* Parpadeo plazas urgentes */
 @keyframes blinkPlazas {
