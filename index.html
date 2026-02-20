@@ -55,7 +55,7 @@ header h1 {
   -webkit-background-clip: text;
   color: transparent;
   text-shadow: 0 0 15px rgba(0,255,192,0.4);
-  animation: gradMove 12s linear infinite;
+  animation: none;
 }
 header p {
   margin-top: 12px;
@@ -395,15 +395,20 @@ body.light .icon-input {
 }
 
 .cta-principal {
-  background: var(--secondary);
+  background: #ffbf00;
   color: #000;
-  padding: 16px 30px;
+  padding: 16px 28px;
   border: none;
-  border-radius: var(--radius);
-  font-weight: 700;
+  border-radius: 8px;
+  font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: .3s;
+  transition: 0.2s ease;
+}
+
+.cta-principal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
 .cta-principal:hover {
