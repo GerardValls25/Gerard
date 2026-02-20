@@ -988,19 +988,6 @@ document.body.addEventListener("click", e => {
     mostrarFeedback(btn); 
   }
 });
-
-// ===== SIMULACIÓN DE RESERVAS =====
-function simularReserva() {
-  if (plazas <= 0) return;
-  const disponibles = botonesServicios.filter(btn => !btn.disabled);
-  if (!disponibles.length) return;
-  const btnAleatorio = disponibles[Math.floor(Math.random()*disponibles.length)];
-  reducirPlaza();
-  mostrarFeedback(btnAleatorio, "¡Otro usuario acaba de reservar!");
-  if (plazas > 0) setTimeout(simularReserva, 5000 + Math.random()*10000);
-}
-simularReserva();
-
 // ===== INICIAL =====
 actualizarContador();
 </script>
