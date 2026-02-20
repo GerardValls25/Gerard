@@ -407,7 +407,7 @@ body.light .icon-input {
 </head>
 <body>
 
-<header style="padding:60px 20px 40px; text-align:center; position:relative; overflow:hidden;">
+<header style="padding:60px 20px 40px; text-align:center; position:relative; overflow:hidden; max-width:800px; margin:auto;">
   <!-- Foto profesional -->
   <img src="ruta-a-tu-foto.jpg" 
        alt="Gerard Valls - Nutricionista Profesional" 
@@ -423,13 +423,11 @@ body.light .icon-input {
   <!-- Subtítulo -->
   <p style="font-size:1rem; margin:12px auto 20px; max-width:650px; color:rgba(255,255,255,0.9); opacity:0;" class="hero-fade">
     Pierde grasa, gana músculo y transforma tu cuerpo sin dietas extremas ni efecto rebote.
-    Método estratégico basado en evidencia científica para resultados reales y sostenibles.
   </p>
 
   <!-- Valoraciones -->
   <div style="margin-bottom:20px; font-weight:600; color:var(--secondary); font-size:0.9rem; opacity:0;" class="hero-fade">
-    ⭐⭐⭐⭐⭐ 4.9/5 basado en 187 valoraciones
-    &nbsp;•&nbsp; Más de 200 transformaciones reales en España
+    ⭐⭐⭐⭐⭐ 4.9/5 basado en 187 valoraciones • Más de 200 transformaciones reales
   </div>
 
   <!-- CTA botones -->
@@ -445,9 +443,14 @@ body.light .icon-input {
   </div>
 
   <!-- Contador dinámico de plazas -->
-  <p id="header-plazas" style="font-weight:600; font-size:1rem; margin-top:5px; opacity:0;" class="hero-fade">
+  <div style="margin-top:15px; font-weight:600; font-size:1rem; color:#fff; opacity:0;" class="hero-fade">
     Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
-  </p>
+  </div>
+
+  <!-- Barra de progreso de plazas -->
+  <div style="width:100%; background:rgba(255,255,255,0.1); height:12px; border-radius:6px; overflow:hidden; margin-top:8px; opacity:0;" class="hero-fade">
+    <div id="progress-bar" style="width:100%; height:100%; background:linear-gradient(90deg,#00ffc0,#ffbf00,#ff4d4d); transition: width 0.5s ease;"></div>
+  </div>
 </header>
 
 <script>
@@ -481,8 +484,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const contador = document.getElementById("header-plazas-num");
+  const progressBar = document.getElementById("progress-bar");
+
   function actualizarPlazas() {
     contador.textContent = plazas;
+    const porcentaje = (plazas / PLAZAS_INICIALES) * 100;
+    progressBar.style.width = porcentaje + "%";
+
     if(plazas <= 3 && plazas > 0) {
       // parpadeo y glow rojo
       contador.style.color = "#ff4d4d";
@@ -494,8 +502,11 @@ document.addEventListener("DOMContentLoaded", () => {
       contador.style.fontWeight = "";
       contador.classList.remove("blink");
     }
+
     if(plazas <= 0){
-      document.getElementById("header-plazas").innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
+      document.getElementById("header-plazas-num").textContent = "0";
+      progressBar.style.width = "0%";
+      document.getElementById("header-plazas-num").parentElement.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
     }
   }
   actualizarPlazas();
@@ -510,7 +521,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("plazas", plazas);
       actualizarPlazas();
       clickLocked=false;
-      // Confeti pequeño
       lanzarConfeti(30);
     }
   });
@@ -527,6 +537,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+
+<style>
+/* Parpadeo plazas urgentes */
+@keyframes blinkPlazas {
+  0%,50%,100%{opacity:1;}
+  25%,75%{opacity:0.4;}
+}
+.blink { animation: blinkPlazas 1.5s infinite; }
+</style>
 
 <style>
 /* Parpadeo plazas urgentes */
