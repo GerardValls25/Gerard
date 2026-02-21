@@ -560,20 +560,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gsap.to(btn, { scale:1, boxShadow:"0 8px 20px rgba(0,0,0,0.3)", duration:0.3 });
     });
   });
-
-  // --- CONTADOR DINÁMICO ---
-  const PLAZAS_INICIALES = 8;
-  const headerPlazas = document.getElementById("header-plazas");
-  const headerPlazasNum = document.getElementById("header-plazas-num");
-  let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
-  const mesActual = new Date().getMonth();
-  const mesGuardado = parseInt(localStorage.getItem("mesPlazas") || -1);
-  if(mesGuardado !== mesActual){
-    plazas = PLAZAS_INICIALES;
-    localStorage.setItem("mesPlazas", mesActual);
-    localStorage.setItem("plazas", plazas);
-  }
-
   function actualizarPlazas() {
     if(plazas > 3){
       headerPlazasNum.textContent = plazas;
