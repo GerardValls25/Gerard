@@ -530,6 +530,7 @@ body.light .icon-input {
   height: 300px;
   overflow: hidden;
   cursor: ew-resize;
+  border-radius: 20px;
 }
 
 .before-after img {
@@ -543,8 +544,8 @@ body.light .icon-input {
   position: absolute;
   top: 0;
   left: 0;
+  width: 50%; /* inicio en la mitad */
   height: 100%;
-  width: 50%; /* inicia mostrando mitad de la imagen Después */
   overflow: hidden;
 }
 
@@ -558,15 +559,15 @@ body.light .icon-input {
 .slider {
   position: absolute;
   top: 0;
-  left: 50%; /* empieza en la mitad */
+  left: 50%;
   width: 4px;
   height: 100%;
-  background: #00ffc0;
+  background: #fff;
   cursor: ew-resize;
-  z-index: 2;
   transform: translateX(-50%);
+  z-index: 2;
+  border-radius: 2px;
 }
-    .before-after:hover .overlay { opacity:1; }
 </style>
 </head>
 <body>
@@ -899,10 +900,10 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
   </p>
 
   <div class="transformaciones-slider">
-  <!-- Carlos -->
+
   <div class="resultado-card">
     <div class="before-after">
-      <img src="antes-despues1-antes.jpg" alt="Carlos antes">
+      <img src="antes-despues1.jpg" alt="Carlos antes">
       <div class="after-img">
         <img src="antes-despues1-despues.jpg" alt="Carlos después">
       </div>
@@ -912,10 +913,9 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
     <p>-8kg en 4 meses</p>
   </div>
 
-  <!-- Laura -->
   <div class="resultado-card">
     <div class="before-after">
-      <img src="antes-despues2-antes.jpg" alt="Laura antes">
+      <img src="antes-despues2.jpg" alt="Laura antes">
       <div class="after-img">
         <img src="antes-despues2-despues.jpg" alt="Laura después">
       </div>
@@ -925,10 +925,9 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
     <p>Más definición y rendimiento</p>
   </div>
 
-  <!-- David -->
   <div class="resultado-card">
     <div class="before-after">
-      <img src="antes-despues3-antes.jpg" alt="David antes">
+      <img src="antes-despues3.jpg" alt="David antes">
       <div class="after-img">
         <img src="antes-despues3-despues.jpg" alt="David después">
       </div>
@@ -937,6 +936,7 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
     <h4>David</h4>
     <p>Recomposición corporal completa</p>
   </div>
+
 </div>
 </section>
 
@@ -1276,32 +1276,40 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- INICIALIZAR ---
   actualizarPlazas();
 });
-  document.querySelectorAll('.before-after').forEach(container => {
-  const afterImg = container.querySelector('.after-img');
-  const slider = container.querySelector('.slider');
+  document.querySelectorAll(".before-after").forEach(container => {
+  const after = container.querySelector(".after-img");
+  const slider = container.querySelector(".slider");
+
   let isDragging = false;
 
-  function moveSlider(e) {
+  slider.addEventListener("mousedown", () => isDragging = true);
+  document.addEventListener("mouseup", () => isDragging = false);
+
+  document.addEventListener("mousemove", e => {
     if (!isDragging) return;
+
     const rect = container.getBoundingClientRect();
     let x = e.clientX - rect.left;
-    if (x < 0) x = 0;
-    if (x > rect.width) x = rect.width;
+    x = Math.max(0, Math.min(x, rect.width)); // límites de 0 a ancho
     const percent = (x / rect.width) * 100;
-    afterImg.style.width = `${percent}%`;
-    slider.style.left = `${percent}%`;
-  }
 
-  slider.addEventListener('mousedown', () => isDragging = true);
-  window.addEventListener('mouseup', () => isDragging = false);
-  window.addEventListener('mousemove', moveSlider);
+    after.style.width = percent + "%";
+    slider.style.left = percent + "%";
+  });
 
-  // Soporte táctil
-  slider.addEventListener('touchstart', () => isDragging = true);
-  window.addEventListener('touchend', () => isDragging = false);
-  window.addEventListener('touchmove', e => {
+  // Soporte para tocar en móvil
+  slider.addEventListener("touchstart", () => isDragging = true);
+  document.addEventListener("touchend", () => isDragging = false);
+  document.addEventListener("touchmove", e => {
     if (!isDragging) return;
-    moveSlider(e.touches[0]);
+    const touch = e.touches[0];
+    const rect = container.getBoundingClientRect();
+    let x = touch.clientX - rect.left;
+    x = Math.max(0, Math.min(x, rect.width));
+    const percent = (x / rect.width) * 100;
+
+    after.style.width = percent + "%";
+    slider.style.left = percent + "%";
   });
 });
 </script>
