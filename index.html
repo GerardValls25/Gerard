@@ -1088,45 +1088,45 @@ document.body.addEventListener("click",e=>{
 
 actualizarPlazas();
 </script>
- <script>
-const btnReserva = document.getElementById("cta-reserva");
-const modal = document.getElementById("modalReserva");
-const closeModal = document.querySelector(".modal-close");
-const form = document.querySelector(".modal-form");
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const btnReserva = document.getElementById("cta-reserva");
+  const modal = document.getElementById("modalReserva");
+  const closeModal = document.querySelector(".modal-close");
+  const form = document.querySelector(".modal-form");
 
-// ABRIR MODAL
-btnReserva.addEventListener("click", () => {
-  if(plazas > 0){
-    modal.classList.add("active");
-  }
-});
+  // --- ABRIR MODAL ---
+  btnReserva.addEventListener("click", () => {
+    if (plazas > 0) {  // asegúrate de que 'plazas' esté definido antes
+      modal.classList.add("active");
+    }
+  });
 
-// CERRAR (X)
-closeModal.addEventListener("click", () => {
-  modal.classList.remove("active");
-});
-
-// CERRAR (FUERA DEL MODAL)
-modal.addEventListener("click", (e) => {
-  if(e.target === modal){
+  // --- CERRAR MODAL (X) ---
+  closeModal.addEventListener("click", () => {
     modal.classList.remove("active");
-  }
-});
+  });
 
-// ENVIAR FORMULARIO
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+  // --- CERRAR MODAL HACIENDO CLICK FUERA ---
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
 
-  if(plazas > 0){
-    plazas--;
-    localStorage.setItem("plazas", plazas);
-    actualizarPlazas();
-    lanzarConfeti(40);
-
-    alert("¡Perfecto! Te contacto en breve");
-
-    modal.classList.remove("active");
-  }
+  // --- ENVÍO FORMULARIO ---
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (plazas > 0) {
+      plazas--;
+      localStorage.setItem("plazas", plazas);
+      actualizarPlazas(); // asegúrate de que esta función exista
+      lanzarConfeti(40);
+      alert("¡Perfecto! Te contacto en breve");
+      modal.classList.remove("active");
+      form.reset();
+    }
+  });
 });
 </script>
   <div id="modalReserva" class="modal-overlay">
