@@ -272,25 +272,29 @@ body.light .icon-input { color:#555; }
   
 <!-- HERO -->
 <header>
-  <img src="gerard.jpg" alt="Gerard Valls - Sistema de Transformación" style="max-width:250px;border-radius:50%;" loading="lazy">
-  <h1 class="hero-fade">Este es el sistema que utilizo para mantener mi físico</h1>
-  <p class="hero-fade">Ya lo aplicaron más de 200 personas con resultados reales y sostenibles</p>
-  <div class="hero-buttons hero-fade">
-    <button id="cta-reserva" class="primary">Solicitar Evaluación Estratégica</button>
-    <button onclick="location.href='#servicios'" class="secondary">Ver Planes</button>
-  </div>
-  <p id="header-plazas" style="margin-top:12px;font-weight:600;font-size:1rem;" aria-live="polite">
-    Actualmente solo acepto <span id="header-plazas-num">40</span> nuevos clientes este mes.
-  </p>
+<img src="gerard.jpg" alt="Gerard Valls - Sistema de Transformación" style="max-width:250px;border-radius:50%;" loading="lazy">
+<h1 class="hero-fade">Este es el sistema que utilizo para mantener mi físico</h1>
+<p class="hero-fade">Ya lo aplicaron más de 200 personas con resultados reales y sostenibles</p>
+<div class="hero-buttons hero-fade">
+<button id="cta-reserva" class="primary">Solicitar Evaluación Estratégica</button>
+<button onclick="location.href='#servicios'" class="secondary">Ver Planes</button>
+</div>
+<p id="header-plazas" style="margin-top:12px;font-weight:600;font-size:1rem;" aria-live="polite">
+Actualmente solo acepto <span id="header-plazas-num">40</span> nuevos clientes este mes.
+</p>
 </header>
   
 <!-- NAV -->
 <nav>
-  <a href="#servicios">Servicios</a>
-  <a href="#testimonios">Resultados</a>
-  <a href="#consulta">Formulario</a>
+<a href="#servicios">Servicios</a>
+<a href="#testimonios">Resultados</a>
+<a href="#consulta">Formulario</a>
+<a href="calculadora.html" target="_blank">Calculadora</a>
+<a href="imc.html" target="_blank">IMC</a>
 </nav>
+  
   <main class="wrapper">
+    
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
 <section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
   <h2>Enfoque Basado en Evidencia</h2>
@@ -444,10 +448,11 @@ form.addEventListener("submit", (e) => {
 
 <main class="wrapper">
 
-<!-- SERVICIOS -->
+<!-- SECCIÓN SERVICIOS -->
 <section id="servicios">
 <h2>Servicios</h2>
 <div class="services">
+<!-- Servicio ejemplo -->
 <div class="service">
 <div class="service-inner">
 <div class="service-front">
@@ -461,67 +466,14 @@ form.addEventListener("submit", (e) => {
 <li>Plan nutricional flexible</li>
 <li>Seguimiento quincenal</li>
 </ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
+<button>Solicitar</button>
 </div>
 </div>
 </div>
+<!-- Agrega los otros servicios aquí igual -->
+</div>
+</section>
 
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-person-running icon-deporte"></i>
-<h3>Asesoría Deportiva</h3>
-<p>Optimiza tu rendimiento y recuperación.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Plan de macronutrientes</li>
-<li>Recomendaciones de suplementación</li>
-<li>Ajuste de cargas de entrenamiento</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
-
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-scale-balanced icon-peso"></i>
-<h3>Pérdida de Peso</h3>
-<p>Programas sostenibles y personalizados.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Reducción de grasa saludable</li>
-<li>Hábitos de alimentación duraderos</li>
-<li>Soporte psicológico</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
-
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-laptop icon-online"></i>
-<h3>Consultas Online</h3>
-<p>Asesoría desde la comodidad de tu hogar.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Videollamadas semanales</li>
-<li>Soporte vía chat</li>
-<li>Material exclusivo</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
-
-</div>
-</section> 
 <!-- FIN SERVICIOS -->
 
 <!-- PROCESO DE INTERVENCIÓN NUTRICIONAL -->
@@ -731,6 +683,17 @@ te garantizo ajustes estratégicos ilimitados hasta que veamos progreso real.
 Tu transformación es un proceso acompañado, no te dejo solo.
 </p>
 </section>
+<!-- NAV -->
+<nav>
+<a href="#servicios">Servicios</a>
+<a href="#testimonios">Resultados</a>
+<a href="#consulta">Formulario</a>
+<a href="calculadora.html" target="_blank">Calculadora</a>
+<a href="imc.html" target="_blank">IMC</a>
+</nav>
+
+<main class="wrapper">
+  
 <!-- FORMULARIO -->
 <section id="consulta">
   <h2>Formulario de Consulta</h2>
@@ -753,6 +716,57 @@ Tu transformación es un proceso acompañado, no te dejo solo.
   <button type="submit">Enviar</button>
 </form>
 </section>
+  
+  <!-- SECCIÓN SERVICIOS -->
+<section id="servicios">
+<h2>Servicios</h2>
+<div class="services">
+<!-- Servicio ejemplo -->
+<div class="service">
+<div class="service-inner">
+<div class="service-front">
+<i class="fas fa-bowl-food icon-planes"></i>
+<h3>Planes Personalizados</h3>
+<p>Adaptados a tu estilo de vida y objetivos.</p>
+</div>
+<div class="service-back">
+<ul>
+<li>Evaluación inicial completa</li>
+<li>Plan nutricional flexible</li>
+<li>Seguimiento quincenal</li>
+</ul>
+<button>Solicitar</button>
+</div>
+</div>
+</div>
+<!-- Agrega los otros servicios aquí igual -->
+</div>
+</section>
+  
+<!-- MODAL RESERVA -->
+<div id="modalReserva" class="modal-overlay">
+<div class="modal-box">
+<span class="modal-close">&times;</span>
+<h3>Reservar Plaza</h3>
+<form class="modal-form">
+<input type="text" name="nombre" placeholder="Nombre" required>
+<input type="email" name="email" placeholder="Email" required>
+<select name="plan" required>
+<option value="">Selecciona plan</option>
+<option value="mensual">Mensual</option>
+<option value="trimestral">Trimestral</option>
+<option value="anual">Anual</option>
+</select>
+<button type="submit">Reservar</button>
+</form>
+</div>
+</div>
+  
+<!-- CONTADOR PLAZAS -->
+<div id="plazas-container" style="max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:0 8px 25px rgba(0,0,0,0.3);text-align:center;color:var(--danger);font-weight:bold;font-size:1.2rem;" aria-live="polite">
+<p id="contador-plazas"></p>
+<p style="margin-top:12px;font-size:1rem;">RECUERDA: LAS PLAZAS SON LIMITADAS. ¡APROVECHA YA!</p>
+</div>
 
 </main>
 
@@ -766,12 +780,10 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 </footer>
 
 <script>
-// --- HERO FADE ---
-document.addEventListener("DOMContentLoaded", () => {
-  gsap.fromTo(".hero-fade",{opacity:0,y:20},{opacity:1,y:0,duration:1,stagger:0.3,ease:"power2.out"});
-});
+// HERO FADE
+gsap.fromTo(".hero-fade",{opacity:0,y:20},{opacity:1,y:0,duration:1,stagger:0.3,ease:"power2.out"});
 
-// --- BOTONES SCROLL & WHATSAPP ---
+// BOTONES SCROLL & WHATSAPP
 const scrollBtn = document.getElementById('scrollTopBtn');
 const whatsappBtn = document.getElementById('whatsappBtn');
 window.addEventListener('scroll', () => {
@@ -780,7 +792,7 @@ window.addEventListener('scroll', () => {
 });
 scrollBtn.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-// --- PLAZAS DINÁMICAS ---
+// PLAZAS DINÁMICAS
 const PLAZAS_INICIALES = 8;
 let plazas = parseInt(localStorage.getItem('plazas') || PLAZAS_INICIALES);
 const mesActual = new Date().getMonth();
@@ -800,70 +812,41 @@ function actualizarPlazas(){
     contador.innerHTML=`<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
     quitarGlow();
   } else if(plazas>0){
-    contador.innerHTML=`<span class="blink" style="color:var(--danger);font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
+    contador.innerHTML=`<span class="blink" style="color:var(--danger);font-weight:bold;">¡Últimas ${plazas} plazas!</span>`;
     aplicarGlow();
   } else{
-    contador.innerHTML=`<span style="color:red;font-weight:bold;">❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.</span>`;
-    bloquearBotones();
-    quitarGlow();
+    contador.innerHTML=`<span style="color:var(--danger);font-weight:bold;">¡No quedan plazas disponibles!</span>`;
+    aplicarGlow();
   }
-  actualizarHeader();
-  localStorage.setItem('plazas', plazas);
+  headerPlazasNum.textContent = plazas;
+  botonesServicios.forEach(btn=>btn.disabled=(plazas===0));
 }
-
-function actualizarHeader(){
-  if(plazas>0){
-    headerPlazasNum.textContent=plazas;
-    if(plazas<=3){headerPlazasNum.classList.add("blink"); headerPlazasNum.style.color= "var(--danger)";}
-    else{headerPlazasNum.classList.remove("blink"); headerPlazasNum.style.color="";}
-  }else{document.getElementById("header-plazas").innerHTML="❌ Este mes las plazas están completas. Lista de espera abierta.";}
-}
-
-function reducirPlaza(){
-  if(plazas<=0 || clickLocked) return;
-  clickLocked=true;
-  plazas--;
-  actualizarPlazas();
-  lanzarConfeti(40);
-  setTimeout(()=>clickLocked=false,1000);
-}
-
-function bloquearBotones(){
-  botonesServicios.forEach(btn=>{btn.disabled=true; btn.style.opacity="0.5"; btn.textContent="Lista de espera"; btn.setAttribute("aria-disabled","true");});
-  quitarGlow();
-}
-
-let glowTween=null, botonesTween=null;
-function aplicarGlow(){
-  if(!glowTween){contenedorPlazas.classList.add("glow-urgente"); glowTween=gsap.fromTo(contenedorPlazas,{scale:1},{scale:1.05,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut"});}
-  if(!botonesTween){botonesTween=gsap.to(botonesServicios.filter(b=>!b.disabled),{scale:1.1,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut",stagger:0.1});}
-}
-function quitarGlow(){if(glowTween){glowTween.kill();glowTween=null; contenedorPlazas.classList.remove("glow-urgente"); contenedorPlazas.style.transform="scale(1)";} if(botonesTween){botonesTween.kill();botonesTween=null; botonesServicios.forEach(b=>b.style.transform="scale(1)");}}
-
-function mostrarFeedback(btn,mensaje="¡Plaza reservada!"){
-  const feedback=document.createElement("span");
-  feedback.textContent=mensaje;
-  Object.assign(feedback.style,{position:"absolute",top:"-30px",left:"50%",transform:"translateX(-50%)",background:"#00ffc0",color:"#000",padding:"6px 12px",borderRadius:"12px",fontWeight:"600",fontSize:"0.85rem",boxShadow:"0 4px 12px rgba(0,0,0,0.3)",opacity:"0",pointerEvents:"none",zIndex:"1000"});
-  btn.style.position="relative"; btn.appendChild(feedback);
-  gsap.to(feedback,{opacity:1,y:-10,duration:0.5,ease:"back.out(1.7)"}); gsap.to(feedback,{opacity:0,y:-30,duration:0.5,delay:2,onComplete:()=>feedback.remove()});
-}
-
-function lanzarConfeti(cantidad=50){
-  const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
-  for(let i=0;i<cantidad;i++){
-    const conf=document.createElement("div");
-    conf.style.cssText=`position:fixed;width:8px;height:8px;background:${colors[Math.floor(Math.random()*colors.length)]};top:-10px;left:${Math.random()*window.innerWidth}px;opacity:0.9;border-radius:50%;pointer-events:none;`;
-    document.body.appendChild(conf);
-    gsap.to(conf,{y:window.innerHeight+50,rotation:Math.random()*360,duration:2+Math.random()*2,ease:"power1.out",onComplete:()=>conf.remove()});
-  }
-}
-
-document.body.addEventListener("click",e=>{
-  const btn=e.target.closest(".service-back button");
-  if(btn && !btn.disabled){reducirPlaza(); mostrarFeedback(btn);}
-});
-
+function aplicarGlow(){contenedorPlazas.classList.add("glow-urgente");}
+function quitarGlow(){contenedorPlazas.classList.remove("glow-urgente");}
 actualizarPlazas();
+  // MODAL
+const modal = document.getElementById("modalReserva");
+const ctaReserva = document.getElementById("cta-reserva");
+const modalClose = modal.querySelector(".modal-close");
+ctaReserva.addEventListener("click", ()=>modal.classList.add("active"));
+modalClose.addEventListener("click", ()=>modal.classList.remove("active"));
+modal.addEventListener("click", e=>{if(e.target===modal) modal.classList.remove("active");});
+
+  // RESERVA PLAZA
+modal.querySelector("form").addEventListener("submit", e=>{
+  e.preventDefault();
+  if(plazas>0 && !clickLocked){
+    plazas--;
+    localStorage.setItem('plazas', plazas);
+    actualizarPlazas();
+    clickLocked = true;
+    gsap.fromTo(contador,{scale:1},{scale:1.3,duration:.3,yoyo:true,repeat:1,ease:"power1.inOut"});
+    alert("¡Plaza reservada con éxito!"); // puedes reemplazar por confeti o animación
+    modal.classList.remove("active");
+    clickLocked = false;
+    e.target.reset();
+  } else alert("No quedan plazas disponibles");
+});
 </script>
 </body>
 </html>
