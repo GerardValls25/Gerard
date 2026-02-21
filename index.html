@@ -479,178 +479,49 @@ body.light .icon-input {
 .modal-form button:hover {
   transform: scale(1.05);
 }
-  .modal-box {
-  transform: scale(0.7) translateY(50px);
-  opacity: 0;
-}
-
-.modal-overlay.active .modal-box {
-  transform: scale(1) translateY(0);
-  opacity: 1;
-}
-  .hero-fade {
-  opacity: 0;
-  transform: translateY(20px);
-}
 </style>
 </head>
 <body>
-<header class="hero">
-  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-img">
-  <div class="hero-text">
-    <h1 class="hero-main">Pierde grasa y gana músculo sin dejar de comer lo que más te gusta</h1>
-    <p class="hero-sub">Pierde grasa, gana músculo y transforma tu cuerpo sin dietas extremas ni efecto rebote. Método estratégico basado en evidencia científica.</p>
-    <div class="hero-rating">⭐⭐⭐⭐⭐ 4.9/5 basado en 187 valoraciones • Más de 200 transformaciones reales en España</div>
-    <div class="hero-buttons">
-      <button id="cta-reserva">EMPEZAR MI CAMBIO AHORA</button>
-      <button onclick="location.href='#planes'">VER PROGRAMAS</button>
-    </div>
-    <p id="header-plazas">Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.</p>
+<header style="padding:60px 20px 40px; text-align:center; position:relative; overflow:hidden; max-width:800px; margin:auto;">
+  <!-- Foto profesional -->
+  <img src="gerard.jpg" 
+       alt="Gerard Valls - Nutricionista Profesional" 
+       style="width:180px; height:180px; border-radius:50%; object-fit:cover; margin-bottom:20px; box-shadow:0 8px 25px rgba(0,0,0,0.5); opacity:0;" 
+       class="hero-fade">
+
+  <!-- Título principal -->
+  <h1 style="font-size:2.2rem; line-height:1.2; background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.4); opacity:0;" 
+      class="hero-fade">
+    Pierde grasa y gana músculo sin dejar de comer lo que mas te gusta
+  </h1>
+
+  <!-- Subtítulo -->
+  <p style="font-size:1rem; margin:12px auto 20px; max-width:650px; color:rgba(255,255,255,0.9); opacity:0;" class="hero-fade">
+    Pierde grasa, gana músculo y transforma tu cuerpo sin dietas extremas ni efecto rebote.
+    Método estratégico basado en evidencia científica para resultados reales y sostenibles.
+  </p>
+
+  <!-- Valoraciones -->
+  <div style="margin-bottom:20px; font-weight:600; color:var(--secondary); font-size:0.9rem; opacity:0;" class="hero-fade">
+    ⭐⭐⭐⭐⭐ 4.9/5 basado en 187 valoraciones • Más de 200 transformaciones reales en España
   </div>
+
+  <!-- CTA botones -->
+  <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:10px; opacity:0;" class="hero-fade">
+    <button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.3);">
+      EMPEZAR MI CAMBIO AHORA
+    </button>
+    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.2);">
+      VER PROGRAMAS
+    </button>
+  </div>
+
+  <!-- Contador dinámico de plazas -->
+  <p id="header-plazas" style="font-weight:600; font-size:1rem; margin-top:5px; opacity:0;" class="hero-fade">
+    Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
+  </p>
 </header>
 
-<style>
-/* Hero Header */
-.hero {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 60px 20px 40px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.hero-img {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-}
-
-.hero-text h1 {
-  font-size: 2rem;
-  line-height: 1.2;
-  background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px rgba(0,255,192,0.4);
-  margin: 0;
-}
-
-.hero-text p {
-  color: #e6e6e6;
-  max-width: 650px;
-  margin: 10px auto;
-  font-size: 1rem;
-}
-
-.hero-rating {
-  color: var(--secondary);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.hero-buttons button {
-  padding: 14px 28px;
-  border-radius: var(--radius);
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s;
-}
-
-#cta-reserva {
-  background: var(--primary);
-  color: #000;
-}
-
-#cta-reserva:hover {
-  background: var(--primary-hover);
-}
-
-.hero-buttons button:nth-child(2) {
-  background: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
-}
-
-.hero-buttons button:nth-child(2):hover {
-  background: var(--primary);
-  color: #000;
-}
-
-#header-plazas {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #ff4d4d;
-  margin-top: 10px;
-}
-
-/* Animación aparición */
-.hero-img, .hero-text h1, .hero-text p, .hero-rating, .hero-buttons, #header-plazas {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s ease-out;
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-  .hero-text h1 { font-size: 1.5rem; }
-  .hero-text p { font-size: 0.9rem; }
-  .hero-buttons button { padding: 12px 20px; font-size: 0.9rem; }
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Animación entrada
-  const heroElements = document.querySelectorAll(".hero-img, .hero-text h1, .hero-text p, .hero-rating, .hero-buttons, #header-plazas");
-  heroElements.forEach((el, i) => {
-    setTimeout(() => {
-      el.style.opacity = 1;
-      el.style.transform = "translateY(0)";
-    }, i * 200);
-  });
-
-  // Modal funcional
-  const btnReserva = document.getElementById("cta-reserva");
-  const modal = document.getElementById("modalReserva");
-  const closeModal = document.querySelector(".modal-close");
-  const form = document.querySelector(".modal-form");
-
-  btnReserva.addEventListener("click", () => {
-    if(plazas>0) modal.classList.add("active");
-    else alert("Lo siento, todas las plazas están ocupadas.");
-  });
-
-  closeModal.addEventListener("click", ()=> modal.classList.remove("active"));
-  modal.addEventListener("click", e => { if(e.target===modal) modal.classList.remove("active"); });
-
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    if(plazas>0){
-      plazas--;
-      localStorage.setItem("plazas", plazas);
-      actualizarContador();
-      lanzarConfeti(40);
-      alert("¡Perfecto! Te contacto en breve");
-      modal.classList.remove("active");
-      form.reset();
-    }
-  });
-});
-</script>
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
 <section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
   <h2>Enfoque Basado en Evidencia</h2>
@@ -674,6 +545,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 // Espera a que cargue todo
+document.addEventListener("DOMContentLoaded", () => {
+
+  // --- FADE IN SECUENCIAL ---
+  gsap.fromTo(".hero-fade", {opacity:0, y:20}, {opacity:1, y:0, duration:1, stagger:0.3, ease:"power2.out"});
+
+  // --- CTA HOVER ---
+  const ctas = document.querySelectorAll("header button");
+  ctas.forEach(btn => {
+    btn.addEventListener("mouseenter", () => {
+      gsap.to(btn, { scale:1.05, boxShadow:"0 0 20px #00ffc0, 0 0 40px #ffbf00", duration:0.3 });
+    });
+    btn.addEventListener("mouseleave", () => {
+      gsap.to(btn, { scale:1, boxShadow:"0 8px 20px rgba(0,0,0,0.3)", duration:0.3 });
+    });
+  });
+
+  // --- CONTADOR DINÁMICO ---
+  const PLAZAS_INICIALES = 8;
+  const headerPlazas = document.getElementById("header-plazas");
+  const headerPlazasNum = document.getElementById("header-plazas-num");
+  let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
+  const mesActual = new Date().getMonth();
+  const mesGuardado = parseInt(localStorage.getItem("mesPlazas") || -1);
+  if(mesGuardado !== mesActual){
+    plazas = PLAZAS_INICIALES;
+    localStorage.setItem("mesPlazas", mesActual);
+    localStorage.setItem("plazas", plazas);
+  }
+
+  function actualizarPlazas() {
+    if(plazas > 3){
+      headerPlazasNum.textContent = plazas;
+      headerPlazasNum.style.color = "#00ffc0";
+      headerPlazasNum.style.fontWeight = "bold";
+      headerPlazasNum.classList.remove("blink");
+    } else if(plazas > 0){
+      headerPlazasNum.textContent = plazas;
+      headerPlazasNum.style.color = "#ff4d4d";
+      headerPlazasNum.style.fontWeight = "bold";
+      headerPlazasNum.classList.add("blink");
+      gsap.fromTo(headerPlazasNum, { scale:1 }, { scale:1.3, duration:0.3, yoyo:true, repeat:1, ease:"back.out(1.7)" });
+    } else {
+      headerPlazas.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
+    }
+  }
+  actualizarPlazas();
+
+  // --- CLICK RESERVA ---
+let clickLocked = false;
+const btnReserva = document.getElementById("cta-reserva");
+const modal = document.getElementById("modalReserva");
+const closeModal = document.querySelector(".modal-close");
+const form = document.querySelector(".modal-form");
+
+// ABRIR MODAL
+btnReserva.addEventListener("click", () => {
+  if(plazas > 0){
+    modal.classList.add("active");
+  }
+});
 
 // CERRAR (X)
 closeModal.addEventListener("click", () => {
@@ -694,7 +625,7 @@ form.addEventListener("submit", (e) => {
   if(plazas > 0){
     plazas--;
     localStorage.setItem("plazas", plazas);
-    actualizarContador();
+    actualizarPlazas();
     lanzarConfeti(40);
 
     alert("¡Perfecto! Te contacto en breve");
@@ -1106,34 +1037,74 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 </script>
 <script>
 // ===== CONFIGURACIÓN =====
-let plazas = 8; // inicial
+const PLAZAS_INICIALES = 8;
+let plazas = PLAZAS_INICIALES;
+let clickLocked = false;
+
+// Elementos
 const contador = document.getElementById("contador-plazas");
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const headerPlazasMsg = document.getElementById("header-plazas");
-const botonesServicios = document.querySelectorAll(".service-back button");
+const botonesServicios = Array.from(document.querySelectorAll(".service-back button"));
 const contenedorPlazas = document.getElementById("plazas-container");
 
+// Accesibilidad: lectores de pantalla escuchan cambios
+contador.setAttribute("aria-live", "polite");
+headerPlazasMsg.setAttribute("aria-live", "polite");
+
+// ===== LOCALSTORAGE =====
+const mesActual = new Date().getMonth();
+const mesGuardado = localStorage.getItem("mesPlazas");
+if (!mesGuardado || parseInt(mesGuardado) !== mesActual) {
+  localStorage.setItem("plazas", PLAZAS_INICIALES);
+  localStorage.setItem("mesPlazas", mesActual);
+} else {
+  plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
+}
+
+// ===== FUNCIONES =====
 function actualizarContador() {
-  headerPlazasNum.textContent = plazas;
-  if(plazas>3){
+  if (plazas > 3) {
     contador.innerHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
-    contenedorPlazas.classList.remove("glow-urgente");
-  } else if(plazas>0){
+    quitarGlow();
+  } else if (plazas > 0) {
     contador.innerHTML = `<span class="blink" style="color:#ff4d4d; font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
-    contenedorPlazas.classList.add("glow-urgente");
+    aplicarGlow();
   } else {
-    contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">❌ Todas las plazas están ocupadas.</span>`;
-    botonesServicios.forEach(b=>{b.disabled=true; b.textContent="Lista de espera"});
-    contenedorPlazas.classList.remove("glow-urgente");
+    contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">
+      ❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.
+    </span>`;
+    bloquearBotones();
+    quitarGlow();
+  }
+  actualizarHeaderPlazas();
+}
+
+function actualizarHeaderPlazas() {
+  if (plazas > 0) {
+    headerPlazasNum.textContent = plazas;
+    if (plazas <= 3) {
+      headerPlazasNum.classList.add("blink");
+      headerPlazasNum.style.color = "#ff4d4d";
+      headerPlazasNum.style.fontWeight = "bold";
+      gsap.fromTo(headerPlazasNum, { scale:1 }, { scale:1.3, duration:0.3, yoyo:true, repeat:1, ease:"back.out(1.7)" });
+    } else {
+      headerPlazasNum.classList.remove("blink");
+      headerPlazasNum.style.color = "";
+      headerPlazasNum.style.fontWeight = "";
+    }
+  } else {
+    headerPlazasMsg.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 }
 
-document.body.addEventListener("click", e=>{
-  const btn = e.target.closest(".service-back button");
-  if(btn && !btn.disabled){ plazas--; actualizarContador(); }
-});
-
-actualizarContador();
+// Reducir plazas de manera segura
+function reducirPlaza() {
+  if (plazas <= 0 || clickLocked) return;
+  clickLocked = true;
+  plazas--;
+  localStorage.setItem("plazas", plazas);
+  actualizarContador();
   setTimeout(() => clickLocked = false, 1000); // bloqueo 1s
 }
 
@@ -1213,46 +1184,20 @@ document.body.addEventListener("click", e => {
 actualizarContador();
 </script>
  <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+  // Seleccionamos el input del nombre
+  const inputNombre = document.querySelector('input[name="nombre"]');
+  // Seleccionamos los elementos de los testimonios
+  const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span');
 
-  const btnReserva = document.getElementById("cta-reserva");
-  const modal = document.getElementById("modalReserva");
-  const closeModal = document.querySelector(".modal-close");
-  const form = document.querySelector(".modal-form");
+  if (!inputNombre) return; // Salimos si no hay input
 
-  btnReserva.addEventListener("click", () => {
-    if (plazas > 0) {
-      modal.classList.add("active");
-    }
+  inputNombre.addEventListener('input', () => {
+    // Si hay texto, ocultamos los nombres de los testimonios
+    nombresTestimonios.forEach(el => {
+      el.style.display = inputNombre.value.trim() ? 'none' : '';
+    });
   });
-
-  closeModal.addEventListener("click", () => {
-    modal.classList.remove("active");
-  });
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.classList.remove("active");
-    }
-  });
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    if (plazas > 0) {
-      plazas--;
-      localStorage.setItem("plazas", plazas);
-
-      actualizarContador();
-      lanzarConfeti(40);
-
-      alert("🔥 ¡Perfecto! Te contacto en breve");
-
-      modal.classList.remove("active");
-      form.reset();
-    }
-  });
-
 });
 </script>
   <script>
@@ -1284,18 +1229,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   </div>
 </div>
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Animar hero
-  gsap.to(".hero-fade", {
-    opacity: 1,
-    y: 0,
-    duration: 1,
-    stagger: 0.3, // uno tras otro
-    ease: "power2.out",
-    y: 20 // ajusta la posición inicial
-  });
-});
-</script>
 </body>
 </html>
