@@ -1047,9 +1047,11 @@ function actualizarContador() {
   if (plazas > 3) {
     contador.innerHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
     quitarGlow();
+
   } else if (plazas > 0) {
     contador.innerHTML = `<span class="blink" style="color:#ff4d4d; font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
     aplicarGlow();
+
   } else {
     contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">
       ❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.
@@ -1057,7 +1059,6 @@ function actualizarContador() {
     bloquearBotones();
     quitarGlow();
   }
-  actualizarHeaderPlazas();
 }
 // Reducir plazas de manera segura
 function reducirPlaza() {
