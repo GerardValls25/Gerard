@@ -555,13 +555,6 @@ body.light .icon-input {
 <script>
 // Espera a que cargue todo
 
-  // --- CLICK RESERVA ---
-let clickLocked = false;
-const btnReserva = document.getElementById("cta-reserva");
-const modal = document.getElementById("modalReserva");
-const closeModal = document.querySelector(".modal-close");
-const form = document.querySelector(".modal-form");
-
 // ABRIR MODAL
 btnReserva.addEventListener("click", () => {
   if(plazas > 0){
@@ -588,7 +581,7 @@ form.addEventListener("submit", (e) => {
   if(plazas > 0){
     plazas--;
     localStorage.setItem("plazas", plazas);
-    actualizarPlazas();
+    actualizarContador();
     lanzarConfeti(40);
 
     alert("¡Perfecto! Te contacto en breve");
@@ -1136,26 +1129,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModal = document.querySelector(".modal-close");
   const form = document.querySelector(".modal-form");
 
-  // ABRIR MODAL
   btnReserva.addEventListener("click", () => {
     if (plazas > 0) {
       modal.classList.add("active");
     }
   });
 
-  // CERRAR
   closeModal.addEventListener("click", () => {
     modal.classList.remove("active");
   });
 
-  // CERRAR FUERA
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       modal.classList.remove("active");
     }
   });
 
-  // ENVIAR FORMULARIO
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
