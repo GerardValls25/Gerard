@@ -595,48 +595,45 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- CLICK RESERVA ---
   const btnReserva = document.getElementById("cta-reserva");
   let clickLocked = false;
- document.addEventListener("DOMContentLoaded", () => {
+const modal = document.getElementById("modalReserva");
+const closeModal = document.querySelector(".modal-close");
+const form = document.querySelector(".modal-form");
 
-  const btnReserva = document.getElementById("btnReserva");
-  const modal = document.getElementById("modalReserva");
-  const closeModal = document.querySelector(".modal-close");
-  const form = document.querySelector(".modal-form");
+// BOTÓN HERO
+const btnReserva = document.getElementById("cta-reserva");
 
-  // 👉 BOTÓN → SOLO ABRE MODAL
-  btnReserva.addEventListener("click", () => {
-    if(plazas > 0 && !clickLocked){
-      modal.classList.add("active");
-    }
-  });
+btnReserva.addEventListener("click", () => {
+  if(plazas > 0){
+    modal.classList.add("active");
+  }
+});
 
-  // 👉 CERRAR CON X
-  closeModal.addEventListener("click", () => {
+// cerrar
+closeModal.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
+// fuera
+modal.addEventListener("click", (e) => {
+  if(e.target === modal){
     modal.classList.remove("active");
-  });
+  }
+});
 
-  // 👉 CERRAR AL HACER CLICK FUERA
-  modal.addEventListener("click", (e) => {
-    if(e.target === modal){
-      modal.classList.remove("active");
-    }
-  });
+// submit
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-  // 👉 AQUÍ SE CONFIRMA LA RESERVA (IMPORTANTE)
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  if(plazas > 0){
+    plazas--;
+    localStorage.setItem("plazas", plazas);
+    actualizarPlazas();
+    lanzarConfeti(40);
 
-    if(plazas > 0){
-      plazas--;
-      localStorage.setItem("plazas", plazas);
-      actualizarPlazas();
-      lanzarConfeti(40);
+    alert("¡Perfecto! Te contacto en breve");
 
-      alert("¡Perfecto! Te contacto en breve");
-
-      modal.classList.remove("active");
-    }
-  });
-
+    modal.classList.remove("active");
+  }
 });
 
   // --- CONFETI ---
