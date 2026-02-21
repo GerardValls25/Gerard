@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerard Valls - Nutrición Profesional</title>
+
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -29,14 +30,14 @@
   --success: #00ffc0;
 }
 
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Montserrat',sans-serif;
   background: var(--dark-bg);
   color: var(--text-dark);
-  line-height: 1.6;
-  overflow-x: hidden;
+  line-height:1.6;
+  overflow-x:hidden;
   transition: background var(--transition), color var(--transition);
 }
 /* LINKS */
@@ -44,58 +45,52 @@ a { text-decoration: none; color: var(--primary); transition: .3s; }
 a:hover { color: var(--primary-hover); }
 
 /* HEADER */
-header {
-  text-align: center;
-  padding: 120px 20px 80px;
-  position: relative;
+header{
+  text-align:center;
+  padding:120px 20px 80px;
+  position:relative;
 }
-header h1 {
-  font-size: 3rem;
+header h1{
+  font-size:3rem;
   background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px rgba(0,255,192,0.4);
+  -webkit-background-clip:text;
+  color:transparent;
+  text-shadow:0 0 15px rgba(0,255,192,0.4);
   animation: gradMove 12s linear infinite;
 }
-header p {
-  margin-top: 12px;
-  font-size: 1.3rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  opacity: 0;
+header p{
+  margin-top:12px;
+  font-size:1.3rem;
+  text-shadow:0 2px 8px rgba(0,0,0,0.3);
+  opacity:0;
   transform: translateY(20px);
   animation: fadeInUp 1s forwards 0.5s;
 }
-#toggle-theme {
-  margin-top: 20px;
+#toggle-theme{
+  margin-top:20px;
   background: var(--primary);
   color: #000;
-  border: none;
-  padding: 14px 28px;
+  border:none;
+  padding:14px 28px;
   border-radius: var(--radius);
-  cursor: pointer;
-  font-weight: 600;
-  transition: .4s;
+  cursor:pointer;
+  font-weight:600;
+  transition:.4s;
 }
-#toggle-theme:hover { background: var(--primary-hover); transform: translateY(-2px); }
+#toggle-theme:hover{ background: var(--primary-hover); transform:translateY(-2px); }
 
-@keyframes gradMove {
-  0% { background-position: 0 0; }
-  50% { background-position: 100% 0; }
-  100% { background-position: 0 0; }
-}
-@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-/* NAV */
-nav {
-  position: sticky;
-  top: 0;
+@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+@keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
+nav{
+  position:sticky;
+  top:0;
   background: rgba(42,55,96,0.85);
   backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  padding: 12px;
-  z-index: 1000;
+  display:flex;
+  justify-content:center;
+  gap:1rem;
+  padding:12px;
+  z-index:1000;
 }
 
 /* MAIN WRAPPER */
@@ -1254,28 +1249,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- EVENTO GLOBAL CLICK PARA TODOS LOS BOTONES DE RESERVA ---
-  document.body.addEventListener("click", e => {
-    const btn = e.target.closest(".service-back button, #modal-reservar-btn");
-    if(btn && !btn.disabled){
-      reducirPlaza();
-      mostrarFeedback(btn);
-    }
-  });
-
-  // --- INICIALIZAR ---
-  actualizarPlazas();
-});
-  document.querySelectorAll(".before-after").forEach(container => {
-  const after = container.querySelector(".after-img");
-  const slider = container.querySelector(".slider");
-
-  let isDragging = false;
-
-  slider.addEventListener("mousedown", () => isDragging = true);
-  document.addEventListener("mouseup", () => isDragging = false);
-
- // Slider Antes/Después para todas las tarjetas
-document.addEventListener("DOMContentLoaded", () => {
+ document.addEventListener("DOMContentLoaded", () => {
   const cards = document.querySelectorAll(".before-after");
 
   cards.forEach(container => {
@@ -1284,11 +1258,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let isDragging = false;
 
-    // --- FUNCIONES AUXILIARES ---
     const setPosition = (x) => {
       const rect = container.getBoundingClientRect();
       let posX = x - rect.left;
-      posX = Math.max(0, Math.min(posX, rect.width)); // límites 0 a ancho
+      posX = Math.max(0, Math.min(posX, rect.width));
       const percent = (posX / rect.width) * 100;
       after.style.width = percent + "%";
       slider.style.left = percent + "%";
@@ -1302,20 +1275,17 @@ document.addEventListener("DOMContentLoaded", () => {
       setPosition(e.clientX);
     });
 
-    // --- TOUCH MÓVIL ---
+    // --- TOUCH ---
     slider.addEventListener("touchstart", () => isDragging = true);
     document.addEventListener("touchend", () => isDragging = false);
     document.addEventListener("touchmove", (e) => {
       if (!isDragging) return;
-      const touch = e.touches[0];
-      setPosition(touch.clientX);
+      setPosition(e.touches[0].clientX);
     });
 
-    // --- CLICK RÁPIDO EN CONTENEDOR (opcional) ---
+    // --- CLICK RÁPIDO ---
     container.addEventListener("click", (e) => {
-      if (e.target !== slider) { // si no clicas el slider
-        setPosition(e.clientX);
-      }
+      if (e.target !== slider) setPosition(e.clientX);
     });
 
     // --- INICIAL ---
@@ -1323,6 +1293,59 @@ document.addEventListener("DOMContentLoaded", () => {
     slider.style.left = "50%";
   });
 });
+
+Esto reemplaza todo tu bloque duplicado y funciona para 3 tarjetas o más, desktop y móvil.
+
+4️⃣ Consejos adicionales
+
+Usa transition: width .3s ease en .after-img si quieres un efecto más suave al click rápido.
+
+Mantén el pointer-events: none en .after-img para evitar conflictos con el slider.
+
+Si en el futuro quieres agregar más tarjetas, solo copia el bloque .resultado-card y funciona automáticamente sin cambiar JS.
+
+Si quieres, puedo hacer una versión final de tu HTML con slider Antes/Después optimizado, todo limpio y listo para producción, que incluya 3 tarjetas con GSAP y contadores funcionando perfectamente.
+
+¿Quieres que haga eso?
+
+SI
+
+¡Perfecto! 😄
+He preparado una versión limpia y optimizada de tu página con todo funcionando:
+
+Slider Antes/Después completamente funcional para todas las tarjetas.
+
+GSAP para animaciones de botones y plazas.
+
+Contador de plazas dinámico con glow y alertas.
+
+Código más limpio y sin duplicaciones innecesarias.
+
+Aquí va:
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerard Valls - Nutrición Profesional</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+
+<style>
+:root {
+  --primary: #00ffc0;
+  --primary-hover: #00e6b8;
+  --secondary: #ffbf00;
+  --dark-
 </script>
 </body>
 </html>
