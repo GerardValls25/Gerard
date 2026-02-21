@@ -593,34 +593,32 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarPlazas();
 
   // --- CLICK RESERVA ---
-  const btnReserva = document.getElementById("cta-reserva");
-  let clickLocked = false;
+let clickLocked = false;
+const btnReserva = document.getElementById("cta-reserva");
 const modal = document.getElementById("modalReserva");
 const closeModal = document.querySelector(".modal-close");
 const form = document.querySelector(".modal-form");
 
-// BOTÓN HERO
-const btnReserva = document.getElementById("cta-reserva");
-
+// ABRIR MODAL
 btnReserva.addEventListener("click", () => {
   if(plazas > 0){
     modal.classList.add("active");
   }
 });
 
-// cerrar
+// CERRAR (X)
 closeModal.addEventListener("click", () => {
   modal.classList.remove("active");
 });
 
-// fuera
+// CERRAR (FUERA)
 modal.addEventListener("click", (e) => {
   if(e.target === modal){
     modal.classList.remove("active");
   }
 });
 
-// submit
+// ENVIAR FORMULARIO
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
