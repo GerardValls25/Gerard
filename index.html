@@ -524,7 +524,48 @@ body.light .icon-input {
       opacity:0;
       transition:.4s;
     }
+.before-after {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  cursor: ew-resize;
+}
 
+.before-after img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.after-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 50%; /* inicia mostrando mitad de la imagen Después */
+  overflow: hidden;
+}
+
+.after-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 50%; /* empieza en la mitad */
+  width: 4px;
+  height: 100%;
+  background: #00ffc0;
+  cursor: ew-resize;
+  z-index: 2;
+  transform: translateX(-50%);
+}
     .before-after:hover .overlay { opacity:1; }
 </style>
 </head>
@@ -1234,6 +1275,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- INICIALIZAR ---
   actualizarPlazas();
+});
+  document.querySelectorAll('.before-after').forEach(container => {
+  const afterImg = container.querySelector('.after-img');
+  const slider = container.querySelector('.slider');
+  let isDragging = false;
+
+  function moveSlider(e) {
+    if (!isDragging) return;
+    const rect = container.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    if (x < 0) x = 0;
+    if (x > rect.width) x = rect.width;
+    const percent = (x / rect.width) * 100;
+    afterImg.style.width = `${percent}%`;
+    slider.style.left = `${percent}%`;
+  }
+
+  slider.addEventListener('mousedown', () => isDragging = true);
+  window.addEventListener('mouseup', () => isDragging = false);
+  window.addEventListener('mousemove', moveSlider);
+
+  // Soporte táctil
+  slider.addEventListener('touchstart', () => isDragging = true);
+  window.addEventListener('touchend', () => isDragging = false);
+  window.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    moveSlider(e.touches[0]);
+  });
 });
 </script>
 </body>
