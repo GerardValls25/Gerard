@@ -480,6 +480,24 @@ body.light .icon-input {
 .modal-form button:hover {
   transform: scale(1.05);
 }
+  .hero-buttons { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:20px; }
+.hero-buttons button { padding:14px 28px; border:none; border-radius:var(--radius); font-weight:700; cursor:pointer; transition:.3s; }
+.hero-buttons .primary { background: var(--secondary); color:#000; }
+.hero-buttons .secondary { background:transparent; border:2px solid var(--primary); color:var(--primary); }
+
+/* PLAZAS */
+.blink { animation: blinkPlazas 1.5s infinite; }
+@keyframes blinkPlazas {0%,50%,100%{opacity:1;}25%,75%{opacity:0.4;} }
+.glow-urgente { box-shadow:0 0 25px rgba(255,0,0,0.7), 0 0 50px rgba(255,0,0,0.4); animation: glowPulseUrgente 1.2s infinite alternate; }
+@keyframes glowPulseUrgente { from{box-shadow:0 0 15px rgba(255,0,0,0.5);} to{box-shadow:0 0 40px rgba(255,0,0,0.9);} }
+
+/* TESTIMONIOS */
+.testimonios-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; margin-top:40px; }
+.testimonio-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; box-shadow: var(--shadow); transition: transform .4s ease, box-shadow .4s ease; }
+.testimonio-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+.testimonio-text { font-style: italic; margin-bottom: 20px; line-height:1.6; }
+.testimonio-user strong { display:block; font-weight:600; }
+.testimonio-user span { font-size:0.9rem; opacity:0.7; }
 /* BOTONES FIJOS */
 #scrollTopBtn { position: fixed; bottom:60px; right:20px; background:var(--primary); color:white; border:none; padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; opacity:0; transition:.3s; }
 #scrollTopBtn.show { display:block; opacity:1; }
