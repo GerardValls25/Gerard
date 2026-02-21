@@ -971,7 +971,18 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 <!-- BOTONES FIJOS -->
 <button id="scrollTopBtn"><i class="fas fa-arrow-up"></i></button>
 <a id="whatsappBtn" href="https://wa.me/tu-numero" target="_blank"><i class="fab fa-whatsapp"></i></a>
-
+<!-- Modal: colocar aquí -->
+<div id="modalReserva" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close">&times;</span>
+    <h3>¡Reserva tu plaza ahora!</h3>
+    <form class="modal-form">
+      <input type="text" placeholder="Nombre">
+      <input type="email" placeholder="Email">
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
 <footer>
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
 <p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
@@ -1076,6 +1087,47 @@ document.body.addEventListener("click",e=>{
 });
 
 actualizarPlazas();
+</script>
+ <script>
+const btnReserva = document.getElementById("cta-reserva");
+const modal = document.getElementById("modalReserva");
+const closeModal = document.querySelector(".modal-close");
+const form = document.querySelector(".modal-form");
+
+// ABRIR MODAL
+btnReserva.addEventListener("click", () => {
+  if(plazas > 0){
+    modal.classList.add("active");
+  }
+});
+
+// CERRAR (X)
+closeModal.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
+// CERRAR (FUERA DEL MODAL)
+modal.addEventListener("click", (e) => {
+  if(e.target === modal){
+    modal.classList.remove("active");
+  }
+});
+
+// ENVIAR FORMULARIO
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  if(plazas > 0){
+    plazas--;
+    localStorage.setItem("plazas", plazas);
+    actualizarPlazas();
+    lanzarConfeti(40);
+
+    alert("¡Perfecto! Te contacto en breve");
+
+    modal.classList.remove("active");
+  }
+});
 </script>
 </body>
 </html>
