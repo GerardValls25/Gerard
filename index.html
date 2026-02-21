@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerard Valls - Nutrición Profesional</title>
+<title>Gerard Valls - Sistema de Transformación</title>
+
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -479,30 +480,39 @@ body.light .icon-input {
 .modal-form button:hover {
   transform: scale(1.05);
 }
+/* BOTONES FIJOS */
+#scrollTopBtn { position: fixed; bottom:60px; right:20px; background:var(--primary); color:white; border:none; padding:14px 18px; border-radius:50%; font-size:1.3rem; display:none; cursor:pointer; opacity:0; transition:.3s; }
+#scrollTopBtn.show { display:block; opacity:1; }
+#whatsappBtn { position:fixed; bottom:120px; right:20px; background:#25d366; color:white; width:60px; height:60px; border-radius:50%; display:none; align-items:center; justify-content:center; font-size:2rem; box-shadow:0 8px 20px rgba(0,0,0,0.3); z-index:999; transition:transform .3s, box-shadow .3s, opacity .3s; opacity:0; }
+#whatsappBtn.show { display:flex; opacity:1; }
+
+/* RESPONSIVE */
+@media (max-width:768px) { header h1{font-size:2.2rem;} header p{font-size:1.1rem;} }
 </style>
 </head>
 <body>
+  
+<!-- HERO -->
 <header>
-  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
-  <h1 class="hero-fade">Pierde grasa y gana músculo sin dejar de comer lo que mas te gusta</h1>
-  <p class="hero-fade">Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
-  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales</div>
-  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-    <button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">EMPEZAR MI CAMBIO AHORA</button>
-    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">VER PROGRAMAS</button>
+  <img src="gerard.jpg" alt="Gerard Valls - Sistema de Transformación" style="max-width:250px;border-radius:50%;" loading="lazy">
+  <h1 class="hero-fade">Este es el sistema que utilizo para mantener mi físico</h1>
+  <p class="hero-fade">Ya lo aplicaron más de 200 personas con resultados reales y sostenibles</p>
+  <div class="hero-buttons hero-fade">
+    <button id="cta-reserva" class="primary">Solicitar Evaluación Estratégica</button>
+    <button onclick="location.href='#servicios'" class="secondary">Ver Planes</button>
   </div>
-  <p id="header-plazas" style="font-weight:600;font-size:1rem; margin-top:5px;" aria-live="polite">
-    Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
+  <p id="header-plazas" style="margin-top:12px;font-weight:600;font-size:1rem;" aria-live="polite">
+    Actualmente solo acepto <span id="header-plazas-num">40</span> nuevos clientes este mes.
   </p>
 </header>
-<nav>
-<a href="#servicios">Servicios</a>
-<a href="#testimonios">Testimonios</a>
-<a href="#consulta">Formulario</a>
-<a href="calculadora.html" target="_blank">Calculadora</a>
-<a href="imc.html" target="_blank">IMC</a>
-</nav>
   
+<!-- NAV -->
+<nav>
+  <a href="#servicios">Servicios</a>
+  <a href="#testimonios">Resultados</a>
+  <a href="#consulta">Formulario</a>
+</nav>
+  <main class="wrapper">
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
 <section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
   <h2>Enfoque Basado en Evidencia</h2>
