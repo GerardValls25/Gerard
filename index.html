@@ -94,36 +94,36 @@ nav{
 }
 
 /* MAIN WRAPPER */
-main.wrapper {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 50px 30px 60px;
+main.wrapper{
+  max-width:1200px;
+  margin:40px auto;
+  padding:50px 30px 60px;
   border-radius: var(--radius);
   backdrop-filter: blur(15px);
   background: rgba(42,55,96,0.85);
-  text-align: center;
-  transition: background var(--transition);
+  text-align:center;
+  transition:background var(--transition);
 }
 
-/* TITULOS */
-h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  position: relative;
-  display: inline-block;
+/* H2 */
+h2{
+  font-size:2rem;
+  margin-bottom:20px;
+  display:inline-block;
+  position:relative;
 }
-h2::after {
-  content: "";
-  width: 60px;
-  height: 3px;
-  display: block;
-  margin: 8px auto 0;
-  border-radius: 2px;
-  background: var(--primary);
+h2::after{
+  content:"";
+  width:60px;
+  height:3px;
+  display:block;
+  margin:8px auto 0;
+  border-radius:2px;
+  background:var(--primary);
   transform: scaleX(0);
   animation: lineDraw 1s forwards;
 }
-@keyframes lineDraw { to { transform: scaleX(1); } }
+@keyframes lineDraw{to{transform:scaleX(1);}}
 
 /* SERVICIOS */
 .services {
