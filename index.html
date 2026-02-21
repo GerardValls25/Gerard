@@ -1170,20 +1170,50 @@ document.body.addEventListener("click", e => {
 actualizarContador();
 </script>
  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Seleccionamos el input del nombre
-  const inputNombre = document.querySelector('input[name="nombre"]');
-  // Seleccionamos los elementos de los testimonios
-  const nombresTestimonios = document.querySelectorAll('.testimonio-user strong, .testimonio-user span');
+document.addEventListener("DOMContentLoaded", () => {
 
-  if (!inputNombre) return; // Salimos si no hay input
+  const btnReserva = document.getElementById("cta-reserva");
+  const modal = document.getElementById("modalReserva");
+  const closeModal = document.querySelector(".modal-close");
+  const form = document.querySelector(".modal-form");
 
-  inputNombre.addEventListener('input', () => {
-    // Si hay texto, ocultamos los nombres de los testimonios
-    nombresTestimonios.forEach(el => {
-      el.style.display = inputNombre.value.trim() ? 'none' : '';
-    });
+  // ABRIR MODAL
+  btnReserva.addEventListener("click", () => {
+    if (plazas > 0) {
+      modal.classList.add("active");
+    }
   });
+
+  // CERRAR CON X
+  closeModal.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+
+  // CERRAR HACIENDO CLICK FUERA
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+
+  // SUBMIT FORM
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (plazas > 0) {
+      plazas--;
+      localStorage.setItem("plazas", plazas);
+      actualizarContador();
+
+      lanzarConfeti(40);
+
+      alert("🔥 ¡Perfecto! Te contacto en breve");
+
+      modal.classList.remove("active");
+      form.reset();
+    }
+  });
+
 });
 </script>
   <script>
