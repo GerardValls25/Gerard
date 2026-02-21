@@ -1059,25 +1059,6 @@ function actualizarContador() {
   }
   actualizarHeaderPlazas();
 }
-
-function actualizarHeaderPlazas() {
-  if (plazas > 0) {
-    headerPlazasNum.textContent = plazas;
-    if (plazas <= 3) {
-      headerPlazasNum.classList.add("blink");
-      headerPlazasNum.style.color = "#ff4d4d";
-      headerPlazasNum.style.fontWeight = "bold";
-      gsap.fromTo(headerPlazasNum, { scale:1 }, { scale:1.3, duration:0.3, yoyo:true, repeat:1, ease:"back.out(1.7)" });
-    } else {
-      headerPlazasNum.classList.remove("blink");
-      headerPlazasNum.style.color = "";
-      headerPlazasNum.style.fontWeight = "";
-    }
-  } else {
-    headerPlazasMsg.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
-  }
-}
-
 // Reducir plazas de manera segura
 function reducirPlaza() {
   if (plazas <= 0 || clickLocked) return;
