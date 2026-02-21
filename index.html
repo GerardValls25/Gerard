@@ -554,21 +554,6 @@ body.light .icon-input {
 
 <script>
 // Espera a que cargue todo
-document.addEventListener("DOMContentLoaded", () => {
-
-  // --- FADE IN SECUENCIAL ---
-  gsap.fromTo(".hero-fade", {opacity:0, y:20}, {opacity:1, y:0, duration:1, stagger:0.3, ease:"power2.out"});
-
-  // --- CTA HOVER ---
-  const ctas = document.querySelectorAll("header button");
-  ctas.forEach(btn => {
-    btn.addEventListener("mouseenter", () => {
-      gsap.to(btn, { scale:1.05, boxShadow:"0 0 20px #00ffc0, 0 0 40px #ffbf00", duration:0.3 });
-    });
-    btn.addEventListener("mouseleave", () => {
-      gsap.to(btn, { scale:1, boxShadow:"0 8px 20px rgba(0,0,0,0.3)", duration:0.3 });
-    });
-  });
   function actualizarPlazas() {
     if(plazas > 3){
       headerPlazasNum.textContent = plazas;
@@ -1193,27 +1178,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // CERRAR CON X
+  // CERRAR
   closeModal.addEventListener("click", () => {
     modal.classList.remove("active");
   });
 
-  // CERRAR HACIENDO CLICK FUERA
+  // CERRAR FUERA
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       modal.classList.remove("active");
     }
   });
 
-  // SUBMIT FORM
+  // ENVIAR FORMULARIO
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (plazas > 0) {
       plazas--;
       localStorage.setItem("plazas", plazas);
-      actualizarContador();
 
+      actualizarContador();
       lanzarConfeti(40);
 
       alert("🔥 ¡Perfecto! Te contacto en breve");
