@@ -479,51 +479,21 @@ body.light .icon-input {
 .modal-form button:hover {
   transform: scale(1.05);
 }
-   /* --- ESTILO PARA TRANSFORMACIONES ANTES/DESPUÉS --- */
-    .resultado-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-      transition: transform .4s ease;
-    }
+  
+/* ===== TRANSFORMACIONES ANTES/DESPUÉS ===== */
+.resultado-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  transition: transform .4s ease;
+}
 
-    .resultado-card:hover { transform: scale(1.05); }
+.resultado-card:hover {
+  transform: scale(1.05);
+}
 
-    .before-after {
-      position: relative;
-      width: 100%;
-      height: 300px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .before-after img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .5s ease;
-    }
-
-    .before-after:hover img { transform: scale(1.1); }
-
-    .before-after .overlay {
-      position: absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background: rgba(0,0,0,0.3);
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.5rem;
-      font-weight:bold;
-      opacity:0;
-      transition:.4s;
-    }
+/* CONTENEDOR ANTES/DESPUÉS */
 .before-after {
   position: relative;
   width: 100%;
@@ -533,13 +503,21 @@ body.light .icon-input {
   border-radius: 20px;
 }
 
-.before-after img {
+/* IMAGEN ANTES */
+.before-after > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform .5s ease;
 }
 
+/* SOLO la imagen “antes” escala al hover */
+.before-after:hover > img {
+  transform: scale(1.1);
+}
+
+/* IMAGEN DESPUÉS */
 .after-img {
   position: absolute;
   top: 0;
@@ -547,6 +525,8 @@ body.light .icon-input {
   width: 50%; /* inicio en la mitad */
   height: 100%;
   overflow: hidden;
+  border-radius: 0 20px 20px 0; /* opcional para bordes redondeados solo del lado derecho */
+  pointer-events: none; /* para que no interfiera con el slider */
 }
 
 .after-img img {
@@ -556,6 +536,7 @@ body.light .icon-input {
   display: block;
 }
 
+/* SLIDER CENTRAL */
 .slider {
   position: absolute;
   top: 0;
@@ -565,8 +546,16 @@ body.light .icon-input {
   background: #fff;
   cursor: ew-resize;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 10; /* siempre encima */
   border-radius: 2px;
+  box-shadow: 0 0 6px rgba(255,255,255,0.8);
+}
+
+/* OPCIONAL: efecto hover del slider */
+.before-after:hover .slider {
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+  transition: background .3s, box-shadow .3s;
 }
 </style>
 </head>
