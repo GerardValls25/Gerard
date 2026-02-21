@@ -483,20 +483,21 @@ body.light .icon-input {
 </head>
 <body>
 <header>
-  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
-  <h1 class="hero-fade">Pierde grasa y gana músculo sin dejar de comer lo que mas te gusta</h1>
-  <p class="hero-fade">Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
-  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales</div>
-  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-    <button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">EMPEZAR MI CAMBIO AHORA</button>
-    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">VER PROGRAMAS</button>
-  </div>
-  <p id="header-plazas" style="font-weight:600;font-size:1rem; margin-top:5px;" aria-live="polite">
-    Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
-  </p>
+<img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
+<h1 class="hero-fade">Pierde grasa y gana músculo sin dejar de comer lo que más te gusta</h1>
+<p class="hero-fade">Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
+<div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales</div>
+<div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+<button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">EMPEZAR MI CAMBIO AHORA</button>
+<button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">VER PROGRAMAS</button>
+</div>
+<p id="header-plazas" style="font-weight:600;font-size:1rem; margin-top:5px;" aria-live="polite">
+Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
+</p>
 </header>
+  
 <nav>
-<a href="#servicios">Servicios</a>
+<a href="#planes">Planes</a>
 <a href="#testimonios">Testimonios</a>
 <a href="#consulta">Formulario</a>
 <a href="calculadora.html" target="_blank">Calculadora</a>
@@ -656,155 +657,68 @@ form.addEventListener("submit", (e) => {
 
 <main class="wrapper">
 
-<!-- SERVICIOS -->
-<section id="servicios">
-<h2>Servicios</h2>
+<section id="planes">
+<h2>Planes Disponibles</h2>
 <div class="services">
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-bowl-food icon-planes"></i>
-<h3>Planes Personalizados</h3>
-<p>Adaptados a tu estilo de vida y objetivos.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Evaluación inicial completa</li>
-<li>Plan nutricional flexible</li>
-<li>Seguimiento quincenal</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
-
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-person-running icon-deporte"></i>
-<h3>Asesoría Deportiva</h3>
-<p>Optimiza tu rendimiento y recuperación.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Plan de macronutrientes</li>
-<li>Recomendaciones de suplementación</li>
-<li>Ajuste de cargas de entrenamiento</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
-
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-scale-balanced icon-peso"></i>
-<h3>Pérdida de Peso</h3>
-<p>Programas sostenibles y personalizados.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Reducción de grasa saludable</li>
-<li>Hábitos de alimentación duraderos</li>
-<li>Soporte psicológico</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
-
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-laptop icon-online"></i>
-<h3>Consultas Online</h3>
-<p>Asesoría desde la comodidad de tu hogar.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Videollamadas semanales</li>
-<li>Soporte vía chat</li>
-<li>Material exclusivo</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
-
-</div>
-</section> 
-<!-- FIN SERVICIOS -->
-
-<!-- PROCESO DE INTERVENCIÓN NUTRICIONAL -->
-<section id="metodologia">
-<h2>Método Valls: Intervención Estratégica Personalizada</h2>
-
-<p style="max-width:750px;margin:0 auto 40px;">
-He desarrollado un sistema estructurado que combina nutrición flexible,
-entrenamiento adaptado y seguimiento continuo para garantizar resultados sostenibles.
-</p>
-
-<div class="testimonios-container">
-
-  <div class="testimonio-card">
-    <h3>1. Valoración Clínica y Funcional</h3>
-    <p>
-    Evaluación integral del estado nutricional, antecedentes relevantes, hábitos, contexto
-    personal y objetivos. Se establecen indicadores iniciales que servirán como referencia
-    para medir la evolución.
-    </p>
+  <div class="plan service">
+    <div class="service-inner">
+      <div class="service-front">
+        <i class="icon-planes fas fa-dumbbell"></i>
+        <h3>Plan Básico</h3>
+        <p>Ideal para empezar tu transformación</p>
+        <p class="precio">€99/mes</p>
+      </div>
+      <div class="service-back">
+        <ul>
+          <li>Rutina personalizada</li>
+          <li>Plan de comidas</li>
+          <li>Atención WhatsApp</li>
+        </ul>
+        <button>Reservar Ahora</button>
+      </div>
+    </div>
   </div>
-
-  <div class="testimonio-card">
-    <h3>2. Planificación Estratégica Individualizada</h3>
-    <p>
-    Diseño de un protocolo nutricional y de entrenamiento adaptado a las necesidades
-    fisiológicas y estilo de vida, priorizando adherencia, sostenibilidad y eficacia.
-    </p>
+  <div class="plan service">
+    <div class="service-inner">
+      <div class="service-front">
+        <i class="icon-peso fas fa-heartbeat"></i>
+        <h3>Plan Avanzado</h3>
+        <p>Para resultados más rápidos</p>
+        <p class="precio">€149/mes</p>
+      </div>
+      <div class="service-back">
+        <ul>
+          <li>Rutina avanzada</li>
+          <li>Plan de comidas + sustituciones</li>
+          <li>Seguimiento semanal</li>
+        </ul>
+        <button>Reservar Ahora</button>
+      </div>
+    </div>
   </div>
-
-  <div class="testimonio-card">
-    <h3>3. Implementación Supervisada</h3>
-    <p>
-    Aplicación estructurada del programa con directrices claras, herramientas prácticas
-    y soporte continuo para garantizar correcta ejecución.
-    </p>
-  </div>
-
-  <div class="testimonio-card">
-    <h3>4. Seguimiento, Evaluación y Ajuste</h3>
-    <p>
-    Revisión periódica mediante indicadores objetivos y análisis de progreso,
-    realizando ajustes estratégicos para optimizar resultados y consolidar cambios duraderos.
-    </p>
-  </div>
-
+</div>
+<div id="plazas-container" style="margin-top:40px;font-weight:bold;font-size:1.2rem;color:var(--danger);" aria-live="polite">
+<p id="contador-plazas"></p>
 </div>
 </section>
-  
-<!-- BENEFICIOS INCLUIDOS -->
-<main class="wrapper">
-  <!-- SERVICIOS y otras secciones aquí ... OMITIDO PARA BREVEDAD ... -->
 
-  <section id="incluye-todos">
-    <h2>¿Qué incluyen todos los planes?</h2>
-    <ul>
-      <li><i class="fas fa-check-circle"></i> Rutina de Entrenamiento personalizada</li>
-      <li><i class="fas fa-check-circle"></i> Plan de Comidas Personalizado</li>
-      <li><i class="fas fa-check-circle"></i> Cambios de comidas y entrenamiento periódicos</li>
-      <li><i class="fas fa-check-circle"></i> Lista de compras descargable</li>
-      <li><i class="fas fa-check-circle"></i> Sustitución de alimentos</li>
-      <li><i class="fas fa-check-circle"></i> Adaptación a Alergias/intolerancias</li>
-      <li><i class="fas fa-check-circle"></i> Registro de Ejercicios y Progreso</li>
-      <li><i class="fas fa-check-circle"></i> Atención WhatsApp Online 24/7</li>
-    </ul>
-    <div id="plazas-container" style="max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:0 8px 25px rgba(0,0,0,0.3);text-align:center;color:var(--danger);font-weight:bold;font-size:1.2rem;" aria-live="polite">
-      <p id="contador-plazas"></p>
-      <p style="margin-top:12px;font-size:1rem;">RECUERDA: LAS PLAZAS SON LIMITADAS. ¡APROVECHA YA!</p>
-    </div>
-  </section>
+<section id="testimonios" style="margin-top:60px;">
+<h2>Testimonios Reales</h2>
+<div class="services">
+  <div class="plan" style="background:rgba(0,255,192,0.05);">
+    <p>"He perdido 10 kg en 3 meses. ¡Súper profesional y motivador!" - Ana M.</p>
+  </div>
+  <div class="plan" style="background:rgba(255,191,0,0.05);">
+    <p>"Rutinas fáciles de seguir y comidas deliciosas. Recomendado 100%." - Jorge P.</p>
+  </div>
+  <div class="plan" style="background:rgba(255,77,77,0.05);">
+    <p>"Resultados reales sin pasar hambre, método científico impecable." - Lucia R.</p>
+  </div>
+</div>
+</section>
+
 </main>
+  
 <section id="sobre-mi">
 <h2>Sobre Gerard Valls</h2>
 
