@@ -1099,5 +1099,31 @@ document.addEventListener('DOMContentLoaded', () => {
   <script>
   console.log('JS cargado desde script inline');
 </script>
+  <div id="modalReserva" class="modal-overlay">
+  <div class="modal-box">
+    
+    <span class="modal-close">&times;</span>
+
+    <h2>Empieza tu cambio ahora</h2>
+    <p style="opacity:0.8;">Completa esto y te contacto personalmente</p>
+
+    <form class="modal-form">
+      <input type="text" placeholder="Nombre" required>
+      <input type="number" placeholder="Edad" required>
+      
+      <select required>
+        <option value="">Objetivo</option>
+        <option>Perder grasa</option>
+        <option>Ganar músculo</option>
+        <option>Recomposición corporal</option>
+      </select>
+
+      <input type="tel" placeholder="WhatsApp" required>
+
+      <button type="submit">QUIERO EMPEZAR</button>
+    </form>
+
+  </div>
+</div>
 </body>
 </html>
