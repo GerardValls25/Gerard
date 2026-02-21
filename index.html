@@ -595,16 +595,49 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- CLICK RESERVA ---
   const btnReserva = document.getElementById("cta-reserva");
   let clickLocked = false;
+ document.addEventListener("DOMContentLoaded", () => {
+
+  const btnReserva = document.getElementById("btnReserva");
+  const modal = document.getElementById("modalReserva");
+  const closeModal = document.querySelector(".modal-close");
+  const form = document.querySelector(".modal-form");
+
+  // 👉 BOTÓN → SOLO ABRE MODAL
   btnReserva.addEventListener("click", () => {
-    if(plazas>0 && !clickLocked){
-      clickLocked=true;
+    if(plazas > 0 && !clickLocked){
+      modal.classList.add("active");
+    }
+  });
+
+  // 👉 CERRAR CON X
+  closeModal.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+
+  // 👉 CERRAR AL HACER CLICK FUERA
+  modal.addEventListener("click", (e) => {
+    if(e.target === modal){
+      modal.classList.remove("active");
+    }
+  });
+
+  // 👉 AQUÍ SE CONFIRMA LA RESERVA (IMPORTANTE)
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if(plazas > 0){
       plazas--;
       localStorage.setItem("plazas", plazas);
       actualizarPlazas();
-      clickLocked=false;
-      lanzarConfeti(30);
+      lanzarConfeti(40);
+
+      alert("¡Perfecto! Te contacto en breve");
+
+      modal.classList.remove("active");
     }
   });
+
+});
 
   // --- CONFETI ---
   function lanzarConfeti(cantidad=30){
@@ -794,7 +827,7 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
 <li><i class="fas fa-check-circle"></i> Sustitución de alimentos</li>
 <li><i class="fas fa-check-circle"></i> Adaptación a Alergias/intolerancias</li>
 <li><i class="fas fa-check-circle"></i> Registro de Ejercicios y Progreso</li>
-<li><i class="fas fa-check-circle"></i> Atención Email Online 24/7</li>
+<li><i class="fas fa-check-circle"></i> Atención WhatsApp Online 24/7</li>
 </ul>
   <!-- BLOQUE DINÁMICO DE PLAZAS -->
 <div id="plazas-container" style="
