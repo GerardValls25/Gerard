@@ -496,13 +496,10 @@ body.light .icon-input {
 </head>
 <body>
 <header class="hero">
-  <!-- Foto profesional -->
   <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-img">
-
-  <!-- Contenido principal -->
   <div class="hero-text">
-    <h1>Pierde grasa y gana músculo sin dejar de comer lo que más te gusta</h1>
-    <p>Pierde grasa, gana músculo y transforma tu cuerpo sin dietas extremas ni efecto rebote. Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
+    <h1 class="hero-main">Pierde grasa y gana músculo sin dejar de comer lo que más te gusta</h1>
+    <p class="hero-sub">Pierde grasa, gana músculo y transforma tu cuerpo sin dietas extremas ni efecto rebote. Método estratégico basado en evidencia científica.</p>
     <div class="hero-rating">⭐⭐⭐⭐⭐ 4.9/5 basado en 187 valoraciones • Más de 200 transformaciones reales en España</div>
     <div class="hero-buttons">
       <button id="cta-reserva">EMPEZAR MI CAMBIO AHORA</button>
@@ -1109,56 +1106,34 @@ scrollBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smoot
 </script>
 <script>
 // ===== CONFIGURACIÓN =====
-const PLAZAS_INICIALES = 8;
-let plazas = PLAZAS_INICIALES;
-let clickLocked = false;
-
-// Elementos
+let plazas = 8; // inicial
 const contador = document.getElementById("contador-plazas");
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const headerPlazasMsg = document.getElementById("header-plazas");
-const botonesServicios = Array.from(document.querySelectorAll(".service-back button"));
+const botonesServicios = document.querySelectorAll(".service-back button");
 const contenedorPlazas = document.getElementById("plazas-container");
 
-// Accesibilidad: lectores de pantalla escuchan cambios
-contador.setAttribute("aria-live", "polite");
-headerPlazasMsg.setAttribute("aria-live", "polite");
-
-// ===== LOCALSTORAGE =====
-const mesActual = new Date().getMonth();
-const mesGuardado = localStorage.getItem("mesPlazas");
-if (!mesGuardado || parseInt(mesGuardado) !== mesActual) {
-  localStorage.setItem("plazas", PLAZAS_INICIALES);
-  localStorage.setItem("mesPlazas", mesActual);
-} else {
-  plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
-}
-
-// ===== FUNCIONES =====
 function actualizarContador() {
-  if (plazas > 3) {
+  headerPlazasNum.textContent = plazas;
+  if(plazas>3){
     contador.innerHTML = `<span style="color:#00ffc0; font-weight:bold;">¡Quedan ${plazas} plazas disponibles este mes!</span>`;
-    quitarGlow();
-
-  } else if (plazas > 0) {
+    contenedorPlazas.classList.remove("glow-urgente");
+  } else if(plazas>0){
     contador.innerHTML = `<span class="blink" style="color:#ff4d4d; font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
-    aplicarGlow();
-
+    contenedorPlazas.classList.add("glow-urgente");
   } else {
-    contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">
-      ❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.
-    </span>`;
-    bloquearBotones();
-    quitarGlow();
+    contador.innerHTML = `<span style="color:#ff0000; font-weight:bold;">❌ Todas las plazas están ocupadas.</span>`;
+    botonesServicios.forEach(b=>{b.disabled=true; b.textContent="Lista de espera"});
+    contenedorPlazas.classList.remove("glow-urgente");
   }
 }
-// Reducir plazas de manera segura
-function reducirPlaza() {
-  if (plazas <= 0 || clickLocked) return;
-  clickLocked = true;
-  plazas--;
-  localStorage.setItem("plazas", plazas);
-  actualizarContador();
+
+document.body.addEventListener("click", e=>{
+  const btn = e.target.closest(".service-back button");
+  if(btn && !btn.disabled){ plazas--; actualizarContador(); }
+});
+
+actualizarContador();
   setTimeout(() => clickLocked = false, 1000); // bloqueo 1s
 }
 
