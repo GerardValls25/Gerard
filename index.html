@@ -1274,31 +1274,53 @@ document.addEventListener("DOMContentLoaded", () => {
   slider.addEventListener("mousedown", () => isDragging = true);
   document.addEventListener("mouseup", () => isDragging = false);
 
-  document.addEventListener("mousemove", e => {
-    if (!isDragging) return;
+ // Slider Antes/Después para todas las tarjetas
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".before-after");
 
-    const rect = container.getBoundingClientRect();
-    let x = e.clientX - rect.left;
-    x = Math.max(0, Math.min(x, rect.width)); // límites de 0 a ancho
-    const percent = (x / rect.width) * 100;
+  cards.forEach(container => {
+    const after = container.querySelector(".after-img");
+    const slider = container.querySelector(".slider");
 
-    after.style.width = percent + "%";
-    slider.style.left = percent + "%";
-  });
+    let isDragging = false;
 
-  // Soporte para tocar en móvil
-  slider.addEventListener("touchstart", () => isDragging = true);
-  document.addEventListener("touchend", () => isDragging = false);
-  document.addEventListener("touchmove", e => {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    const rect = container.getBoundingClientRect();
-    let x = touch.clientX - rect.left;
-    x = Math.max(0, Math.min(x, rect.width));
-    const percent = (x / rect.width) * 100;
+    // --- FUNCIONES AUXILIARES ---
+    const setPosition = (x) => {
+      const rect = container.getBoundingClientRect();
+      let posX = x - rect.left;
+      posX = Math.max(0, Math.min(posX, rect.width)); // límites 0 a ancho
+      const percent = (posX / rect.width) * 100;
+      after.style.width = percent + "%";
+      slider.style.left = percent + "%";
+    };
 
-    after.style.width = percent + "%";
-    slider.style.left = percent + "%";
+    // --- DESKTOP ---
+    slider.addEventListener("mousedown", () => isDragging = true);
+    document.addEventListener("mouseup", () => isDragging = false);
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      setPosition(e.clientX);
+    });
+
+    // --- TOUCH MÓVIL ---
+    slider.addEventListener("touchstart", () => isDragging = true);
+    document.addEventListener("touchend", () => isDragging = false);
+    document.addEventListener("touchmove", (e) => {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      setPosition(touch.clientX);
+    });
+
+    // --- CLICK RÁPIDO EN CONTENEDOR (opcional) ---
+    container.addEventListener("click", (e) => {
+      if (e.target !== slider) { // si no clicas el slider
+        setPosition(e.clientX);
+      }
+    });
+
+    // --- INICIAL ---
+    after.style.width = "50%";
+    slider.style.left = "50%";
   });
 });
 </script>
