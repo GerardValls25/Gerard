@@ -554,23 +554,6 @@ body.light .icon-input {
 
 <script>
 // Espera a que cargue todo
-  function actualizarPlazas() {
-    if(plazas > 3){
-      headerPlazasNum.textContent = plazas;
-      headerPlazasNum.style.color = "#00ffc0";
-      headerPlazasNum.style.fontWeight = "bold";
-      headerPlazasNum.classList.remove("blink");
-    } else if(plazas > 0){
-      headerPlazasNum.textContent = plazas;
-      headerPlazasNum.style.color = "#ff4d4d";
-      headerPlazasNum.style.fontWeight = "bold";
-      headerPlazasNum.classList.add("blink");
-      gsap.fromTo(headerPlazasNum, { scale:1 }, { scale:1.3, duration:0.3, yoyo:true, repeat:1, ease:"back.out(1.7)" });
-    } else {
-      headerPlazas.innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
-    }
-  }
-  actualizarPlazas();
 
   // --- CLICK RESERVA ---
 let clickLocked = false;
