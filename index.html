@@ -482,19 +482,41 @@ body.light .icon-input {
 </style>
 </head>
 <body>
+<!-- ================= HEADER ================= -->
 <header>
   <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
-  <h1 class="hero-fade">Pierde grasa y gana músculo sin dejar de comer lo que mas te gusta</h1>
+  <h1 class="hero-fade">Pierde grasa y gana músculo sin dejar de comer lo que más te gusta</h1>
   <p class="hero-fade">Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
-  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales</div>
-  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-    <button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">EMPEZAR MI CAMBIO AHORA</button>
-    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">VER PROGRAMAS</button>
+  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">
+    ⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales
   </div>
+
+  <!-- BOTONES PRINCIPALES -->
+  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+    <button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">
+      EMPEZAR MI CAMBIO AHORA
+    </button>
+    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">
+      VER PROGRAMAS
+    </button>
+  </div>
+
   <p id="header-plazas" style="font-weight:600;font-size:1rem; margin-top:5px;" aria-live="polite">
     Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
   </p>
 </header>
+  <!-- ================= MODAL ================= -->
+<div id="modalReserva" class="modal-overlay">
+  <div class="modal-box">
+    <span class="modal-close">&times;</span>
+    <h3>¡Reserva tu plaza ahora!</h3>
+    <form class="modal-form">
+      <input type="text" placeholder="Nombre" required>
+      <input type="email" placeholder="Email" required>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
 <nav>
 <a href="#servicios">Servicios</a>
 <a href="#testimonios">Testimonios</a>
@@ -1088,6 +1110,7 @@ document.body.addEventListener("click",e=>{
 
 actualizarPlazas();
 </script>
+<!-- ================= SCRIPT MODAL ================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const btnReserva = document.getElementById("cta-reserva");
@@ -1095,10 +1118,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModal = document.querySelector(".modal-close");
   const form = document.querySelector(".modal-form");
 
+  // --- VARIABLE PLAZAS (definir si no existe) ---
+  if (typeof plazas === 'undefined') {
+    window.plazas = 8; // número inicial de plazas
+  }
+
   // --- ABRIR MODAL ---
   btnReserva.addEventListener("click", () => {
-    if (plazas > 0) {  // asegúrate de que 'plazas' esté definido antes
+    if (plazas > 0) {
       modal.classList.add("active");
+    } else {
+      alert("Lo sentimos, todas las plazas están ocupadas. Lista de espera disponible.");
     }
   });
 
@@ -1120,25 +1150,33 @@ document.addEventListener("DOMContentLoaded", () => {
     if (plazas > 0) {
       plazas--;
       localStorage.setItem("plazas", plazas);
-      actualizarPlazas(); // asegúrate de que esta función exista
-      lanzarConfeti(40);
+
+      // Actualiza contador header si existe
+      const headerPlazasNum = document.getElementById("header-plazas-num");
+      if (headerPlazasNum) {
+        headerPlazasNum.textContent = plazas;
+      }
+
+      lanzarConfeti(40); // tu función confeti
       alert("¡Perfecto! Te contacto en breve");
       modal.classList.remove("active");
       form.reset();
+    } else {
+      alert("Lo sentimos, todas las plazas están ocupadas. Lista de espera disponible.");
     }
   });
+
+  // --- FUNCION CONFETI ---
+  function lanzarConfeti(cantidad=30){
+    const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+    for(let i=0;i<cantidad;i++){
+      const conf = document.createElement("div");
+      conf.style.cssText = `position:fixed;width:8px;height:8px;background:${colors[Math.floor(Math.random()*colors.length)]};top:-10px;left:${Math.random()*window.innerWidth}px;opacity:0.9;border-radius:50%;pointer-events:none;`;
+      document.body.appendChild(conf);
+      gsap.to(conf,{ y:window.innerHeight+50, rotation:Math.random()*360, duration:2+Math.random()*2, ease:"power1.out", onComplete:()=>conf.remove()});
+    }
+  }
 });
 </script>
-  <div id="modalReserva" class="modal-overlay">
-  <div class="modal-box">
-    <span class="modal-close">&times;</span>
-    <h3>¡Reserva tu plaza ahora!</h3>
-    <form class="modal-form">
-      <input type="text" placeholder="Nombre" required>
-      <input type="email" placeholder="Email" required>
-      <button type="submit">Enviar</button>
-    </form>
-  </div>
-</div>
 </body>
 </html>
