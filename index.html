@@ -479,6 +479,15 @@ body.light .icon-input {
 .modal-form button:hover {
   transform: scale(1.05);
 }
+  .modal-box {
+  transform: scale(0.7) translateY(50px);
+  opacity: 0;
+}
+
+.modal-overlay.active .modal-box {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
 </style>
 </head>
 <body>
