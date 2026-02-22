@@ -638,7 +638,6 @@ body.light .icon-input {
 
 <script>
 // Espera a que cargue todo
-document.addEventListener("DOMContentLoaded", () => {
 
   // --- FADE IN SECUENCIAL ---
   gsap.fromTo(".hero-fade", {opacity:0, y:20}, {opacity:1, y:0, duration:1, stagger:0.3, ease:"power2.out"});
@@ -741,30 +740,16 @@ form.addEventListener("submit", (e) => {
 </script>
 <style>
 /* Parpadeo plazas urgentes */
-@keyframes blinkPlazas {
-  0%,50%,100%{opacity:1;}
-  25%,75%{opacity:0.4;}
-}
+
 .blink { animation: blinkPlazas 1.5s infinite; }
 </style>
   <style>
 /* --- CSS GLOBAL --- */
-@keyframes blinkPlazas {
-  0%, 50%, 100% { opacity: 1; }
-  25%, 75% { opacity: 0.4; }
-}
 
 .blink {
   animation: blinkPlazas 1.5s infinite;
 }
 </style>
-<nav>
-<a href="#servicios">Servicios</a>
-<a href="#testimonios">Testimonios</a>
-<a href="#consulta">Formulario</a>
-<a href="calculadora.html" target="_blank">Calculadora</a>
-<a href="imc.html" target="_blank">IMC</a>
-</nav>
 
 <main class="wrapper">
 
@@ -992,7 +977,7 @@ Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para si
     </p>
     <div class="testimonio-user">
       <strong>Carlos M.</strong>
-      <span>Valencia</span>
+      <span><Linyola</span>
     </div>
   </div>
 
@@ -1002,7 +987,7 @@ Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para si
     </p>
     <div class="testimonio-user">
       <strong>Laura G.</strong>
-      <span>Barcelona</span>
+      <span>Tarrega</span>
     </div>
   </div>
 
@@ -1012,7 +997,7 @@ Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para si
     </p>
     <div class="testimonio-user">
       <strong>David R.</strong>
-      <span>Madrid</span>
+      <span>Mollerusa</span>
     </div>
   </div>
 
@@ -1194,8 +1179,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const contador = document.getElementById("contador-plazas");
   const contenedorPlazas = document.getElementById("plazas-container");
   const modal = document.getElementById("modalReserva");
-  const closeModal = modal.querySelector(".modal-close");
-  const formModal = modal.querySelector(".modal-form");
+  const closeModal = modal ? modal.querySelector(".modal-close") : null;
+  const formModal = modal ? modal.querySelector(".modal-form") : null;
   const RESERVA_BTN_CLASS = ".service-back button, #cta-reserva, .sticky-cta button";
 
   // ===== RESETEAR PLAZAS AL NUEVO MES =====
@@ -1284,9 +1269,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function abrirModal() { if(plazas>0) modal.classList.add("active"); }
   function cerrarModal() { modal.classList.remove("active"); }
 
-  closeModal.addEventListener("click", cerrarModal);
-  modal.addEventListener("click", (e) => { if(e.target === modal) cerrarModal(); });
-  document.querySelectorAll(RESERVA_BTN_CLASS).forEach(btn => btn.addEventListener("click", abrirModal));
+  if(modal){
+  
+  if(closeModal){
+    closeModal.addEventListener("click", cerrarModal);
+  }
+
+  modal.addEventListener("click", (e) => { 
+    if(e.target === modal) cerrarModal(); 
+  });
+
+}
+
+document.querySelectorAll(RESERVA_BTN_CLASS)
+  .forEach(btn => btn.addEventListener("click", abrirModal));
 
   formModal.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -1338,6 +1334,33 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
   <div class="sticky-cta">
   <button onclick="openModal()">Reservar plaza</button>
+</div>
+        <div class="modal" id="modalReserva">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h3>Reserva tu plaza ahora</h3>
+
+    <form class="modal-form">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="email" placeholder="Tu email" required>
+      <button type="submit" class="btn">Quiero mi plaza</button>
+    </form>
+
+  </div>
+</div>
+        <!-- MODAL RESERVA -->
+<div class="modal" id="modalReserva">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h3>¡Reserva tu plaza ahora!</h3>
+
+    <form class="modal-form">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="email" placeholder="Tu email" required>
+      <button type="submit" class="btn">Quiero mi plaza</button>
+    </form>
+
+  </div>
 </div>
 </body>
 </html>
