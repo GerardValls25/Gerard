@@ -30,61 +30,20 @@
 }
 
 * { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  background: var(--dark-bg);
-  color: var(--text-dark);
-  line-height: 1.6;
-  overflow-x: hidden;
-  transition: background var(--transition), color var(--transition);
-}
-/* LINKS */
-a { text-decoration: none; color: var(--primary); transition: .3s; }
-a:hover { color: var(--primary-hover); }
+body { margin:0; font-family:'Montserrat',sans-serif; background:var(--dark-bg); color:var(--text-dark); line-height:1.6; overflow-x:hidden; transition: background var(--transition), color var(--transition);}
+a { text-decoration:none; color:var(--primary); transition:.3s;}
+a:hover { color: var(--primary-hover);}
 
 /* HEADER */
-header {
-  text-align: center;
-  padding: 120px 20px 80px;
-  position: relative;
-}
-header h1 {
-  font-size: 3rem;
-  background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px rgba(0,255,192,0.4);
-  animation: gradMove 12s linear infinite;
-}
-header p {
-  margin-top: 12px;
-  font-size: 1.3rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s forwards 0.5s;
-}
-#toggle-theme {
-  margin-top: 20px;
-  background: var(--primary);
-  color: #000;
-  border: none;
-  padding: 14px 28px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  font-weight: 600;
-  transition: .4s;
-}
-#toggle-theme:hover { background: var(--primary-hover); transform: translateY(-2px); }
+header { text-align:center; padding:120px 20px 80px; position:relative;}
+header h1 { font-size:3rem; background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.4); animation: gradMove 12s linear infinite;}
+header p { margin-top:12px; font-size:1.3rem; text-shadow:0 2px 8px rgba(0,0,0,0.3); opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s;}
+#cta-reserva { margin-top:20px; background: var(--secondary); color:#000; border:none; padding:14px 28px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
+#cta-reserva:hover { background: var(--primary-hover); transform:translateY(-2px); }
 
-@keyframes gradMove {
-  0% { background-position: 0 0; }
-  50% { background-position: 100% 0; }
-  100% { background-position: 0 0; }
-}
-@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
+@keyframes gradMove {0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+@keyframes fadeInUp { to{ opacity:1; transform: translateY(0); }}
+  
 /* NAV */
 nav {
   position: sticky;
@@ -526,6 +485,13 @@ body.light .icon-input {
     }
 
     .before-after:hover .overlay { opacity:1; }
+  /* PLACAS URGENTES */
+.blink { animation: blinkPlazas 1.5s infinite; }
+.glow-urgente { box-shadow:0 0 25px rgba(255,0,0,0.7),0 0 50px rgba(255,0,0,0.4); animation: glowPulseUrgente 1.2s infinite alternate;}
+@keyframes blinkPlazas {0%,50%,100%{opacity:1;}25%,75%{opacity:0.4;}}
+@keyframes glowPulseUrgente {from{box-shadow:0 0 15px rgba(255,0,0,0.5);}to{box-shadow:0 0 40px rgba(255,0,0,0.9);}}
+
+#plazas-container { max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:0 8px 25px rgba(0,0,0,0.3);text-align:center;font-weight:bold;font-size:1.2rem; color: var(--danger); }
 </style>
 </head>
 <body>
@@ -647,13 +613,6 @@ let glowTween = null, botonesTween = null;
     }
   }
   actualizarPlazas();
-
-  // --- CLICK RESERVA ---
-let clickLocked = false;
-const btnReserva = document.getElementById("cta-reserva");
-const modal = document.getElementById("modalReserva");
-const closeModal = document.querySelector(".modal-close");
-const form = document.querySelector(".modal-form");
 
 // ABRIR MODAL
 btnReserva.addEventListener("click", () => {
