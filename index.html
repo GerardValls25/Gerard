@@ -3,116 +3,529 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerard Valls - Nutrición Profesional</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<title>Gerard Valls | Sistema Estratégico de Recomposición Corporal</title>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-<meta name="description" content="Especialista en recomposición corporal en Lleida. Pierde grasa y gana músculo con un sistema estratégico basado en evidencia científica.">
-
-<meta property="og:title" content="Gerard Valls - Recomposición Corporal Estratégica">
-<meta property="og:description" content="Sistema aplicado en más de 200 transformaciones reales.">
-<meta property="og:type" content="website">
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 
 <style>
-body{
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background:#111827;
-  color:#f3f4f6;
-  line-height:1.6;
+:root {
+  --primary: #00ffc0;
+  --primary-hover: #00e6b8;
+  --secondary: #ffbf00;
+  --dark-bg: #1a1f3f;
+  --text-dark: #e6e6e6;
+  --text-light: #222;
+  --radius: 16px;
+  --transition: .5s ease;
+  --shadow: 0 8px 25px rgba(0,0,0,0.3);
+  --danger: #ff4d4d;
+  --success: #00ffc0;
 }
-section{
-  padding:80px 20px;
-  max-width:1100px;
-  margin:auto;
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: var(--dark-bg);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
 }
-h1,h2,h3{
-  margin-bottom:20px;
+/* LINKS */
+a { text-decoration: none; color: var(--primary); transition: .3s; }
+a:hover { color: var(--primary-hover); }
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 120px 20px 80px;
+  position: relative;
 }
-button{
-  padding:14px 28px;
+header h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(0,255,192,0.4);
+  animation: gradMove 12s linear infinite;
+}
+header p {
+  margin-top: 12px;
+  font-size: 1.3rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s forwards 0.5s;
+}
+#toggle-theme {
+  margin-top: 20px;
+  background: var(--primary);
+  color: #000;
+  border: none;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: .4s;
+}
+#toggle-theme:hover { background: var(--primary-hover); transform: translateY(-2px); }
+
+@keyframes gradMove {
+  0% { background-position: 0 0; }
+  50% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  background: rgba(42,55,96,0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 12px;
+  z-index: 1000;
+}
+
+/* MAIN WRAPPER */
+main.wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 50px 30px 60px;
+  border-radius: var(--radius);
+  backdrop-filter: blur(15px);
+  background: rgba(42,55,96,0.85);
+  text-align: center;
+  transition: background var(--transition);
+}
+
+/* TITULOS */
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+h2::after {
+  content: "";
+  width: 60px;
+  height: 3px;
+  display: block;
+  margin: 8px auto 0;
+  border-radius: 2px;
+  background: var(--primary);
+  transform: scaleX(0);
+  animation: lineDraw 1s forwards;
+}
+@keyframes lineDraw { to { transform: scaleX(1); } }
+
+/* SERVICIOS */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 30px;
+  perspective: 1200px;
+}
+.service-inner {
+  position: relative;
+  width: 100%;
+  min-height: 250px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+.service:hover .service-inner { transform: rotateY(180deg); }
+.service-front, .service-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: .4s;
+}
+.service-front {
+  background: rgba(255,255,255,0.05);
+  box-shadow: var(--shadow);
+}
+.service-back {
+  background: linear-gradient(135deg,#00ffc0,#00bfff);
+  transform: rotateY(180deg);
+  color: #000;
+  text-align: left;
+}
+.service-back ul { margin:0; padding-left:20px; }
+.service-back button {
+  margin-top:12px;
+  background:white;
+  color:var(--primary);
+  font-weight:bold;
   border:none;
-  border-radius:40px;
-  font-weight:600;
+  padding:12px 16px;
+  border-radius:var(--radius);
   cursor:pointer;
-  background:#00ffc0;
-  color:#000;
   transition:.3s;
 }
-button:hover{
-  transform:scale(1.05);
-}
-.hero{
-  text-align:center;
-  padding:120px 20px 80px;
-}
-.badge{
-  margin-top:10px;
-  font-weight:600;
-  color:#fbbf24;
-}
-.plazas{
-  margin-top:15px;
-  font-weight:600;
-}
-.bar{
-  height:8px;
-  background:#333;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:8px;
-}
-.bar-fill{
-  height:100%;
-  width:75%;
-  background:#00ffc0;
-}
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-}
-.card{
-  background:#1f2937;
-  padding:30px;
-  border-radius:20px;
-}
-.modal-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-}
-.modal-overlay.active{
-  opacity:1;
-  pointer-events:all;
-}
-.modal{
-  background:#1f2937;
-  padding:30px;
-  border-radius:20px;
-  width:90%;
-  max-width:400px;
-}
-input{
-  width:100%;
+.service-back button:hover { background:var(--primary); color:#000; }
+.icon-planes, .icon-deporte, .icon-peso, .icon-online {
+  color:#fff;
+  border-radius:50%;
   padding:12px;
-  margin-bottom:15px;
-  border-radius:10px;
+  font-size:2.5rem;
+  transition: transform .4s, box-shadow .4s;
+}
+.icon-planes { background:#4caf50; box-shadow:0 0 15px rgba(76,175,80,0.6); }
+.icon-deporte { background:#2196f3; box-shadow:0 0 15px rgba(33,150,243,0.6); }
+.icon-peso { background:#ff9800; box-shadow:0 0 15px rgba(255,152,0,0.6); }
+.icon-online { background:#9c27b0; box-shadow:0 0 15px rgba(156,39,176,0.6); }
+.service:hover .service-front i { transform: scale(1.3) rotate(8deg); animation: glowPulse 1.2s infinite; }
+@keyframes glowPulse { 0%{box-shadow:0 0 5px rgba(255,255,255,0.4);}50%{box-shadow:0 0 25px rgba(255,255,255,0.9);}100%{box-shadow:0 0 5px rgba(255,255,255,0.4);} }
+
+/* BENEFICIOS INCLUIDOS */
+#incluye-todos {
+  margin: 60px auto;
+  padding: 40px;
+  max-width: 850px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow);
+  transition: background var(--transition);
+}
+#incluye-todos ul { list-style: none; padding: 0; margin:0; }
+#incluye-todos li { margin: 12px 0; display:flex; align-items:center; gap:12px; font-size:1rem; transition:.3s; }
+#incluye-todos li i { color: var(--primary); }
+#incluye-todos p {
+  margin-top:20px;
+  font-weight:bold;
+  color:var(--secondary);
+  animation: blink 1.5s infinite;
+}
+@keyframes blink { 0%,50%,100%{opacity:1;} 25%,75%{opacity:0.6;} }
+
+/* TESTIMONIOS */
+.testimonios-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+.testimonio-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+.testimonio-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+.testimonio-text { font-style: italic; margin-bottom: 20px; line-height:1.6; }
+.testimonio-user strong { display:block; font-weight:600; }
+.testimonio-user span { font-size:0.9rem; opacity:0.7; }
+
+/* FORMULARIO */
+.glass-form {
+  display:flex;
+  flex-direction: column;
+  gap:20px;
+  margin-top:20px;
+  padding:35px;
+  border-radius:20px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);  /* ✅ corregido */
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  transition: background var(--transition);
+  position: relative;
+}
+.form-group { position: relative; }
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 16px 14px 16px 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-size: 1rem;
+  transition: .3s;
+}
+.form-group label {
+  position: absolute;
+  left:36px;
+  top:50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.6);
+  transition:.3s;
+}
+
+.form-group input:focus + label,
+.form-group textarea:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:not(:placeholder-shown) + label {
+  color: var(--primary);
+}
+.icon-input {
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.6);
+  pointer-events:none;
+  font-size:1rem;
+  transition: all .3s ease;
+}
+body.light .icon-input {
+  color:#555;
+}
+.form-group input:focus ~ .icon-input,
+.form-group textarea:focus ~ .icon-input,
+.form-group input:not(:placeholder-shown) ~ .icon-input,
+.form-group textarea:not(:placeholder-shown) ~ .icon-input {
+  color: var(--primary);
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* BOTONES FIJOS */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background: var(--primary);
+  color: white;
   border:none;
+  padding:14px 18px;
+  border-radius:50%;
+  font-size:1.3rem;
+  display:none;
+  cursor:pointer;
+  opacity:0;
+  transition:.3s;
 }
-footer{
-  text-align:center;
-  padding:40px 20px;
-  font-size:.9rem;
-  opacity:.6;
+#scrollTopBtn.show { display:block; opacity:1; }
+
+#whatsappBtn {
+  position: fixed;
+  bottom: 120px;
+  right: 20px;
+  background: #25d366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius:50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size:2rem;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  z-index:999;
+  transition: transform .3s, box-shadow .3s, opacity .3s;
+  opacity:0;
 }
+#whatsappBtn.show { display:flex; opacity:1; }
+
+/* RESPONSIVE */
+@media (max-width:768px) {
+  header h1 { font-size: 2.2rem; }
+  header p { font-size:1.1rem; }
+  .services { grid-template-columns: 1fr; }
+}
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto 40px; 
+  text-align: center;
+}
+.hero-main {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.hero-sub {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 20px;
+  color: rgba(255,255,255,0.9);
+}
+.hero-checks {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+.hero-checks span {
+  position: relative;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding-left: 20px;
+}
+.hero-checks span::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #00ffc0;
+  font-weight: bold;
+}
+
+/* ===== NUEVO: Parpadeo header y contador de plazas ===== */
+@keyframes blinkPlazas {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.4; }
+}
+
+.blink {
+  animation: blinkPlazas 1.5s infinite;
+}
+/* Glow rojo urgente */
+.glow-urgente {
+  box-shadow: 0 0 25px rgba(255,0,0,0.7),
+              0 0 50px rgba(255,0,0,0.4);
+  animation: glowPulseUrgente 1.2s infinite alternate;
+}
+
+@keyframes glowPulseUrgente {
+  from { box-shadow: 0 0 15px rgba(255,0,0,0.5); }
+  to { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
+}
+  /* MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background: rgba(42,55,96,0.95);
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  transform: scale(0.8);
+  transition: 0.4s ease;
+  text-align: center;
+}
+
+.modal-overlay.active .modal-box {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-form input,
+.modal-form select {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.modal-form button {
+  background: var(--secondary);
+  color: #000;
+  font-weight: bold;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-form button:hover {
+  transform: scale(1.05);
+}
+   /* --- ESTILO PARA TRANSFORMACIONES ANTES/DESPUÉS --- */
+    .resultado-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: transform .4s ease;
+    }
+
+    .resultado-card:hover { transform: scale(1.05); }
+
+    .before-after {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .before-after img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s ease;
+    }
+
+    .before-after:hover img { transform: scale(1.1); }
+
+    .before-after .overlay {
+      position: absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,0.3);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.5rem;
+      font-weight:bold;
+      opacity:0;
+      transition:.4s;
+    }
+
+    .before-after:hover .overlay { opacity:1; }
 </style>
 </head>
 <body>
@@ -182,6 +595,7 @@ footer{
 
 <script>
 // Espera a que cargue todo
+document.addEventListener("DOMContentLoaded", () => {
 
   // --- FADE IN SECUENCIAL ---
   gsap.fromTo(".hero-fade", {opacity:0, y:20}, {opacity:1, y:0, duration:1, stagger:0.3, ease:"power2.out"});
@@ -284,16 +698,30 @@ form.addEventListener("submit", (e) => {
 </script>
 <style>
 /* Parpadeo plazas urgentes */
-
+@keyframes blinkPlazas {
+  0%,50%,100%{opacity:1;}
+  25%,75%{opacity:0.4;}
+}
 .blink { animation: blinkPlazas 1.5s infinite; }
 </style>
   <style>
 /* --- CSS GLOBAL --- */
+@keyframes blinkPlazas {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.4; }
+}
 
 .blink {
   animation: blinkPlazas 1.5s infinite;
 }
 </style>
+<nav>
+<a href="#servicios">Servicios</a>
+<a href="#testimonios">Testimonios</a>
+<a href="#consulta">Formulario</a>
+<a href="calculadora.html" target="_blank">Calculadora</a>
+<a href="imc.html" target="_blank">IMC</a>
+</nav>
 
 <main class="wrapper">
 
@@ -430,44 +858,33 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
   </p>
 
   <div class="transformaciones-slider">
-
-  <div class="resultado-card">
-    <div class="before-after">
-      <img src="antes-despues1.jpg" alt="Carlos antes">
-      <div class="after-img">
-        <img src="antes-despues1-despues.jpg" alt="Carlos después">
+    <div class="resultado-card">
+      <div class="before-after">
+        <img src="antes-despues1.jpg" alt="Carlos antes y después">
+        <div class="overlay">Después</div>
       </div>
-      <div class="slider"></div>
+      <h4>Carlos</h4>
+      <p>-8kg en 4 meses</p>
     </div>
-    <h4>Carlos</h4>
-    <p>-8kg en 4 meses</p>
-  </div>
 
-  <div class="resultado-card">
-    <div class="before-after">
-      <img src="antes-despues2.jpg" alt="Laura antes">
-      <div class="after-img">
-        <img src="antes-despues2-despues.jpg" alt="Laura después">
+    <div class="resultado-card">
+      <div class="before-after">
+        <img src="antes-despues2.jpg" alt="Laura antes y después">
+        <div class="overlay">Después</div>
       </div>
-      <div class="slider"></div>
+      <h4>Laura</h4>
+      <p>Más definición y rendimiento</p>
     </div>
-    <h4>Laura</h4>
-    <p>Más definición y rendimiento</p>
-  </div>
 
-  <div class="resultado-card">
-    <div class="before-after">
-      <img src="antes-despues3.jpg" alt="David antes">
-      <div class="after-img">
-        <img src="antes-despues3-despues.jpg" alt="David después">
+    <div class="resultado-card">
+      <div class="before-after">
+        <img src="antes-despues3.jpg" alt="David antes y después">
+        <div class="overlay">Después</div>
       </div>
-      <div class="slider"></div>
+      <h4>David</h4>
+      <p>Recomposición corporal completa</p>
     </div>
-    <h4>David</h4>
-    <p>Recomposición corporal completa</p>
   </div>
-
-</div>
 </section>
 
   <!-- SERVICIOS y otras secciones aquí ... OMITIDO PARA BREVEDAD ... -->
@@ -521,7 +938,7 @@ Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para si
     </p>
     <div class="testimonio-user">
       <strong>Carlos M.</strong>
-      <span><Linyola</span>
+      <span>Valencia</span>
     </div>
   </div>
 
@@ -531,7 +948,7 @@ Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para si
     </p>
     <div class="testimonio-user">
       <strong>Laura G.</strong>
-      <span>Tarrega</span>
+      <span>Barcelona</span>
     </div>
   </div>
 
@@ -541,7 +958,7 @@ Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para si
     </p>
     <div class="testimonio-user">
       <strong>David R.</strong>
-      <span>Mollerusa</span>
+      <span>Madrid</span>
     </div>
   </div>
 
@@ -628,46 +1045,6 @@ te garantizo ajustes estratégicos ilimitados hasta que veamos progreso real.
 Tu transformación es un proceso acompañado, no te dejo solo.
 </p>
 </section>
-  <section class="pricing">
-  <h2>Programas</h2>
-
-  <div class="pricing-grid">
-
-    <div class="price-card highlight">
-      <h3>Anual</h3>
-      <p class="price">€349</p>
-      <ul>
-        <li>Acceso completo</li>
-        <li>Soporte 24/7</li>
-        <li>Mejor valor</li>
-      </ul>
-      <button onclick="openModal()">Únete</button>
-    </div>
-
-    <div class="price-card">
-      <h3>Trimestral</h3>
-      <p class="price">€119</p>
-      <ul>
-        <li>Flexible</li>
-        <li>Actualizaciones</li>
-        <li>Soporte online</li>
-      </ul>
-      <button onclick="openModal()">Únete</button>
-    </div>
-
-    <div class="price-card">
-      <h3>Mensual</h3>
-      <p class="price">€49</p>
-      <ul>
-        <li>Para probar</li>
-        <li>Acceso mensual</li>
-        <li>Soporte básico</li>
-      </ul>
-      <button onclick="openModal()">Únete</button>
-    </div>
-
-  </div>
-</section>
 <!-- FORMULARIO -->
 <section id="consulta">
   <h2>Formulario de Consulta</h2>
@@ -713,47 +1090,47 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // ===== VARIABLES =====
+  // --- VARIABLES ---
   const PLAZAS_INICIALES = 8;
-  const mesActual = new Date().getMonth();
   let plazas = parseInt(localStorage.getItem('plazas') || PLAZAS_INICIALES);
+  const mesActual = new Date().getMonth();
   const mesGuardado = parseInt(localStorage.getItem('mesPlazas') || -1);
 
-  const headerPlazasNum = document.getElementById("header-plazas-num");
   const contador = document.getElementById("contador-plazas");
+  const headerPlazasNum = document.getElementById("header-plazas-num");
   const contenedorPlazas = document.getElementById("plazas-container");
-  const modal = document.getElementById("modalReserva");
-  const closeModal = modal ? modal.querySelector(".modal-close") : null;
-  const formModal = modal ? modal.querySelector(".modal-form") : null;
-  const RESERVA_BTN_CLASS = ".service-back button, #cta-reserva, .sticky-cta button";
+  const clickLockedDelay = 1000;
+  let clickLocked = false;
+  let glowTween = null, botonesTween = null;
 
-  // ===== RESETEAR PLAZAS AL NUEVO MES =====
-  if (mesGuardado !== mesActual) {
+  // --- RESETEAR PLAZAS AL NUEVO MES ---
+  if(mesGuardado !== mesActual){
     plazas = PLAZAS_INICIALES;
     localStorage.setItem('mesPlazas', mesActual);
     localStorage.setItem('plazas', plazas);
   }
 
-  // ===== FUNCIONES =====
+  // --- FUNCIONES ---
   function actualizarPlazas() {
-    // Header
     if(plazas > 0){
       headerPlazasNum.textContent = plazas;
-      headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
-      headerPlazasNum.classList.toggle("blink", plazas <= 3);
+      if(plazas <= 3){
+        headerPlazasNum.classList.add("blink");
+        headerPlazasNum.style.color = "var(--danger)";
+      } else {
+        headerPlazasNum.classList.remove("blink");
+        headerPlazasNum.style.color = "var(--success)";
+      }
     } else {
       document.getElementById("header-plazas").innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
     }
 
-    // Contador sección
     if(plazas > 3){
       contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
       quitarGlow();
-      habilitarBotones();
     } else if(plazas > 0){
       contador.innerHTML = `<span class="blink" style="color:var(--danger);font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
       aplicarGlow();
-      habilitarBotones();
     } else {
       contador.innerHTML = `<span style="color:red;font-weight:bold;">❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.</span>`;
       bloquearBotones();
@@ -764,39 +1141,64 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function reducirPlaza() {
-    if(plazas <= 0) return;
+    if(plazas <= 0 || clickLocked) return;
+    clickLocked = true;
     plazas--;
     actualizarPlazas();
     lanzarConfeti(40);
+    setTimeout(() => clickLocked = false, clickLockedDelay);
   }
 
   function bloquearBotones() {
-    document.querySelectorAll(RESERVA_BTN_CLASS).forEach(btn => {
+    const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
+    botones.forEach(btn => {
       btn.disabled = true;
       btn.style.opacity = "0.5";
       btn.textContent = "Lista de espera";
       btn.setAttribute("aria-disabled","true");
     });
-  }
-
-  function habilitarBotones() {
-    document.querySelectorAll(RESERVA_BTN_CLASS).forEach(btn => {
-      if(btn.textContent === "Lista de espera") {
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        btn.textContent = "Reservar";
-        btn.removeAttribute("aria-disabled");
-      }
-    });
+    quitarGlow();
   }
 
   function aplicarGlow() {
-    contenedorPlazas.classList.add("glow-urgente");
+    if(!glowTween){
+      contenedorPlazas.classList.add("glow-urgente");
+      glowTween = gsap.fromTo(contenedorPlazas,{scale:1},{scale:1.05,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut"});
+    }
+    if(!botonesTween){
+      const botones = Array.from(document.querySelectorAll(".service-back button, #modal-reservar-btn")).filter(b => !b.disabled);
+      botonesTween = gsap.to(botones,{scale:1.1,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut",stagger:0.1});
+    }
   }
 
   function quitarGlow() {
-    contenedorPlazas.classList.remove("glow-urgente");
-    contenedorPlazas.style.transform="scale(1)";
+    if(glowTween){ glowTween.kill(); glowTween=null; contenedorPlazas.classList.remove("glow-urgente"); contenedorPlazas.style.transform="scale(1)"; }
+    if(botonesTween){ botonesTween.kill(); botonesTween=null; document.querySelectorAll(".service-back button, #modal-reservar-btn").forEach(b=>b.style.transform="scale(1)"); }
+  }
+
+  function mostrarFeedback(btn, mensaje="¡Plaza reservada!") {
+    const feedback = document.createElement("span");
+    feedback.textContent = mensaje;
+    Object.assign(feedback.style,{
+      position:"absolute",
+      top:"-30px",
+      left:"50%",
+      transform:"translateX(-50%)",
+      background:"#00ffc0",
+      color:"#000",
+      padding:"6px 12px",
+      borderRadius:"12px",
+      fontWeight:"600",
+      fontSize:"0.85rem",
+      boxShadow:"0 4px 12px rgba(0,0,0,0.3)",
+      opacity:0,
+      pointerEvents:"none",
+      zIndex:1000
+    });
+    btn.style.position="relative";
+    btn.appendChild(feedback);
+    gsap.to(feedback,{opacity:1,y:-10,duration:0.5,ease:"back.out(1.7)"});
+    gsap.to(feedback,{opacity:0,y:-30,duration:0.5,delay:2,onComplete:()=>feedback.remove()});
   }
 
   function lanzarConfeti(cantidad=50){
@@ -809,102 +1211,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===== MODAL =====
-  function abrirModal() { if(plazas>0) modal.classList.add("active"); }
-  function cerrarModal() { modal.classList.remove("active"); }
-
-  if(modal){
-  
-  if(closeModal){
-    closeModal.addEventListener("click", cerrarModal);
-  }
-
-  modal.addEventListener("click", (e) => { 
-    if(e.target === modal) cerrarModal(); 
-  });
-
-}
-
-document.querySelectorAll(RESERVA_BTN_CLASS)
-  .forEach(btn => btn.addEventListener("click", abrirModal));
-
-  formModal.addEventListener("submit", (e)=>{
-    e.preventDefault();
-    if(plazas > 0){
+  // --- EVENTO GLOBAL CLICK PARA TODOS LOS BOTONES DE RESERVA ---
+  document.body.addEventListener("click", e => {
+    const btn = e.target.closest(".service-back button, #modal-reservar-btn");
+    if(btn && !btn.disabled){
       reducirPlaza();
-      alert("¡Perfecto! Te contacto en breve");
-      cerrarModal();
-      formModal.reset();
+      mostrarFeedback(btn);
     }
   });
 
-  // ===== SLIDER ANTES/DESPUÉS =====
-  document.querySelectorAll(".before-after").forEach(container => {
-    const after = container.querySelector(".after-img");
-    const slider = container.querySelector(".slider");
-    let isDragging = false;
-
-    const setPosition = (x) => {
-      const rect = container.getBoundingClientRect();
-      let posX = x - rect.left;
-      posX = Math.max(0, Math.min(posX, rect.width));
-      const percent = (posX / rect.width) * 100;
-      after.style.width = percent + "%";
-      slider.style.left = percent + "%";
-    };
-
-    // Mouse
-    slider.addEventListener("mousedown", () => isDragging = true);
-    document.addEventListener("mouseup", () => isDragging = false);
-    document.addEventListener("mousemove", e => { if(isDragging) setPosition(e.clientX); });
-
-    // Touch
-    slider.addEventListener("touchstart", () => isDragging = true);
-    document.addEventListener("touchend", () => isDragging = false);
-    document.addEventListener("touchmove", e => { if(isDragging) setPosition(e.touches[0].clientX); });
-
-    // Click rápido
-    container.addEventListener("click", e => { if(e.target !== slider) setPosition(e.clientX); });
-
-    // Inicial
-    after.style.width = "50%";
-    slider.style.left = "50%";
-  });
-
-  // ===== INICIALIZAR =====
+  // --- INICIALIZAR ---
   actualizarPlazas();
-
 });
 </script>
-  <div class="sticky-cta">
-  <button onclick="openModal()">Reservar plaza</button>
-</div>
-        <div class="modal" id="modalReserva">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <h3>Reserva tu plaza ahora</h3>
-
-    <form class="modal-form">
-      <input type="text" name="nombre" placeholder="Tu nombre" required>
-      <input type="email" name="email" placeholder="Tu email" required>
-      <button type="submit" class="btn">Quiero mi plaza</button>
-    </form>
-
-  </div>
-</div>
-        <!-- MODAL RESERVA -->
-<div class="modal" id="modalReserva">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <h3>¡Reserva tu plaza ahora!</h3>
-
-    <form class="modal-form">
-      <input type="text" name="nombre" placeholder="Tu nombre" required>
-      <input type="email" name="email" placeholder="Tu email" required>
-      <button type="submit" class="btn">Quiero mi plaza</button>
-    </form>
-
-  </div>
-</div>
 </body>
 </html>
