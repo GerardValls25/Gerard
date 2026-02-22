@@ -9,6 +9,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 
+
 <style>
 :root {
   --primary:#00ffc0; --primary-hover:#00e6b8; --secondary:#ffbf00;
@@ -65,7 +66,7 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 .service:hover .service-front i { transform: scale(1.3) rotate(8deg); animation: glowPulse 1.2s infinite; }
 @keyframes glowPulse {0%{box-shadow:0 0 5px rgba(255,255,255,0.4);}50%{box-shadow:0 0 25px rgba(255,255,255,0.9);}100%{box-shadow:0 0 5px rgba(255,255,255,0.4);}}
 
-  /* PLACAS URGENTES */
+/* PLACAS URGENTES */
 .blink { animation: blinkPlazas 1.5s infinite; }
 .glow-urgente { box-shadow:0 0 25px rgba(255,0,0,0.7),0 0 50px rgba(255,0,0,0.4); animation: glowPulseUrgente 1.2s infinite alternate;}
 @keyframes blinkPlazas {0%,50%,100%{opacity:1;}25%,75%{opacity:0.4;}}
@@ -125,6 +126,28 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 .form-group input:focus ~ .icon-input, .form-group textarea:focus ~ .icon-input,
 .form-group input:not(:placeholder-shown) ~ .icon-input, .form-group textarea:not(:placeholder-shown) ~ .icon-input { color:var(--primary); transform:translateY(-50%) scale(1.2); }
 
+  /* MODAL */
+.modal-overlay {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  display:flex; justify-content:center; align-items:center; z-index:9999;
+  opacity:0; pointer-events:none; transition:0.4s ease;
+}
+.modal-overlay.active { opacity:1; pointer-events:all; }
+.modal-box {
+  background: rgba(42,55,96,0.95); padding:30px; border-radius:20px;
+  width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  transform:scale(0.8); transition:0.4s ease; text-align:center;
+}
+.modal-overlay.active .modal-box { transform:scale(1); }
+.modal-close { position:absolute; right:20px; top:10px; font-size:1.5rem; cursor:pointer; }
+.modal-form { display:flex; flex-direction: column; gap:15px; margin-top:20px; }
+.modal-form input, .modal-form select { padding:12px; border-radius:10px; border:none; outline:none; }
+.modal-form button { background: var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s; }
+.modal-form button:hover { transform:scale(1.05); }
+
+/* RESPONSIVE */
+@media (max-width:768px) { header h1{ font-size:2.2rem;} header p{ font-size:1.1rem;} .services{grid-template-columns:1fr;} }
 
 /* BOTONES FIJOS */
 #scrollTopBtn {
@@ -164,9 +187,6 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 }
 #whatsappBtn.show { display:flex; opacity:1; }
 
-/* RESPONSIVE */
-@media (max-width:768px) { header h1{ font-size:2.2rem;} header p{ font-size:1.1rem;} .services{grid-template-columns:1fr;} }
-
 
 /* ===== NUEVO: Parpadeo header y contador de plazas ===== */
 @keyframes blinkPlazas {
@@ -188,82 +208,7 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   from { box-shadow: 0 0 15px rgba(255,0,0,0.5); }
   to { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
 }
-  /* MODAL */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.4s ease;
-}
-
-.modal-overlay.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.modal-box {
-  background: rgba(42,55,96,0.95);
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  transform: scale(0.8);
-  transition: 0.4s ease;
-  text-align: center;
-}
-
-.modal-overlay.active .modal-box {
-  transform: scale(1);
-}
-
-.modal-close {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.modal-form input,
-.modal-form select {
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-}
-
-.modal-form button {
-  background: var(--secondary);
-  color: #000;
-  font-weight: bold;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.modal-form button:hover {
-  transform: scale(1.05);
-}
+ 
    /* --- ESTILO PARA TRANSFORMACIONES ANTES/DESPUÉS --- */
     .resultado-card {
       position: relative;
@@ -322,21 +267,30 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 </head>
 <body>
 <!-- ================= HEADER ================= -->
- <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
+<header>
+  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
   <h1 class="hero-fade">Pierde grasa y gana músculo sin dejar de comer lo que más te gusta</h1>
   <p class="hero-fade">Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
-  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales</div>
-
-  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-    <button id="modal-reservar-btn">EMPEZAR MI CAMBIO AHORA</button>
-    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">VER PROGRAMAS</button>
+  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">
+    ⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales
   </div>
 
-  <p id="header-plazas" style="font-weight:600;font-size:1rem;" aria-live="polite">
+  <!-- BOTONES PRINCIPALES -->
+  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+    <button id="cta-reserva" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">
+      EMPEZAR MI CAMBIO AHORA
+    </button>
+    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">
+      VER PROGRAMAS
+    </button>
+  </div>
+
+  <p id="header-plazas" style="font-weight:600;font-size:1rem; margin-top:5px;" aria-live="polite">
     Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
   </p>
 </header>
-  <!-- ================= MODAL ================= -->
+
+<!-- MODAL -->
 <div id="modalReserva" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-close">&times;</span>
@@ -355,6 +309,18 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 <a href="calculadora.html" target="_blank">Calculadora</a>
 <a href="imc.html" target="_blank">IMC</a>
 </nav>
+  
+<main class="wrapper">
+<!-- Secciones: servicios, metodología, resultados, planes, formulario -->
+<!-- ... Se mantiene tu contenido existente ... -->
+
+<div id="plazas-container" aria-live="polite"></div>
+</main>
+  
+<footer>
+<p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
+<p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
+</footer>
   
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
 <section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
@@ -397,8 +363,14 @@ let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
 const mesActual = new Date().getMonth();
 const mesGuardado = parseInt(localStorage.getItem("mesPlazas") || -1);
 
+const modal = document.getElementById("modalReserva");
+const btnReserva = document.getElementById("modal-reservar-btn");
+const closeModal = modal.querySelector(".modal-close");
+const contador = document.getElementById("plazas-container");
+const headerPlazasNum = document.getElementById("header-plazas-num");
+
 // Reset mensual de plazas
-if (mesGuardado !== mesActual) {
+if(mesGuardado!==mesActual){
   plazas = PLAZAS_INICIALES;
   localStorage.setItem("mesPlazas", mesActual);
   localStorage.setItem("plazas", plazas);
@@ -496,85 +468,97 @@ form.addEventListener("submit", (e) => {
 </nav>
 
 <main class="wrapper">
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="services">
+      <!-- Planes Personalizados -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-bowl-food icon-planes"></i>
+            <h3>Planes Personalizados</h3>
+            <p>Adaptados a tu estilo de vida y objetivos.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Evaluación inicial completa</li>
+              <li>Plan nutricional flexible</li>
+              <li>Seguimiento quincenal</li>
+            </ul>
+            <button>Solicitar</button>
+          </div>
+        </div>
+      </div>
 
-<!-- SERVICIOS -->
-<section id="servicios">
-<h2>Servicios</h2>
-<div class="services">
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-bowl-food icon-planes"></i>
-<h3>Planes Personalizados</h3>
-<p>Adaptados a tu estilo de vida y objetivos.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Evaluación inicial completa</li>
-<li>Plan nutricional flexible</li>
-<li>Seguimiento quincenal</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
+      <!-- Asesoría Deportiva -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-person-running icon-deporte"></i>
+            <h3>Asesoría Deportiva</h3>
+            <p>Optimiza tu rendimiento y recuperación.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Plan de macronutrientes</li>
+              <li>Recomendaciones de suplementación</li>
+              <li>Ajuste de cargas de entrenamiento</li>
+            </ul>
+            <button>Solicitar</button>
+          </div>
+        </div>
+      </div>
 
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-person-running icon-deporte"></i>
-<h3>Asesoría Deportiva</h3>
-<p>Optimiza tu rendimiento y recuperación.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Plan de macronutrientes</li>
-<li>Recomendaciones de suplementación</li>
-<li>Ajuste de cargas de entrenamiento</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
+      <!-- Pérdida de Peso -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-scale-balanced icon-peso"></i>
+            <h3>Pérdida de Peso</h3>
+            <p>Programas sostenibles y personalizados.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Reducción de grasa saludable</li>
+              <li>Hábitos de alimentación duraderos</li>
+              <li>Soporte psicológico</li>
+            </ul>
+            <button>Solicitar</button>
+          </div>
+        </div>
+      </div>
 
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-scale-balanced icon-peso"></i>
-<h3>Pérdida de Peso</h3>
-<p>Programas sostenibles y personalizados.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Reducción de grasa saludable</li>
-<li>Hábitos de alimentación duraderos</li>
-<li>Soporte psicológico</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
+      <!-- Consultas Online -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-laptop icon-online"></i>
+            <h3>Consultas Online</h3>
+            <p>Asesoría desde la comodidad de tu hogar.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Videollamadas semanales</li>
+              <li>Soporte vía chat</li>
+              <li>Material exclusivo</li>
+            </ul>
+            <button>Solicitar</button>
+          </div>
+        </div>
+      </div>
 
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-laptop icon-online"></i>
-<h3>Consultas Online</h3>
-<p>Asesoría desde la comodidad de tu hogar.</p>
-</div>
-<div class="service-back">
-<ul>
-<li>Videollamadas semanales</li>
-<li>Soporte vía chat</li>
-<li>Material exclusivo</li>
-</ul>
-<button onclick="location.href='#consulta'">Solicitar</button>
-</div>
-</div>
-</div>
+    </div>
+  </section>
 
-</div>
-</section> 
+  <!-- Contador de plazas -->
+  <div id="plazas-container" aria-live="polite" style="max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:0 8px 25px rgba(0,0,0,0.3);text-align:center;color:var(--danger);font-weight:bold;font-size:1.2rem;">
+    <p id="contador-plazas"></p>
+    <p style="margin-top:12px;font-size:1rem;">RECUERDA: LAS PLAZAS SON LIMITADAS. ¡APROVECHA YA!</p>
+  </div>
+
+</main>
+  
 <!-- FIN SERVICIOS -->
 
 <!-- PROCESO DE INTERVENCIÓN NUTRICIONAL -->
@@ -839,8 +823,6 @@ Tu transformación es un proceso acompañado, no te dejo solo.
   <button type="submit">Enviar</button>
 </form>
 </section>
-
-</main>
   
 <footer>
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
