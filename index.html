@@ -586,11 +586,7 @@ body.light .icon-input {
 
 <style>
 /* Parpadeo plazas urgentes */
-@keyframes blinkPlazas {
-  0%,50%,100%{opacity:1;}
-  25%,75%{opacity:0.4;}
-}
-.blink { animation: blinkPlazas 1.5s infinite; }
+
 </style>
 
 <script>
@@ -611,19 +607,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- CONTADOR DINÁMICO ---
-  const PLAZAS_INICIALES = 8;
-  const headerPlazas = document.getElementById("header-plazas");
-  const headerPlazasNum = document.getElementById("header-plazas-num");
-  let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
-  const mesActual = new Date().getMonth();
-  const mesGuardado = parseInt(localStorage.getItem("mesPlazas") || -1);
-  if(mesGuardado !== mesActual){
-    plazas = PLAZAS_INICIALES;
-    localStorage.setItem("mesPlazas", mesActual);
-    localStorage.setItem("plazas", plazas);
-  }
+ // Configuración inicial
+const PLAZAS_INICIALES = 8;
+let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
+const mesActual = new Date().getMonth();
+const mesGuardado = parseInt(localStorage.getItem("mesPlazas") || -1);
 
+// Reset mensual de plazas
+if (mesGuardado !== mesActual) {
+  plazas = PLAZAS_INICIALES;
+  localStorage.setItem("mesPlazas", mesActual);
+  localStorage.setItem("plazas", plazas);
+}
+
+// Elementos del DOM
+const contador = document.getElementById("contador-plazas");
+const headerPlazas = document.getElementById("header-plazas");
+const headerPlazasNum = document.getElementById("header-plazas-num");
+const contenedorPlazas = document.getElementById("plazas-container");
+
+// Variables de control
+const clickLockedDelay = 1000;
+let clickLocked = false;
+let glowTween = null, botonesTween = null;
   function actualizarPlazas() {
     if(plazas > 3){
       headerPlazasNum.textContent = plazas;
@@ -698,22 +704,11 @@ form.addEventListener("submit", (e) => {
 </script>
 <style>
 /* Parpadeo plazas urgentes */
-@keyframes blinkPlazas {
-  0%,50%,100%{opacity:1;}
-  25%,75%{opacity:0.4;}
-}
-.blink { animation: blinkPlazas 1.5s infinite; }
+
 </style>
   <style>
 /* --- CSS GLOBAL --- */
-@keyframes blinkPlazas {
-  0%, 50%, 100% { opacity: 1; }
-  25%, 75% { opacity: 0.4; }
-}
 
-.blink {
-  animation: blinkPlazas 1.5s infinite;
-}
 </style>
 <nav>
 <a href="#servicios">Servicios</a>
@@ -1090,18 +1085,6 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // --- VARIABLES ---
-  const PLAZAS_INICIALES = 8;
-  let plazas = parseInt(localStorage.getItem('plazas') || PLAZAS_INICIALES);
-  const mesActual = new Date().getMonth();
-  const mesGuardado = parseInt(localStorage.getItem('mesPlazas') || -1);
-
-  const contador = document.getElementById("contador-plazas");
-  const headerPlazasNum = document.getElementById("header-plazas-num");
-  const contenedorPlazas = document.getElementById("plazas-container");
-  const clickLockedDelay = 1000;
-  let clickLocked = false;
-  let glowTween = null, botonesTween = null;
 
   // --- RESETEAR PLAZAS AL NUEVO MES ---
   if(mesGuardado !== mesActual){
