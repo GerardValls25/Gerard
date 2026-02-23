@@ -387,8 +387,6 @@ document.addEventListener("DOMContentLoaded", () => {
 let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
   const mesActual = new Date().getMonth();
   const mesGuardado = parseInt(localStorage.getItem("mesPlazas") || -1);
-  
-  const contador = document.getElementById("contador-plazas");
 
 // Reset mensual
   if(mesGuardado !== mesActual){
@@ -401,7 +399,6 @@ let plazas = parseInt(localStorage.getItem("plazas") || PLAZAS_INICIALES);
 const contador = document.getElementById("contador-plazas");
 const headerPlazas = document.getElementById("header-plazas");
 const headerPlazasNum = document.getElementById("header-plazas-num");
-const contenedorPlazas = document.getElementById("plazas-container");
 
 // Variables de control
 const clickLockedDelay = 1000;
