@@ -698,19 +698,19 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
 <p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
 </footer>
- <script>
+<script>
 /* ================================
-   SISTEMA AVANZADO DE PLAZAS
+   SISTEMA OPTIMIZADO DE PLAZAS
 ================================ */
 
 // --- CONFIGURACIÓN ---
 const PLAZAS_INICIALES = 8;
-const clickLockedDelay = 1200;
+const CLICK_LOCK_DELAY = 1200;
 
 // --- VARIABLES ---
 let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
-let mesActual = new Date().getMonth();
-let mesGuardado = parseInt(localStorage.getItem('mesPlazas'));
+const mesActual = new Date().getMonth();
+const mesGuardado = parseInt(localStorage.getItem('mesPlazas'));
 let clickLocked = false;
 let glowTween = null;
 let botonesTween = null;
@@ -719,6 +719,7 @@ let botonesTween = null;
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const contador = document.getElementById("contador-plazas");
 const contenedorPlazas = document.getElementById("plazas-container");
+const botones = Array.from(document.querySelectorAll(".service-back button, #modal-reservar-btn"));
 
 // --- RESETEAR PLAZAS AL NUEVO MES ---
 if(mesGuardado !== mesActual){
@@ -730,6 +731,7 @@ if(mesGuardado !== mesActual){
 // --- FUNCIONES ---
 function actualizarPlazas() {
 
+  // Header
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
 
@@ -740,29 +742,24 @@ function actualizarPlazas() {
       headerPlazasNum.classList.remove("blink");
       headerPlazasNum.style.color = "var(--success)";
     }
-
   } else {
     document.getElementById("header-plazas").innerHTML =
       "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 
+  // Contador principal
   if(plazas > 3){
-    contador.innerHTML =
-      `<span style="color:var(--success);font-weight:bold;">
+    contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">
       ¡Quedan ${plazas} plazas disponibles!
       </span>`;
     quitarGlow();
-
   } else if(plazas > 0){
-    contador.innerHTML =
-      `<span class="blink" style="color:var(--danger);font-weight:bold;">
+    contador.innerHTML = `<span class="blink" style="color:var(--danger);font-weight:bold;">
       ⚠️ ¡Solo quedan ${plazas} plazas!
       </span>`;
     aplicarGlow();
-
   } else {
-    contador.innerHTML =
-      `<span style="color:red;font-weight:bold;">
+    contador.innerHTML = `<span style="color:red;font-weight:bold;">
       ❌ Todas las plazas están ocupadas.<br>
       👉 Lista de espera disponible.
       </span>`;
@@ -781,98 +778,86 @@ function reducirPlaza() {
   actualizarPlazas();
   lanzarConfeti(40);
 
-  setTimeout(() => clickLocked = false, clickLockedDelay);
+  setTimeout(() => clickLocked = false, CLICK_LOCK_DELAY);
 }
 
 function bloquearBotones() {
-  const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
-
   botones.forEach(btn => {
     btn.disabled = true;
     btn.style.opacity = "0.5";
+    if(!btn.dataset.originalText){
+      btn.dataset.originalText = btn.textContent;
+    }
     btn.textContent = "Lista de espera";
     btn.setAttribute("aria-disabled","true");
   });
 }
 
 function aplicarGlow() {
-
   if(!glowTween){
     contenedorPlazas.classList.add("glow-urgente");
-
     glowTween = gsap.fromTo(
       contenedorPlazas,
       {scale:1},
-      {scale:1.05,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut"}
+      {scale:1.05, yoyo:true, repeat:-1, duration:0.6, ease:"power1.inOut"}
     );
   }
 
   if(!botonesTween){
-    const botones = Array.from(
-      document.querySelectorAll(".service-back button, #modal-reservar-btn")
-    ).filter(b => !b.disabled);
-
+    const activeBtns = botones.filter(b => !b.disabled);
     botonesTween = gsap.to(
-      botones,
-      {scale:1.1,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut",stagger:0.1}
+      activeBtns,
+      {scale:1.1, yoyo:true, repeat:-1, duration:0.6, ease:"power1.inOut", stagger:0.1}
     );
   }
 }
 
 function quitarGlow() {
-
   if(glowTween){
     glowTween.kill();
     glowTween = null;
     contenedorPlazas.classList.remove("glow-urgente");
-    contenedorPlazas.style.transform="scale(1)";
+    contenedorPlazas.style.transform = "scale(1)";
   }
 
   if(botonesTween){
     botonesTween.kill();
     botonesTween = null;
-
-    document
-      .querySelectorAll(".service-back button, #modal-reservar-btn")
-      .forEach(b=>b.style.transform="scale(1)");
+    botones.forEach(b => { if(!b.disabled) b.style.transform = "scale(1)"; });
   }
 }
 
 function lanzarConfeti(cantidad=40){
-  const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
-
-  for(let i=0;i<cantidad;i++){
-    const conf=document.createElement("div");
-
-    conf.style.cssText=`
+  const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+  for(let i=0; i<cantidad; i++){
+    const conf = document.createElement("div");
+    conf.style.cssText = `
       position:fixed;
-      width:8px;
-      height:8px;
+      width:6px;
+      height:6px;
       background:${colors[Math.floor(Math.random()*colors.length)]};
       top:-10px;
       left:${Math.random()*window.innerWidth}px;
-      opacity:0.9;
       border-radius:50%;
       pointer-events:none;
+      opacity:0.9;
     `;
-
     document.body.appendChild(conf);
 
     gsap.to(conf,{
-      y:window.innerHeight+50,
+      y:window.innerHeight + 50,
       rotation:Math.random()*360,
-      duration:2+Math.random()*2,
+      duration:2 + Math.random()*2,
       ease:"power1.out",
-      onComplete:()=>conf.remove()
+      onComplete: ()=> conf.remove()
     });
   }
 }
-// --- RESTAR PLAZA SOLO AL ENVIAR FORMULARIO ---
-const modalForm = document.getElementById("modal-form");
 
+// --- REDUCIR PLAZA AL ENVIAR FORMULARIO ---
+const modalForm = document.getElementById("modal-form");
 modalForm.addEventListener("submit", function(e){
   e.preventDefault();
-
   if(plazas > 0){
     reducirPlaza();
     document.getElementById("modalReserva").classList.remove("active");
@@ -880,9 +865,9 @@ modalForm.addEventListener("submit", function(e){
     modalForm.reset();
   }
 });
+
 // --- INICIALIZAR ---
 actualizarPlazas();
-
 </script>
 </body>
 </html>
