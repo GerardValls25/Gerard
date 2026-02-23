@@ -930,5 +930,101 @@ Tu transformación es un proceso acompañado, no te dejo solo.
   actualizarPlazas();
   
 </script>
+  <script>
+// ===============================
+// 🔹 Variables y Selectores
+// ===============================
+const btnReserva = document.getElementById("modal-reservar-btn");
+const modal = document.getElementById("modalReserva");
+const closeModal = modal.querySelector(".modal-close");
+const form = document.getElementById("modal-form");
+const contenedorPlazas = document.getElementById("plazas-container");
+const contador = document.getElementById("contador-plazas");
+const headerPlazasNum = document.getElementById("header-plazas-num");
+
+// ===============================
+// 🔹 Inicialización de plazas
+// ===============================
+let plazas = parseInt(localStorage.getItem("plazas")) || 5; // número inicial de plazas
+actualizarPlazas();
+
+// ===============================
+// 🔹 Función para actualizar contador
+// ===============================
+function actualizarPlazas() {
+  contador.textContent = plazas;
+  headerPlazasNum.textContent = plazas;
+
+  if (plazas === 0) {
+    btnReserva.disabled = true;
+    btnReserva.textContent = "¡Agotado!";
+    contenedorPlazas.classList.add("agotado");
+  } else {
+    btnReserva.disabled = false;
+    btnReserva.textContent = "Reservar plaza";
+    contenedorPlazas.classList.remove("agotado");
+  }
+}
+
+// ===============================
+// 🔹 Función de confeti (simple)
+// ===============================
+function lanzarConfeti(cantidad = 30) {
+  // Ejemplo básico con divs
+  for (let i = 0; i < cantidad; i++) {
+    const confeti = document.createElement("div");
+    confeti.classList.add("confeti");
+    confeti.style.left = Math.random() * window.innerWidth + "px";
+    confeti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    document.body.appendChild(confeti);
+    setTimeout(() => confeti.remove(), 2000);
+  }
+}
+
+// ===============================
+// 🔹 Abrir modal
+// ===============================
+btnReserva.addEventListener("click", () => {
+  if (plazas > 0) {
+    modal.classList.add("active");
+  }
+});
+
+// ===============================
+// 🔹 Cerrar modal con X o clic fuera
+// ===============================
+closeModal.addEventListener("click", () => modal.classList.remove("active"));
+modal.addEventListener("click", e => {
+  if (e.target === modal) modal.classList.remove("active");
+});
+
+// ===============================
+// 🔹 Enviar formulario
+// ===============================
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  if (plazas > 0) {
+    plazas--;
+    localStorage.setItem("plazas", plazas);
+    actualizarPlazas();
+    lanzarConfeti(40);
+    modal.classList.remove("active");
+    alert("¡Perfecto! Te contacto en breve");
+    form.reset();
+  }
+});
+
+// ===============================
+// 🔹 Animaciones GSAP para parpadeo
+// ===============================
+gsap.to(".parpadeo", {
+  opacity: 0.5,
+  repeat: -1,
+  yoyo: true,
+  duration: 0.7,
+  ease: "power1.inOut"
+});
+
+</script>
 </body>
 </html>
