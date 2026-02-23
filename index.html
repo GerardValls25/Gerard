@@ -359,20 +359,22 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 </style>
 
 <main class="wrapper">
-  <!-- SERVICIOS -->
+
+  <!-- ================= SERVICIOS ================= -->
   <section id="servicios">
     <h2>Servicios</h2>
-    <div class="services">
+    <div class="services" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px;">
+      
       <!-- Planes Personalizados -->
       <div class="service">
         <div class="service-inner">
-          <div class="service-front">
+          <div class="service-front" style="padding:20px;">
             <i class="fas fa-bowl-food icon-planes"></i>
             <h3>Planes Personalizados</h3>
             <p>Adaptados a tu estilo de vida y objetivos.</p>
           </div>
-          <div class="service-back">
-            <ul>
+          <div class="service-back" style="padding:20px;">
+            <ul style="list-style:none; padding-left:0; text-align:left;">
               <li>Evaluación inicial completa</li>
               <li>Plan nutricional flexible</li>
               <li>Seguimiento quincenal</li>
@@ -382,16 +384,16 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
         </div>
       </div>
 
-     <!-- Asesoría Deportiva -->
+      <!-- Asesoría Deportiva -->
       <div class="service">
         <div class="service-inner">
-          <div class="service-front">
+          <div class="service-front" style="padding:20px;">
             <i class="fas fa-person-running icon-deporte"></i>
             <h3>Asesoría Deportiva</h3>
             <p>Optimiza tu rendimiento y recuperación.</p>
           </div>
-          <div class="service-back">
-            <ul>
+          <div class="service-back" style="padding:20px;">
+            <ul style="list-style:none; padding-left:0; text-align:left;">
               <li>Plan de macronutrientes</li>
               <li>Recomendaciones de suplementación</li>
               <li>Ajuste de cargas de entrenamiento</li>
@@ -404,13 +406,13 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
      <!-- Pérdida de Peso -->
       <div class="service">
         <div class="service-inner">
-          <div class="service-front">
+          <div class="service-front" style="padding:20px;">
             <i class="fas fa-scale-balanced icon-peso"></i>
             <h3>Pérdida de Peso</h3>
             <p>Programas sostenibles y personalizados.</p>
           </div>
-          <div class="service-back">
-            <ul>
+          <div class="service-back" style="padding:20px;">
+            <ul style="list-style:none; padding-left:0; text-align:left;">
               <li>Reducción de grasa saludable</li>
               <li>Hábitos de alimentación duraderos</li>
               <li>Soporte psicológico</li>
@@ -420,18 +422,16 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
         </div>
       </div>
 
-    </div>
-
-     <!-- Consultas Online -->
+    <!-- Consultas Online -->
       <div class="service">
         <div class="service-inner">
-          <div class="service-front">
+          <div class="service-front" style="padding:20px;">
             <i class="fas fa-laptop icon-online"></i>
             <h3>Consultas Online</h3>
             <p>Asesoría desde la comodidad de tu hogar.</p>
           </div>
-          <div class="service-back">
-            <ul>
+          <div class="service-back" style="padding:20px;">
+            <ul style="list-style:none; padding-left:0; text-align:left;">
               <li>Videollamadas semanales</li>
               <li>Soporte vía chat</li>
               <li>Material exclusivo</li>
@@ -497,43 +497,43 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
   </div>
 
 </div>
-</section> <!-- ✅ CERRADO CORRECTAMENTE -->
- <!-- RESULTADOS REALES -->
-<section id="resultados">
-  <h2>Transformaciones Reales</h2>
-  <p style="max-width:700px;margin:0 auto 30px;text-align:center;">
-    Estos son algunos de los cambios reales de clientes.
-  </p>
-
-  <div class="transformaciones-slider">
-    <div class="resultado-card">
-      <div class="before-after">
-        <img src="antes-despues1.jpg" alt="Carlos antes y después">
-        <div class="overlay">Después</div>
+ <!-- ================= RESULTADOS REALES ================= -->
+  <section id="resultados" style="max-width:900px; margin:50px auto; text-align:center; padding:0 20px;">
+    <h2 style="font-size:2rem; margin-bottom:20px;">Resultados Reales</h2>
+    <p style="max-width:700px; margin:0 auto 30px; line-height:1.6; font-size:1rem;">
+      Estos son algunos de los cambios reales de clientes.
+    </p>
+    <div class="transformaciones-slider" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px;">
+      
+      <div class="resultado-card">
+        <div class="before-after">
+          <img src="antes-despues1.jpg" alt="Carlos antes y después">
+          <div class="overlay">Después</div>
+        </div>
+        <h4 style="margin:10px 0 5px;">Carlos</h4>
+        <p>-8kg en 4 meses</p>
       </div>
-      <h4>Carlos</h4>
-      <p>-8kg en 4 meses</p>
-    </div>
-
-    <div class="resultado-card">
-      <div class="before-after">
-        <img src="antes-despues2.jpg" alt="Laura antes y después">
-        <div class="overlay">Después</div>
-      </div>
-      <h4>Laura</h4>
-      <p>Más definición y rendimiento</p>
-    </div>
 
     <div class="resultado-card">
-      <div class="before-after">
-        <img src="antes-despues3.jpg" alt="David antes y después">
-        <div class="overlay">Después</div>
+        <div class="before-after">
+          <img src="antes-despues2.jpg" alt="Laura antes y después">
+          <div class="overlay">Después</div>
+        </div>
+        <h4 style="margin:10px 0 5px;">Laura</h4>
+        <p>Más definición y rendimiento</p>
       </div>
-      <h4>David</h4>
-      <p>Recomposición corporal completa</p>
+
+      <div class="resultado-card">
+        <div class="before-after">
+          <img src="antes-despues3.jpg" alt="David antes y después">
+          <div class="overlay">Después</div>
+        </div>
+        <h4 style="margin:10px 0 5px;">David</h4>
+        <p>Recomposición corporal completa</p>
+      </div>
+
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- SERVICIOS y otras secciones aquí ... OMITIDO PARA BREVEDAD ... -->
 
@@ -550,24 +550,25 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
       <li><i class="fas fa-check-circle"></i> Atención WhatsApp Online 24/7</li>
     </ul>
   </section>
-<!-- SOBRE GERARD VALLS -->
-<section id="sobre-mi" style="max-width:800px; margin:50px auto; text-align:center; padding:0 20px;">
-  <h2 style="font-size:2rem; margin-bottom:20px;">Sobre Gerard Valls</h2>
+<!-- ================= SOBRE GERARD VALLS ================= -->
+  <section id="sobre-mi" style="max-width:900px; margin:50px auto; text-align:center; padding:0 20px;">
+    <h2>Sobre Gerard Valls</h2>
+    <p style="max-width:750px; margin:0 auto 20px; line-height:1.6;">
+      Especialista en recomposición corporal y optimización del rendimiento. Trabajo con personas que quieren resultados reales sin poner en riesgo su salud.
+    </p>
+
+   <ul style="max-width:600px; margin:0 auto; text-align:left;">
+      <li>✔ Más de 200 casos reales transformados</li>
+      <li>✔ Enfoque basado en evidencia científica</li>
+      <li>✔ Planes 100% personalizados</li>
+      <li>✔ Seguimiento estratégico continuo</li>
+    </ul>
+
+ <p style="margin-top:20px; font-weight:600;">
+      Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para siempre.
+    </p>
+  </section>
   
-  <p style="max-width:750px; margin:0 auto 20px; line-height:1.6; font-size:1rem;">
-    Especialista en recomposición corporal y optimización del rendimiento. Trabajo con personas que quieren resultados reales sin poner en riesgo su salud.
-  </p>
-
-  <ul style="max-width:600px; margin:0 auto 20px; text-align:left; padding-left:0; list-style:none; line-height:1.5;">
-    <li>✔ Más de 200 casos reales transformados</li>
-    <li>✔ Enfoque basado en evidencia científica</li>
-    <li>✔ Planes 100% personalizados</li>
-    <li>✔ Seguimiento estratégico continuo</li>
-  </ul>
-
-  <p style="margin-top:20px; font-weight:600; font-size:1rem;">
-    Mi objetivo no es que hagas dieta. Es que aprendas a mantener resultados para siempre.
-  </p>
 </section>
 <!-- TESTIMONIOS -->
 <section id="testimonios">
@@ -608,77 +609,76 @@ entrenamiento adaptado y seguimiento continuo para garantizar resultados sosteni
 </div>
 </section>
 
-<!-- PLANES DE SUSCRIPCIÓN -->
-<section id="planes">
-<h2>Programas de Intervención</h2>
-<p style="max-width:750px; margin:0 auto 40px; text-align:center;">
-Programas estructurados de intervención nutricional y entrenamiento,
-adaptados al nivel de acompañamiento y seguimiento requerido.
-</p>
-<div class="services">
+<!-- ================= PROGRAMAS DE INTERVENCIÓN ================= -->
+  <section id="planes" style="max-width:900px; margin:50px auto; text-align:center; padding:0 20px;">
+    <h2 style="font-size:2rem; margin-bottom:20px;">Programas de Intervención</h2>
+    <p style="max-width:750px; margin:0 auto 40px; line-height:1.6; font-size:1rem;">
+      Programas estructurados de intervención nutricional y entrenamiento, adaptados al nivel de acompañamiento y seguimiento requerido.
+    </p>
+    <div class="services" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px;">
 
-<!-- Suscripción Anual -->
+      <!-- Suscripción Anual -->
 <div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-star icon-planes"></i>
-<h3>Suscripción Anual</h3>
-<p style="font-size:1.5rem;font-weight:bold;">€349 / 12 meses</p>
-<small>*Facturado anualmente</small>
-</div>
-<div class="service-back">
-<ul>
-<li>Mejor valor</li>
-<li>Acceso completo a todos los planes</li>
-<li>Soporte 24/7</li>
-</ul>
-<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-</div>
-</div>
-</div>
+        <div class="service-inner">
+          <div class="service-front" style="padding:20px;">
+            <i class="fas fa-star icon-planes"></i>
+            <h3>Suscripción Anual</h3>
+            <p style="font-size:1.5rem; font-weight:bold;">€349 / 12 meses</p>
+            <small>*Facturado anualmente</small>
+          </div>
+          <div class="service-back" style="padding:20px;">
+            <ul style="list-style:none; padding-left:0; text-align:left;">
+              <li>Mejor valor</li>
+              <li>Acceso completo a todos los planes</li>
+              <li>Soporte 24/7</li>
+            </ul>
+            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+          </div>
+        </div>
+      </div>
 
-<!-- Suscripción Trimestral -->
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-calendar-alt icon-deporte"></i>
-<h3>Suscripción Trimestral</h3>
-<p style="font-size:1.5rem;font-weight:bold;">€119 / 3 meses</p>
-<small>*Facturado trimestral</small>
-</div>
-<div class="service-back">
-<ul>
-<li>Plan flexible</li>
-<li>Actualización periódica</li>
-<li>Soporte online</li>
-</ul>
-<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-</div>
-</div>
-</div>
-
+ <!-- Suscripción Trimestral -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front" style="padding:20px;">
+            <i class="fas fa-calendar-alt icon-deporte"></i>
+            <h3>Suscripción Trimestral</h3>
+            <p style="font-size:1.5rem; font-weight:bold;">€119 / 3 meses</p>
+            <small>*Facturado trimestral</small>
+          </div>
+          <div class="service-back" style="padding:20px;">
+            <ul style="list-style:none; padding-left:0; text-align:left;">
+              <li>Plan flexible</li>
+              <li>Actualización periódica</li>
+              <li>Soporte online</li>
+            </ul>
+            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+          </div>
+        </div>
+      </div>
 <!-- Suscripción Mensual -->
-<div class="service">
-<div class="service-inner">
-<div class="service-front">
-<i class="fas fa-dollar-sign icon-peso"></i>
-<h3>Suscripción Mensual</h3>
-<p style="font-size:1.5rem;font-weight:bold;">€49 / mes</p>
-<small>*Facturado mensualmente</small>
-</div>
-<div class="service-back">
-<ul>
-<li>Acceso mensual</li>
-<li>Ideal para probar</li>
-<li>Soporte básico</li>
-</ul>
-<button onclick="location.href='#consulta'">ÚNETE AHORA</button>
-</div>
-</div>
-</div>
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front" style="padding:20px;">
+            <i class="fas fa-dollar-sign icon-peso"></i>
+            <h3>Suscripción Mensual</h3>
+            <p style="font-size:1.5rem; font-weight:bold;">€49 / mes</p>
+            <small>*Facturado mensualmente</small>
+          </div>
+          <div class="service-back" style="padding:20px;">
+            <ul style="list-style:none; padding-left:0; text-align:left;">
+              <li>Acceso mensual</li>
+              <li>Ideal para probar</li>
+              <li>Soporte básico</li>
+            </ul>
+            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+          </div>
+        </div>
+      </div>
 
-</div>
-</section>
+    </div>
+  </section>
+  
 <section id="garantia">
 <h2>Garantía de Compromiso</h2>
 
@@ -688,28 +688,30 @@ te garantizo ajustes estratégicos ilimitados hasta que veamos progreso real.
 Tu transformación es un proceso acompañado, no te dejo solo.
 </p>
 </section>
-<!-- FORMULARIO -->
-<section id="consulta">
-  <h2>Formulario de Consulta</h2>
-  <form class="glass-form">
+<!-- ================= FORMULARIO DE CONSULTA ================= -->
+  <section id="consulta" style="max-width:700px; margin:50px auto; text-align:center; padding:0 20px;">
+    <h2>Formulario de Consulta</h2>
+    <form class="glass-form">
+      <div class="form-group">
+        <input type="text" name="nombre" required placeholder=" ">
+        <label>Nombre</label>
+        <i class="fas fa-user icon-input"></i>
+      </div>
   <div class="form-group">
-    <input type="text" name="nombre" required placeholder=" ">
-    <label>Nombre</label>
-    <i class="fas fa-user icon-input"></i>
-  </div>
-  <div class="form-group">
-    <input type="email" name="email" required placeholder=" ">
-    <label>Email</label>
-    <i class="fas fa-envelope icon-input"></i>
-  </div>
-  <div class="form-group">
-    <textarea name="mensaje" required placeholder=" "></textarea>
-    <label>Mensaje</label>
-    <i class="fas fa-comment icon-input"></i>
-  </div>
-  <button type="submit">Enviar</button>
-</form>
-</section>
+        <input type="email" name="email" required placeholder=" ">
+        <label>Email</label>
+        <i class="fas fa-envelope icon-input"></i>
+      </div>
+      <div class="form-group">
+        <textarea name="mensaje" required placeholder=" "></textarea>
+        <label>Mensaje</label>
+        <i class="fas fa-comment icon-input"></i>
+      </div>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+</main>
   
 <footer>
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
