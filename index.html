@@ -867,7 +867,19 @@ function lanzarConfeti(cantidad=40){
     });
   }
 }
+// --- RESTAR PLAZA SOLO AL ENVIAR FORMULARIO ---
+const modalForm = document.getElementById("modal-form");
 
+modalForm.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  if(plazas > 0){
+    reducirPlaza();
+    document.getElementById("modalReserva").classList.remove("active");
+    alert("¡Perfecto! Te contacto en breve");
+    modalForm.reset();
+  }
+});
 // --- INICIALIZAR ---
 actualizarPlazas();
 
