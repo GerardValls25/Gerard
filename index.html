@@ -717,71 +717,55 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 </footer>
 <script>
 // ================================
-// SISTEMA AVANZADO DE PLAZAS + MODAL
+// SISTEMA OPTIMIZADO DE PLAZAS + MODAL
 // ================================
 
-// --- CONFIGURACIÓN ---
+// CONFIGURACIÓN
 const PLAZAS_INICIALES = 8;
-const clickLockedDelay = 1200;
+const CLICK_DELAY = 1200;
+const CONFETI_MAX = 30; // máximo confeti por click
+const MOBILE_BREAKPOINT = 480;
 
-// --- VARIABLES ---
+// VARIABLES
 let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
 let mesActual = new Date().getMonth();
 let mesGuardado = parseInt(localStorage.getItem('mesPlazas'));
 let clickLocked = false;
-let glowTween = null;
-let botonesTween = null;
+let glowTimeline = null;
 
-// --- SELECTORES ---
+// SELECTORES
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const contador = document.getElementById("contador-plazas");
 const contenedorPlazas = document.getElementById("plazas-container");
 
-// --- RESETEAR PLAZAS AL NUEVO MES ---
+// RESETEAR PLAZAS AL NUEVO MES
 if(mesGuardado !== mesActual){
   plazas = PLAZAS_INICIALES;
   localStorage.setItem('mesPlazas', mesActual);
   localStorage.setItem('plazas', plazas);
 }
 
-// --- FUNCIONES ---
+// FUNCIONES
 function actualizarPlazas() {
+  // Header
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
-
-    if(plazas <= 3){
-      headerPlazasNum.classList.add("blink");
-      headerPlazasNum.style.color = "var(--danger)";
-    } else {
-      headerPlazasNum.classList.remove("blink");
-      headerPlazasNum.style.color = "var(--success)";
-    }
-
+    headerPlazasNum.classList.toggle("blink", plazas <= 3);
+    headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
   } else {
     document.getElementById("header-plazas").innerHTML =
       "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 
+  // Contador principal
   if(plazas > 3){
-    contador.innerHTML =
-      `<span style="color:var(--success);font-weight:bold;">
-      ¡Quedan ${plazas} plazas disponibles!
-      </span>`;
+    contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
     quitarGlow();
-
   } else if(plazas > 0){
-    contador.innerHTML =
-      `<span class="blink" style="color:var(--danger);font-weight:bold;">
-      ⚠️ ¡Solo quedan ${plazas} plazas!
-      </span>`;
+    contador.innerHTML = `<span class="blink" style="color:var(--danger);font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
     aplicarGlow();
-
   } else {
-    contador.innerHTML =
-      `<span style="color:red;font-weight:bold;">
-      ❌ Todas las plazas están ocupadas.<br>
-      👉 Lista de espera disponible.
-      </span>`;
+    contador.innerHTML = `<span style="color:red;font-weight:bold;">❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.</span>`;
     bloquearBotones();
     quitarGlow();
   }
@@ -792,17 +776,15 @@ function actualizarPlazas() {
 function reducirPlaza() {
   if(plazas <= 0 || clickLocked) return;
   clickLocked = true;
-
   plazas--;
   actualizarPlazas();
-  lanzarConfeti(40);
+  lanzarConfeti();
 
-  setTimeout(() => clickLocked = false, clickLockedDelay);
+  setTimeout(() => clickLocked = false, CLICK_DELAY);
 }
 
 function bloquearBotones() {
   const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
-
   botones.forEach(btn => {
     btn.disabled = true;
     btn.style.opacity = "0.5";
@@ -812,66 +794,38 @@ function bloquearBotones() {
 }
 
 function aplicarGlow() {
-  if(!glowTween){
+  if(window.innerWidth < MOBILE_BREAKPOINT) return; // desactiva glow en móviles
+  if(!glowTimeline){
     contenedorPlazas.classList.add("glow-urgente");
-
-    glowTween = gsap.fromTo(
-      contenedorPlazas,
-      {scale:1},
-      {scale:1.05,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut"}
-    );
-  }
-
-  if(!botonesTween){
-    const botones = Array.from(
-      document.querySelectorAll(".service-back button, #modal-reservar-btn")
-    ).filter(b => !b.disabled);
-
-    botonesTween = gsap.to(
-      botones,
-      {scale:1.1,yoyo:true,repeat:-1,duration:0.6,ease:"power1.inOut",stagger:0.1}
-    );
+    glowTimeline = gsap.timeline({repeat:-1, yoyo:true})
+      .to(contenedorPlazas, {scale:1.05, duration:0.6, ease:"power1.inOut"})
+      .to(document.querySelectorAll(".service-back button, #modal-reservar-btn"), {
+        scale:1.1, stagger:0.1, duration:0.6, ease:"power1.inOut"
+      }, 0);
   }
 }
 
 function quitarGlow() {
-  if(glowTween){
-    glowTween.kill();
-    glowTween = null;
+  if(glowTimeline){
+    glowTimeline.kill();
+    glowTimeline = null;
     contenedorPlazas.classList.remove("glow-urgente");
-    contenedorPlazas.style.transform="scale(1)";
-  }
-
-  if(botonesTween){
-    botonesTween.kill();
-    botonesTween = null;
-
-    document
-      .querySelectorAll(".service-back button, #modal-reservar-btn")
-      .forEach(b=>b.style.transform="scale(1)");
+    contenedorPlazas.style.transform = "scale(1)";
+    document.querySelectorAll(".service-back button, #modal-reservar-btn")
+      .forEach(b => b.style.transform = "scale(1)");
   }
 }
 
-function lanzarConfeti(cantidad=40){
+function lanzarConfeti(cantidad = CONFETI_MAX){
+  if(window.innerWidth < MOBILE_BREAKPOINT) return; // menos confeti en móviles
   const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
-
   for(let i=0;i<cantidad;i++){
     const conf=document.createElement("div");
-
     conf.style.cssText=`
-      position:fixed;
-      width:8px;
-      height:8px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      top:-10px;
-      left:${Math.random()*window.innerWidth}px;
-      opacity:0.9;
-      border-radius:50%;
-      pointer-events:none;
+      position:fixed; width:8px; height:8px; background:${colors[Math.floor(Math.random()*colors.length)]};
+      top:-10px; left:${Math.random()*window.innerWidth}px; opacity:0.9; border-radius:50%; pointer-events:none;
     `;
-
     document.body.appendChild(conf);
-
     gsap.to(conf,{
       y:window.innerHeight+50,
       rotation:Math.random()*360,
@@ -882,42 +836,30 @@ function lanzarConfeti(cantidad=40){
   }
 }
 
-// ====== MODAL DE RESERVA ======
+// MODAL
 const modal = document.getElementById("modalReserva");
+modal.setAttribute("role","dialog");
+modal.setAttribute("aria-modal","true");
 const modalClose = modal.querySelector(".modal-close");
 const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
 
-botonesReserva.forEach(btn => {
-  btn.addEventListener("click", () => {
-    modal.classList.add("active");
-  });
-});
+botonesReserva.forEach(btn => btn.addEventListener("click", () => modal.classList.add("active")));
+modalClose.addEventListener("click", () => modal.classList.remove("active"));
+modal.addEventListener("click", (e) => { if(e.target===modal) modal.classList.remove("active"); });
 
-// Cerrar modal al click en la X
-modalClose.addEventListener("click", () => {
-  modal.classList.remove("active");
-});
-
-// Cerrar modal al hacer click fuera de la caja
-modal.addEventListener("click", (e) => {
-  if(e.target === modal) modal.classList.remove("active");
-});
-
-// --- REDUCIR PLAZA AL ENVIAR FORMULARIO DEL MODAL ---
-const modalForm = document.getElementById("modal-form");
-modalForm.addEventListener("submit", function(e){
+// REDUCIR PLAZA AL ENVIAR FORMULARIO DEL MODAL
+document.getElementById("modal-form").addEventListener("submit", e=>{
   e.preventDefault();
-  if(plazas > 0){
+  if(plazas>0){
     reducirPlaza();
     modal.classList.remove("active");
     alert("¡Perfecto! Te contacto en breve");
-    modalForm.reset();
+    e.target.reset();
   }
 });
 
-// --- INICIALIZAR ---
+// INICIALIZAR
 actualizarPlazas();
-
 </script>
   
 </body>
