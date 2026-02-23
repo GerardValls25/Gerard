@@ -149,7 +149,24 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 .modal-form button:hover { transform:scale(1.05); }
 
 /* RESPONSIVE */
-@media (max-width:768px) { header h1{ font-size:2.2rem;} header p{ font-size:1.1rem;} .services{grid-template-columns:1fr;} }
+@media (max-width:768px) {
+  .services {
+    grid-template-columns: 1fr; /* 1 tarjeta por fila */
+    gap: 20px;
+  }
+  
+  .service-front, .service-back {
+    padding: 20px; /* menos padding para pantallas pequeñas */
+  }
+  
+  .service-front h3 {
+    font-size: 1.3rem;
+  }
+  
+  .service-front p {
+    font-size: 1rem;
+  }
+}
 
 /* BOTONES FIJOS */
 #scrollTopBtn {
