@@ -868,16 +868,6 @@ function lanzarConfeti(cantidad=40){
   }
 }
 
-// --- EVENTO GLOBAL ---
-document.body.addEventListener("click", e => {
-
-  const btn = e.target.closest(".service-back button, #modal-reservar-btn");
-
-  if(btn && !btn.disabled){
-    reducirPlaza();
-  }
-});
-
 // --- INICIALIZAR ---
 actualizarPlazas();
 
