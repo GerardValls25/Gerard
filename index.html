@@ -699,9 +699,9 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 <p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
 </footer>
 <script>
-/* ================================
-   SISTEMA OPTIMIZADO DE PLAZAS
-================================ */
+/* ===========================================
+   SISTEMA AVANZADO DE PLAZAS – BOTONES UNIFICADOS
+=========================================== */
 
 // --- CONFIGURACIÓN ---
 const PLAZAS_INICIALES = 8;
@@ -730,11 +730,9 @@ if(mesGuardado !== mesActual){
 
 // --- FUNCIONES ---
 function actualizarPlazas() {
-
   // Header
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
-
     if(plazas <= 3){
       headerPlazasNum.classList.add("blink");
       headerPlazasNum.style.color = "var(--danger)";
@@ -854,7 +852,24 @@ function lanzarConfeti(cantidad=40){
   }
 }
 
-// --- REDUCIR PLAZA AL ENVIAR FORMULARIO ---
+// --- UNIFICAR EVENTOS DE BOTONES ---
+botones.forEach(btn => {
+  btn.addEventListener("click", e => {
+    if(plazas > 0 && !clickLocked){
+      reducirPlaza();
+
+      // Si es el botón del modal, cierra modal
+      if(btn.id === "modal-reservar-btn"){
+        document.getElementById("modalReserva").classList.remove("active");
+      }
+
+      // Feedback opcional
+      alert("¡Perfecto! Tu plaza ha sido reservada.");
+    }
+  });
+});
+
+// --- REDUCIR PLAZA AL ENVIAR FORMULARIO DEL MODAL ---
 const modalForm = document.getElementById("modal-form");
 modalForm.addEventListener("submit", function(e){
   e.preventDefault();
