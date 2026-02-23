@@ -367,6 +367,45 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 <script>
 // Espera a que cargue todo
 document.addEventListener("DOMContentLoaded", () => {
+  // 🔹 Elementos del DOM
+  const btnReserva = document.getElementById("modal-reservar-btn");
+  const modal = document.getElementById("modalReserva");
+  const closeModal = modal.querySelector(".modal-close");
+  const form = document.getElementById("modal-form");
+  const contenedorPlazas = document.getElementById("plazas-container");
+
+  // 🔹 Función para abrir el modal
+  btnReserva.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  // 🔹 Función para cerrar el modal
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // 🔹 Cerrar modal si se hace clic fuera de él
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+
+  // 🔹 Ejemplo: actualizar plazas dinámicamente
+  function actualizarPlazas(nuevaCantidad) {
+    contenedorPlazas.textContent = `Plazas disponibles: ${nuevaCantidad}`;
+  }
+
+  // 🔹 Inicializar con un valor de ejemplo
+  actualizarPlazas(10);
+
+  // 🔹 Ejemplo: manejar submit del formulario
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); // Evita recargar la página
+    alert("Reserva enviada!");
+    modal.style.display = "none";
+  });
+});
 
   // --- FADE IN SECUENCIAL ---
   gsap.fromTo(".hero-fade", {opacity:0, y:20}, {opacity:1, y:0, duration:1, stagger:0.3, ease:"power2.out"});
