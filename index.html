@@ -829,69 +829,60 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
     </div>
   </section>
 
-<!-- ================= FORMULARIO DE CONSULTA PREMIUM ================= -->
-<section id="consulta-premium" style="max-width:800px;margin:80px auto;padding:40px 20px;background:#f9f9f9;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08);">
-  <h2 style="text-align:center;margin-bottom:20px;color:#222;font-weight:700;">
+<!-- ================= FORMULARIO DE CONSULTA COMPACTO ================= -->
+<section id="consulta-premium" style="max-width:600px;margin:40px auto;padding:30px 15px;background:#f9f9f9;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.06);">
+  <h2 style="text-align:center;margin-bottom:15px;color:#222;font-weight:700;font-size:1.6rem;">
     Solicitud de Evaluación Estratégica
   </h2>
-  <p style="text-align:center;color:#555;max-width:700px;margin:0 auto 40px;">
-    Completa este formulario para que podamos valorar tu situación actual y diseñar un plan personalizado de composición corporal y rendimiento.
+  <p style="text-align:center;color:#555;max-width:500px;margin:0 auto 25px;font-size:0.9rem;">
+    Completa este formulario para valorar tu situación actual y recibir un plan personalizado de composición corporal y rendimiento.
   </p>
 
-  <form id="form-consulta" style="display:flex;flex-direction:column;gap:20px;">
+  <form id="form-consulta" style="display:flex;flex-direction:column;gap:15px;">
 
     <!-- DATOS PERSONALES -->
-    <div style="display:flex;gap:20px;flex-wrap:wrap;">
-      <input type="text" name="nombre" placeholder="Nombre completo" required style="flex:1;padding:12px;border:1px solid #ddd;border-radius:8px;">
-      <input type="email" name="email" placeholder="Correo electrónico" required style="flex:1;padding:12px;border:1px solid #ddd;border-radius:8px;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <input type="text" name="nombre" placeholder="Nombre completo" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+      <input type="email" name="email" placeholder="Correo electrónico" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
     </div>
-    <div style="display:flex;gap:20px;flex-wrap:wrap;">
-      <input type="tel" name="telefono" placeholder="Teléfono" style="flex:1;padding:12px;border:1px solid #ddd;border-radius:8px;">
-      <input type="number" name="edad" placeholder="Edad" required style="flex:1;padding:12px;border:1px solid #ddd;border-radius:8px;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <input type="tel" name="telefono" placeholder="Teléfono" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+      <input type="number" name="edad" placeholder="Edad" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
     </div>
 
     <!-- DATOS FÍSICOS -->
-    <div style="display:flex;gap:20px;flex-wrap:wrap;">
-      <input type="number" name="peso" placeholder="Peso (kg)" required style="flex:1;padding:12px;border:1px solid #ddd;border-radius:8px;">
-      <input type="number" name="altura" placeholder="Altura (cm)" required style="flex:1;padding:12px;border:1px solid #ddd;border-radius:8px;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <input type="number" name="peso" placeholder="Peso (kg)" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+      <input type="number" name="altura" placeholder="Altura (cm)" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
     </div>
 
     <!-- OBJETIVOS -->
-    <div>
-      <label for="objetivo" style="font-weight:600;color:#333;">Objetivo principal:</label>
-      <select name="objetivo" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:5px;">
-        <option value="" disabled selected>Selecciona tu objetivo</option>
-        <option value="perder_grasa">Perder grasa</option>
-        <option value="ganar_musculo">Ganar músculo</option>
-        <option value="mejorar_rendimiento">Mejorar rendimiento deportivo</option>
-        <option value="recomposicion">Recomposición corporal</option>
-      </select>
-    </div>
+    <select name="objetivo" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+      <option value="" disabled selected>Objetivo principal</option>
+      <option value="perder_grasa">Perder grasa</option>
+      <option value="ganar_musculo">Ganar músculo</option>
+      <option value="mejorar_rendimiento">Mejorar rendimiento deportivo</option>
+      <option value="recomposicion">Recomposición corporal</option>
+    </select>
 
-    <!-- NIVELES DE COMPROMISO -->
-    <div>
-      <label for="compromiso" style="font-weight:600;color:#333;">Nivel de compromiso:</label>
-      <select name="compromiso" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:5px;">
-        <option value="" disabled selected>Selecciona tu nivel</option>
-        <option value="alto">Alto: dispuesto a seguir plan estructurado</option>
-        <option value="medio">Medio: puedo seguir algunas indicaciones</option>
-        <option value="bajo">Bajo: busco resultados rápidos sin esfuerzo</option>
-      </select>
-    </div>
+    <!-- NIVEL DE COMPROMISO -->
+    <select name="compromiso" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+      <option value="" disabled selected>Nivel de compromiso</option>
+      <option value="alto">Alto: sigo plan estructurado</option>
+      <option value="medio">Medio: sigo algunas indicaciones</option>
+      <option value="bajo">Bajo: busco resultados rápidos</option>
+    </select>
 
     <!-- HABITOS -->
-    <div>
-      <label for="habitos" style="font-weight:600;color:#333;">Comentarios sobre tu alimentación y deporte:</label>
-      <textarea name="habitos" rows="4" placeholder="Hábitos actuales, horarios de entrenamiento, restricciones alimenticias..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;"></textarea>
-    </div>
+    <textarea name="habitos" rows="3" placeholder="Hábitos actuales, horarios de entrenamiento..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;"></textarea>
 
     <!-- BOTÓN -->
-    <button type="submit" style="padding:14px 0;background:var(--secondary);color:#000;font-weight:700;border:none;border-radius:12px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;">
+    <button type="submit" style="padding:12px 0;background:var(--secondary);color:#000;font-weight:700;border:none;border-radius:10px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-size:0.95rem;">
       Enviar solicitud
     </button>
 
-    <p style="text-align:center;color:#999;font-size:0.85rem;margin-top:10px;">
-      Al enviar aceptas nuestro tratamiento de datos y que nos comuniquemos contigo únicamente para evaluación profesional.
+    <p style="text-align:center;color:#999;font-size:0.75rem;margin-top:5px;">
+      Al enviar aceptas nuestro tratamiento de datos y contacto profesional.
     </p>
   </form>
 </section>
