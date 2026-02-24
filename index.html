@@ -829,63 +829,70 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
     </div>
   </section>
 
-<!-- ================= FORMULARIO DE CONSULTA COMPACTO ================= -->
-<section id="consulta-premium" style="max-width:600px;margin:40px auto;padding:30px 15px;background:#f9f9f9;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.06);">
-  <h2 style="text-align:center;margin-bottom:15px;color:#222;font-weight:700;font-size:1.6rem;">
-    Solicitud de Evaluación Estratégica
+<!-- ================= FORMULARIO COMPACTO + IMC ================= -->
+<section id="consulta-compacta" style="max-width:480px;margin:30px auto;padding:20px;background:#f9f9f9;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);font-family:Arial,sans-serif;">
+  <h2 style="text-align:center;margin-bottom:12px;color:#222;font-weight:700;font-size:1.5rem;">
+    Solicitud de Evaluación Premium
   </h2>
-  <p style="text-align:center;color:#555;max-width:500px;margin:0 auto 25px;font-size:0.9rem;">
-    Completa este formulario para valorar tu situación actual y recibir un plan personalizado de composición corporal y rendimiento.
+  <p style="text-align:center;color:#555;font-size:0.85rem;margin-bottom:20px;">
+    Completa tus datos para un análisis rápido de composición corporal y recomendaciones estratégicas.
   </p>
 
-  <form id="form-consulta" style="display:flex;flex-direction:column;gap:15px;">
+  <form id="form-compacto" style="display:flex;flex-direction:column;gap:12px;">
 
-    <!-- DATOS PERSONALES -->
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <input type="text" name="nombre" placeholder="Nombre completo" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
-      <input type="email" name="email" placeholder="Correo electrónico" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <input type="tel" name="telefono" placeholder="Teléfono" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
-      <input type="number" name="edad" placeholder="Edad" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
-    </div>
-
-    <!-- DATOS FÍSICOS -->
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <input type="number" name="peso" placeholder="Peso (kg)" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
-      <input type="number" name="altura" placeholder="Altura (cm)" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+    <!-- DATOS BÁSICOS -->
+    <input type="text" name="nombre" placeholder="Nombre completo" required style="padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.85rem;">
+    <input type="email" name="email" placeholder="Correo electrónico" required style="padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.85rem;">
+    
+    <!-- PESO Y ALTURA -->
+    <div style="display:flex;gap:10px;">
+      <input type="number" name="peso" placeholder="Peso (kg)" required style="flex:1;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.85rem;">
+      <input type="number" name="altura" placeholder="Altura (cm)" required style="flex:1;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.85rem;">
     </div>
 
-    <!-- OBJETIVOS -->
-    <select name="objetivo" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
+    <!-- OBJETIVO -->
+    <select name="objetivo" required style="width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.85rem;">
       <option value="" disabled selected>Objetivo principal</option>
       <option value="perder_grasa">Perder grasa</option>
       <option value="ganar_musculo">Ganar músculo</option>
-      <option value="mejorar_rendimiento">Mejorar rendimiento deportivo</option>
       <option value="recomposicion">Recomposición corporal</option>
     </select>
 
-    <!-- NIVEL DE COMPROMISO -->
-    <select name="compromiso" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;">
-      <option value="" disabled selected>Nivel de compromiso</option>
-      <option value="alto">Alto: sigo plan estructurado</option>
-      <option value="medio">Medio: sigo algunas indicaciones</option>
-      <option value="bajo">Bajo: busco resultados rápidos</option>
-    </select>
+    <!-- CALCULO RÁPIDO DE IMC -->
+    <div style="display:flex;gap:10px;">
+      <button type="button" id="calcular-imc" style="flex:1;padding:8px;background:var(--secondary);color:#000;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
+        Calcular IMC
+      </button>
+      <span id="imc-resultado" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:0.85rem;text-align:center;line-height:28px;color:#333;">
+        IMC: -
+      </span>
+    </div>
 
-    <!-- HABITOS -->
-    <textarea name="habitos" rows="3" placeholder="Hábitos actuales, horarios de entrenamiento..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:0.9rem;"></textarea>
-
-    <!-- BOTÓN -->
-    <button type="submit" style="padding:12px 0;background:var(--secondary);color:#000;font-weight:700;border:none;border-radius:10px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-size:0.95rem;">
+    <!-- BOTÓN ENVIAR -->
+    <button type="submit" style="padding:10px 0;background:var(--secondary);color:#000;font-weight:700;border:none;border-radius:10px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-size:0.9rem;">
       Enviar solicitud
     </button>
 
-    <p style="text-align:center;color:#999;font-size:0.75rem;margin-top:5px;">
+    <p style="text-align:center;color:#999;font-size:0.7rem;margin-top:5px;">
       Al enviar aceptas nuestro tratamiento de datos y contacto profesional.
     </p>
   </form>
 </section>
+
+<!-- ================= SCRIPT IMC ================= -->
+<script>
+  document.getElementById('calcular-imc').addEventListener('click', function() {
+    const peso = parseFloat(document.querySelector('input[name="peso"]').value);
+    const alturaCm = parseFloat(document.querySelector('input[name="altura"]').value);
+    if(!peso || !alturaCm) {
+      alert('Ingresa peso y altura válidos');
+      return;
+    }
+    const alturaM = alturaCm / 100;
+    const imc = (peso / (alturaM * alturaM)).toFixed(1);
+    document.getElementById('imc-resultado').textContent = `IMC: ${imc}`;
+  });
+</script>
 </main>
   
 <footer>
