@@ -492,32 +492,43 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 
 </div>
   <!-- ================= RESULTADOS REALES ================= -->
- <section id="resultados" style="width:100%; max-width:1300px; margin:50px auto; padding:50px 30px; background:linear-gradient(145deg, rgba(28,38,68,0.95), rgba(40,50,80,0.95)); border-radius:30px; font-family:'Inter', sans-serif; box-shadow:0 20px 50px rgba(0,0,0,0.35); text-align:center;">
+ <section id="resultados" style="max-width:900px; margin:50px auto; text-align:center; padding:30px; background:rgba(42,55,96,0.85); border-radius:24px; color:#fff; font-family:'Inter', sans-serif;">
+  
+  <h2 style="font-size:2rem; margin-bottom:30px; color:rgb(255,195,0);">Resultados Reales</h2>
+  
+  <div class="metricas-container" style="display:flex; justify-content:center; flex-wrap:wrap; gap:40px; font-weight:700; font-size:2.2rem;">
 
-  <h2 style="font-size:2.4rem; font-weight:800; margin-bottom:40px; color:rgb(255,215,0);">
-    Resultados Reales
-  </h2>
+    <div class="hero-fade" style="color:rgb(255,153,51);">
+      +200<br><span style="font-size:1rem; font-weight:400;">Transformaciones</span>
+    </div>
+    <div class="hero-fade" style="color:rgb(255,153,51);">
+      +1.500 kg<br><span style="font-size:1rem; font-weight:400;">Grasa perdida</span>
+    </div>
+    <div class="hero-fade" style="color:rgb(255,153,51);">
+      92%<br><span style="font-size:1rem; font-weight:400;">Adherencia 6 meses</span>
+    </div>
+    <div class="hero-fade" style="color:rgb(255,153,51);">
+      4.9/5 ⭐<br><span style="font-size:1rem; font-weight:400;">Satisfacción</span>
+    </div>
 
-  <div style="display:flex; justify-content:center; gap:50px; flex-wrap:wrap; font-weight:700; font-size:2rem; line-height:1.2;">
-    <div style="text-align:center; color:rgb(255,215,0);">
-      +200 <br>
-      <span style="font-weight:500; font-size:1.1rem; display:block; margin-top:4px;">Transformaciones</span>
-    </div>
-    <div style="text-align:center; color:rgb(255,215,0);">
-      +1.500 kg <br>
-      <span style="font-weight:500; font-size:1.1rem; display:block; margin-top:4px;">Grasa perdida</span>
-    </div>
-    <div style="text-align:center; color:rgb(255,215,0);">
-      92% <br>
-      <span style="font-weight:500; font-size:1.1rem; display:block; margin-top:4px;">Adherencia 6 meses</span>
-    </div>
-    <div style="text-align:center; color:rgb(255,215,0);">
-      4.9/5 ⭐ <br>
-      <span style="font-weight:500; font-size:1.1rem; display:block; margin-top:4px;">Satisfacción</span>
-    </div>
   </div>
-
 </section>
+
+<script>
+  // Animación fade con delay para cada métrica
+  document.addEventListener("DOMContentLoaded", () => {
+    const metrics = document.querySelectorAll('.hero-fade');
+    metrics.forEach((el, i) => {
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        el.style.transition = 'all 0.8s ease';
+        el.style.opacity = 1;
+        el.style.transform = 'translateY(0)';
+      }, i * 200); // stagger 200ms
+    });
+  });
+</script>
 <section id="impacto-global" style="max-width:1000px;margin:60px auto;text-align:center;">
   <h2>Impacto Real Medible</h2>
 
