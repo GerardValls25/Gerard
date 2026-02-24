@@ -3,21 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>:contentReference[oaicite:0]{index=0} - Reserva</title>
+<title>Reserva - Gerard Valls</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <style>
-  
 :root {
   --primary:#00ffc0; --primary-hover:#00e6b8; --secondary:#ffbf00;
   --dark-bg:#1a1f3f; --text-dark:#e6e6e6; --text-light:#222;
   --radius:16px; --transition:.5s ease; --shadow:0 8px 25px rgba(0,0,0,0.3);
   --danger:#ff4d4d; --success:#00ffc0;
 }
+  
 *{box-sizing:border-box;}
 body{margin:0;font-family:'Montserrat',sans-serif;background:var(--dark-bg);color:var(--text-dark);line-height:1.6;overflow-x:hidden;transition:background var(--transition), color var(--transition);}
 a{text-decoration:none;color:var(--primary);transition:.3s;}
 a:hover{color:var(--primary-hover);}
+
   
 /* HEADER */
 header{text-align:center;padding:120px 20px 80px;position:relative;}
@@ -35,13 +36,11 @@ header p{margin-top:12px;font-size:1.3rem;text-shadow:0 2px 8px rgba(0,0,0,0.3);
 /* NAV */
 nav{position:sticky;top:0;background: rgba(42,55,96,0.85);backdrop-filter: blur(10px);display:flex;justify-content:center;gap:1rem;padding:12px;z-index:1000;}
 
-
 /* WRAPPER */
 main.wrapper{max-width:1200px;margin:40px auto;padding:50px 30px 60px;border-radius:var(--radius);backdrop-filter: blur(15px);background:rgba(42,55,96,0.85);text-align:center;transition: background var(--transition);}
 h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
 h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;border-radius:2px;background: var(--primary);transform: scaleX(0);animation: lineDraw 1s forwards;}
 @keyframes lineDraw{to{transform: scaleX(1);}}
-
 
 /* SERVICIOS */
 .services{display:grid;grid-template-columns: repeat(auto-fit,minmax(220px,1fr));gap:35px;perspective:1200px;}
@@ -57,15 +56,19 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 @keyframes glowPulse{0%{box-shadow:0 0 5px rgba(255,255,255,0.4);}50%{box-shadow:0 0 25px rgba(255,255,255,0.9);}100%{box-shadow:0 0 5px rgba(255,255,255,0.4);}}
 
 /* PLACAS URGENTES */
+.blink {animation: blinkPlazas 1.5s infinite;}
+.glow-urgente {box-shadow:0 0 25px rgba(255,0,0,0.7),0 0 50px rgba(255,0,0,0.4);animation: glowPulseUrgente 1.2s infinite alternate;}
 
+/* RESPONSIVE */
+@media (max-width:768px){.services{grid-template-columns:1fr;gap:20px;} .service-front,.service-back{padding:20px;}}
 
-.blink {
-  animation: blinkPlazas 1.5s infinite;
-}
-.glow-urgente {
-  box-shadow:0 0 25px rgba(255,0,0,0.7),0 0 50px rgba(255,0,0,0.4);
-  animation: glowPulseUrgente 1.2s infinite alternate;
-}
+  
+/* BOTONES FIJOS */
+#scrollTopBtn,#whatsappBtn{position:fixed;cursor:pointer;border:none;border-radius:50%;display:none;opacity:0;transition:.3s;}
+#scrollTopBtn{bottom:60px;right:20px;background:var(--primary);color:white;padding:14px 18px;font-size:1.3rem;}
+#whatsappBtn{bottom:120px;right:20px;background:#25d366;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 8px 20px rgba(0,0,0,0.3);z-index:999;}
+#scrollTopBtn.show,#whatsappBtn.show{display:flex;opacity:1;}
+
 
 /* BENEFICIOS INCLUIDOS */
 #incluye-todos {
@@ -153,14 +156,6 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 .modal-form input, .modal-form select { padding:12px; border-radius:10px; border:none; outline:none; }
 .modal-form button { background: var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s; }
 .modal-form button:hover { transform:scale(1.05); }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:768px) {
-  .services { grid-template-columns: 1fr; gap: 20px; }
-  .service-front, .service-back { padding: 20px; }
-  .service-front h3 { font-size: 1.3rem; }
-  .service-front p { font-size: 1rem; }
-}
 
 /* BOTONES FIJOS */
 #scrollTopBtn {
@@ -279,34 +274,23 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 }
 @keyframes blinkPlazas { 0%,50%,100%{opacity:1;}25%,75%{opacity:0.4;} }
 @keyframes glowPulseUrgente { from{box-shadow:0 0 15px rgba(255,0,0,0.5);} to{box-shadow:0 0 40px rgba(255,0,0,0.9);} }
+
+/* TARJETAS */
+.card:hover{transform: translateY(-6px);background: rgba(255,255,255,0.12);box-shadow: 0 20px 40px rgba(0,0,0,0.3);transition: all 0.3s ease;}
 </style>
 </head>
 <body>
 <!-- ================= HEADER ================= -->
 <header>
-  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
-  <h1 class="hero-fade">
-    Pierde grasa y gana músculo sin dejar de comer lo que más te gusta
-  </h1>
-  <p class="hero-fade">
-    Método estratégico basado en evidencia científica para resultados reales y sostenibles.
-  </p>
-  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">
-    ⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales
+  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" loading="lazy">
+  <h1>Pierde grasa y gana músculo sin dejar de comer lo que más te gusta</h1>
+  <p>Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
+  <div style="margin-bottom:20px;font-weight:600;color:var(--secondary);">⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales</div>
+  <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+    <button id="modal-reservar-btn" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">EMPEZAR MI CAMBIO AHORA</button>
+    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">VER PROGRAMAS</button>
   </div>
-
-   <!-- BOTONES PRINCIPALES -->
-  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-    <button id="modal-reservar-btn" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">
-      EMPEZAR MI CAMBIO AHORA
-    </button>
-    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">
-      VER PROGRAMAS
-    </button>
-  </div>
-
-  <!-- CONTADOR HEADER -->
-  <p id="header-plazas" style="font-weight:600;font-size:1rem; margin-top:5px;" aria-live="polite">
+  <p id="header-plazas" aria-live="polite" style="font-weight:600;font-size:1rem; margin-top:5px;">
     Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
   </p>
 </header>
@@ -326,10 +310,11 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 <nav>
   <a href="#servicios">Áreas de Intervención</a>
   <a href="#resultados">Resultados Observados</a>
-  <a href="#consulta">Evaluación Estratégica</a>
+  <a href="#consulta-compacta">Evaluación Estratégica</a>
   <a href="calculadora.html" target="_blank">Herramientas de Análisis</a>
   <a href="imc.html" target="_blank">Evaluación Antropométrica</a>
 </nav>
+  <main class="wrapper">
   
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
 <section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
@@ -352,12 +337,10 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 
 </style>
 
-<main class="wrapper">
-
 <!-- ================= SERVICIOS ================= -->
-<section id="servicios" class="wrapper">
+<section id="servicios">
   <h2>Servicios</h2>
-  <ul style="max-width:700px; margin:0 auto; list-style:none; padding:0; text-align:left;">
+  <ul style="max-width:700px;margin:0 auto;text-align:left;list-style:none;padding:0;">
     <li>✔ Planes de nutrición deportiva personalizados</li>
     <li>✔ Optimización de composición corporal</li>
     <li>✔ Estrategias de rendimiento y recuperación</li>
@@ -366,9 +349,9 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 </section>
 
 <!-- ================= ÁREAS DE INTERVENCIÓN ================= -->
-<section id="areas-intervencion" class="wrapper">
+<section id="areas-intervencion">
   <h2>Áreas de Intervención</h2>
-  <ul style="text-align:left; max-width:700px; margin:0 auto; list-style:none; padding:0;">
+  <ul style="text-align:left;max-width:700px;margin:0 auto;list-style:none;padding:0;">
     <li>✔ Evaluación Estratégica y Antropométrica profesional</li>
     <li>✔ Resultados Observados y Medibles</li>
     <li>✔ Herramientas Avanzadas de Análisis</li>
@@ -377,10 +360,10 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 </section>
 
   <!-- CONTADOR DE PLAZAS -->
-  <div id="plazas-container" aria-live="polite" style="max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:0 8px 25px rgba(0,0,0,0.3);text-align:center;color:var(--danger);font-weight:bold;font-size:1.2rem;">
-    <p id="contador-plazas"></p>
-    <p style="margin-top:12px;font-size:1rem;">RECUERDA: LAS PLAZAS SON LIMITADAS. ¡APROVECHA YA!</p>
-  </div>
+  <div id="plazas-container" aria-live="polite" style="max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:var(--shadow);text-align:center;color:var(--danger);font-weight:bold;font-size:1.2rem;">
+  <p id="contador-plazas"></p>
+  <p style="margin-top:12px;font-size:1rem;">RECUERDA: LAS PLAZAS SON LIMITADAS. ¡APROVECHA YA!</p>
+</div>
 </main>
 
 <!-- ================= MÉTODO VALLS ================= -->
@@ -815,21 +798,18 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
 <p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
 </footer>
+<!-- ====================== SCRIPT ====================== -->
 <script>
-// ================================
-// SISTEMA OPTIMIZADO DE PLAZAS + MODAL
-// ================================
-
-// CONFIGURACIÓN
 const PLAZAS_INICIALES = 8;
 const CLICK_DELAY = 1200;
-const CONFETI_MAX = 30; // máximo confeti por click
+const CONFETI_MAX = 30;
 const MOBILE_BREAKPOINT = 480;
-
 // VARIABLES
 let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
 let mesActual = new Date().getMonth();
+let yearActual = new Date().getFullYear();
 let mesGuardado = parseInt(localStorage.getItem('mesPlazas'));
+let yearGuardado = parseInt(localStorage.getItem('yearPlazas'));
 let clickLocked = false;
 let glowTimeline = null;
 
@@ -837,24 +817,23 @@ let glowTimeline = null;
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const contador = document.getElementById("contador-plazas");
 const contenedorPlazas = document.getElementById("plazas-container");
-
+  
 // RESETEAR PLAZAS AL NUEVO MES
-if(mesGuardado !== mesActual){
+if(mesGuardado !== mesActual || yearGuardado !== yearActual){
   plazas = PLAZAS_INICIALES;
   localStorage.setItem('mesPlazas', mesActual);
+  localStorage.setItem('yearPlazas', yearActual);
   localStorage.setItem('plazas', plazas);
 }
 
 // FUNCIONES
 function actualizarPlazas() {
-  // Header
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
     headerPlazasNum.classList.toggle("blink", plazas <= 3);
     headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
   } else {
-    document.getElementById("header-plazas").innerHTML =
-      "❌ Este mes las plazas están completas. Lista de espera abierta.";
+    document.getElementById("header-plazas").innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 
   // Contador principal
