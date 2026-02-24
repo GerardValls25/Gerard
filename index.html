@@ -769,21 +769,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
     </p>
   </form>
 </section>
-
-<!-- ================= SCRIPT IMC ================= -->
-<script>
-  document.getElementById('calcular-imc').addEventListener('click', function() {
-    const peso = parseFloat(document.querySelector('input[name="peso"]').value);
-    const alturaCm = parseFloat(document.querySelector('input[name="altura"]').value);
-    if(!peso || !alturaCm) {
-      alert('Ingresa peso y altura válidos');
-      return;
-    }
-    const alturaM = alturaCm / 100;
-    const imc = (peso / (alturaM * alturaM)).toFixed(1);
-    document.getElementById('imc-resultado').textContent = `IMC: ${imc}`;
-  });
-</script>
   
 <footer>
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
