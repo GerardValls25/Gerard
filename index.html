@@ -492,43 +492,44 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 
 </div>
   <!-- ================= RESULTADOS REALES ================= -->
- <section id="resultados" style="max-width:900px; margin:50px auto; text-align:center; padding:30px; background:rgba(42,55,96,0.85); border-radius:24px; color:#fff; font-family:'Inter', sans-serif;">
-  
-  <h2 style="font-size:2rem; margin-bottom:30px; color:rgb(255,195,0);">Resultados Reales</h2>
-  
-  <div class="metricas-container" style="display:flex; justify-content:center; flex-wrap:wrap; gap:40px; font-weight:700; font-size:2.2rem;">
+<section id="resultados-reales" style="max-width:600px; margin:40px auto; text-align:center; font-family: 'Inter', sans-serif;">
+  <style>
+    .gradient-text {
+      font-weight: 700;
+      font-size: 2.8rem;
+      background: linear-gradient(90deg, #00f9ff, #006aff, #7639fc, #f73ea2, #f76236, #b2a130);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    .label {
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #888;
+      margin-bottom: 2rem;
+      user-select: none;
+    }
+  </style>
 
-    <div class="hero-fade" style="color:rgb(255,153,51);">
-      +200<br><span style="font-size:1rem; font-weight:400;">Transformaciones</span>
+  <div>
+    <div class="gradient-text">
+      +200<br>Transformaciones
     </div>
-    <div class="hero-fade" style="color:rgb(255,153,51);">
-      +1.500 kg<br><span style="font-size:1rem; font-weight:400;">Grasa perdida</span>
+    <div class="gradient-text">
+      +1.500 kg<br>Grasa perdida
     </div>
-    <div class="hero-fade" style="color:rgb(255,153,51);">
-      92%<br><span style="font-size:1rem; font-weight:400;">Adherencia 6 meses</span>
+    <div class="gradient-text">
+      92%<br>Adherencia 6 meses
     </div>
-    <div class="hero-fade" style="color:rgb(255,153,51);">
-      4.9/5 ⭐<br><span style="font-size:1rem; font-weight:400;">Satisfacción</span>
+    <div class="gradient-text">
+      4.9/5 ⭐<br>Satisfacción
     </div>
-
   </div>
 </section>
-
-<script>
-  // Animación fade con delay para cada métrica
-  document.addEventListener("DOMContentLoaded", () => {
-    const metrics = document.querySelectorAll('.hero-fade');
-    metrics.forEach((el, i) => {
-      el.style.opacity = 0;
-      el.style.transform = 'translateY(20px)';
-      setTimeout(() => {
-        el.style.transition = 'all 0.8s ease';
-        el.style.opacity = 1;
-        el.style.transform = 'translateY(0)';
-      }, i * 200); // stagger 200ms
-    });
-  });
-</script>
 <section id="impacto-global" style="max-width:1000px;margin:60px auto;text-align:center;">
   <h2>Impacto Real Medible</h2>
 
