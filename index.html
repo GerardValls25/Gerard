@@ -18,14 +18,13 @@
 body{margin:0;font-family:'Montserrat',sans-serif;background:var(--dark-bg);color:var(--text-dark);line-height:1.6;overflow-x:hidden;transition:background var(--transition), color var(--transition);}
 a{text-decoration:none;color:var(--primary);transition:.3s;}
 a:hover{color:var(--primary-hover);}
-
+  
 /* HEADER */
 header{text-align:center;padding:120px 20px 80px;position:relative;}
 header h1{font-size:3rem;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;text-shadow:0 0 15px rgba(0,255,192,0.4);animation:gradMove 12s linear infinite;}
 header p{margin-top:12px;font-size:1.3rem;text-shadow:0 2px 8px rgba(0,0,0,0.3);opacity:0;transform:translateY(20px);animation:fadeInUp 1s forwards 0.5s;}
 #cta-reserva{margin-top:20px;background:var(--secondary);color:#000;border:none;padding:14px 28px;border-radius:var(--radius);cursor:pointer;font-weight:600;transition:.4s;}
 #cta-reserva:hover{background:var(--primary-hover);transform:translateY(-2px);}
-
  
 /* ANIMACIONES */
 @keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
@@ -303,6 +302,9 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
   <a href="imc.html" target="_blank">Evaluación Antropométrica</a>
 </nav>
   <main class="wrapper">
+  <!-- SECCIONES Y CONTENIDO: Servicios, Áreas de Intervención, Contador de plazas, Resultados, Sobre Gerard Valls, Programas, Formulario compacto -->
+  <!-- Mantener todo el HTML que ya tenías dentro de <main> -->
+</main>
   
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
 <section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
@@ -793,6 +795,7 @@ const CLICK_DELAY = 1200;
 const CONFETI_MAX_DESKTOP = 30;
 const CONFETI_MAX_MOBILE = 12;
 const MOBILE_BREAKPOINT = 480;
+  
 // VARIABLES
 let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
 let mesActual = new Date().getMonth();
@@ -839,6 +842,7 @@ function actualizarPlazas() {
 
   localStorage.setItem('plazas', plazas);
 }
+
 // REDUCIR PLAZA
 function reducirPlaza() {
   if(plazas <= 0 || clickLocked) return;
@@ -846,9 +850,9 @@ function reducirPlaza() {
   plazas--;
   actualizarPlazas();
   lanzarConfeti();
-
   setTimeout(()=>clickLocked=false, CLICK_DELAY);
 }
+
 // BLOQUEAR BOTONES
 function bloquearBotones() {
   const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
@@ -859,6 +863,7 @@ function bloquearBotones() {
     btn.setAttribute("aria-disabled","true");
   });
 }
+
 // GLOW
 function aplicarGlow() {
   if(window.innerWidth < MOBILE_BREAKPOINT) return;
