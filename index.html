@@ -802,7 +802,8 @@ Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
 <script>
 const PLAZAS_INICIALES = 8;
 const CLICK_DELAY = 1200;
-const CONFETI_MAX = 30;
+const CONFETI_MAX_DESKTOP = 30;
+const CONFETI_MAX_MOBILE = 12;
 const MOBILE_BREAKPOINT = 480;
 // VARIABLES
 let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
@@ -818,7 +819,7 @@ const headerPlazasNum = document.getElementById("header-plazas-num");
 const contador = document.getElementById("contador-plazas");
 const contenedorPlazas = document.getElementById("plazas-container");
   
-// RESETEAR PLAZAS AL NUEVO MES
+// RESET mensual
 if(mesGuardado !== mesActual || yearGuardado !== yearActual){
   plazas = PLAZAS_INICIALES;
   localStorage.setItem('mesPlazas', mesActual);
@@ -826,7 +827,7 @@ if(mesGuardado !== mesActual || yearGuardado !== yearActual){
   localStorage.setItem('plazas', plazas);
 }
 
-// FUNCIONES
+// ACTUALIZAR PLAZAS
 function actualizarPlazas() {
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
@@ -836,7 +837,6 @@ function actualizarPlazas() {
     document.getElementById("header-plazas").innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 
-  // Contador principal
   if(plazas > 3){
     contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
     quitarGlow();
@@ -851,7 +851,7 @@ function actualizarPlazas() {
 
   localStorage.setItem('plazas', plazas);
 }
-
+// REDUCIR PLAZA
 function reducirPlaza() {
   if(plazas <= 0 || clickLocked) return;
   clickLocked = true;
@@ -859,9 +859,9 @@ function reducirPlaza() {
   actualizarPlazas();
   lanzarConfeti();
 
-  setTimeout(() => clickLocked = false, CLICK_DELAY);
+  setTimeout(()=>clickLocked=false, CLICK_DELAY);
 }
-
+// BLOQUEAR BOTONES
 function bloquearBotones() {
   const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
   botones.forEach(btn => {
@@ -871,9 +871,9 @@ function bloquearBotones() {
     btn.setAttribute("aria-disabled","true");
   });
 }
-
+// GLOW
 function aplicarGlow() {
-  if(window.innerWidth < MOBILE_BREAKPOINT) return; // desactiva glow en móviles
+  if(window.innerWidth < MOBILE_BREAKPOINT) return;
   if(!glowTimeline){
     contenedorPlazas.classList.add("glow-urgente");
     glowTimeline = gsap.timeline({repeat:-1, yoyo:true})
@@ -889,21 +889,18 @@ function quitarGlow() {
     glowTimeline.kill();
     glowTimeline = null;
     contenedorPlazas.classList.remove("glow-urgente");
-    contenedorPlazas.style.transform = "scale(1)";
+    contenedorPlazas.style.transform="scale(1)";
     document.querySelectorAll(".service-back button, #modal-reservar-btn")
-      .forEach(b => b.style.transform = "scale(1)");
+      .forEach(b => b.style.transform="scale(1)");
   }
 }
-
-function lanzarConfeti(cantidad = CONFETI_MAX){
-  if(window.innerWidth < MOBILE_BREAKPOINT) return; // menos confeti en móviles
-  const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+  
+// CONFETI
+function lanzarConfeti(cantidad = window.innerWidth < MOBILE_BREAKPOINT ? CONFETI_MAX_MOBILE : CONFETI_MAX_DESKTOP){
+  const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
   for(let i=0;i<cantidad;i++){
-    const conf=document.createElement("div");
-    conf.style.cssText=`
-      position:fixed; width:8px; height:8px; background:${colors[Math.floor(Math.random()*colors.length)]};
-      top:-10px; left:${Math.random()*window.innerWidth}px; opacity:0.9; border-radius:50%; pointer-events:none;
-    `;
+    const conf = document.createElement("div");
+    conf.style.cssText=`position:fixed;width:8px;height:8px;background:${colors[Math.floor(Math.random()*colors.length)]};top:-10px;left:${Math.random()*window.innerWidth}px;opacity:0.9;border-radius:50%;pointer-events:none;will-change:transform;`;
     document.body.appendChild(conf);
     gsap.to(conf,{
       y:window.innerHeight+50,
@@ -922,11 +919,12 @@ modal.setAttribute("aria-modal","true");
 const modalClose = modal.querySelector(".modal-close");
 const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
 
-botonesReserva.forEach(btn => btn.addEventListener("click", () => modal.classList.add("active")));
-modalClose.addEventListener("click", () => modal.classList.remove("active"));
-modal.addEventListener("click", (e) => { if(e.target===modal) modal.classList.remove("active"); });
+botonesReserva.forEach(btn => btn.addEventListener("click",()=>modal.classList.add("active")));
+modalClose.addEventListener("click",()=>modal.classList.remove("active"));
+modal.addEventListener("click",(e)=>{if(e.target===modal) modal.classList.remove("active");});
 
-// REDUCIR PLAZA AL ENVIAR FORMULARIO DEL MODAL
+
+// FORMULARIO MODAL
 document.getElementById("modal-form").addEventListener("submit", e=>{
   e.preventDefault();
   if(plazas>0){
@@ -936,10 +934,26 @@ document.getElementById("modal-form").addEventListener("submit", e=>{
     e.target.reset();
   }
 });
+// IMC AVANZADO
+document.getElementById('calcular-imc').addEventListener('click', function() {
+  const peso = parseFloat(document.querySelector('input[name="peso"]').value);
+  const alturaCm = parseFloat(document.querySelector('input[name="altura"]').value);
+  if(!peso || !alturaCm){
+    alert('Ingresa peso y altura válidos');
+    return;
+  }
+  const alturaM = alturaCm/100;
+  const imc = (peso/(alturaM*alturaM)).toFixed(1);
+  let categoria = '';
+  if(imc<18.5) categoria='Bajo peso';
+  else if(imc<25) categoria='Normal';
+  else if(imc<30) categoria='Sobrepeso';
+  else categoria='Obesidad';
+  document.getElementById('imc-resultado').textContent = `IMC: ${imc} (${categoria})`;
+});
 
 // INICIALIZAR
 actualizarPlazas();
 </script>
-  
 </body>
 </html>
