@@ -157,6 +157,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
   <p style="margin-top:30px; font-weight:600;">
     Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
   </p>
+  </section>
 /* FORMULARIOS Y MODAL */
 .glass-form, .modal-form {display:flex;flex-direction:column;gap:20px;padding:35px;border-radius:20px;background: rgba(255,255,255,0.05);backdrop-filter: blur(20px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 10px 40px rgba(0,0,0,0.2);}
 .form-group { position:relative; }
@@ -769,35 +770,20 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
     </p>
   </form>
 </section>
-
-<!-- ================= SCRIPT IMC ================= -->
-<script>
-  document.getElementById('calcular-imc').addEventListener('click', function() {
-    const peso = parseFloat(document.querySelector('input[name="peso"]').value);
-    const alturaCm = parseFloat(document.querySelector('input[name="altura"]').value);
-    if(!peso || !alturaCm) {
-      alert('Ingresa peso y altura válidos');
-      return;
-    }
-    const alturaM = alturaCm / 100;
-    const imc = (peso / (alturaM * alturaM)).toFixed(1);
-    document.getElementById('imc-resultado').textContent = `IMC: ${imc}`;
-  });
-</script>
   
 <footer>
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
 <p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
 </footer>
-<!-- ====================== SCRIPT ====================== -->
 <script>
+// ================= CONFIGURACIÓN =================
 const PLAZAS_INICIALES = 8;
 const CLICK_DELAY = 1200;
 const CONFETI_MAX_DESKTOP = 30;
 const CONFETI_MAX_MOBILE = 12;
-const MOBILE_BREAKPOINT = 480;
+const MOBILE_BREAKPOINT = 480;;
   
-// VARIABLES
+// ================= VARIABLES =================
 let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
 let mesActual = new Date().getMonth();
 let yearActual = new Date().getFullYear();
@@ -806,12 +792,15 @@ let yearGuardado = parseInt(localStorage.getItem('yearPlazas'));
 let clickLocked = false;
 let glowTimeline = null;
 
-// SELECTORES
+// ================= SELECTORES =================
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const contador = document.getElementById("contador-plazas");
 const contenedorPlazas = document.getElementById("plazas-container");
+const modal = document.getElementById("modalReserva");
+const modalClose = modal.querySelector(".modal-close");
+const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
   
-// RESET mensual
+// ================= RESET MENSUAL =================
 if(mesGuardado !== mesActual || yearGuardado !== yearActual){
   plazas = PLAZAS_INICIALES;
   localStorage.setItem('mesPlazas', mesActual);
@@ -819,7 +808,8 @@ if(mesGuardado !== mesActual || yearGuardado !== yearActual){
   localStorage.setItem('plazas', plazas);
 }
 
-// ACTUALIZAR PLAZAS
+
+// Actualiza visualmente el número de plazas y mensajes
 function actualizarPlazas() {
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
@@ -844,7 +834,8 @@ function actualizarPlazas() {
   localStorage.setItem('plazas', plazas);
 }
 
-// REDUCIR PLAZA
+
+// Reduce una plaza y lanza confeti
 function reducirPlaza() {
   if(plazas <= 0 || clickLocked) return;
   clickLocked = true;
@@ -854,7 +845,7 @@ function reducirPlaza() {
   setTimeout(()=>clickLocked=false, CLICK_DELAY);
 }
 
-// BLOQUEAR BOTONES
+// Bloquea botones cuando no hay plazas
 function bloquearBotones() {
   const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
   botones.forEach(btn => {
@@ -865,7 +856,7 @@ function bloquearBotones() {
   });
 }
 
-// GLOW
+// Aplica glow a contenedor y botones urgentes
 function aplicarGlow() {
   if(window.innerWidth < MOBILE_BREAKPOINT) return;
   if(!glowTimeline){
@@ -889,7 +880,7 @@ function quitarGlow() {
   }
 }
   
-// CONFETI
+// Confeti cuando se reduce una plaza
 function lanzarConfeti(cantidad = window.innerWidth < MOBILE_BREAKPOINT ? CONFETI_MAX_MOBILE : CONFETI_MAX_DESKTOP){
   const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
   for(let i=0;i<cantidad;i++){
@@ -905,23 +896,38 @@ function lanzarConfeti(cantidad = window.innerWidth < MOBILE_BREAKPOINT ? CONFET
     });
   }
 }
+  // Calcula IMC y muestra categoría
+function calcularIMC() {
+  const peso = parseFloat(document.querySelector('input[name="peso"]').value);
+  const alturaCm = parseFloat(document.querySelector('input[name="altura"]').value);
+  
+  if(!peso || !alturaCm){
+    alert('Ingresa peso y altura válidos');
+    return;
+  }
 
-// MODAL
-const modal = document.getElementById("modalReserva");
-modal.setAttribute("role","dialog");
-modal.setAttribute("aria-modal","true");
-const modalClose = modal.querySelector(".modal-close");
-const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
+  const alturaM = alturaCm / 100;
+  const imc = (peso / (alturaM * alturaM)).toFixed(1);
+  
+  let categoria = '';
+  if(imc < 18.5) categoria = 'Bajo peso';
+  else if(imc < 25) categoria = 'Normal';
+  else if(imc < 30) categoria = 'Sobrepeso';
+  else categoria = 'Obesidad';
 
-botonesReserva.forEach(btn => btn.addEventListener("click",()=>modal.classList.add("active")));
-modalClose.addEventListener("click",()=>modal.classList.remove("active"));
-modal.addEventListener("click",(e)=>{if(e.target===modal) modal.classList.remove("active");});
+  document.getElementById('imc-resultado').textContent = `IMC: ${imc} (${categoria})`;
+}
 
-
-// FORMULARIO MODAL
+// ================= MODAL =================
+botonesReserva.forEach(btn => btn.addEventListener("click", ()=>modal.classList.add("active")));
+modalClose.addEventListener("click", ()=>modal.classList.remove("active"));
+modal.addEventListener("click", e => { if(e.target === modal) modal.classList.remove("active"); });;
+  
+// ================= LISTENERS =================
+// Formulario modal
 document.getElementById("modal-form").addEventListener("submit", e=>{
   e.preventDefault();
-  if(plazas>0){
+  if(plazas > 0){
     reducirPlaza();
     modal.classList.remove("active");
     alert("¡Perfecto! Te contacto en breve");
