@@ -836,7 +836,7 @@ document.getElementById('pro-form').addEventListener('submit', e => {
 // CONFIGURACIÓN
 const PLAZAS_INICIALES = 8;
 const CLICK_DELAY = 1200;
-const CONFETI_MAX = 30; // máximo confeti por click
+const CONFETI_MAX = 30;
 const MOBILE_BREAKPOINT = 480;
 
 // VARIABLES
@@ -850,6 +850,8 @@ let glowTimeline = null;
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const contador = document.getElementById("contador-plazas");
 const contenedorPlazas = document.getElementById("plazas-container");
+const botonesReserva = document.querySelectorAll(".service-back button, #modal-reservar-btn");
+
 
 // RESETEAR PLAZAS AL NUEVO MES
 if(mesGuardado !== mesActual){
@@ -858,31 +860,34 @@ if(mesGuardado !== mesActual){
   localStorage.setItem('plazas', plazas);
 }
 
-// FUNCIONES
+// ===== FUNCIONES =====
 function actualizarPlazas() {
-  // Header
+  // HEADER
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
     headerPlazasNum.classList.toggle("blink", plazas <= 3);
     headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
   } else {
-    document.getElementById("header-plazas").innerHTML =
-      "❌ Este mes las plazas están completas. Lista de espera abierta.";
+    headerPlazasNum.textContent = "0";
+    headerPlazasNum.style.color = "red";
   }
 
-  // Contador principal
+ // CONTADOR PRINCIPAL
   if(plazas > 3){
-    contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
+    contador.innerHTML = `¡Quedan ${plazas} plazas disponibles!`;
     quitarGlow();
+    desbloquearBotones();
   } else if(plazas > 0){
-    contador.innerHTML = `<span class="blink" style="color:var(--danger);font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
+    contador.innerHTML = `⚠️ ¡Solo quedan ${plazas} plazas!`;
     aplicarGlow();
+    desbloquearBotones();
   } else {
-    contador.innerHTML = `<span style="color:red;font-weight:bold;">❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.</span>`;
+    contador.innerHTML = `❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.`;
     bloquearBotones();
     quitarGlow();
   }
 
+   // GUARDAR EN LOCALSTORAGE
   localStorage.setItem('plazas', plazas);
 }
 
@@ -892,13 +897,11 @@ function reducirPlaza() {
   plazas--;
   actualizarPlazas();
   lanzarConfeti();
-
   setTimeout(() => clickLocked = false, CLICK_DELAY);
 }
 
 function bloquearBotones() {
-  const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
-  botones.forEach(btn => {
+  botonesReserva.forEach(btn => {
     btn.disabled = true;
     btn.style.opacity = "0.5";
     btn.textContent = "Lista de espera";
@@ -906,15 +909,22 @@ function bloquearBotones() {
   });
 }
 
+function desbloquearBotones() {
+  botonesReserva.forEach(btn => {
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.textContent = "Solicitar";
+    btn.removeAttribute("aria-disabled");
+  });
+}
+
 function aplicarGlow() {
-  if(window.innerWidth < MOBILE_BREAKPOINT) return; // desactiva glow en móviles
+  if(window.innerWidth < MOBILE_BREAKPOINT) return;
   if(!glowTimeline){
     contenedorPlazas.classList.add("glow-urgente");
     glowTimeline = gsap.timeline({repeat:-1, yoyo:true})
       .to(contenedorPlazas, {scale:1.05, duration:0.6, ease:"power1.inOut"})
-      .to(document.querySelectorAll(".service-back button, #modal-reservar-btn"), {
-        scale:1.1, stagger:0.1, duration:0.6, ease:"power1.inOut"
-      }, 0);
+      .to(botonesReserva, {scale:1.1, stagger:0.1, duration:0.6, ease:"power1.inOut"}, 0);
   }
 }
 
@@ -922,54 +932,70 @@ function quitarGlow() {
   if(glowTimeline){
     glowTimeline.kill();
     glowTimeline = null;
-    contenedorPlazas.classList.remove("glow-urgente");
-    contenedorPlazas.style.transform = "scale(1)";
-    document.querySelectorAll(".service-back button, #modal-reservar-btn")
-      .forEach(b => b.style.transform = "scale(1)");
   }
+  contenedorPlazas.classList.remove("glow-urgente");
+  contenedorPlazas.style.transform = "scale(1)";
+  botonesReserva.forEach(b => b.style.transform = "scale(1)");
 }
 
 function lanzarConfeti(cantidad = CONFETI_MAX){
-  if(window.innerWidth < MOBILE_BREAKPOINT) return; // menos confeti en móviles
-  const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+  if(window.innerWidth < MOBILE_BREAKPOINT) cantidad = Math.floor(CONFETI_MAX/2);
+  const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
   for(let i=0;i<cantidad;i++){
-    const conf=document.createElement("div");
-    conf.style.cssText=`
-      position:fixed; width:8px; height:8px; background:${colors[Math.floor(Math.random()*colors.length)]};
-      top:-10px; left:${Math.random()*window.innerWidth}px; opacity:0.9; border-radius:50%; pointer-events:none;
+    const conf = document.createElement("div");
+    conf.style.cssText = `
+      position:fixed;
+      width:8px;
+      height:8px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      top:-10px;
+      left:${Math.random()*window.innerWidth}px;
+      border-radius:50%;
+      pointer-events:none;
+      z-index:9999;
     `;
     document.body.appendChild(conf);
     gsap.to(conf,{
-      y:window.innerHeight+50,
-      rotation:Math.random()*360,
-      duration:2+Math.random()*2,
+      y: window.innerHeight+50,
+      rotation: Math.random()*360,
+      duration: 2 + Math.random()*2,
       ease:"power1.out",
-      onComplete:()=>conf.remove()
+      onComplete:()=> conf.remove()
     });
   }
 }
 
-// MODAL
+// ===== MODAL =====
 const modal = document.getElementById("modalReserva");
 modal.setAttribute("role","dialog");
 modal.setAttribute("aria-modal","true");
-const modalClose = modal.querySelector(".modal-close");
-const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
 
-botonesReserva.forEach(btn => btn.addEventListener("click", () => modal.classList.add("active")));
+const modalClose = modal.querySelector(".modal-close");
+
+botonesReserva.forEach(btn => {
+  btn.addEventListener("click", () => modal.classList.add("active"));
+});
+
 modalClose.addEventListener("click", () => modal.classList.remove("active"));
-modal.addEventListener("click", (e) => { if(e.target===modal) modal.classList.remove("active"); });
+modal.addEventListener("click", (e) => {
+  if(e.target === modal) modal.classList.remove("active");
+});
+
 
 // REDUCIR PLAZA AL ENVIAR FORMULARIO DEL MODAL
-document.getElementById("modal-form").addEventListener("submit", e=>{
+const modalForm = document.getElementById("modal-form");
+modalForm.addEventListener("submit", e=>{
   e.preventDefault();
-  if(plazas>0){
+  if(plazas > 0){
     reducirPlaza();
     modal.classList.remove("active");
     alert("¡Perfecto! Te contacto en breve");
     e.target.reset();
+  } else {
+    alert("❌ Lo siento, todas las plazas están ocupadas. Lista de espera activa.");
   }
 });
+
 
 // INICIALIZAR
 actualizarPlazas();
