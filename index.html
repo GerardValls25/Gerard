@@ -1104,24 +1104,27 @@ modalForm.addEventListener('submit', e => {
 
  // Inicializar contador al cargar
   actualizarPlazas();
-// Botón "Subir arriba"
-const scrollBtn = document.getElementById('scrollTopBtn');
+<!-- BOTÓN "Subir Arriba" -->
+<button id="scrollTopBtn" title="Ir arriba">⬆</button>
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 200) {
-    scrollBtn.classList.add('show');
-  } else {
-    scrollBtn.classList.remove('show');
-  }
-});
+<!-- SCRIPT -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollBtn = document.getElementById('scrollTopBtn');
 
-scrollBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+// Mostrar u ocultar botón según scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+      scrollBtn.classList.add('show');
+    } else {
+      scrollBtn.classList.remove('show');
+    }
+  });
 
-// Scroll suave al hacer clic
-scrollBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+ // Scroll suave al hacer clic
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 });
 </script>
 <button id="scrollTopBtn" title="Ir arriba">⬆</button>
