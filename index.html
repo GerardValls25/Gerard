@@ -1104,7 +1104,33 @@ modalForm.addEventListener('submit', e => {
 
  // Inicializar contador al cargar
   actualizarPlazas();
-// BOTÓN "Subir Arriba"
+// ================= BOTÓN SUBIR ARRIBA ================= 
+<button id="scrollTopBtn" title="Ir arriba" aria-label="Ir al inicio" 
+        style="
+          position: fixed;
+          bottom: 30px;
+          right: 20px;
+          width: 55px;
+          height: 55px;
+          background: var(--primary);
+          color: #000;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 24px;
+          cursor: pointer;
+          z-index: 9999;
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(10px);
+          transition: all 0.3s ease;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        ">
+  ⬆
+</button>
+
+<script>
 document.addEventListener('DOMContentLoaded', () => {
   const scrollBtn = document.getElementById('scrollTopBtn');
 
@@ -1112,14 +1138,25 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', () => {
     if (window.scrollY > 200) {
       scrollBtn.classList.add('show');
+      scrollBtn.style.opacity = "1";
+      scrollBtn.style.pointerEvents = "auto";
+      scrollBtn.style.transform = "translateY(0)";
     } else {
       scrollBtn.classList.remove('show');
+      scrollBtn.style.opacity = "0";
+      scrollBtn.style.pointerEvents = "none";
+      scrollBtn.style.transform = "translateY(10px)";
     }
   });
 
   // Scroll suave al hacer clic
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Atajo teclado: tecla "Home"
+  document.addEventListener('keydown', e => {
+    if(e.key === "Home") window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 </script>
