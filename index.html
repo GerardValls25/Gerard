@@ -1112,7 +1112,7 @@ modalForm.addEventListener('submit', e => {
 document.addEventListener('DOMContentLoaded', () => {
   const scrollBtn = document.getElementById('scrollTopBtn');
 
-// Mostrar u ocultar botón según scroll
+  // Mostrar u ocultar botón según scroll
   window.addEventListener('scroll', () => {
     if (window.scrollY > 200) {
       scrollBtn.classList.add('show');
@@ -1121,7 +1121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
- // Scroll suave al hacer clic
+  // Scroll suave al hacer clic
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
