@@ -160,21 +160,29 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 /* BOTONES FIJOS */
 #scrollTopBtn {
   position: fixed;
-  bottom: 60px;
+  bottom: 30px;
   right: 20px;
   background: var(--primary);
-  color: white;
-  border:none;
-  padding:14px 18px;
-  border-radius:50%;
-  font-size:1.3rem;
-  display:none;
-  cursor:pointer;
-  opacity:0;
-  transition:.3s;
+  color: #000;
+  border: none;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 9999;
+  display: flex;               /* Siempre visible en layout */
+  align-items: center;
+  justify-content: center;
+  opacity: 0;                  /* Controlamos solo con opacity */
+  pointer-events: none;        /* No clicable cuando oculto */
+  transition: opacity .3s ease, transform .3s ease;
 }
-#scrollTopBtn.show { display:block; opacity:1; }
 
+#scrollTopBtn.show {
+  opacity: 1;
+  pointer-events: auto;
+}
 #whatsappBtn {
   position: fixed;
   bottom: 120px;
