@@ -744,62 +744,98 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 </section>
 <!-- ================= FORMULARIO DE CONSULTA ================= -->
 <section id="consulta" style="padding:50px 20px; display:flex; justify-content:center; align-items:center; background:rgba(42,55,96,0.85); border-radius:24px; max-width:900px; margin:50px auto;">
-  <form id="pro-form" class="glass-form">
-    <h2 style="text-align:center; margin-bottom:25px; color:white;">Formulario de Consulta Avanzado</h2>
+  <form id="pro-form" class="glass-form" novalidate>
+    <h2 style="text-align:center; margin-bottom:25px; color:white; font-size:1.9rem; font-weight:900;">Formulario de Consulta Avanzado</h2>
     
+    <!-- Nombre -->
     <div class="form-group">
-      <input type="text" name="nombre" required placeholder=" ">
-      <label>Nombre</label>
+      <input type="text" name="nombre" id="nombre" required placeholder=" ">
+      <label for="nombre">Nombre completo</label>
       <i class="fas fa-user icon-input"></i>
+      <small class="error-message">Por favor ingresa tu nombre</small>
     </div>
     
+    <!-- Email -->
     <div class="form-group">
-      <input type="email" name="email" required placeholder=" ">
-      <label>Email</label>
+      <input type="email" name="email" id="email" required placeholder=" ">
+      <label for="email">Correo electrónico</label>
       <i class="fas fa-envelope icon-input"></i>
+      <small class="error-message">Correo inválido</small>
     </div>
-
+    
+    <!-- Teléfono -->
     <div class="form-group">
-      <input type="tel" name="telefono" required placeholder=" ">
-      <label>Teléfono</label>
+      <input type="tel" name="telefono" id="telefono" required placeholder=" ">
+      <label for="telefono">Teléfono</label>
       <i class="fas fa-phone icon-input"></i>
+      <small class="error-message">Número inválido</small>
     </div>
-
+    
+    <!-- Peso -->
     <div class="form-group">
-      <input type="number" name="peso" id="peso" min="30" max="300" placeholder=" ">
-      <label>Peso (kg)</label>
+      <input type="number" name="peso" id="peso" min="30" max="300" required placeholder=" ">
+      <label for="peso">Peso (kg)</label>
       <i class="fas fa-weight-hanging icon-input"></i>
+      <small class="error-message">Ingresa un peso válido</small>
     </div>
-
+    
+    <!-- Altura -->
     <div class="form-group">
-      <input type="number" name="altura" id="altura" min="100" max="250" placeholder=" ">
-      <label>Altura (cm)</label>
+      <input type="number" name="altura" id="altura" min="100" max="250" required placeholder=" ">
+      <label for="altura">Altura (cm)</label>
       <i class="fas fa-ruler-vertical icon-input"></i>
+      <small class="error-message">Ingresa una altura válida</small>
     </div>
-
+    
+    <!-- Objetivo -->
     <div class="form-group">
-      <label>Objetivo</label>
-      <select name="objetivo" required style="padding:14px; border-radius:12px; border:none; background:rgba(255,255,255,0.1); color:white;">
+      <label for="objetivo">Objetivo</label>
+      <select name="objetivo" id="objetivo" required>
         <option value="">Selecciona tu objetivo</option>
         <option value="perder">Perder peso</option>
         <option value="ganar">Ganar músculo</option>
         <option value="mantener">Mantener peso</option>
       </select>
+      <small class="error-message">Selecciona un objetivo</small>
     </div>
-
-    <div style="margin:15px 0; color:var(--primary); font-weight:bold; text-align:center;" id="imc-result">
+    
+    <!-- IMC dinámico -->
+    <div id="imc-result" style="margin:15px 0; color:var(--primary); font-weight:bold; text-align:center; font-size:1rem;">
       Tu IMC aparecerá aquí
     </div>
-
-    <button type="submit" style="margin-top:10px; background:var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s;">Enviar Consulta</button>
+    
+    <button type="submit" style="margin-top:10px; background:var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s; font-size:1rem;">
+      Enviar Consulta
+    </button>
   </form>
 </section>
 
 <script>
-// ===== CALCULADORA IMC DINÁMICA =====
+// ===== Validaciones en tiempo real =====
+const form = document.getElementById('pro-form');
+const inputs = form.querySelectorAll('input, select');
+const imcResult = document.getElementById('imc-result');
+
+function validarInput(input) {
+  const errorMsg = input.parentElement.querySelector('.error-message');
+  if (!input.checkValidity()) {
+    input.classList.add('invalid');
+    errorMsg.style.display = 'block';
+    return false;
+  } else {
+    input.classList.remove('invalid');
+    errorMsg.style.display = 'none';
+    return true;
+  }
+}
+
+inputs.forEach(input => {
+  input.addEventListener('input', () => validarInput(input));
+  input.addEventListener('blur', () => validarInput(input));
+});
+  // ===== IMC dinámico =====
 const pesoInput = document.getElementById('peso');
 const alturaInput = document.getElementById('altura');
-const imcResult = document.getElementById('imc-result');
 
 function calcularIMC() {
   const peso = parseFloat(pesoInput.value);
@@ -819,7 +855,7 @@ function calcularIMC() {
 
 pesoInput.addEventListener('input', calcularIMC);
 alturaInput.addEventListener('input', calcularIMC);
-
+  
 // ===== ENVÍO FORMULARIO =====
 document.getElementById('pro-form').addEventListener('submit', e => {
   e.preventDefault();
