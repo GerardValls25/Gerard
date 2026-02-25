@@ -1102,19 +1102,26 @@ function reducirPlaza() {
       modal.classList.remove("active");
     }
   });
-
+document.addEventListener('DOMContentLoaded', () => {
 // ================= BOTÓN SUBIR =================
- window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) scrollBtn.classList.add('show');
-    else scrollBtn.classList.remove('show');
+  const scrollBtn = document.getElementById('scrollTopBtn'); // DEFINIR PRIMERO
+
+  // Mostrar u ocultar el botón según el scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+      scrollBtn.classList.add('show');
+    } else {
+      scrollBtn.classList.remove('show');
+    }
   });
 
+  // Scroll suave al hacer clic
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   // ================= INICIALIZAR =================
-  actualizarPlazas();
+  actualizarPlazas(); // función definida antes
 });
 </script>
     </body>
