@@ -744,8 +744,8 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 </section>
 <!-- ================= FORMULARIO DE CONSULTA ================= -->
 <section id="consulta" style="padding:50px 20px; display:flex; justify-content:center; align-items:center; background:rgba(42,55,96,0.85); border-radius:24px; max-width:900px; margin:50px auto;">
-  <form class="glass-form">
-    <h2 style="text-align:center; margin-bottom:25px; color:white;">Formulario de Consulta</h2>
+  <form id="pro-form" class="glass-form">
+    <h2 style="text-align:center; margin-bottom:25px; color:white;">Formulario de Consulta Avanzado</h2>
     
     <div class="form-group">
       <input type="text" name="nombre" required placeholder=" ">
@@ -753,27 +753,82 @@ Tu transformación es un proceso acompañado, no te dejo solo.
       <i class="fas fa-user icon-input"></i>
     </div>
     
-       <div class="form-group">
+    <div class="form-group">
       <input type="email" name="email" required placeholder=" ">
       <label>Email</label>
       <i class="fas fa-envelope icon-input"></i>
     </div>
-    
-      <div class="form-group">
-      <textarea name="mensaje" required placeholder=" "></textarea>
-      <label>Mensaje</label>
-      <i class="fas fa-comment icon-input"></i>
+
+    <div class="form-group">
+      <input type="tel" name="telefono" required placeholder=" ">
+      <label>Teléfono</label>
+      <i class="fas fa-phone icon-input"></i>
     </div>
-      <button type="submit" style="margin-top:10px; background:var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s;">Enviar</button>
+
+    <div class="form-group">
+      <input type="number" name="peso" id="peso" min="30" max="300" placeholder=" ">
+      <label>Peso (kg)</label>
+      <i class="fas fa-weight-hanging icon-input"></i>
+    </div>
+
+    <div class="form-group">
+      <input type="number" name="altura" id="altura" min="100" max="250" placeholder=" ">
+      <label>Altura (cm)</label>
+      <i class="fas fa-ruler-vertical icon-input"></i>
+    </div>
+
+    <div class="form-group">
+      <label>Objetivo</label>
+      <select name="objetivo" required style="padding:14px; border-radius:12px; border:none; background:rgba(255,255,255,0.1); color:white;">
+        <option value="">Selecciona tu objetivo</option>
+        <option value="perder">Perder peso</option>
+        <option value="ganar">Ganar músculo</option>
+        <option value="mantener">Mantener peso</option>
+      </select>
+    </div>
+
+    <div style="margin:15px 0; color:var(--primary); font-weight:bold; text-align:center;" id="imc-result">
+      Tu IMC aparecerá aquí
+    </div>
+
+    <button type="submit" style="margin-top:10px; background:var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s;">Enviar Consulta</button>
   </form>
-  </section>
-</main>
-  
-<footer>
-<p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
-<p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
-</footer>
+</section>
+
 <script>
+// ===== CALCULADORA IMC DINÁMICA =====
+const pesoInput = document.getElementById('peso');
+const alturaInput = document.getElementById('altura');
+const imcResult = document.getElementById('imc-result');
+
+function calcularIMC() {
+  const peso = parseFloat(pesoInput.value);
+  const altura = parseFloat(alturaInput.value) / 100;
+  if(peso > 0 && altura > 0){
+    const imc = (peso / (altura * altura)).toFixed(1);
+    let estado = "";
+    if(imc < 18.5) estado = "Bajo peso";
+    else if(imc < 25) estado = "Normal";
+    else if(imc < 30) estado = "Sobrepeso";
+    else estado = "Obesidad";
+    imcResult.textContent = `Tu IMC es ${imc} (${estado})`;
+  } else {
+    imcResult.textContent = "Tu IMC aparecerá aquí";
+  }
+}
+
+pesoInput.addEventListener('input', calcularIMC);
+alturaInput.addEventListener('input', calcularIMC);
+
+// ===== ENVÍO FORMULARIO =====
+document.getElementById('pro-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const form = e.target;
+  alert("¡Consulta enviada! Te contactaremos pronto.");
+  form.reset();
+  imcResult.textContent = "Tu IMC aparecerá aquí";
+});
+</script>
 // ================================
 // SISTEMA OPTIMIZADO DE PLAZAS + MODAL
 // ================================
