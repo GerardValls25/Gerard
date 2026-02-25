@@ -829,5 +829,152 @@ document.getElementById('pro-form').addEventListener('submit', e => {
   imcResult.textContent = "Tu IMC aparecerá aquí";
 });
 </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script>
+  // ================= SISTEMA DE PLAZAS PRO =================
+  const PLAZAS_INICIALES = 8;
+  const CLICK_DELAY = 1200;
+  const CONFETI_MAX = 25; // confeti más elegante
+  const MOBILE_BREAKPOINT = 480;
+
+  let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
+  let mesActual = new Date().getMonth();
+  let mesGuardado = parseInt(localStorage.getItem('mesPlazas')) || -1;
+  let clickLocked = false;
+
+  // Reseteo mensual
+  if(mesGuardado !== mesActual){
+      plazas = PLAZAS_INICIALES;
+      localStorage.setItem('mesPlazas', mesActual);
+      localStorage.setItem('plazas', plazas);
+  }
+
+  const headerPlazasNum = document.getElementById("header-plazas-num");
+  const contador = document.getElementById("contador-plazas");
+  const contenedorPlazas = document.getElementById("plazas-container");
+  const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
+
+  // Glow GSAP
+  let glowTimeline = null;
+  function aplicarGlow(){
+      if(window.innerWidth < MOBILE_BREAKPOINT) return;
+      if(!glowTimeline){
+          contenedorPlazas.classList.add("glow-urgente");
+          glowTimeline = gsap.timeline({repeat:-1, yoyo:true})
+          .to(contenedorPlazas, {scale:1.05, duration:0.6, ease:"power1.inOut"})
+          .to(botonesReserva, {scale:1.1, stagger:0.1, duration:0.6, ease:"power1.inOut"}, 0);
+      }
+  }
+
+  function quitarGlow(){
+      if(glowTimeline){
+          glowTimeline.kill();
+          glowTimeline=null;
+          contenedorPlazas.classList.remove("glow-urgente");
+          contenedorPlazas.style.transform="scale(1)";
+          botonesReserva.forEach(b=>b.style.transform="scale(1)");
+      }
+  }
+
+  // Bloqueo botones cuando no hay plazas
+  function bloquearBotones(){
+      botonesReserva.forEach(btn=>{
+          btn.disabled=true;
+          btn.style.opacity="0.5";
+          btn.textContent="Lista de espera";
+          btn.setAttribute("aria-disabled","true");
+      });
+  }
+
+  // Lanzar confeti elegante
+  function lanzarConfeti(){
+      if(window.innerWidth < MOBILE_BREAKPOINT) return;
+      const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+      for(let i=0;i<CONFETI_MAX;i++){
+          const confetti = document.createElement("div");
+          confetti.style.position="absolute";
+          confetti.style.width="8px";
+          confetti.style.height="8px";
+          confetti.style.background=colors[Math.floor(Math.random()*colors.length)];
+          confetti.style.top="0px";
+          confetti.style.left=Math.random()*contenedorPlazas.offsetWidth+"px";
+          confetti.style.borderRadius="50%";
+          confetti.style.pointerEvents="none";
+          contenedorPlazas.appendChild(confetti);
+          gsap.to(confetti,{
+              y: 200 + Math.random()*150,
+              x: (Math.random()-0.5)*200,
+              opacity:0,
+              rotation: Math.random()*360,
+              duration: 1 + Math.random(),
+              ease: "power1.out",
+              onComplete:()=> confetti.remove()
+          });
+      }
+  }
+
+  // Actualizar contador
+  function actualizarPlazas(){
+      headerPlazasNum.textContent = plazas;
+      headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
+      headerPlazasNum.classList.toggle("blink", plazas <= 3);
+
+      if(plazas > 3){
+          contador.textContent = `¡Quedan ${plazas} plazas disponibles!`;
+          quitarGlow();
+      } else if(plazas > 0){
+          contador.textContent = `⚠️ ¡Solo quedan ${plazas} plazas! ¡Apresúrate!`;
+          aplicarGlow();
+      } else {
+          contador.textContent = `❌ Todas las plazas están ocupadas. Lista de espera disponible.`;
+          bloquearBotones();
+          quitarGlow();
+      }
+
+      localStorage.setItem('plazas', plazas);
+  }
+
+  // Reducir plaza al hacer click
+  function reducirPlaza(){
+      if(plazas <= 0 || clickLocked) return;
+      clickLocked=true;
+      plazas--;
+      actualizarPlazas();
+      lanzarConfeti();
+      setTimeout(()=>clickLocked=false, CLICK_DELAY);
+  }
+
+  // Eventos click en botones
+  botonesReserva.forEach(btn=>{
+      btn.addEventListener('click', () => {
+          reducirPlaza();
+      });
+  });
+
+  // Modal de reserva
+  const modal = document.getElementById("modalReserva");
+  const modalClose = modal.querySelector(".modal-close");
+  const modalForm = document.getElementById("modal-form");
+
+  botonesReserva.forEach(btn=>{
+      btn.addEventListener('click', () => modal.classList.add("active"));
+  });
+  modalClose.addEventListener('click', ()=> modal.classList.remove("active"));
+  modal.addEventListener('click', e => { if(e.target===modal) modal.classList.remove("active"); });
+
+  modalForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if(plazas>0){
+          reducirPlaza();
+          modal.classList.remove("active");
+          alert("¡Perfecto! Te contactaremos pronto.");
+          modalForm.reset();
+      }
+  });
+
+  // Inicialización
+  actualizarPlazas();
+
+</script>
 </body>
 </html>
