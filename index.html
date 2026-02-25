@@ -377,6 +377,12 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0,255,192,0.4);
 }
+  .confeti {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+}
 </style>
 </head>
 <body>
@@ -958,125 +964,144 @@ document.getElementById('pro-form').addEventListener('submit', e => {
 });
 </script>
 <script>
-  // ================= SISTEMA DE PLAZAS PRO =================
-  const PLAZAS_INICIALES = 8;
-  const CLICK_DELAY = 1200;
-  const CONFETI_MAX = 25; // confeti más elegante
-  const MOBILE_BREAKPOINT = 480;
-
-  let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
-  let mesActual = new Date().getMonth();
-  let mesGuardado = parseInt(localStorage.getItem('mesPlazas')) || -1;
-  let clickLocked = false;
-
-  // Reseteo mensual
-  if(mesGuardado !== mesActual){
-      plazas = PLAZAS_INICIALES;
-      localStorage.setItem('mesPlazas', mesActual);
-      localStorage.setItem('plazas', plazas);
-  }
+  // ================= CONFIGURACIÓN =================
+const PLAZAS_INICIALES = 8;
+const CLICK_DELAY = 1200;
+const CONFETI_MAX_DESKTOP = 30;
+const CONFETI_MAX_MOBILE = 12;
+const MOBILE_BREAKPOINT = 480;
+// ================= VARIABLES =================
+let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
+let mesActual = new Date().getMonth();
+let yearActual = new Date().getFullYear();
+let mesGuardado = parseInt(localStorage.getItem('mesPlazas')) || -1;
+let yearGuardado = parseInt(localStorage.getItem('yearPlazas')) || -1;
+let clickLocked = false;
+let glowTimeline = null;
+  
+// ================= RESET MENSUAL =================
+if(mesGuardado !== mesActual || yearGuardado !== yearActual){
+  plazas = PLAZAS_INICIALES;
+  localStorage.setItem('mesPlazas', mesActual);
+  localStorage.setItem('yearPlazas', yearActual);
+  localStorage.setItem('plazas', plazas);
+}
 
   const headerPlazasNum = document.getElementById("header-plazas-num");
   const contador = document.getElementById("contador-plazas");
   const contenedorPlazas = document.getElementById("plazas-container");
   const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
 
-  // Glow GSAP
-  let glowTimeline = null;
-  function aplicarGlow(){
-      if(window.innerWidth < MOBILE_BREAKPOINT) return;
-      if(!glowTimeline){
-          contenedorPlazas.classList.add("glow-urgente");
-          glowTimeline = gsap.timeline({repeat:-1, yoyo:true})
-          .to(contenedorPlazas, {scale:1.05, duration:0.6, ease:"power1.inOut"})
-          .to(botonesReserva, {scale:1.1, stagger:0.1, duration:0.6, ease:"power1.inOut"}, 0);
-      }
+ // Glow GSAP
+function aplicarGlow(){
+    if(window.innerWidth < MOBILE_BREAKPOINT) return;
+    if(!glowTimeline){
+        contenedorPlazas.classList.add("glow-urgente");
+        glowTimeline = gsap.timeline({repeat:-1, yoyo:true})
+        .to(contenedorPlazas, {scale:1.05, duration:0.6, ease:"power1.inOut"})
+        .to(botonesReserva, {scale:1.1, stagger:0.1, duration:0.6, ease:"power1.inOut"}, 0);
+    }
+}
+function quitarGlow(){
+    if(glowTimeline){
+        glowTimeline.kill();
+        glowTimeline=null;
+        contenedorPlazas.classList.remove("glow-urgente");
+        contenedorPlazas.style.transform="scale(1)";
+        botonesReserva.forEach(b=>b.style.transform="scale(1)");
+    }
+}
+  // Bloqueo botones
+function bloquearBotones(){
+    botonesReserva.forEach(btn=>{
+        btn.disabled=true;
+        btn.style.opacity="0.5";
+        btn.textContent="Lista de espera";
+        btn.setAttribute("aria-disabled","true");
+    });
+}
+
+ // ================= CONFETI MEJORADO =================
+function lanzarConfeti(cantidad = window.innerWidth < MOBILE_BREAKPOINT ? CONFETI_MAX_MOBILE : CONFETI_MAX_DESKTOP) {
+  for (let i = 0; i < cantidad; i++) {
+    const confeti = document.createElement("div");
+    confeti.classList.add("confeti");
+
+    // Tamaño aleatorio
+    const size = Math.random() * 10 + 5;
+    confeti.style.width = `${size}px`;
+    confeti.style.height = `${size}px`;
+
+    // Color aleatorio HSL
+    confeti.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+
+    // Posición inicial aleatoria
+    confeti.style.left = `${Math.random() * window.innerWidth}px`;
+    confeti.style.top = "-20px";
+
+    // Opacidad aleatoria
+    confeti.style.opacity = Math.random();
+
+    // Añadir al body
+    document.body.appendChild(confeti);
+
+    // Animación GSAP
+    gsap.to(confeti, {
+      y: window.innerHeight + 20,
+      x: `+=${Math.random() * 100 - 50}`,
+      rotation: Math.random() * 360,
+      scale: Math.random() * 0.5 + 0.5, // Escalado para efecto “rebote”
+      duration: Math.random() * 2 + 2,
+      ease: Math.random() > 0.5 ? "power1.in" : "power1.out",
+      onComplete: () => confeti.remove()
+    });
+  }
+}
+  // Actualizar contador y estado de plazas
+function actualizarPlazas(){
+  if(plazas > 0){
+    headerPlazasNum.textContent = plazas;
+    headerPlazasNum.classList.toggle("blink", plazas <= 3);
+    headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
+  } else {
+    document.getElementById("header-plazas").innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 
-  function quitarGlow(){
-      if(glowTimeline){
-          glowTimeline.kill();
-          glowTimeline=null;
-          contenedorPlazas.classList.remove("glow-urgente");
-          contenedorPlazas.style.transform="scale(1)";
-          botonesReserva.forEach(b=>b.style.transform="scale(1)");
-      }
+  if(plazas > 3){
+    contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
+    quitarGlow();
+  } else if(plazas > 0){
+    contador.innerHTML = `<span class="blink" style="color:var(--danger);font-weight:bold;">⚠️ ¡Solo quedan ${plazas} plazas!</span>`;
+    aplicarGlow();
+  } else {
+    contador.innerHTML = `<span style="color:red;font-weight:bold;">❌ Todas las plazas están ocupadas.<br>👉 Lista de espera disponible.</span>`;
+    bloquearBotones();
+    quitarGlow();
   }
 
-  // Bloqueo botones cuando no hay plazas
-  function bloquearBotones(){
-      botonesReserva.forEach(btn=>{
-          btn.disabled=true;
-          btn.style.opacity="0.5";
-          btn.textContent="Lista de espera";
-          btn.setAttribute("aria-disabled","true");
-      });
-  }
+  localStorage.setItem('plazas', plazas);
+}
 
-  // Lanzar confeti elegante
-  function lanzarConfeti(){
-      if(window.innerWidth < MOBILE_BREAKPOINT) return;
-      const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
-      for(let i=0;i<CONFETI_MAX;i++){
-          const confetti = document.createElement("div");
-          confetti.style.position="absolute";
-          confetti.style.width="8px";
-          confetti.style.height="8px";
-          confetti.style.background=colors[Math.floor(Math.random()*colors.length)];
-          confetti.style.top="0px";
-          confetti.style.left=Math.random()*contenedorPlazas.offsetWidth+"px";
-          confetti.style.borderRadius="50%";
-          confetti.style.pointerEvents="none";
-          contenedorPlazas.appendChild(confetti);
-          gsap.to(confetti,{
-              y: 200 + Math.random()*150,
-              x: (Math.random()-0.5)*200,
-              opacity:0,
-              rotation: Math.random()*360,
-              duration: 1 + Math.random(),
-              ease: "power1.out",
-              onComplete:()=> confetti.remove()
-          });
-      }
-  }
+  // Reducir plaza
+function reducirPlaza(){
+  if(plazas <= 0 || clickLocked) return;
+  clickLocked=true;
+  plazas--;
+  actualizarPlazas();
+  lanzarConfeti();
+  setTimeout(()=>clickLocked=false, CLICK_DELAY);
+}
+  
+// ================= EVENTOS =================
+  
 
-  // Actualizar contador
-  function actualizarPlazas(){
-      headerPlazasNum.textContent = plazas;
-      headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
-      headerPlazasNum.classList.toggle("blink", plazas <= 3);
-
-      if(plazas > 3){
-          contador.textContent = `¡Quedan ${plazas} plazas disponibles!`;
-          quitarGlow();
-      } else if(plazas > 0){
-          contador.textContent = `⚠️ ¡Solo quedan ${plazas} plazas! ¡Apresúrate!`;
-          aplicarGlow();
-      } else {
-          contador.textContent = `❌ Todas las plazas están ocupadas. Lista de espera disponible.`;
-          bloquearBotones();
-          quitarGlow();
-      }
-
-      localStorage.setItem('plazas', plazas);
-  }
-
-  // Reducir plaza al hacer click
-  function reducirPlaza(){
-      if(plazas <= 0 || clickLocked) return;
-      clickLocked=true;
-      plazas--;
-      actualizarPlazas();
-      lanzarConfeti();
-      setTimeout(()=>clickLocked=false, CLICK_DELAY);
-  }
-
-  // Eventos click en botones
-  botonesReserva.forEach(btn=>{
-      btn.addEventListener('click', () => {
-          reducirPlaza();
-      });
+  // Click en botones
+botonesReserva.forEach(btn=>{
+  btn.addEventListener('click', () => {
+    if(plazas > 0) modal.classList.add("active"); // abrir modal
+    reducirPlaza();
   });
+});
 
   // Modal de reserva
   const modal = document.getElementById("modalReserva");
@@ -1086,20 +1111,23 @@ document.getElementById('pro-form').addEventListener('submit', e => {
   botonesReserva.forEach(btn=>{
       btn.addEventListener('click', () => modal.classList.add("active"));
   });
-  modalClose.addEventListener('click', ()=> modal.classList.remove("active"));
-  modal.addEventListener('click', e => { if(e.target===modal) modal.classList.remove("active"); });
+  
+ // Modal
+modalClose.addEventListener('click', ()=> modal.classList.remove("active"));
+modal.addEventListener('click', e=> { if(e.target===modal) modal.classList.remove("active"); });
 
-  modalForm.addEventListener('submit', e => {
-      e.preventDefault();
-      if(plazas>0){
-          reducirPlaza();
-          modal.classList.remove("active");
-          alert("¡Perfecto! Te contactaremos pronto.");
-          modalForm.reset();
-      }
-  });
 
-  // Inicialización
+// Modal form
+modalForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  if(plazas>=0){
+    alert("¡Perfecto! Tu plaza ha sido reservada. Te contactaremos pronto.");
+    modalForm.reset();
+    modal.classList.remove("active");
+  }
+});
+
+ // Inicializar contador al cargar
   actualizarPlazas();
 
 </script>
