@@ -1094,7 +1094,23 @@ modalForm.addEventListener('submit', e => {
 
  // Inicializar contador al cargar
   actualizarPlazas();
+// Botón "Subir arriba"
+const scrollBtn = document.getElementById('scrollTopBtn');
 
+// Mostrar u ocultar botón según scroll
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) { // cuando baja más de 300px
+    scrollBtn.classList.add('show');
+  } else {
+    scrollBtn.classList.remove('show');
+  }
+});
+
+// Scroll suave al hacer clic
+scrollBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 </script>
+<button id="scrollTopBtn" title="Ir arriba">⬆</button>
 </body>
 </html>
