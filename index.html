@@ -1100,16 +1100,6 @@ botonesReserva.forEach(btn => {
 // Cerrar modal
 modalClose.addEventListener('click', () => modal.classList.remove("active"));
 modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove("active"); });
-
-
-// Modal de reserva
-  const modal = document.getElementById("modalReserva");
-  const modalClose = modal.querySelector(".modal-close");
-  const modalForm = document.getElementById("modal-form");
-
-  botonesReserva.forEach(btn=>{
-      btn.addEventListener('click', () => modal.classList.add("active"));
-  });
   
   // Enviar formulario modal
 modalForm.addEventListener('submit', e => {
