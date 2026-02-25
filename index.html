@@ -174,15 +174,15 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   cursor: pointer;
   z-index: 9999;
 
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0;             /* invisible por defecto */
+  pointer-events: none;    /* no clicable */
   transform: translateY(10px);
   transition: all 0.3s ease;
 }
 
 #scrollTopBtn.show {
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 1;              /* visible */
+  pointer-events: auto;    /* clicable */
   transform: translateY(0);
 }
 #whatsappBtn {
@@ -1109,7 +1109,7 @@ const scrollBtn = document.getElementById('scrollTopBtn');
 
 window.addEventListener('scroll', () => {
   if (window.scrollY > 200) {
-    scrollBtn.classList.add('show'); // forzar que siempre se vea
+    scrollBtn.classList.add('show');
   } else {
     scrollBtn.classList.remove('show');
   }
@@ -1125,5 +1125,6 @@ scrollBtn.addEventListener('click', () => {
 });
 </script>
 <button id="scrollTopBtn" title="Ir arriba">⬆</button>
+<div id="scrollTopBtn">↑</div>
 </body>
 </html>
