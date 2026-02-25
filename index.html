@@ -140,6 +140,78 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
   font-size: 0.9rem;
   opacity: 0.7;
 }
+
+<section id="adecuado" style="padding:80px 20px; text-align:center;">
+
+  <h2 style="margin-bottom:30px;">
+    ¿Es este programa adecuado para ti?
+  </h2>
+
+  <ul style="list-style:none; padding:0; max-width:600px; margin:40px auto; text-align:left; line-height:1.8;">
+    <li>✔ Buscas mejorar composición corporal con estrategia, no con restricciones extremas</li>
+    <li>✔ Estás dispuesto a seguir un protocolo estructurado</li>
+    <li>✔ Valoras la supervisión profesional individualizada</li>
+    <li>✔ Buscas resultados sostenibles a medio y largo plazo</li>
+  </ul>
+
+  <p style="margin-top:30px; font-weight:600;">
+    Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
+  </p>
+/* FORMULARIOS Y MODAL */
+.glass-form, .modal-form {display:flex;flex-direction:column;gap:20px;padding:35px;border-radius:20px;background: rgba(255,255,255,0.05);backdrop-filter: blur(20px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+.form-group { position:relative; }
+.form-group input, .form-group textarea, .modal-form input, .modal-form select { width:100%; padding:16px 14px 16px 36px; border-radius:12px; border:1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color:white; font-size:1rem; transition:.3s; }
+.form-group label { position:absolute; left:36px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.6); transition:.3s; }
+.form-group input:focus + label, .form-group textarea:focus + label,
+.form-group input:not(:placeholder-shown) + label, .form-group textarea:not(:placeholder-shown) + label { color:var(--primary); }
+
+.modal-overlay {position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display:flex; justify-content:center; align-items:center; z-index:9999; opacity:0; pointer-events:none; transition:0.4s ease;}
+.modal-overlay.active { opacity:1; pointer-events:all; }
+.modal-box { background: rgba(42,55,96,0.95); padding:30px; border-radius:20px; width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.5); transform:scale(0.8); transition:0.4s ease; text-align:center;}
+.modal-overlay.active .modal-box { transform:scale(1); }
+.modal-close { position:absolute; right:20px; top:10px; font-size:1.5rem; cursor:pointer; }
+.modal-form button { background: var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s; }
+.modal-form button:hover { transform:scale(1.05); }
+  
+/* BOTONES FIJOS */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background: var(--primary);
+  color: white;
+  border:none;
+  padding:14px 18px;
+  border-radius:50%;
+  font-size:1.3rem;
+  display:none;
+  cursor:pointer;
+  opacity:0;
+  transition:.3s;
+}
+#scrollTopBtn.show { display:block; opacity:1; }
+
+#whatsappBtn {
+  position: fixed;
+  bottom: 120px;
+  right: 20px;
+  background: #25d366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius:50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size:2rem;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  z-index:999;
+  transition: transform .3s, box-shadow .3s, opacity .3s;
+  opacity:0;
+}
+#whatsappBtn.show { display:flex; opacity:1; }
+
+
    /* --- ESTILO PARA TRANSFORMACIONES ANTES/DESPUÉS --- */
     .resultado-card {
       position: relative;
@@ -188,27 +260,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 
     .before-after:hover .overlay { opacity:1; }
 
-</style>
-  
-<section id="adecuado" style="padding:80px 20px; text-align:center;">
-
-  <h2 style="margin-bottom:30px;">
-    ¿Es este programa adecuado para ti?
-  </h2>
-
-  <ul style="list-style:none; padding:0; max-width:600px; margin:40px auto; text-align:left; line-height:1.8;">
-    <li>✔ Buscas mejorar composición corporal con estrategia, no con restricciones extremas</li>
-    <li>✔ Estás dispuesto a seguir un protocolo estructurado</li>
-    <li>✔ Valoras la supervisión profesional individualizada</li>
-    <li>✔ Buscas resultados sostenibles a medio y largo plazo</li>
-  </ul>
-
-  <p style="margin-top:30px; font-weight:600;">
-    Si buscas soluciones rápidas sin compromiso, este servicio no es adecuado.
-  </p>
-  </section>
-
-  
 /* TARJETAS */
 .card:hover{transform: translateY(-6px);background: rgba(255,255,255,0.12);box-shadow: 0 20px 40px rgba(0,0,0,0.3);transition: all 0.3s ease;}
 .resultado-card:hover{transform: scale(1.05);}
@@ -216,22 +267,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 .before-after:hover img{transform: scale(1.1);}
 .before-after .overlay{opacity:0; transition:.4s;}
 .before-after:hover .overlay{opacity:1;}
-
-/* FORMULARIOS Y MODAL */
-.glass-form, .modal-form {display:flex;flex-direction:column;gap:20px;padding:35px;border-radius:20px;background: rgba(255,255,255,0.05);backdrop-filter: blur(20px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 10px 40px rgba(0,0,0,0.2);}
-.form-group { position:relative; }
-.form-group input, .form-group textarea, .modal-form input, .modal-form select { width:100%; padding:16px 14px 16px 36px; border-radius:12px; border:1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color:white; font-size:1rem; transition:.3s; }
-.form-group label { position:absolute; left:36px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.6); transition:.3s; }
-.form-group input:focus + label, .form-group textarea:focus + label,
-.form-group input:not(:placeholder-shown) + label, .form-group textarea:not(:placeholder-shown) + label { color:var(--primary); }
-
-.modal-overlay {position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display:flex; justify-content:center; align-items:center; z-index:9999; opacity:0; pointer-events:none; transition:0.4s ease;}
-.modal-overlay.active { opacity:1; pointer-events:all; }
-.modal-box { background: rgba(42,55,96,0.95); padding:30px; border-radius:20px; width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.5); transform:scale(0.8); transition:0.4s ease; text-align:center;}
-.modal-overlay.active .modal-box { transform:scale(1); }
-.modal-close { position:absolute; right:20px; top:10px; font-size:1.5rem; cursor:pointer; }
-.modal-form button { background: var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s; }
-.modal-form button:hover { transform:scale(1.05); }
 </style>
 </head>
 <body>
