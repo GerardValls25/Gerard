@@ -744,8 +744,8 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 </section>
 <!-- ================= FORMULARIO DE CONSULTA ================= -->
 <section id="consulta" style="padding:50px 20px; display:flex; justify-content:center; align-items:center; background:rgba(42,55,96,0.85); border-radius:24px; max-width:900px; margin:50px auto;">
-  <form id="pro-form" class="glass-form">
-    <h2 style="text-align:center; margin-bottom:25px; color:white;">Formulario de Consulta Avanzado</h2>
+  <form id="pro-form" class="glass-form" aria-label="Formulario de Consulta Avanzado">
+    <h2 style="text-align:center; margin-bottom:25px; color:white;">Formulario de Consulta Profesional</h2>
     
     <div class="form-group">
       <input type="text" name="nombre" required placeholder=" ">
@@ -787,7 +787,7 @@ Tu transformación es un proceso acompañado, no te dejo solo.
       </select>
     </div>
 
-    <div style="margin:15px 0; color:var(--primary); font-weight:bold; text-align:center;" id="imc-result">
+    <div style="margin:15px 0; color:var(--primary); font-weight:bold; text-align:center;" id="imc-result" aria-live="polite">
       Tu IMC aparecerá aquí
     </div>
 
@@ -796,7 +796,15 @@ Tu transformación es un proceso acompañado, no te dejo solo.
 </section>
 
 <script>
-// ===== CALCULADORA IMC DINÁMICA =====
+// ===== VARIABLES DEL SISTEMA DE PLAZAS =====
+let PLAZAS_INICIALES = 8;
+let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
+let clickLocked = false;
+const CLICK_DELAY = 1200;
+const contador = document.getElementById("contador-plazas");
+const contenedorPlazas = document.getElementById("plazas-container");
+
+// ===== IMC DINÁMICO =====
 const pesoInput = document.getElementById('peso');
 const alturaInput = document.getElementById('altura');
 const imcResult = document.getElementById('imc-result');
@@ -820,12 +828,46 @@ function calcularIMC() {
 pesoInput.addEventListener('input', calcularIMC);
 alturaInput.addEventListener('input', calcularIMC);
 
+// ===== FUNCIONES DE PLAZAS =====
+function actualizarPlazas() {
+  localStorage.setItem('plazas', plazas);
+  if(plazas > 0 && plazas <= 3){
+    contenedorPlazas.classList.add("glow-urgente");
+  } else {
+    contenedorPlazas.classList.remove("glow-urgente");
+  }
+}
+
+function reducirPlaza() {
+  if(plazas <= 0 || clickLocked) return;
+  clickLocked = true;
+  plazas--;
+  actualizarPlazas();
+  lanzarConfeti();
+  setTimeout(()=> clickLocked=false, CLICK_DELAY);
+}
+
+// ===== CONFETI =====
+function lanzarConfeti(cantidad=20){
+  const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+  for(let i=0;i<cantidad;i++){
+    const conf=document.createElement("div");
+    conf.style.cssText=`position:fixed;width:8px;height:8px;background:${colors[Math.floor(Math.random()*colors.length)]};top:-10px;left:${Math.random()*window.innerWidth}px;border-radius:50%;pointer-events:none;`;
+    document.body.appendChild(conf);
+    gsap.to(conf,{y:window.innerHeight+50,rotation:Math.random()*360,duration:2+Math.random()*2,ease:"power1.out",onComplete:()=>conf.remove()});
+  }
+}
+
 // ===== ENVÍO FORMULARIO =====
-document.getElementById('pro-form').addEventListener('submit', e => {
+document.getElementById('pro-form').addEventListener('submit', e=>{
   e.preventDefault();
-  const form = e.target;
-  alert("¡Consulta enviada! Te contactaremos pronto.");
-  form.reset();
+  if(plazas <= 0){
+    alert("❌ Lo siento, todas las plazas están ocupadas. Te enviaremos a la lista de espera.");
+    return;
+  }
+  reducirPlaza();
+  alert("✅ Consulta enviada con éxito. Te contactaré pronto.");
+  e.target.reset();
   imcResult.textContent = "Tu IMC aparecerá aquí";
 });
 </script>
