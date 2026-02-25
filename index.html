@@ -1104,7 +1104,6 @@ modalForm.addEventListener('submit', e => {
 
  // Inicializar contador al cargar
   actualizarPlazas();
-// ================= BOTÓN SUBIR ARRIBA ================= 
 <button id="scrollTopBtnPremium" aria-label="Ir al inicio" title="Ir al inicio">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
     <line x1="12" y1="19" x2="12" y2="5"/>
@@ -1114,13 +1113,14 @@ modalForm.addEventListener('submit', e => {
 </button>
 
 <style>
+/* Botón circular fijo */
 #scrollTopBtnPremium {
   position: fixed;
   bottom: 30px;
   right: 20px;
   width: 60px;
   height: 60px;
-  background: var(--primary);
+  background: var(--primary, #00ffc0);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -1132,20 +1132,23 @@ modalForm.addEventListener('submit', e => {
   transform: translateY(20px);
   transition: all 0.4s ease;
   box-shadow: 0 8px 25px rgba(0,255,192,0.5);
-  position: fixed;
 }
 
+/* Mostrar botón */
 #scrollTopBtnPremium.show {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
+  animation: pulseGlow 1.5s infinite;
 }
 
-/* Glow pulsante */
-#scrollTopBtnPremium svg {
-  animation: pulseGlow 1.5s infinite alternate;
+/* Hover */
+#scrollTopBtnPremium:hover {
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 12px 30px rgba(0,255,192,0.7);
 }
 
+/* Animación pulso sutil */
 @keyframes pulseGlow {
   0% { filter: drop-shadow(0 0 3px rgba(0,255,192,0.4)); }
   50% { filter: drop-shadow(0 0 15px rgba(0,255,192,0.8)); }
@@ -1174,22 +1177,19 @@ modalForm.addEventListener('submit', e => {
   opacity: 1;
   bottom: 80px;
 }
-
-/* Hover ligero */
-#scrollTopBtnPremium:hover {
-  transform: translateY(-2px) scale(1.1);
-  box-shadow: 0 10px 30px rgba(0,255,192,0.6);
-}
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const scrollBtn = document.getElementById('scrollTopBtnPremium');
 
-  // Mostrar/ocultar botón según scroll
+  // Mostrar/ocultar según scroll
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 200) scrollBtn.classList.add('show');
-    else scrollBtn.classList.remove('show');
+    if (window.scrollY > 400) {
+      scrollBtn.classList.add('show');
+    } else {
+      scrollBtn.classList.remove('show');
+    }
   });
 
   // Scroll suave al inicio
@@ -1198,6 +1198,3 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-<button id="scrollTopBtn" title="Ir arriba">⬆</button>
-</body>
-</html>
