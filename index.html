@@ -330,17 +330,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 
 </style>
 
-<!-- ================= SERVICIOS ================= -->
-<section id="servicios">
-  <h2>Servicios</h2>
-  <ul style="max-width:700px;margin:0 auto;text-align:left;list-style:none;padding:0;">
-    <li>✔ Planes de nutrición deportiva personalizados</li>
-    <li>✔ Optimización de composición corporal</li>
-    <li>✔ Estrategias de rendimiento y recuperación</li>
-    <li>✔ Seguimiento profesional continuo</li>
-  </ul>
-</section>
-
 <!-- ================= ÁREAS DE INTERVENCIÓN ================= -->
 <section id="areas-intervencion">
   <h2>Áreas de Intervención</h2>
@@ -609,8 +598,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
     Mi objetivo no es que sigas una dieta puntual, sino que desarrolles hábitos y estrategias que te permitan mantener tus resultados de manera autónoma y definitiva.
   </p>
 </section>
-  
-</section>
 <!-- TESTIMONIOS -->
 <section id="testimonios">
 <h2>Resultados Reales</h2>
@@ -672,7 +659,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
               <li>Acceso completo a todos los planes</li>
               <li>Soporte 24/7</li>
             </ul>
-            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+            <button onclick="location.href='#consulta-compacta'">ÚNETE AHORA</button>
           </div>
         </div>
       </div>
@@ -692,7 +679,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
               <li>Actualización periódica</li>
               <li>Soporte online</li>
             </ul>
-            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+            <button onclick="location.href='#consulta-compacta'">ÚNETE AHORA</button>
           </div>
         </div>
       </div>
@@ -712,7 +699,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
               <li>Ideal para probar</li>
               <li>Soporte básico</li>
             </ul>
-            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
+            <button onclick="location.href='#consulta-compacta'">ÚNETE AHORA</button>
           </div>
         </div>
       </div>
@@ -841,21 +828,6 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
     </p>
   </form>
 </section>
-
-<!-- ================= SCRIPT IMC ================= -->
-<script>
-  document.getElementById('calcular-imc').addEventListener('click', function() {
-    const peso = parseFloat(document.querySelector('input[name="peso"]').value);
-    const alturaCm = parseFloat(document.querySelector('input[name="altura"]').value);
-    if(!peso || !alturaCm) {
-      alert('Ingresa peso y altura válidos');
-      return;
-    }
-    const alturaM = alturaCm / 100;
-    const imc = (peso / (alturaM * alturaM)).toFixed(1);
-    document.getElementById('imc-resultado').textContent = `IMC: ${imc}`;
-  });
-</script>
   
 <footer>
 <p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
