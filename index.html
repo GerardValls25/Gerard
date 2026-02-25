@@ -997,9 +997,8 @@ const modal = document.getElementById("modalReserva");
 const modalClose = modal.querySelector(".modal-close");
 const modalForm = document.getElementById("modal-form");
 
-  /* ================= FUNCIONES ================= */
+  // ================= FUNCIONES =================
 
-  
 // Glow animado con GSAP (solo desktop)
 function aplicarGlow() {
   if (window.innerWidth < MOBILE_BREAKPOINT || glowTimeline) return;
@@ -1017,11 +1016,13 @@ function quitarGlow() {
   contenedorPlazas.style.transform = "scale(1)";
   botonesReserva.forEach(b => b.style.transform = "scale(1)");
 }
+
   // Bloquear botones cuando no hay plazas
 function bloquearBotones() {
   botonesReserva.forEach(btn => {
     btn.disabled = true;
     btn.style.opacity = "0.5";
+    btn.style.cursor = "not-allowed";
     btn.textContent = "Lista de espera";
     btn.setAttribute("aria-disabled", "true");
   });
@@ -1051,9 +1052,9 @@ function lanzarConfeti(cantidad = window.innerWidth < MOBILE_BREAKPOINT ? CONFET
     });
   }
 }
-
-  // Actualizar contador y estado de plazas
+  // ================= ACTUALIZAR CONTADOR =================
 function actualizarPlazas() {
+  // Header
   if (plazas > 0) {
     headerPlazasNum.textContent = plazas;
     headerPlazasNum.classList.toggle("blink", plazas <= 3);
@@ -1061,7 +1062,7 @@ function actualizarPlazas() {
   } else {
     document.getElementById("header-plazas").innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
-
+ // Contador principal
   if (plazas > 3) {
     contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
     quitarGlow();
@@ -1076,8 +1077,7 @@ function actualizarPlazas() {
 
   localStorage.setItem('plazas', plazas);
 }
-
- // Reducir plazas y disparar confeti
+// Reducir plazas y lanzar confeti
 function reducirPlaza() {
   if (plazas <= 0 || clickLocked) return;
   clickLocked = true;
@@ -1088,24 +1088,21 @@ function reducirPlaza() {
 }
   
 // ================= EVENTOS =================
-  
 
-  // Click en botones: abrir modal y reducir plaza
+// Click en botones de reserva
 botonesReserva.forEach(btn => {
   btn.addEventListener('click', () => {
-    if (plazas > 0) {
-      modal.classList.add("active");
-      modal.querySelector('input').focus();
-    }
+    if (plazas > 0) modal.classList.add("active");
     reducirPlaza();
   });
 });
   
- // Modal
-modalClose.addEventListener('click', ()=> modal.classList.remove("active"));
-modal.addEventListener('click', e=> { if(e.target===modal) modal.classList.remove("active"); });
-  
-  // Modal de reserva
+// Cerrar modal
+modalClose.addEventListener('click', () => modal.classList.remove("active"));
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove("active"); });
+
+
+// Modal de reserva
   const modal = document.getElementById("modalReserva");
   const modalClose = modal.querySelector(".modal-close");
   const modalForm = document.getElementById("modal-form");
