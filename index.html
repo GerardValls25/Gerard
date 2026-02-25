@@ -164,20 +164,26 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   right: 20px;
   width: 55px;
   height: 55px;
-  background: red; /* rojo para test visual */
-  color: white;
+  background: var(--primary);
+  color: #000;
   border-radius: 50%;
-  display: flex; /* SIEMPRE visible para probar */
+  display: flex;
   justify-content: center;
   align-items: center;
   font-size: 22px;
   cursor: pointer;
   z-index: 9999;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
 }
 
 #scrollTopBtn.show {
   opacity: 1;
   pointer-events: auto;
+  transform: translateY(0);
 }
 #whatsappBtn {
   position: fixed;
@@ -1101,13 +1107,16 @@ modalForm.addEventListener('submit', e => {
 // Botón "Subir arriba"
 const scrollBtn = document.getElementById('scrollTopBtn');
 
-// Mostrar u ocultar botón según scroll
 window.addEventListener('scroll', () => {
   if (window.scrollY > 200) {
     scrollBtn.classList.add('show');
   } else {
     scrollBtn.classList.remove('show');
   }
+});
+
+scrollBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 // Scroll suave al hacer clic
