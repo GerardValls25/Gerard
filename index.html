@@ -1102,65 +1102,19 @@ modalForm.addEventListener('submit', e => {
   }
 });
 
- // ================= BOTÓN SUBIR =================
-<button id="scrollTopBtn" aria-label="Ir al inicio" title="Ir al inicio">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="12" y1="19" x2="12" y2="5"/>
-    <polyline points="5 12 12 5 19 12"/>
-  </svg>
-</button>
+// ================= BOTÓN SUBIR =================
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) scrollBtn.classList.add('show');
+    else scrollBtn.classList.remove('show');
+  });
 
-<style>
-/* Botón circular fijo */
-#scrollTopBtn {
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  background: var(--primary, #00ffc0);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 9999;
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(20px);
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 25px rgba(0,255,192,0.5);
-}
-
-/* Mostrar botón */
-#scrollTopBtn.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-  animation: pulseGlow 1.2s infinite alternate;
-}
-
-/* Animación de pulso */
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 15px rgba(0,255,192,0.5); transform: scale(1); }
-  50% { box-shadow: 0 0 30px rgba(0,255,192,0.8); transform: scale(1.1); }
-  100% { box-shadow: 0 0 15px rgba(0,255,192,0.5); transform: scale(1); }
-}
-</style>
-
-<script>
-// Mostrar botón al hacer scroll
-const scrollBtn = document.getElementById('scrollTopBtn');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) scrollBtn.classList.add('show');
-  else scrollBtn.classList.remove('show');
-});
-
-// Scroll suave al inicio
-scrollBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // ================= INICIALIZAR =================
+  actualizarPlazas();
 });
 </script>
-  </body>
-</html>
+    </body>
+  </html>
