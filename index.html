@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reserva - Gerard Valls</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<title>Gerard Valls - Nutrición Profesional</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <style>
 :root {
   --primary:#00ffc0; --primary-hover:#00e6b8; --secondary:#ffbf00;
@@ -13,78 +15,65 @@
   --radius:16px; --transition:.5s ease; --shadow:0 8px 25px rgba(0,0,0,0.3);
   --danger:#ff4d4d; --success:#00ffc0;
 }
+* { box-sizing:border-box; }
+body { margin:0; font-family:'Montserrat',sans-serif; background:var(--dark-bg); color:var(--text-dark); line-height:1.6; overflow-x:hidden; transition:background var(--transition), color var(--transition);}
+a { text-decoration:none; color:var(--primary); transition:.3s;}
+a:hover { color: var(--primary-hover);}
 
-*{box-sizing:border-box;}
-body{margin:0;font-family:'Montserrat',sans-serif;background:var(--dark-bg);color:var(--text-dark);line-height:1.6;overflow-x:hidden;transition:background var(--transition), color var(--transition);}
-a{text-decoration:none;color:var(--primary);transition:.3s;}
-a:hover{color:var(--primary-hover);}
-  
 /* HEADER */
-header{text-align:center;padding:120px 20px 80px;position:relative;}
-header h1{font-size:3rem;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;text-shadow:0 0 15px rgba(0,255,192,0.4);animation:gradMove 12s linear infinite;}
-header p{margin-top:12px;font-size:1.3rem;text-shadow:0 2px 8px rgba(0,0,0,0.3);opacity:0;transform:translateY(20px);animation:fadeInUp 1s forwards 0.5s;}
-#cta-reserva{margin-top:20px;background:var(--secondary);color:#000;border:none;padding:14px 28px;border-radius:var(--radius);cursor:pointer;font-weight:600;transition:.4s;}
-#cta-reserva:hover{background:var(--primary-hover);transform:translateY(-2px);}
- 
-/* ANIMACIONES */
-@keyframes gradMove{0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
-@keyframes fadeInUp{to{opacity:1;transform:translateY(0);}}
-@keyframes blinkPlazas{0%,50%,100%{opacity:1;}25%,75%{opacity:0.4;}}
-@keyframes glowPulseUrgente{from{box-shadow:0 0 15px rgba(255,0,0,0.5);}to{box-shadow:0 0 40px rgba(255,0,0,0.9);}}
-@keyframes glowPulse{0%{box-shadow:0 0 5px rgba(255,255,255,0.4);}50%{box-shadow:0 0 25px rgba(255,255,255,0.9);}100%{box-shadow:0 0 5px rgba(255,255,255,0.4);}}
+header { text-align:center; padding:120px 20px 80px; position:relative;}
+header h1 { font-size:3rem; background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.4); animation: gradMove 12s linear infinite;}
+header p { margin-top:12px; font-size:1.3rem; text-shadow:0 2px 8px rgba(0,0,0,0.3); opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s;}
+#cta-reserva { margin-top:20px; background: var(--secondary); color:#000; border:none; padding:14px 28px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
+#cta-reserva:hover { background: var(--primary-hover); transform:translateY(-2px); }
 
+@keyframes gradMove {0%{background-position:0 0;}50%{background-position:100% 0;}100%{background-position:0 0;}}
+@keyframes fadeInUp { to{ opacity:1; transform: translateY(0); }}
+  
 /* NAV */
-nav{position:sticky;top:0;background: rgba(42,55,96,0.85);backdrop-filter: blur(10px);display:flex;justify-content:center;gap:1rem;padding:12px;z-index:1000;}
+nav {
+  position: sticky; top:0; background: rgba(42,55,96,0.85); backdrop-filter: blur(10px);
+  display:flex; justify-content:center; gap:1rem; padding:12px; z-index:1000;
+}
 
 /* WRAPPER */
-main.wrapper{max-width:1200px;margin:40px auto;padding:50px 30px 60px;border-radius:var(--radius);backdrop-filter: blur(15px);background:rgba(42,55,96,0.85);text-align:center;transition: background var(--transition);}
-h2{font-size:2rem;margin-bottom:20px;position:relative;display:inline-block;}
-h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;border-radius:2px;background: var(--primary);transform: scaleX(0);animation: lineDraw 1s forwards;}
-@keyframes lineDraw{to{transform: scaleX(1);}}
+main.wrapper { max-width:1200px; margin:40px auto; padding:50px 30px 60px; border-radius: var(--radius); backdrop-filter: blur(15px); background: rgba(42,55,96,0.85); text-align:center; transition: background var(--transition); }
+
+
+/* H2 */
+h2 { font-size:2rem; margin-bottom:20px; position: relative; display:inline-block;}
+h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0; border-radius:2px; background: var(--primary); transform: scaleX(0); animation: lineDraw 1s forwards;}
+@keyframes lineDraw { to { transform: scaleX(1); } }
+
 
 /* SERVICIOS */
-.services{display:grid;grid-template-columns: repeat(auto-fit,minmax(220px,1fr));gap:35px;perspective:1200px;}
-.service-inner{position:relative;width:100%;min-height:250px;transform-style:preserve-3d;transition: transform .8s ease;}
-.service:hover .service-inner{transform: rotateY(180deg);}
-.service-front,.service-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);padding:25px;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:.4s;}
-.service-front{background: rgba(255,255,255,0.05);box-shadow:var(--shadow);}
-.service-back{background: linear-gradient(135deg,#00ffc0,#00bfff);transform:rotateY(180deg);color:#000;text-align:left;}
-.service-back ul{margin:0;padding-left:20px;}
-.service-back button{margin-top:12px;background:white;color:var(--primary);font-weight:bold;border:none;padding:12px 16px;border-radius:var(--radius);cursor:pointer;transition:.3s;}
-.service-back button:hover{background:var(--primary);color:#000;}
-.service:hover .service-front i{transform: scale(1.3) rotate(8deg);animation: glowPulse 1.2s infinite;}
+.services { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:35px; perspective:1200px; }
+.service-inner { position:relative; width:100%; min-height:250px; transform-style:preserve-3d; transition: transform .8s ease; }
+.service:hover .service-inner { transform: rotateY(180deg); }
+.service-front, .service-back { position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:var(--radius); padding:25px; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:.4s; }
+.service-front { background: rgba(255,255,255,0.05); box-shadow:var(--shadow); }
+.service-back { background: linear-gradient(135deg,#00ffc0,#00bfff); transform:rotateY(180deg); color:#000; text-align:left; }
+.service-back ul { margin:0; padding-left:20px; }
+.service-back button { margin-top:12px; background:white; color:var(--primary); font-weight:bold; border:none; padding:12px 16px; border-radius:var(--radius); cursor:pointer; transition:.3s; }
+.service-back button:hover { background:var(--primary); color:#000; }
+.icon-planes, .icon-deporte, .icon-peso, .icon-online { color:#fff; border-radius:50%; padding:12px; font-size:2.5rem; transition: transform .4s, box-shadow .4s; }
+.icon-planes { background:#4caf50; box-shadow:0 0 15px rgba(76,175,80,0.6); }
+.icon-deporte { background:#2196f3; box-shadow:0 0 15px rgba(33,150,243,0.6); }
+.icon-peso { background:#ff9800; box-shadow:0 0 15px rgba(255,152,0,0.6); }
+.icon-online { background:#9c27b0; box-shadow:0 0 15px rgba(156,39,176,0.6); }
+.service:hover .service-front i { transform: scale(1.3) rotate(8deg); animation: glowPulse 1.2s infinite; }
+@keyframes glowPulse {0%{box-shadow:0 0 5px rgba(255,255,255,0.4);}50%{box-shadow:0 0 25px rgba(255,255,255,0.9);}100%{box-shadow:0 0 5px rgba(255,255,255,0.4);}}
 
 /* PLACAS URGENTES */
+
+
 .blink {
   animation: blinkPlazas 1.5s infinite;
 }
-
 .glow-urgente {
-  box-shadow: 0 0 25px rgba(255,0,0,0.7),
-              0 0 50px rgba(255,0,0,0.4);
+  box-shadow:0 0 25px rgba(255,0,0,0.7),0 0 50px rgba(255,0,0,0.4);
   animation: glowPulseUrgente 1.2s infinite alternate;
 }
-
-@keyframes blinkPlazas {
-  0%,50%,100% { opacity:1; }
-  25%,75% { opacity:0.4; }
-}
-
-@keyframes glowPulseUrgente {
-  from { box-shadow:0 0 15px rgba(255,0,0,0.5); }
-  to   { box-shadow:0 0 40px rgba(255,0,0,0.9); }
-}
-
-/* RESPONSIVE */
-@media (max-width:768px){.services{grid-template-columns:1fr;gap:20px;} .service-front,.service-back{padding:20px;}}
-
-  
-/* BOTONES FIJOS */
-#scrollTopBtn,#whatsappBtn{position:fixed;cursor:pointer;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;}
-#scrollTopBtn{bottom:60px;right:20px;background:var(--primary);color:white;padding:14px 18px;font-size:1.3rem;}
-#whatsappBtn{bottom:120px;right:20px;background:#25d366;width:60px;height:60px;font-size:2rem;box-shadow:0 8px 20px rgba(0,0,0,0.3);z-index:999;}
-#scrollTopBtn.show,#whatsappBtn.show{opacity:1;pointer-events:all;}
-
 
 /* BENEFICIOS INCLUIDOS */
 #incluye-todos {
@@ -123,40 +112,62 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
   box-shadow: var(--shadow);
   transition: transform .4s ease, box-shadow .4s ease;
 }
-.testimonio-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-}
-  .testimonio-text {
-  font-style: italic;
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-  .testimonio-user strong {
-  display: block;
-  font-weight: 600;
-}
-  .testimonio-user span {
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
+.testimonio-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+.testimonio-text { font-style: italic; margin-bottom: 20px; line-height:1.6; }
+.testimonio-user strong { display:block; font-weight:600; }
+.testimonio-user span { font-size:0.9rem; opacity:0.7; }
 
-/* FORMULARIOS Y MODAL */
-.glass-form, .modal-form {display:flex;flex-direction:column;gap:20px;padding:35px;border-radius:20px;background: rgba(255,255,255,0.05);backdrop-filter: blur(20px);border:1px solid rgba(255,255,255,0.2);box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+/* FORMULARIO */
+.glass-form { display:flex; flex-direction: column; gap:20px; margin-top:20px; padding:35px; border-radius:20px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border:1px solid rgba(255,255,255,0.2); box-shadow:0 10px 40px rgba(0,0,0,0.2); transition: background var(--transition); position:relative; }
 .form-group { position:relative; }
-.form-group input, .form-group textarea, .modal-form input, .modal-form select { width:100%; padding:16px 14px 16px 36px; border-radius:12px; border:1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color:white; font-size:1rem; transition:.3s; }
+.form-group input, .form-group textarea { width:100%; padding:16px 14px 16px 36px; border-radius:12px; border:1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color:white; font-size:1rem; transition:.3s; }
 .form-group label { position:absolute; left:36px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.6); transition:.3s; }
 .form-group input:focus + label, .form-group textarea:focus + label,
 .form-group input:not(:placeholder-shown) + label, .form-group textarea:not(:placeholder-shown) + label { color:var(--primary); }
+.icon-input { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.6); pointer-events:none; font-size:1rem; transition: all .3s ease; }
+.form-group input:focus ~ .icon-input, .form-group textarea:focus ~ .icon-input,
+.form-group input:not(:placeholder-shown) ~ .icon-input, .form-group textarea:not(:placeholder-shown) ~ .icon-input { color:var(--primary); transform:translateY(-50%) scale(1.2); }
 
-.modal-overlay {position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display:flex; justify-content:center; align-items:center; z-index:9999; opacity:0; pointer-events:none; transition:0.4s ease;}
+  /* MODAL */
+.modal-overlay {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  display:flex; justify-content:center; align-items:center; z-index:9999;
+  opacity:0; pointer-events:none; transition:0.4s ease;
+}
 .modal-overlay.active { opacity:1; pointer-events:all; }
-.modal-box { background: rgba(42,55,96,0.95); padding:30px; border-radius:20px; width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.5); transform:scale(0.8); transition:0.4s ease; text-align:center;}
+.modal-box {
+  background: rgba(42,55,96,0.95); padding:30px; border-radius:20px;
+  width:90%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  transform:scale(0.8); transition:0.4s ease; text-align:center;
+}
 .modal-overlay.active .modal-box { transform:scale(1); }
 .modal-close { position:absolute; right:20px; top:10px; font-size:1.5rem; cursor:pointer; }
+.modal-form { display:flex; flex-direction: column; gap:15px; margin-top:20px; }
+.modal-form input, .modal-form select { padding:12px; border-radius:10px; border:none; outline:none; }
 .modal-form button { background: var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s; }
 .modal-form button:hover { transform:scale(1.05); }
+
+/* RESPONSIVE */
+@media (max-width:768px) {
+  .services {
+    grid-template-columns: 1fr; /* 1 tarjeta por fila */
+    gap: 20px;
+  }
   
+  .service-front, .service-back {
+    padding: 20px; /* menos padding para pantallas pequeñas */
+  }
+  
+  .service-front h3 {
+    font-size: 1.3rem;
+  }
+  
+  .service-front p {
+    font-size: 1rem;
+  }
+}
+
 /* BOTONES FIJOS */
 #scrollTopBtn {
   position: fixed;
@@ -195,6 +206,12 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 }
 #whatsappBtn.show { display:flex; opacity:1; }
 
+
+/* ===== NUEVO: Parpadeo header y contador de plazas ===== */
+
+.blink {
+  animation: blinkPlazas 1.5s infinite;
+}
 
    /* --- ESTILO PARA TRANSFORMACIONES ANTES/DESPUÉS --- */
     .resultado-card {
@@ -243,54 +260,67 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
     }
 
     .before-after:hover .overlay { opacity:1; }
+  /* PLACAS URGENTES */
+.blink { animation: blinkPlazas 1.5s infinite; }
 
-/* TARJETAS */
-.card:hover{transform: translateY(-6px);background: rgba(255,255,255,0.12);box-shadow: 0 20px 40px rgba(0,0,0,0.3);transition: all 0.3s ease;}
-.resultado-card:hover{transform: scale(1.05);}
-.before-after img{transition: transform .5s ease;}
-.before-after:hover img{transform: scale(1.1);}
-.before-after .overlay{opacity:0; transition:.4s;}
-.before-after:hover .overlay{opacity:1;}
+/* CONTADOR Y GLOW */
+#plazas-container {
+  max-width:850px;
+  margin:40px auto;
+  padding:30px;
+  border-radius:24px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow);
+  text-align:center;
+  font-weight:bold;
+  font-size:1.2rem;
+  color:var(--danger);
+  position:relative;
+}
+.blink { animation: blinkPlazas 1.5s infinite; }
+.glow-urgente {
+  box-shadow: 0 0 25px rgba(255,0,0,0.7),0 0 50px rgba(255,0,0,0.4);
+  animation: glowPulseUrgente 1.2s infinite alternate;
+}
+@keyframes blinkPlazas { 0%,50%,100%{opacity:1;}25%,75%{opacity:0.4;} }
+@keyframes glowPulseUrgente { from{box-shadow:0 0 15px rgba(255,0,0,0.5);} to{box-shadow:0 0 40px rgba(255,0,0,0.9);} }
 </style>
 </head>
 <body>
 <!-- ================= HEADER ================= -->
 <header>
-  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" loading="lazy">
-  <h1>Gerard Valls</h1>
-  <h2>Nutrición Estratégica para Recomposición Corporal</h2>
-  <p>Pierde grasa y gana músculo con un sistema estructurado y basado en evidencia.</p>
-  <div style="margin:20px 0;font-weight:600;color:var(--secondary);">
-    ⭐⭐⭐⭐⭐ 4.9/5 · Más de 200 casos reales
+  <img src="gerard.jpg" alt="Gerard Valls - Nutricionista Profesional" class="hero-fade" loading="lazy">
+  <h1 class="hero-fade">
+    Pierde grasa y gana músculo sin dejar de comer lo que más te gusta
+  </h1>
+  <p class="hero-fade">
+    Método estratégico basado en evidencia científica para resultados reales y sostenibles.
+  </p>
+  <div class="hero-fade" style="margin-bottom:20px;font-weight:600;color:var(--secondary);">
+    ⭐⭐⭐⭐⭐ 4.9/5 • Más de 200 transformaciones reales
   </div>
-  <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+
+   <!-- BOTONES PRINCIPALES -->
+  <div class="hero-fade" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
     <button id="modal-reservar-btn" style="background:var(--secondary);color:#000;padding:12px 24px;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer;">
-      EMPEZAR EVALUACIÓN
+      EMPEZAR MI CAMBIO AHORA
     </button>
-    <a href="#planes" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;display:flex;align-items:center;justify-content:center;">
+    <button onclick="location.href='#planes'" style="background:transparent;color:var(--primary);padding:12px 24px;border:2px solid var(--primary);border-radius:var(--radius);font-weight:600;cursor:pointer;">
       VER PROGRAMAS
-    </a>
+    </button>
   </div>
-  <p id="header-plazas" aria-live="polite" style="font-weight:600;font-size:1rem; margin-top:5px;">
-    Plazas limitadas cada mes: <span id="header-plazas-num">8</span>
+
+  <!-- CONTADOR HEADER -->
+  <p id="header-plazas" style="font-weight:600;font-size:1rem; margin-top:5px;" aria-live="polite">
+    Actualmente solo acepto <span id="header-plazas-num">8</span> nuevos clientes este mes.
   </p>
 </header>
 
-<section id="adecuado" style="padding:40px 20px; text-align:center;">
-  <h2>¿Es para ti?</h2>
-  <ul style="list-style:none; padding:0; max-width:600px; margin:20px auto; text-align:left; line-height:1.6;">
-    <li>✔ Buscas mejorar tu composición corporal con estrategia</li>
-    <li>✔ Estás dispuesto a seguir un protocolo estructurado</li>
-    <li>✔ Valoras supervisión profesional individualizada</li>
-  </ul>
-  <p style="margin-top:20px; font-weight:600;">
-    Si buscas soluciones rápidas sin compromiso, no es para ti.
-  </p>
-</section>
 <!-- MODAL -->
-<div id="modalReserva" class="modal-overlay" role="dialog" aria-modal="true">
+<div id="modalReserva" class="modal-overlay">
   <div class="modal-box">
-    <span class="modal-close" aria-label="Cerrar modal">&times;</span>
+    <span class="modal-close">&times;</span>
     <h3>¡Reserva tu plaza ahora!</h3>
     <form id="modal-form" class="modal-form">
       <input type="text" name="nombre" placeholder="Nombre" required>
@@ -300,16 +330,12 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
   </div>
 </div>
 <nav>
-  <a href="#servicios">Áreas de Intervención</a>
-  <a href="#resultados">Resultados Observados</a>
-  <a href="#consulta-compacta">Evaluación Estratégica</a>
-  <a href="calculadora.html" target="_blank">Herramientas de Análisis</a>
-  <a href="imc.html" target="_blank">Evaluación Antropométrica</a>
+<a href="#servicios">Servicios</a>
+<a href="#testimonios">Testimonios</a>
+<a href="#consulta">Formulario</a>
+<a href="calculadora.html" target="_blank">Calculadora</a>
+<a href="imc.html" target="_blank">IMC</a>
 </nav>
-  <main class="wrapper">
-  <!-- SECCIONES Y CONTENIDO: Servicios, Áreas de Intervención, Contador de plazas, Resultados, Sobre Gerard Valls, Programas, Formulario compacto -->
-  <!-- Mantener todo el HTML que ya tenías dentro de <main> -->
-</main>
   
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
 <section id="evidencia" style="max-width:750px;margin:50px auto;text-align:center;">
@@ -332,143 +358,139 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
 
 </style>
 
-<!-- ================= ÁREAS DE INTERVENCIÓN ================= -->
-<section id="areas-intervencion">
-  <h2>Áreas de Intervención</h2>
-  <ul style="text-align:left;max-width:700px;margin:0 auto;list-style:none;padding:0;">
-    <li>✔ Evaluación Estratégica y Antropométrica profesional</li>
-    <li>✔ Resultados Observados y Medibles</li>
-    <li>✔ Herramientas Avanzadas de Análisis</li>
-    <li>✔ Planificación Individualizada y Seguimiento Continuo</li>
-  </ul>
-</section>
+<main class="wrapper">
+
+  <!-- ================= SERVICIOS ================= -->
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="services">
+      
+      <!-- Planes Personalizados -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-bowl-food icon-planes"></i>
+            <h3>Planes Personalizados</h3>
+            <p>Adaptados a tu estilo de vida y objetivos.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Evaluación inicial completa</li>
+              <li>Plan nutricional flexible</li>
+              <li>Seguimiento quincenal</li>
+            </ul>
+            <button class="solicitar-btn">Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Asesoría Deportiva -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-person-running icon-deporte"></i>
+            <h3>Asesoría Deportiva</h3>
+            <p>Optimiza tu rendimiento y recuperación.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Plan de macronutrientes</li>
+              <li>Recomendaciones de suplementación</li>
+              <li>Ajuste de cargas de entrenamiento</li>
+            </ul>
+            <button class="solicitar-btn">Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+     <!-- Pérdida de Peso -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-scale-balanced icon-peso"></i>
+            <h3>Pérdida de Peso</h3>
+            <p>Programas sostenibles y personalizados.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Reducción de grasa saludable</li>
+              <li>Hábitos de alimentación duraderos</li>
+              <li>Soporte psicológico</li>
+            </ul>
+            <button class="solicitar-btn">Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+    <!-- Consultas Online -->
+      <div class="service">
+        <div class="service-inner">
+          <div class="service-front">
+            <i class="fas fa-laptop icon-online"></i>
+            <h3>Consultas Online</h3>
+            <p>Asesoría desde la comodidad de tu hogar.</p>
+          </div>
+          <div class="service-back">
+            <ul>
+              <li>Videollamadas semanales</li>
+              <li>Soporte vía chat</li>
+              <li>Material exclusivo</li>
+            </ul>
+            <button class="solicitar-btn">Solicitar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <!-- CONTADOR DE PLAZAS -->
-  <div id="plazas-container" aria-live="polite" style="max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:var(--shadow);text-align:center;color:var(--danger);font-weight:bold;font-size:1.2rem;">
-  <p id="contador-plazas"></p>
-  <p style="margin-top:12px;font-size:1rem;">RECUERDA: LAS PLAZAS SON LIMITADAS. ¡APROVECHA YA!</p>
-</div>
+  <div id="plazas-container" aria-live="polite" style="max-width:850px;margin:40px auto;padding:30px;border-radius:24px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);box-shadow:0 8px 25px rgba(0,0,0,0.3);text-align:center;color:var(--danger);font-weight:bold;font-size:1.2rem;">
+    <p id="contador-plazas"></p>
+    <p style="margin-top:12px;font-size:1rem;">RECUERDA: LAS PLAZAS SON LIMITADAS. ¡APROVECHA YA!</p>
+  </div>
+</main>
+  
+<!-- FIN SERVICIOS -->
 
 <!-- ================= MÉTODO VALLS ================= -->
-<section id="metodologia" style="max-width:1000px; margin:50px auto; padding:50px 20px; background:linear-gradient(145deg, rgba(28,38,68,0.95), rgba(40,50,80,0.95)); border-radius:30px; box-shadow:0 20px 50px rgba(0,0,0,0.35); color:#fff; font-family:'Inter', sans-serif; text-align:center;">
-
-  <!-- Título principal -->
-  <h2 style="
-    font-size:2.8rem;
-    font-weight:900;
-    margin-bottom:40px;
-    line-height:1.2;
-    color:#fff;
-    letter-spacing:1px;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-  ">
-    Método Valls: 
-    <span style="
-      background: linear-gradient(90deg,#00f9ff,#f73ea2,#f76236);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    ">
-      Intervención Estratégica Personalizada
-    </span>
-  </h2>
-
-  <p style="max-width:850px; margin:0 auto 50px; font-size:1.05rem; line-height:1.6; color:#ddd;">
-    He desarrollado un sistema estructurado que combina <strong>nutrición flexible</strong>, <strong>entrenamiento adaptado</strong> y <strong>seguimiento continuo</strong> para garantizar resultados sostenibles y medibles.
+<section id="metodologia" style="max-width:900px; margin:50px auto; text-align:center; padding:0 20px;">
+  <h2 style="font-size:2rem; margin-bottom:20px;">Método Valls: Intervención Estratégica Personalizada</h2>
+  <p style="max-width:750px; margin:0 auto 40px; line-height:1.6; font-size:1rem;">
+    He desarrollado un sistema estructurado que combina nutrición flexible, entrenamiento adaptado y seguimiento continuo para garantizar resultados sostenibles.
   </p>
 
-  <div class="metodo-cards" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:35px;">
+<div class="testimonios-container" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px;">
 
-    <!-- TARJETA 1 -->
-    <div class="card" style="
-        position:relative;
-        background:rgba(0,123,255,0.1);
-        border-radius:25px;
-        padding:40px 25px 25px 25px;
-        box-shadow:0 15px 35px rgba(0,0,0,0.25);
-        font-weight:600;
-        cursor:default;
-        transition:all 0.3s ease;
-      ">
-      <div style="position:absolute; top:15px; left:20px; font-size:4rem; font-weight:900; color:rgba(255,255,255,0.08); user-select:none;">1</div>
-      <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:12px; background:linear-gradient(90deg,#00f9ff,#f76236); -webkit-background-clip:text; -webkit-text-fill-color:transparent; position:relative; z-index:1;">
-        1. Valoración Clínica y Funcional
-      </h3>
-      <p style="font-size:1rem; line-height:1.5; color:#eee; position:relative; z-index:1;">
-        Evaluación integral del estado nutricional, antecedentes, hábitos y objetivos. Se establecen indicadores iniciales que servirán como referencia para medir la evolución.
+    <div class="testimonio-card">
+      <h3>1. Valoración Clínica y Funcional</h3>
+      <p>
+        Evaluación integral del estado nutricional, antecedentes relevantes, hábitos, contexto personal y objetivos. Se establecen indicadores iniciales que servirán como referencia para medir la evolución.
       </p>
     </div>
 
-    <!-- TARJETA 2 -->
-    <div class="card" style="
-        position:relative;
-        background:rgba(40,167,69,0.1);
-        border-radius:25px;
-        padding:40px 25px 25px 25px;
-        box-shadow:0 15px 35px rgba(0,0,0,0.25);
-        font-weight:600;
-        cursor:default;
-        transition:all 0.3s ease;
-      ">
-      <div style="position:absolute; top:15px; left:20px; font-size:4rem; font-weight:900; color:rgba(255,255,255,0.08); user-select:none;">2</div>
-      <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:12px; background:linear-gradient(90deg,#00f9ff,#f76236); -webkit-background-clip:text; -webkit-text-fill-color:transparent; position:relative; z-index:1;">
-        2. Planificación Estratégica Individualizada
-      </h3>
-      <p style="font-size:1rem; line-height:1.5; color:#eee; position:relative; z-index:1;">
+  <div class="testimonio-card">
+      <h3>2. Planificación Estratégica Individualizada</h3>
+      <p>
         Diseño de un protocolo nutricional y de entrenamiento adaptado a las necesidades fisiológicas y estilo de vida, priorizando adherencia, sostenibilidad y eficacia.
       </p>
     </div>
 
-    <!-- TARJETA 3 -->
-    <div class="card" style="
-        position:relative;
-        background:rgba(255,193,7,0.1);
-        border-radius:25px;
-        padding:40px 25px 25px 25px;
-        box-shadow:0 15px 35px rgba(0,0,0,0.25);
-        font-weight:600;
-        cursor:default;
-        transition:all 0.3s ease;
-      ">
-      <div style="position:absolute; top:15px; left:20px; font-size:4rem; font-weight:900; color:rgba(255,255,255,0.08); user-select:none;">3</div>
-      <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:12px; background:linear-gradient(90deg,#00f9ff,#f76236); -webkit-background-clip:text; -webkit-text-fill-color:transparent; position:relative; z-index:1;">
-        3. Implementación Supervisada
-      </h3>
-      <p style="font-size:1rem; line-height:1.5; color:#eee; position:relative; z-index:1;">
+  <div class="testimonio-card">
+      <h3>3. Implementación Supervisada</h3>
+      <p>
         Aplicación estructurada del programa con directrices claras, herramientas prácticas y soporte continuo para garantizar correcta ejecución.
       </p>
     </div>
 
-    <!-- TARJETA 4 -->
-    <div class="card" style="
-        position:relative;
-        background:rgba(220,53,69,0.1);
-        border-radius:25px;
-        padding:40px 25px 25px 25px;
-        box-shadow:0 15px 35px rgba(0,0,0,0.25);
-        font-weight:600;
-        cursor:default;
-        transition:all 0.3s ease;
-      ">
-      <div style="position:absolute; top:15px; left:20px; font-size:4rem; font-weight:900; color:rgba(255,255,255,0.08); user-select:none;">4</div>
-      <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:12px; background:linear-gradient(90deg,#00f9ff,#f76236); -webkit-background-clip:text; -webkit-text-fill-color:transparent; position:relative; z-index:1;">
-        4. Seguimiento y Ajuste
-      </h3>
-      <p style="font-size:1rem; line-height:1.5; color:#eee; position:relative; z-index:1;">
+        <div class="testimonio-card">
+      <h3>4. Seguimiento y Ajuste</h3>
+      <p>
         Ajustes estratégicos para maximizar resultados y asegurar que tu progreso sea real y sostenible.
       </p>
     </div>
 
-  </div>
-</section>
-
-<style>
-.card:hover {
-  transform: translateY(-6px);
-  background: rgba(255,255,255,0.12);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  transition: all 0.3s ease;
-}
-</style>
+</div>
   <!-- ================= RESULTADOS REALES ================= -->
 <section id="resultados" style="
   max-width: 850px;
@@ -600,6 +622,8 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
     Mi objetivo no es que sigas una dieta puntual, sino que desarrolles hábitos y estrategias que te permitan mantener tus resultados de manera autónoma y definitiva.
   </p>
 </section>
+  
+</section>
 <!-- TESTIMONIOS -->
 <section id="testimonios">
 <h2>Resultados Reales</h2>
@@ -661,7 +685,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
               <li>Acceso completo a todos los planes</li>
               <li>Soporte 24/7</li>
             </ul>
-            <button onclick="location.href='#consulta-compacta'">ÚNETE AHORA</button>
+            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
           </div>
         </div>
       </div>
@@ -681,7 +705,7 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
               <li>Actualización periódica</li>
               <li>Soporte online</li>
             </ul>
-            <button onclick="location.href='#consulta-compacta'">ÚNETE AHORA</button>
+            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
           </div>
         </div>
       </div>
@@ -701,217 +725,124 @@ h2::after{content:"";width:60px;height:3px;display:block;margin:8px auto 0;borde
               <li>Ideal para probar</li>
               <li>Soporte básico</li>
             </ul>
-            <button onclick="location.href='#consulta-compacta'">ÚNETE AHORA</button>
+            <button onclick="location.href='#consulta'">ÚNETE AHORA</button>
           </div>
         </div>
       </div>
 
     </div>
   </section>
-  <!-- ================= SERVICIOS ESTRATÉGICOS ================= -->
-<section id="servicios" style="padding:90px 20px;background:linear-gradient(145deg, rgba(28,38,68,0.95), rgba(40,50,80,0.95));">
+  
+<section id="garantia">
+<h2>Garantía de Compromiso</h2>
 
-  <div style="max-width:1100px;margin:0 auto;text-align:center;">
-    
-    <h2 style="
-      font-size:2.4rem;
-      font-weight:900;
-      margin-bottom:15px;
-      background:linear-gradient(90deg,#00f9ff,#f73ea2,#f76236);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;">
-      Servicios Estratégicos
-    </h2>
-
-    <p style="color:#ccc;margin-bottom:60px;max-width:700px;margin-left:auto;margin-right:auto;">
-      Intervenciones diseñadas para optimizar composición corporal, rendimiento y adherencia a largo plazo.
-    </p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:35px;">
-
-      <!-- CARD 1 -->
-      <div class="card" style="
-        background:rgba(255,255,255,0.05);
-        backdrop-filter:blur(20px);
-        border-radius:22px;
-        padding:35px 25px;
-        box-shadow:var(--shadow);
-        text-align:left;
-        color:#fff;
-        transition:.3s ease;">
-
-        <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:12px;color:#00ffc0;">
-          Planificación Nutricional Personalizada
-        </h3>
-
-        <p style="color:#ddd;margin-bottom:18px;">
-          Diseño estratégico adaptado a tus necesidades fisiológicas, estilo de vida y objetivos.
-        </p>
-
-        <ul style="padding-left:18px;color:#bbb;line-height:1.6;margin-bottom:25px;">
-          <li>Evaluación clínica inicial</li>
-          <li>Protocolos flexibles y sostenibles</li>
-          <li>Ajustes periódicos estratégicos</li>
-        </ul>
-
-        <a href="#consulta-compacta" style="
-          display:inline-block;
-          padding:10px 18px;
-          background:var(--secondary);
-          color:#000;
-          font-weight:700;
-          border-radius:10px;
-          text-decoration:none;">
-          Solicitar evaluación
-        </a>
-      </div>
-
-      <!-- CARD 2 -->
-      <div class="card" style="
-        background:rgba(255,255,255,0.05);
-        backdrop-filter:blur(20px);
-        border-radius:22px;
-        padding:35px 25px;
-        box-shadow:var(--shadow);
-        text-align:left;
-        color:#fff;
-        transition:.3s ease;">
-
-        <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:12px;color:#ffbf00;">
-          Optimización del Rendimiento
-        </h3>
-
-        <p style="color:#ddd;margin-bottom:18px;">
-          Intervención orientada a mejorar recuperación, energía y capacidad física.
-        </p>
-
-        <ul style="padding-left:18px;color:#bbb;line-height:1.6;margin-bottom:25px;">
-          <li>Periodización nutricional</li>
-          <li>Control de macronutrientes</li>
-          <li>Recomendaciones de suplementación</li>
-        </ul>
-
-        <a href="#consulta-compacta" style="
-          display:inline-block;
-          padding:10px 18px;
-          background:var(--secondary);
-          color:#000;
-          font-weight:700;
-          border-radius:10px;
-          text-decoration:none;">
-          Solicitar evaluación
-        </a>
-      </div>
-
-      <!-- CARD 3 -->
-      <div class="card" style="
-        background:rgba(255,255,255,0.05);
-        backdrop-filter:blur(20px);
-        border-radius:22px;
-        padding:35px 25px;
-        box-shadow:var(--shadow);
-        text-align:left;
-        color:#fff;
-        transition:.3s ease;">
-
-        <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:12px;color:#00bfff;">
-          Recomposición Corporal
-        </h3>
-
-        <p style="color:#ddd;margin-bottom:18px;">
-          Estrategia combinada de nutrición y entrenamiento para pérdida de grasa y ganancia muscular.
-        </p>
-
-        <ul style="padding-left:18px;color:#bbb;line-height:1.6;margin-bottom:25px;">
-          <li>Balance energético optimizado</li>
-          <li>Estimulación de síntesis proteica</li>
-          <li>Seguimiento estructurado</li>
-        </ul>
-
-        <a href="#consulta-compacta" style="
-          display:inline-block;
-          padding:10px 18px;
-          background:var(--secondary);
-          color:#000;
-          font-weight:700;
-          border-radius:10px;
-          text-decoration:none;">
-          Solicitar evaluación
-        </a>
-      </div>
-
-    </div>
-  </div>
+<p style="max-width:750px;margin:0 auto;">
+Si sigues el plan y aplicas las pautas establecidas que te indico ,
+te garantizo ajustes estratégicos ilimitados hasta que veamos progreso real.
+Tu transformación es un proceso acompañado, no te dejo solo.
+</p>
 </section>
-
-<!-- ================= FORMULARIO AMPLIADO + IMC ================= -->
-<section id="consulta-compacta" style="max-width:720px;margin:30px auto;padding:25px 30px;background:#f9f9f9;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.07);font-family:Arial,sans-serif;">
-  <h2 style="text-align:center;margin-bottom:14px;color:#222;font-weight:700;font-size:1.6rem;">
-    Solicitud de Evaluación Premium
-  </h2>
-  <p style="text-align:center;color:#555;font-size:0.9rem;margin-bottom:22px;">
-    Completa tus datos para un análisis rápido de composición corporal y recomendaciones estratégicas.
-  </p>
-
-  <form id="form-compacto" style="display:flex;flex-direction:column;gap:14px;">
-
-    <!-- DATOS BÁSICOS -->
-    <input type="text" name="nombre" placeholder="Nombre completo" required style="padding:10px;border:1px solid #ddd;border-radius:10px;font-size:0.95rem;">
-    <input type="email" name="email" placeholder="Correo electrónico" required style="padding:10px;border:1px solid #ddd;border-radius:10px;font-size:0.95rem;">
+<!-- ================= FORMULARIO DE CONSULTA ================= -->
+<section id="consulta" style="padding:50px 20px; display:flex; justify-content:center; align-items:center; background:rgba(42,55,96,0.85); border-radius:24px; max-width:900px; margin:50px auto;">
+  <form id="pro-form" class="glass-form">
+    <h2 style="text-align:center; margin-bottom:25px; color:white;">Formulario de Consulta Avanzado</h2>
     
-    <!-- PESO Y ALTURA -->
-    <div style="display:flex;gap:12px;">
-      <input type="number" name="peso" placeholder="Peso (kg)" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:0.95rem;">
-      <input type="number" name="altura" placeholder="Altura (cm)" required style="flex:1;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:0.95rem;">
+    <div class="form-group">
+      <input type="text" name="nombre" required placeholder=" ">
+      <label>Nombre</label>
+      <i class="fas fa-user icon-input"></i>
+    </div>
+    
+    <div class="form-group">
+      <input type="email" name="email" required placeholder=" ">
+      <label>Email</label>
+      <i class="fas fa-envelope icon-input"></i>
     </div>
 
-    <!-- OBJETIVO -->
-    <select name="objetivo" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:0.95rem;">
-      <option value="" disabled selected>Objetivo principal</option>
-      <option value="perder_grasa">Perder grasa</option>
-      <option value="ganar_musculo">Ganar músculo</option>
-      <option value="recomposicion">Recomposición corporal</option>
-    </select>
-
-    <!-- CALCULO RÁPIDO DE IMC -->
-    <div style="display:flex;gap:12px;">
-      <button type="button" id="calcular-imc" style="flex:1;padding:10px;background:var(--secondary);color:#000;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:0.95rem;">
-        Calcular IMC
-      </button>
-      <span id="imc-resultado" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:0.95rem;text-align:center;line-height:28px;color:#333;">
-        IMC: -
-      </span>
+    <div class="form-group">
+      <input type="tel" name="telefono" required placeholder=" ">
+      <label>Teléfono</label>
+      <i class="fas fa-phone icon-input"></i>
     </div>
 
-    <!-- BOTÓN ENVIAR -->
-    <button type="submit" style="padding:12px 0;background:var(--secondary);color:#000;font-weight:700;border:none;border-radius:12px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-size:1rem;">
-      Enviar solicitud
-    </button>
+    <div class="form-group">
+      <input type="number" name="peso" id="peso" min="30" max="300" placeholder=" ">
+      <label>Peso (kg)</label>
+      <i class="fas fa-weight-hanging icon-input"></i>
+    </div>
 
-    <p style="text-align:center;color:#999;font-size:0.75rem;margin-top:6px;">
-      Al enviar aceptas nuestro tratamiento de datos y contacto profesional.
-    </p>
+    <div class="form-group">
+      <input type="number" name="altura" id="altura" min="100" max="250" placeholder=" ">
+      <label>Altura (cm)</label>
+      <i class="fas fa-ruler-vertical icon-input"></i>
+    </div>
+
+    <div class="form-group">
+      <label>Objetivo</label>
+      <select name="objetivo" required style="padding:14px; border-radius:12px; border:none; background:rgba(255,255,255,0.1); color:white;">
+        <option value="">Selecciona tu objetivo</option>
+        <option value="perder">Perder peso</option>
+        <option value="ganar">Ganar músculo</option>
+        <option value="mantener">Mantener peso</option>
+      </select>
+    </div>
+
+    <div style="margin:15px 0; color:var(--primary); font-weight:bold; text-align:center;" id="imc-result">
+      Tu IMC aparecerá aquí
+    </div>
+
+    <button type="submit" style="margin-top:10px; background:var(--secondary); color:#000; font-weight:bold; padding:14px; border-radius:12px; border:none; cursor:pointer; transition:.3s;">Enviar Consulta</button>
   </form>
 </section>
-  
-<footer>
-<p>© 2026 Gerard Valls. Todos los derechos reservados.</p>
-<p style="font-size:0.8rem; opacity:0.7;">La información proporcionada no sustituye el asesoramiento médico individual.</p>
-</footer>
-<!-- ====================== SCRIPT ====================== -->
+
 <script>
+// ===== CALCULADORA IMC DINÁMICA =====
+const pesoInput = document.getElementById('peso');
+const alturaInput = document.getElementById('altura');
+const imcResult = document.getElementById('imc-result');
+
+function calcularIMC() {
+  const peso = parseFloat(pesoInput.value);
+  const altura = parseFloat(alturaInput.value) / 100;
+  if(peso > 0 && altura > 0){
+    const imc = (peso / (altura * altura)).toFixed(1);
+    let estado = "";
+    if(imc < 18.5) estado = "Bajo peso";
+    else if(imc < 25) estado = "Normal";
+    else if(imc < 30) estado = "Sobrepeso";
+    else estado = "Obesidad";
+    imcResult.textContent = `Tu IMC es ${imc} (${estado})`;
+  } else {
+    imcResult.textContent = "Tu IMC aparecerá aquí";
+  }
+}
+
+pesoInput.addEventListener('input', calcularIMC);
+alturaInput.addEventListener('input', calcularIMC);
+
+// ===== ENVÍO FORMULARIO =====
+document.getElementById('pro-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const form = e.target;
+  alert("¡Consulta enviada! Te contactaremos pronto.");
+  form.reset();
+  imcResult.textContent = "Tu IMC aparecerá aquí";
+});
+</script>
+// ================================
+// SISTEMA OPTIMIZADO DE PLAZAS + MODAL
+// ================================
+
+// CONFIGURACIÓN
 const PLAZAS_INICIALES = 8;
 const CLICK_DELAY = 1200;
-const CONFETI_MAX_DESKTOP = 30;
-const CONFETI_MAX_MOBILE = 12;
+const CONFETI_MAX = 30; // máximo confeti por click
 const MOBILE_BREAKPOINT = 480;
-  
+
 // VARIABLES
 let plazas = parseInt(localStorage.getItem('plazas')) || PLAZAS_INICIALES;
 let mesActual = new Date().getMonth();
-let yearActual = new Date().getFullYear();
 let mesGuardado = parseInt(localStorage.getItem('mesPlazas'));
-let yearGuardado = parseInt(localStorage.getItem('yearPlazas'));
 let clickLocked = false;
 let glowTimeline = null;
 
@@ -919,25 +850,27 @@ let glowTimeline = null;
 const headerPlazasNum = document.getElementById("header-plazas-num");
 const contador = document.getElementById("contador-plazas");
 const contenedorPlazas = document.getElementById("plazas-container");
-  
-// RESET mensual
-if(mesGuardado !== mesActual || yearGuardado !== yearActual){
+
+// RESETEAR PLAZAS AL NUEVO MES
+if(mesGuardado !== mesActual){
   plazas = PLAZAS_INICIALES;
   localStorage.setItem('mesPlazas', mesActual);
-  localStorage.setItem('yearPlazas', yearActual);
   localStorage.setItem('plazas', plazas);
 }
 
-// ACTUALIZAR PLAZAS
+// FUNCIONES
 function actualizarPlazas() {
+  // Header
   if(plazas > 0){
     headerPlazasNum.textContent = plazas;
     headerPlazasNum.classList.toggle("blink", plazas <= 3);
     headerPlazasNum.style.color = plazas <= 3 ? "var(--danger)" : "var(--success)";
   } else {
-    document.getElementById("header-plazas").innerHTML = "❌ Este mes las plazas están completas. Lista de espera abierta.";
+    document.getElementById("header-plazas").innerHTML =
+      "❌ Este mes las plazas están completas. Lista de espera abierta.";
   }
 
+  // Contador principal
   if(plazas > 3){
     contador.innerHTML = `<span style="color:var(--success);font-weight:bold;">¡Quedan ${plazas} plazas disponibles!</span>`;
     quitarGlow();
@@ -953,17 +886,16 @@ function actualizarPlazas() {
   localStorage.setItem('plazas', plazas);
 }
 
-// REDUCIR PLAZA
 function reducirPlaza() {
   if(plazas <= 0 || clickLocked) return;
   clickLocked = true;
   plazas--;
   actualizarPlazas();
   lanzarConfeti();
-  setTimeout(()=>clickLocked=false, CLICK_DELAY);
+
+  setTimeout(() => clickLocked = false, CLICK_DELAY);
 }
 
-// BLOQUEAR BOTONES
 function bloquearBotones() {
   const botones = document.querySelectorAll(".service-back button, #modal-reservar-btn");
   botones.forEach(btn => {
@@ -974,9 +906,8 @@ function bloquearBotones() {
   });
 }
 
-// GLOW
 function aplicarGlow() {
-  if(window.innerWidth < MOBILE_BREAKPOINT) return;
+  if(window.innerWidth < MOBILE_BREAKPOINT) return; // desactiva glow en móviles
   if(!glowTimeline){
     contenedorPlazas.classList.add("glow-urgente");
     glowTimeline = gsap.timeline({repeat:-1, yoyo:true})
@@ -992,18 +923,21 @@ function quitarGlow() {
     glowTimeline.kill();
     glowTimeline = null;
     contenedorPlazas.classList.remove("glow-urgente");
-    contenedorPlazas.style.transform="scale(1)";
+    contenedorPlazas.style.transform = "scale(1)";
     document.querySelectorAll(".service-back button, #modal-reservar-btn")
-      .forEach(b => b.style.transform="scale(1)");
+      .forEach(b => b.style.transform = "scale(1)");
   }
 }
-  
-// CONFETI
-function lanzarConfeti(cantidad = window.innerWidth < MOBILE_BREAKPOINT ? CONFETI_MAX_MOBILE : CONFETI_MAX_DESKTOP){
-  const colors = ["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
+
+function lanzarConfeti(cantidad = CONFETI_MAX){
+  if(window.innerWidth < MOBILE_BREAKPOINT) return; // menos confeti en móviles
+  const colors=["#00ffc0","#ffbf00","#ff4d4d","#00bfff","#ff00c8"];
   for(let i=0;i<cantidad;i++){
-    const conf = document.createElement("div");
-    conf.style.cssText=`position:fixed;width:8px;height:8px;background:${colors[Math.floor(Math.random()*colors.length)]};top:-10px;left:${Math.random()*window.innerWidth}px;opacity:0.9;border-radius:50%;pointer-events:none;will-change:transform;`;
+    const conf=document.createElement("div");
+    conf.style.cssText=`
+      position:fixed; width:8px; height:8px; background:${colors[Math.floor(Math.random()*colors.length)]};
+      top:-10px; left:${Math.random()*window.innerWidth}px; opacity:0.9; border-radius:50%; pointer-events:none;
+    `;
     document.body.appendChild(conf);
     gsap.to(conf,{
       y:window.innerHeight+50,
@@ -1022,12 +956,11 @@ modal.setAttribute("aria-modal","true");
 const modalClose = modal.querySelector(".modal-close");
 const botonesReserva = document.querySelectorAll(".solicitar-btn, #modal-reservar-btn");
 
-botonesReserva.forEach(btn => btn.addEventListener("click",()=>modal.classList.add("active")));
-modalClose.addEventListener("click",()=>modal.classList.remove("active"));
-modal.addEventListener("click",(e)=>{if(e.target===modal) modal.classList.remove("active");});
+botonesReserva.forEach(btn => btn.addEventListener("click", () => modal.classList.add("active")));
+modalClose.addEventListener("click", () => modal.classList.remove("active"));
+modal.addEventListener("click", (e) => { if(e.target===modal) modal.classList.remove("active"); });
 
-
-// FORMULARIO MODAL
+// REDUCIR PLAZA AL ENVIAR FORMULARIO DEL MODAL
 document.getElementById("modal-form").addEventListener("submit", e=>{
   e.preventDefault();
   if(plazas>0){
@@ -1037,26 +970,10 @@ document.getElementById("modal-form").addEventListener("submit", e=>{
     e.target.reset();
   }
 });
-// IMC AVANZADO
-document.getElementById('calcular-imc').addEventListener('click', function() {
-  const peso = parseFloat(document.querySelector('input[name="peso"]').value);
-  const alturaCm = parseFloat(document.querySelector('input[name="altura"]').value);
-  if(!peso || !alturaCm){
-    alert('Ingresa peso y altura válidos');
-    return;
-  }
-  const alturaM = alturaCm/100;
-  const imc = (peso/(alturaM*alturaM)).toFixed(1);
-  let categoria = '';
-  if(imc<18.5) categoria='Bajo peso';
-  else if(imc<25) categoria='Normal';
-  else if(imc<30) categoria='Sobrepeso';
-  else categoria='Obesidad';
-  document.getElementById('imc-resultado').textContent = `IMC: ${imc} (${categoria})`;
-});
 
 // INICIALIZAR
 actualizarPlazas();
 </script>
+  
 </body>
 </html>
