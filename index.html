@@ -1105,58 +1105,96 @@ modalForm.addEventListener('submit', e => {
  // Inicializar contador al cargar
   actualizarPlazas();
 // ================= BOTÓN SUBIR ARRIBA ================= 
-<button id="scrollTopBtn" title="Ir arriba" aria-label="Ir al inicio" 
-        style="
-          position: fixed;
-          bottom: 30px;
-          right: 20px;
-          width: 55px;
-          height: 55px;
-          background: var(--primary);
-          color: #000;
-          border-radius: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 24px;
-          cursor: pointer;
-          z-index: 9999;
-          opacity: 0;
-          pointer-events: none;
-          transform: translateY(10px);
-          transition: all 0.3s ease;
-          box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        ">
-  ⬆
+<button id="scrollTopBtnPremium" aria-label="Ir al inicio" title="Ir al inicio">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="19" x2="12" y2="5"/>
+    <polyline points="5 12 12 5 19 12"/>
+  </svg>
+  <span class="tooltip">Ir al inicio</span>
 </button>
+
+<style>
+#scrollTopBtnPremium {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0,255,192,0.5);
+  position: fixed;
+}
+
+#scrollTopBtnPremium.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Glow pulsante */
+#scrollTopBtnPremium svg {
+  animation: pulseGlow 1.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { filter: drop-shadow(0 0 3px rgba(0,255,192,0.4)); }
+  50% { filter: drop-shadow(0 0 15px rgba(0,255,192,0.8)); }
+  100% { filter: drop-shadow(0 0 3px rgba(0,255,192,0.4)); }
+}
+
+/* Tooltip elegante */
+#scrollTopBtnPremium .tooltip {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(42,55,96,0.95);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+#scrollTopBtnPremium:hover .tooltip {
+  opacity: 1;
+  bottom: 80px;
+}
+
+/* Hover ligero */
+#scrollTopBtnPremium:hover {
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 10px 30px rgba(0,255,192,0.6);
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const scrollBtn = document.getElementById('scrollTopBtn');
+  const scrollBtn = document.getElementById('scrollTopBtnPremium');
 
-  // Mostrar u ocultar botón según scroll
+  // Mostrar/ocultar botón según scroll
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 200) {
-      scrollBtn.classList.add('show');
-      scrollBtn.style.opacity = "1";
-      scrollBtn.style.pointerEvents = "auto";
-      scrollBtn.style.transform = "translateY(0)";
-    } else {
-      scrollBtn.classList.remove('show');
-      scrollBtn.style.opacity = "0";
-      scrollBtn.style.pointerEvents = "none";
-      scrollBtn.style.transform = "translateY(10px)";
-    }
+    if (window.scrollY > 200) scrollBtn.classList.add('show');
+    else scrollBtn.classList.remove('show');
   });
 
-  // Scroll suave al hacer clic
+  // Scroll suave al inicio
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  // Atajo teclado: tecla "Home"
-  document.addEventListener('keydown', e => {
-    if(e.key === "Home") window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 </script>
