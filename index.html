@@ -389,14 +389,14 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 /* Asegurarse de que label flotante no se superponga */
 .form-group select:focus + label,
 .form-group select:valid + label {
-  top: -8px;
-  left: 14px;
-  font-size: 0.8rem;
-  color: var(--primary);
-  background: rgba(42,55,96,0.85);
+  top: -8px;                /* sube el label */
+  left: 14px;               
+  font-size: 0.8rem;        
+  color: var(--primary);    
+  background: rgba(20, 25, 45, 0.9); /* mismo fondo que select */
   padding: 0 6px;
   border-radius: 6px;
-  z-index: 2; /* asegurarse que label quede encima */
+  z-index: 2;                /* asegurarse que esté sobre el select */
 }
   /* Icono ajustado para select */
 .form-group select ~ .icon-input {
