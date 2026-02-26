@@ -314,7 +314,6 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
 }
 
 .form-group input:focus + label,
-.form-group select:focus + label,
 .form-group input:not(:placeholder-shown) + label {
   top:-8px;
   left:14px;
@@ -360,6 +359,23 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
+}
+  /* ================= FIX SELECT ================= */
+
+.form-group select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.form-group select:focus + label,
+.form-group select:valid + label {
+  top:-8px;
+  left:14px;
+  font-size:0.8rem;
+  color: var(--primary);
+  background: rgba(42,55,96,0.85);
+  padding:0 6px;
+  border-radius:6px;
 }
 </style>
 </head>
