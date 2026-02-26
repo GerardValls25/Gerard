@@ -22,7 +22,7 @@ a:hover { color: var(--primary-hover);}
 
 /* HEADER */
 header { text-align:center; padding:120px 20px 80px; position:relative;}
-header h1 { font-size:2.3rem; background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.4); animation: gradMove 12s linear infinite;}
+header h1 { font-size:3rem; background: linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.4); animation: gradMove 12s linear infinite;}
 header p { margin-top:12px; font-size:1.3rem; text-shadow:0 2px 8px rgba(0,0,0,0.3); opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s;}
 #cta-reserva { margin-top:20px; background: var(--secondary); color:#000; border:none; padding:14px 28px; border-radius:var(--radius); cursor:pointer; font-weight:600; transition:.4s;}
 #cta-reserva:hover { background: var(--primary-hover); transform:translateY(-2px); }
@@ -356,47 +356,26 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   -webkit-appearance: none; /* Safari / Chrome */
   -moz-appearance: none;    /* Firefox */
   appearance: none;         /* estándar */
-  background: rgba(20, 25, 45, 0.9); /* fondo oscuro */
+  background: rgba(0, 0, 0, 0.7); /* fondo negro semitransparente más oscuro */
   color: #fff;               /* texto blanco */
-  padding: 16px 40px 16px 14px; /* espacio para la flecha */
+  padding: 16px 14px 16px 40px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   outline: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 1rem;
-  position: relative;
-}
-
-/* Flecha personalizada */
-.form-group select::after {
-  content: "\25BC"; /* flecha hacia abajo */
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #fff;
-  font-size: 0.8rem;
-}
-
-/* Hover y focus */
-.form-group select:hover,
-.form-group select:focus {
-  background: rgba(20, 25, 45, 1); /* más oscuro al interactuar */
-  border-color: var(--primary);
 }
 /* Asegurarse de que label flotante no se superponga */
 .form-group select:focus + label,
 .form-group select:valid + label {
-  top: -8px;                /* sube el label */
-  left: 14px;               
-  font-size: 0.8rem;        
-  color: var(--primary);    
-  background: rgba(20, 25, 45, 0.9); /* mismo fondo que select */
+  top: -8px;
+  left: 14px;
+  font-size: 0.8rem;
+  color: var(--primary);
+  background: rgba(42,55,96,0.85);
   padding: 0 6px;
   border-radius: 6px;
-  z-index: 2;                /* asegurarse que esté sobre el select */
+  z-index: 2; /* asegurarse que label quede encima */
 }
   /* Icono ajustado para select */
 .form-group select ~ .icon-input {
@@ -447,24 +426,12 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
     </form>
   </div>
 </div>
-<nav class="nav">
-  <div class="nav-container">
-    <div class="logo">Gerard Valls</div>
-
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#servicios">Servicios</a></li>
-      <li><a href="#testimonios">Testimonios</a></li>
-      <li><a href="#consulta">Formulario</a></li>
-      <li><a href="calculadora.html" target="_blank">Calculadora</a></li>
-      <li><a href="imc.html" target="_blank">IMC</a></li>
-    </ul>
-  </div>
+<nav>
+<a href="#servicios">Servicios</a>
+<a href="#testimonios">Testimonios</a>
+<a href="#consulta">Formulario</a>
+<a href="calculadora.html" target="_blank">Calculadora</a>
+<a href="imc.html" target="_blank">IMC</a>
 </nav>
   
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
@@ -1201,34 +1168,6 @@ window.addEventListener('scroll',()=>{
 
 scrollBtn.addEventListener('click',()=>{ window.scrollTo({top:0,behavior:'smooth'}); });
 </script>
-.mobile-cta {
-  display: none;
-}
 
-@media (max-width: 768px) {
-
-  .mobile-cta {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(20,25,45,0.98);
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    z-index: 2000;
-  }
-
-  .mobile-cta button {
-    width: 95%;
-    background: var(--secondary);
-    color: black;
-    font-weight: 700;
-    padding: 14px;
-    border-radius: 14px;
-    border: none;
-    font-size: 1rem;
-  }
-}
 </body>
 </html>
