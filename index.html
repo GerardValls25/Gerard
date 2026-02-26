@@ -1072,7 +1072,6 @@ botonesReserva.forEach(btn => {
   btn.addEventListener('click', () => {
     if (plazas > 0) {
       modal.classList.add("active");
-      reducirPlaza();
     }
   });
 });
@@ -1085,7 +1084,10 @@ modal.addEventListener('click', e => { if (e.target === modal) modal.classList.r
   // Enviar formulario modal
 modalForm.addEventListener('submit', e => {
   e.preventDefault();
-  if (plazas >= 0) {
+
+  if (plazas > 0) {
+    reducirPlaza(); // 👈 ahora sí se descuenta
+
     alert("¡Perfecto! Tu plaza ha sido reservada. Te contactaremos pronto.");
     modalForm.reset();
     modal.classList.remove("active");
