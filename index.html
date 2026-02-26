@@ -1102,6 +1102,32 @@ modalForm.addEventListener('submit', e => {
  // Inicializar contador al cargar
   actualizarPlazas();
 
+function lanzarConfeti(){
+  for(let i=0;i<25;i++){
+    const c=document.createElement('div');
+    c.className='confeti';
+    c.style.width=c.style.height='8px';
+    c.style.background=['#00ffc0','#ffbf00','#ff4d4d','#00bfff'][Math.floor(Math.random()*4)];
+    c.style.left=Math.random()*window.innerWidth+'px';
+    c.style.top='-10px';
+    document.body.appendChild(c);
+    gsap.to(c,{y:window.innerHeight+20, rotation:360, duration:2+Math.random()*1.5, ease:"power2.out", onComplete:()=>c.remove()});
+  }
+}
+
+const btnReserva=document.getElementById('modal-reservar-btn');
+const modal=document.getElementById('modalReserva');
+const modalClose=document.querySelector('.modal-close');
+
+btnReserva.addEventListener('click',()=>{ modal.style.display='flex'; });
+modalClose.addEventListener('click',()=>{ modal.style.display='none'; });
+window.addEventListener('click', e=>{ if(e.target===modal){ modal.style.display='none'; } });
+
+document.getElementById('modal-form').addEventListener('submit', e=>{
+  e.preventDefault();
+  if(plazas>0){ plazas--; localStorage.setItem('plazas',plazas); actualizarPlazas(); lanzarConfeti(); alert("¡Plaza reservada!"); modal.style.display='none'; e.target.reset();}
+  else { alert("Lo siento, no quedan plazas disponibles."); modal.style.display='none'; }
+});
 </script>
  <!-- BOTÓN SUBIR -->
 <button id="scrollTopBtn" aria-label="Subir arriba">
@@ -1118,22 +1144,16 @@ modalForm.addEventListener('submit', e => {
 
 <!-- SCRIPT BOTONES -->
 <script>
-const scrollBtn = document.getElementById('scrollTopBtn');
-const whatsappBtn = document.getElementById('whatsappBtn');
+// ===== Scroll y WhatsApp =====
+const scrollBtn=document.getElementById('scrollTopBtn');
+const whatsappBtn=document.getElementById('whatsappBtn');
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 300) {
-    scrollBtn.classList.add('show');
-    whatsappBtn.classList.add('show');
-  } else {
-    scrollBtn.classList.remove('show');
-    whatsappBtn.classList.remove('show');
-  }
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>300){ scrollBtn.classList.add('show'); whatsappBtn.classList.add('show'); }
+  else{ scrollBtn.classList.remove('show'); whatsappBtn.classList.remove('show'); }
 });
 
-scrollBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+scrollBtn.addEventListener('click',()=>{ window.scrollTo({top:0,behavior:'smooth'}); });
 </script>
 
 </body>
