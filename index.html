@@ -382,6 +382,113 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   color: rgba(255,255,255,0.6);
   z-index: 1; /* detrás del label */
 }
+  /* ===== NAV PREMIUM APP STYLE ===== */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  background: rgba(15,20,40,0.75);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 1px;
+}
+
+/* BOTÓN 3 PUNTOS */
+.menu-dots {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.menu-dots span {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  transition: .3s ease;
+}
+
+/* Animación activa */
+.menu-dots.active span:nth-child(1) {
+  transform: translateY(6px);
+}
+
+.menu-dots.active span:nth-child(3) {
+  transform: translateY(-6px);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: white;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: .3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+/* ===== MOBILE VERSION ===== */
+
+@media (max-width: 768px) {
+
+  .menu-dots {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 65px;
+    right: 15px;
+    background: rgba(20,25,45,0.95);
+    backdrop-filter: blur(25px);
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    gap: 18px;
+    min-width: 200px;
+    opacity: 0;
+    transform: translateY(-15px) scale(0.95);
+    pointer-events: none;
+    transition: .35s ease;
+  }
+
+  .nav-links.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+  }
+
+}
 </style>
 </head>
 <body>
@@ -426,12 +533,25 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
     </form>
   </div>
 </div>
-<nav>
-<a href="#servicios">Servicios</a>
-<a href="#testimonios">Testimonios</a>
-<a href="#consulta">Formulario</a>
-<a href="calculadora.html" target="_blank">Calculadora</a>
-<a href="imc.html" target="_blank">IMC</a>
+<nav class="nav">
+  <div class="nav-container">
+    <div class="logo">Gerard Valls</div>
+
+    <!-- BOTÓN 3 PUNTOS PREMIUM -->
+    <div class="menu-dots" id="menu-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#servicios"><i class="fas fa-bowl-food"></i> Servicios</a></li>
+      <li><a href="#testimonios"><i class="fas fa-star"></i> Testimonios</a></li>
+      <li><a href="#consulta"><i class="fas fa-envelope"></i> Formulario</a></li>
+      <li><a href="calculadora.html" target="_blank"><i class="fas fa-calculator"></i> Calculadora</a></li>
+      <li><a href="imc.html" target="_blank"><i class="fas fa-heartbeat"></i> IMC</a></li>
+    </ul>
+  </div>
 </nav>
   
 <!-- SECCIÓN ENFOQUE BASADO EN EVIDENCIA -->
@@ -1168,6 +1288,33 @@ window.addEventListener('scroll',()=>{
 
 scrollBtn.addEventListener('click',()=>{ window.scrollTo({top:0,behavior:'smooth'}); });
 </script>
+<script>
+const menuDots = document.getElementById("menu-dots");
+const navLinks = document.getElementById("nav-links");
 
+if (menuDots && navLinks) {
+
+  menuDots.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    menuDots.classList.toggle("active");
+  });
+
+  // Cerrar al tocar un enlace
+  document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("active");
+      menuDots.classList.remove("active");
+    });
+  });
+
+  // Cerrar si se toca fuera
+  document.addEventListener("click", (e) => {
+    if (!menuDots.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove("active");
+      menuDots.classList.remove("active");
+    }
+  });
+}
+</script>
 </body>
 </html>
