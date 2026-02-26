@@ -1096,5 +1096,38 @@ modalForm.addEventListener('submit', e => {
   actualizarPlazas();
 
 </script>
+ <!-- BOTÓN SUBIR -->
+<button id="scrollTopBtn" aria-label="Subir arriba">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- BOTÓN WHATSAPP -->
+<a id="whatsappBtn"
+   href="https://wa.me/34600000000?text=Hola%20Gerard,%20quiero%20información%20sobre%20los%20planes"
+   target="_blank"
+   aria-label="Contactar por WhatsApp">
+   <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- SCRIPT BOTONES -->
+<script>
+const scrollBtn = document.getElementById('scrollTopBtn');
+const whatsappBtn = document.getElementById('whatsappBtn');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    scrollBtn.classList.add('show');
+    whatsappBtn.classList.add('show');
+  } else {
+    scrollBtn.classList.remove('show');
+    whatsappBtn.classList.remove('show');
+  }
+});
+
+scrollBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
 </body>
 </html>
