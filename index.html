@@ -865,15 +865,16 @@ Tu transformación es un proceso acompañado, no te dejo solo.
     
     <!-- Objetivo -->
     <div class="form-group">
-      <label for="objetivo">Objetivo</label>
-      <select name="objetivo" id="objetivo" required>
-        <option value="">Selecciona tu objetivo</option>
-        <option value="perder">Perder peso</option>
-        <option value="ganar">Ganar músculo</option>
-        <option value="mantener">Mantener peso</option>
-      </select>
-      <small class="error-message">Selecciona un objetivo</small>
-    </div>
+  <select name="objetivo" id="objetivo" required>
+    <option value="" disabled selected hidden></option>
+    <option value="perder">Perder peso</option>
+    <option value="ganar">Ganar músculo</option>
+    <option value="mantener">Mantener peso</option>
+  </select>
+  <label for="objetivo">Selecciona tu objetivo</label>
+  <i class="fas fa-bullseye icon-input"></i>
+  <small class="error-message">Selecciona un objetivo</small>
+</div>
     
     <!-- IMC dinámico -->
     <div id="imc-result" style="margin:15px 0; color:var(--primary); font-weight:bold; text-align:center; font-size:1rem;">
