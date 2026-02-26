@@ -1096,12 +1096,20 @@ botonesReserva.forEach(btn => {
   });
 });
   
-// Cerrar modal
+// Cerrar modal con click
 modalClose.addEventListener('click', () => modal.classList.remove("active"));
-modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove("active"); });
-
+modal.addEventListener('click', e => { 
+  if (e.target === modal) modal.classList.remove("active"); 
+});
+// ✅ Cerrar modal con tecla Esc
+document.addEventListener('keydown', (e) => {
+  if (e.key === "Escape" && modal.classList.contains("active")) {
+    modal.classList.remove("active");
+  }
+});
   
-  modalForm.addEventListener('submit', e => {
+ // Enviar formulario
+modalForm.addEventListener('submit', e => {
   e.preventDefault();
 
   // 1️⃣ Validar campos
