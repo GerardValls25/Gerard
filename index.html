@@ -1101,17 +1101,33 @@ modalClose.addEventListener('click', () => modal.classList.remove("active"));
 modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove("active"); });
 
   
-  // Enviar formulario modal
-modalForm.addEventListener('submit', e => {
+  modalForm.addEventListener('submit', e => {
   e.preventDefault();
 
-  if (plazas > 0) {
-    reducirPlaza(); // 👈 ahora sí se descuenta
-
-    alert("¡Perfecto! Tu plaza ha sido reservada. Te contactaremos pronto.");
-    modalForm.reset();
-    modal.classList.remove("active");
+  // 1️⃣ Validar campos
+  if (!modalForm.checkValidity()) {
+    modalForm.reportValidity();
+    return;
   }
+
+  // 2️⃣ Comprobar plazas
+  if (plazas <= 0) {
+    alert("Lo siento, ya no quedan plazas disponibles.");
+    return;
+  }
+
+  // 3️⃣ Aquí iría tu envío real (fetch, email, etc)
+
+  // 4️⃣ Reducir plazas y actualizar contador
+  reducirPlaza();
+  actualizarPlazas();
+
+  // 5️⃣ Feedback al usuario
+  alert("¡Perfecto! Tu plaza ha sido reservada. Te contactaremos pronto.");
+
+  // 6️⃣ Cerrar modal y resetear formulario
+  modalForm.reset();
+  modal.classList.remove("active");
 });
 
  // Inicializar contador al cargar
