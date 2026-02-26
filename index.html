@@ -356,14 +356,35 @@ h2::after { content:""; width:60px; height:3px; display:block; margin:8px auto 0
   -webkit-appearance: none; /* Safari / Chrome */
   -moz-appearance: none;    /* Firefox */
   appearance: none;         /* estándar */
-  background: rgba(0,0,0,0.25); /* fondo oscuro semitransparente */
+  background: rgba(20, 25, 45, 0.9); /* fondo oscuro */
   color: #fff;               /* texto blanco */
-  padding: 16px 14px 16px 40px;
+  padding: 16px 40px 16px 14px; /* espacio para la flecha */
   border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   outline: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 1rem;
+  position: relative;
+}
+
+/* Flecha personalizada */
+.form-group select::after {
+  content: "\25BC"; /* flecha hacia abajo */
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+/* Hover y focus */
+.form-group select:hover,
+.form-group select:focus {
+  background: rgba(20, 25, 45, 1); /* más oscuro al interactuar */
+  border-color: var(--primary);
 }
 /* Asegurarse de que label flotante no se superponga */
 .form-group select:focus + label,
