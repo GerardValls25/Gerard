@@ -193,7 +193,6 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset;
   transform: scale(1.05);
 }
-@keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
 .subscription-card.premium {
   transform: scale(1.05);
   border: 2px solid #00ffc0;
@@ -214,7 +213,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   .grid .card { padding:15px; }
 }
 
-/* Modal Premium */
+/* Modal Premium Unificado */
 .premium-modal {
   background: rgba(17,17,17,0.9);
   padding:30px;
@@ -240,7 +239,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 .premium-modal input:focus { outline:2px solid #00ffc0; background: rgba(255,255,255,0.15); }
 .premium-modal button[type="submit"] { padding:12px 20px; border:none; border-radius: var(--radius); background:#ffbf00; color:#000; font-weight:700; cursor:pointer; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset; transition: all 0.3s ease-in-out; animation: pulse 2s infinite; }
 .premium-modal button[type="submit"]:hover { background: #00ffc0; box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset; transform: scale(1.05); }
-.premium-modal button#close-modal { padding:8px; border:none; border-radius: var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
+.premium-modal button#close-unificado { padding:8px; border:none; border-radius: var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -252,7 +251,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   <p>Método estratégico basado en evidencia científica para resultados reales y sostenibles.</p>
   <div class="cta">
     <button id="cta-reserva">EMPEZAR MI CAMBIO AHORA</button>
-    <a href="#servicios">VER PROGRAMAS</a>
+    <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
     <a href="calculadora.html" class="neon-link">Calculadora</a>
     <a href="imc.html" class="neon-link">IMC</a>
   </div>
@@ -266,6 +265,72 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
     <div class="card"><i class="fas fa-person-running" style="color:#00bfff;"></i><h3>Asesoría Deportiva</h3><p>Optimiza tu rendimiento y recuperación.</p></div>
     <div class="card"><i class="fas fa-scale-balanced" style="color:#ffbf00;"></i><h3>Pérdida de Peso</h3><p>Programas sostenibles y personalizados.</p></div>
     <div class="card"><i class="fas fa-laptop" style="color:#ff00c8;"></i><h3>Consultas Online</h3><p>Asesoría desde la comodidad de tu hogar.</p></div>
+  </div>
+</section>
+
+<!-- =========================== -->
+<!-- OFERTA LIMITADA + GARANTÍA + FAQ + LEAD MAGNET -->
+<!-- =========================== -->
+
+<section id="oferta-limitada">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">🔥 Oferta Especial Solo por Hoy 🔥</h2>
+  <div class="grid">
+    <div class="card subscription-card premium">
+      <h3>Suscripción Anual -10%</h3>
+      <p style="font-size:1.6rem;font-weight:700;">€314 / 12 meses</p>
+      <ul style="text-align:left; margin:15px 0; padding-left:20px; line-height:1.5;">
+        <li>Acceso completo a todos los planes</li>
+        <li>Soporte prioritario 24/7</li>
+        <li>Descuento exclusivo solo hoy</li>
+      </ul>
+      <button onclick="openModalPlan('Suscripción Anual')">¡APROVECHAR AHORA!</button>
+    </div>
+  </div>
+  <p id="contador" style="text-align:center; margin-top:15px; color:#ffbf00; font-weight:600;">Quedan solo 5 cupos</p>
+</section>
+
+<section id="garantia">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">✅ Garantía de Resultados</h2>
+  <div class="grid">
+    <div class="card"><i class="fas fa-shield-alt" style="color:#00ffc0;"></i>
+      <h3>100% Seguro</h3>
+      <p>Si no ves resultados en 30 días, te devolvemos tu dinero.</p>
+    </div>
+    <div class="card"><i class="fas fa-thumbs-up" style="color:#ffbf00;"></i>
+      <h3>Confianza Total</h3>
+      <p>Más de 200 transformaciones exitosas certifican nuestro método.</p>
+    </div>
+    <div class="card"><i class="fas fa-user-check" style="color:#00bfff;"></i>
+      <h3>Profesional Certificado</h3>
+      <p>Gerard Valls, experto en nutrición, con asesoría personalizada.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">❓ Preguntas Frecuentes</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>¿Puedo cancelar cuando quiera?</h3>
+      <p>Sí, las suscripciones mensuales y trimestrales pueden cancelarse en cualquier momento sin penalización.</p>
+    </div>
+    <div class="card">
+      <h3>¿Es necesario asistir presencialmente?</h3>
+      <p>No, todos los planes incluyen consultoría online y seguimiento digital.</p>
+    </div>
+    <div class="card">
+      <h3>¿Recibiré un plan personalizado?</h3>
+      <p>Sí, todos los planes se adaptan a tus objetivos, estilo de vida y necesidades nutricionales.</p>
+    </div>
+  </div>
+</section>
+
+<section id="lead-magnet">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">🎁 Descarga Gratis</h2>
+  <p style="text-align:center;">Recibe la guía <strong>"10 Claves para Perder Grasa y Ganar Músculo"</strong> directamente en tu correo.</p>
+  <div style="text-align:center; margin-top:20px;">
+    <input type="email" id="lead-email" placeholder="Tu correo electrónico" style="padding:12px; border-radius:20px; border:none; width:250px;">
+    <button id="lead-btn" style="padding:12px 25px; border-radius:20px; background:#00ffc0; color:#000; font-weight:600; margin-left:10px;">Descargar</button>
   </div>
 </section>
 
@@ -335,16 +400,16 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   © 2026 Gerard Valls - Nutrición Profesional
 </footer>
 
-<!-- Modal Ultra Premium -->
-<div id="modal-form" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+<!-- Modal Unificado -->
+<div id="modal-unificado" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
     background: rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:2000; transition: opacity 0.3s ease;">
-  <form id="form-join" class="premium-modal">
-    <h3>Registro de Suscripción</h3>
+  <form id="form-unificado" class="premium-modal" data-stripe-plan="">
+    <h3 id="modal-title">Oferta Especial EMS</h3>
     <input type="text" name="nombre" placeholder="Nombre completo" required>
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <input type="text" name="plan" id="plan-input" readonly>
     <button type="submit">Enviar y Pagar</button>
-    <button type="button" id="close-modal">Cerrar</button>
+    <button type="button" id="close-unificado">Cerrar</button>
   </form>
 </div>
 
@@ -357,45 +422,36 @@ let renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-let ambient = new THREE.AmbientLight(0xffffff,0.6);
-scene.add(ambient);
-let point = new THREE.PointLight(0xffbf00,1.2);
-point.position.set(5,5,5);
-scene.add(point);
-
+let ambient = new THREE.AmbientLight(0xffffff,0.6); scene.add(ambient);
+let point = new THREE.PointLight(0xffbf00,1.2); point.position.set(5,5,5); scene.add(point);
 let geometry = new THREE.TorusKnotGeometry(0.7,0.2,128,32);
 let material = new THREE.MeshStandardMaterial({color:0x00ffc0, metalness:0.7, roughness:0.2});
-let torus = new THREE.Mesh(geometry, material);
-scene.add(torus);
+let torus = new THREE.Mesh(geometry, material); scene.add(torus);
 
-let composer = new THREE.EffectComposer(renderer);
-composer.addPass(new THREE.RenderPass(scene,camera));
+let composer = new THREE.EffectComposer(renderer); composer.addPass(new THREE.RenderPass(scene,camera));
 let bloom = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth,window.innerHeight),1.2,0.4,0.85);
 composer.addPass(bloom);
 
 let controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.enabled = window.innerWidth > 768;
+controls.enableDamping = true; controls.enabled = window.innerWidth > 768;
 
 gsap.to(torus.rotation, {y:Math.PI*2, duration:20, repeat:-1, ease:"linear"});
 gsap.utils.toArray("section").forEach(sec=>{
   gsap.from(sec,{opacity:0,y:50,duration:1,scrollTrigger:{trigger:sec,start:"top 80%",toggleActions:"play none none reverse"}});
 });
 
-function animate() {
-  requestAnimationFrame(animate);
-  torus.rotation.x +=0.002;
-  torus.rotation.y +=0.003;
-  controls.update();
-  composer.render();
-}
+function animate(){ requestAnimationFrame(animate); torus.rotation.x+=0.002; torus.rotation.y+=0.003; controls.update(); composer.render(); }
 animate();
-</script>
 
-<!-- Modal + Stripe + Formspree -->
-<script>
 function bloquearScroll(){ document.body.style.overflow='hidden'; }
 function liberarScroll(){ document.body.style.overflow=''; }
+
+const modal = document.getElementById("modal-unificado");
+const form = document.getElementById("form-unificado");
+const closeBtn = document.getElementById("close-unificado");
+
+// Inicializa Stripe (pon tu public key)
+const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
 
 const stripePlans = {
   "Suscripción Anual": "price_1AnualXYZ",
@@ -403,64 +459,109 @@ const stripePlans = {
   "Suscripción Mensual": "price_1MensualXYZ"
 };
 
-const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
+// Función para abrir el modal con título y plan
+function abrirModal(planName) {
+  document.getElementById("modal-title").textContent = planName;
+  document.getElementById("plan-input").value = planName;
+  form.dataset.stripePlan = stripePlans[planName] || "";
+  modal.style.display = "flex";
+  setTimeout(() => {
+    modal.style.opacity = "1";
+    form.style.transform = "scale(1)";
+  }, 50);
+  document.body.style.overflow = 'hidden'; // Bloquea scroll
+}
+
+function cerrarModal() {
+  modal.style.opacity = "0";
+  form.style.transform = "scale(0.9)";
+  setTimeout(() => {
+    modal.style.display = "none";
+    document.body.style.overflow = ''; // Libera scroll
+    form.reset(); // Limpiar formulario si quieres
+  }, 300);
+}
+
+document.getElementById("close-unificado").addEventListener("click", cerrarModal);
+modal.addEventListener("click", e=>{ if(e.target===modal) cerrarModal(); });
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  modal.style.display="flex";
+  modal.style.opacity="1";
+  modal.querySelector(".premium-modal").style.transform="scale(1)";
+  document.getElementById("modal-title").textContent = "Oferta Especial del Mes";
+  document.getElementById("plan-input").value = "Solo este mes 10% de descuento";
+  form.dataset.stripePlan = "";
+  bloquearScroll();
+});
 
 document.querySelectorAll(".subscription-card button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
-    const modal = document.getElementById("modal-form");
+    form.dataset.stripePlan = stripePlans[planName];
     modal.style.display="flex";
     modal.style.opacity="1";
     modal.querySelector(".premium-modal").style.transform="scale(1)";
     bloquearScroll();
-    document.getElementById("form-join").dataset.stripePlan = stripePlans[planName];
   });
 });
 
-document.getElementById("close-modal").addEventListener("click", ()=>{
-  const modal=document.getElementById("modal-form");
-  modal.style.opacity="0";
-  modal.querySelector(".premium-modal").style.transform="scale(0.9)";
-  setTimeout(()=>{ modal.style.display="none"; liberarScroll(); },300);
-});
-document.getElementById("modal-form").addEventListener("click", e=>{
-  if(e.target.id==="modal-form"){ 
-    e.target.style.opacity="0"; 
-    e.target.querySelector(".premium-modal").style.transform="scale(0.9)"; 
-    setTimeout(()=>{ e.target.style.display="none"; liberarScroll(); },300); 
-  }
-});
-
-document.getElementById("form-join").addEventListener("submit", async e=>{
+form.addEventListener("submit", async e=>{
   e.preventDefault();
-  const planID = e.target.dataset.stripePlan;
+  const planID = form.dataset.stripePlan;
   const nombre = e.target.nombre.value;
   const email = e.target.email.value;
-  if(!planID){ alert("Selecciona un plan válido."); return; }
 
-  // Formspree
   fetch("https://formspree.io/f/YOUR_FORM_ID", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify({ nombre, email, plan:document.getElementById("plan-input").value })
   }).catch(err=>console.log("Error Formspree:",err));
 
-  // Stripe Checkout
-  const {error} = await stripe.redirectToCheckout({
-    lineItems:[{ price:planID, quantity:1 }],
-    mode:'payment',
-    successUrl:window.location.href+'?success=true',
-    cancelUrl:window.location.href+'?cancel=true',
-    customerEmail:email
-  });
-  if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
+  if(planID){
+    const {error} = await stripe.redirectToCheckout({
+      lineItems:[{ price:planID, quantity:1 }],
+      mode:'payment',
+      successUrl:window.location.href+'?success=true',
+      cancelUrl:window.location.href+'?cancel=true',
+      customerEmail:email
+    });
+    if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
+  }
 
-  const modal=document.getElementById("modal-form");
-  modal.style.opacity="0";
-  modal.querySelector(".premium-modal").style.transform="scale(0.9)";
-  setTimeout(()=>{ modal.style.display="none"; liberarScroll(); },300);
+  cerrarModal();
 });
+
+function openModalPlan(planName){
+  document.getElementById("modal-title").textContent = planName;
+  document.getElementById("plan-input").value = planName;
+  form.dataset.stripePlan = stripePlans[planName] || "";
+  modal.style.display="flex";
+  modal.style.opacity="1";
+  modal.querySelector(".premium-modal").style.transform="scale(1)";
+  bloquearScroll();
+}
+
+document.getElementById("lead-btn").addEventListener("click", ()=>{
+  const email = document.getElementById("lead-email").value;
+  if(!email){ alert("Ingresa tu correo"); return; }
+  fetch("https://formspree.io/f/YOUR_FORM_ID", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ nombre:"Lead Magnet", email, plan:"Guía Gratis" })
+  }).then(()=> alert("¡Gracias! Revisa tu correo para descargar la guía"))
+    .catch(()=> alert("Ocurrió un error, intenta de nuevo"));
+});
+
+let cupos = 5;
+setInterval(()=>{
+  if(cupos>0){
+    cupos--;
+    document.getElementById("contador").textContent = `Quedan solo ${cupos} cupos`;
+  }
+}, 60000);
 </script>
 </body>
 </html>
