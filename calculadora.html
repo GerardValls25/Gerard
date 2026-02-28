@@ -242,10 +242,13 @@ form.addEventListener("submit", e => {
 btnAtras.addEventListener("click", (e) => {
   e.preventDefault();
 
-  window.close(); // intenta cerrar
-  setTimeout(() => {
-    window.location.href = "index.html"; // si no se cerró, vuelve
-  }, 100);
+  // Intenta cerrar si fue abierto con window.open()
+  if (window.opener) {
+    window.close();
+  } else {
+    // Si no se puede cerrar, redirige a index.html
+    window.location.href = "index.html";
+  }
 });
 </script>
 </body>
