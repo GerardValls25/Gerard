@@ -21,6 +21,9 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
+<!-- Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+
 <style>
 :root {
   --primary: #00ffc0;
@@ -32,7 +35,6 @@
   --card-bg: rgba(255,255,255,0.05);
   --card-shadow: 0 12px 40px rgba(0,0,0,0.55);
 }
-
 * { box-sizing: border-box; margin:0; padding:0; }
 body { font-family: 'Montserrat', sans-serif; background: var(--darkbg); color: var(--text-light); line-height:1.5; overflow-x:hidden; }
 a { text-decoration:none; color: var(--primary); transition: var(--transition); }
@@ -211,8 +213,36 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   .grid { gap:15px; }
   .grid .card { padding:15px; }
 }
-</style>
 
+/* Modal Premium */
+.premium-modal {
+  background: rgba(17,17,17,0.9);
+  padding:30px;
+  border-radius: var(--radius);
+  width:90%;
+  max-width:400px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset;
+  border: 2px solid #00ffc0;
+  position: relative;
+  animation: neonBorder 2.5s infinite alternate;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+@keyframes neonBorder {
+  0% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
+  50% { box-shadow: 0 0 35px #00ffc0, 0 0 70px #00bfff inset; border-color: #00bfff; }
+  100% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
+}
+.premium-modal h3 { text-align:center; font-size:1.5rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; margin-bottom:10px; }
+.premium-modal input { padding:10px; border-radius: var(--radius); border:none; background: rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; transition: 0.3s; }
+.premium-modal input:focus { outline:2px solid #00ffc0; background: rgba(255,255,255,0.15); }
+.premium-modal button[type="submit"] { padding:12px 20px; border:none; border-radius: var(--radius); background:#ffbf00; color:#000; font-weight:700; cursor:pointer; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset; transition: all 0.3s ease-in-out; animation: pulse 2s infinite; }
+.premium-modal button[type="submit"]:hover { background: #00ffc0; box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset; transform: scale(1.05); }
+.premium-modal button#close-modal { padding:8px; border:none; border-radius: var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
+</style>
+</head>
 <body>
 
 <!-- Header -->
@@ -313,115 +343,12 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
     <input type="text" name="nombre" placeholder="Nombre completo" required>
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <input type="text" name="plan" id="plan-input" readonly>
-    <button type="submit">Enviar</button>
+    <button type="submit">Enviar y Pagar</button>
     <button type="button" id="close-modal">Cerrar</button>
   </form>
 </div>
 
-<style>
-/* CSS modal ultra premium */
-.premium-modal {
-  background: rgba(17,17,17,0.9);
-  padding:30px;
-  border-radius: var(--radius);
-  width:90%;
-  max-width:400px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-  box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset;
-  border: 2px solid #00ffc0;
-  position: relative;
-  animation: neonBorder 2.5s infinite alternate;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-@keyframes neonBorder {
-  0% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
-  50% { box-shadow: 0 0 35px #00ffc0, 0 0 70px #00bfff inset; border-color: #00bfff; }
-  100% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
-}
-.premium-modal h3 {
-  text-align:center;
-  font-size:1.5rem;
-  background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip:text;
-  color:transparent;
-  margin-bottom:10px;
-}
-.premium-modal input {
-  padding:10px;
-  border-radius: var(--radius);
-  border:none;
-  background: rgba(255,255,255,0.1);
-  color:#fff;
-  font-size:0.95rem;
-  transition: 0.3s;
-}
-.premium-modal input:focus { outline:2px solid #00ffc0; background: rgba(255,255,255,0.15); }
-.premium-modal button[type="submit"] {
-  padding:12px 20px;
-  border:none;
-  border-radius: var(--radius);
-  background:#ffbf00;
-  color:#000;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset;
-  transition: all 0.3s ease-in-out;
-  animation: pulse 2s infinite;
-}
-.premium-modal button[type="submit"]:hover {
-  background: #00ffc0;
-  box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset;
-  transform: scale(1.05);
-}
-.premium-modal button#close-modal {
-  padding:8px;
-  border:none;
-  border-radius: var(--radius);
-  background: rgba(255,0,0,0.5);
-  color:#fff;
-  cursor:pointer;
-}
-</style>
-
-<script>
-// JS modal ultra premium
-document.querySelectorAll(".subscription-card button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const plan = btn.closest(".subscription-card").querySelector("h3").textContent;
-    document.getElementById("plan-input").value = plan;
-    const modal = document.getElementById("modal-form");
-    modal.style.display = "flex";
-    modal.style.opacity = "1";
-    modal.querySelector(".premium-modal").style.transform = "scale(1)";
-  });
-});
-document.getElementById("close-modal").addEventListener("click", () => {
-  const modal = document.getElementById("modal-form");
-  modal.style.opacity = "0";
-  modal.querySelector(".premium-modal").style.transform = "scale(0.9)";
-  setTimeout(()=>{ modal.style.display = "none"; }, 300);
-});
-document.getElementById("modal-form").addEventListener("click", e => {
-  if(e.target.id === "modal-form") {
-    e.target.style.opacity = "0";
-    e.target.querySelector(".premium-modal").style.transform = "scale(0.9)";
-    setTimeout(()=>{ e.target.style.display = "none"; }, 300);
-  }
-});
-document.getElementById("form-join").addEventListener("submit", e => {
-  e.preventDefault();
-  const plan = document.getElementById("plan-input").value;
-  alert("Formulario enviado para el plan: " + plan);
-  const modal = document.getElementById("modal-form");
-  modal.style.opacity = "0";
-  modal.querySelector(".premium-modal").style.transform = "scale(0.9)";
-  setTimeout(()=>{ modal.style.display = "none"; }, 300);
-});
-</script>
-
-<!-- Three.js y GSAP scripts -->
+<!-- Scripts -->
 <script>
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -465,5 +392,75 @@ function animate() {
 animate();
 </script>
 
+<!-- Modal + Stripe + Formspree -->
+<script>
+function bloquearScroll(){ document.body.style.overflow='hidden'; }
+function liberarScroll(){ document.body.style.overflow=''; }
+
+const stripePlans = {
+  "Suscripción Anual": "price_1AnualXYZ",
+  "Suscripción Trimestral": "price_1TrimestralXYZ",
+  "Suscripción Mensual": "price_1MensualXYZ"
+};
+
+const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
+
+document.querySelectorAll(".subscription-card button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    document.getElementById("plan-input").value = planName;
+    const modal = document.getElementById("modal-form");
+    modal.style.display="flex";
+    modal.style.opacity="1";
+    modal.querySelector(".premium-modal").style.transform="scale(1)";
+    bloquearScroll();
+    document.getElementById("form-join").dataset.stripePlan = stripePlans[planName];
+  });
+});
+
+document.getElementById("close-modal").addEventListener("click", ()=>{
+  const modal=document.getElementById("modal-form");
+  modal.style.opacity="0";
+  modal.querySelector(".premium-modal").style.transform="scale(0.9)";
+  setTimeout(()=>{ modal.style.display="none"; liberarScroll(); },300);
+});
+document.getElementById("modal-form").addEventListener("click", e=>{
+  if(e.target.id==="modal-form"){ 
+    e.target.style.opacity="0"; 
+    e.target.querySelector(".premium-modal").style.transform="scale(0.9)"; 
+    setTimeout(()=>{ e.target.style.display="none"; liberarScroll(); },300); 
+  }
+});
+
+document.getElementById("form-join").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const planID = e.target.dataset.stripePlan;
+  const nombre = e.target.nombre.value;
+  const email = e.target.email.value;
+  if(!planID){ alert("Selecciona un plan válido."); return; }
+
+  // Formspree
+  fetch("https://formspree.io/f/YOUR_FORM_ID", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ nombre, email, plan:document.getElementById("plan-input").value })
+  }).catch(err=>console.log("Error Formspree:",err));
+
+  // Stripe Checkout
+  const {error} = await stripe.redirectToCheckout({
+    lineItems:[{ price:planID, quantity:1 }],
+    mode:'payment',
+    successUrl:window.location.href+'?success=true',
+    cancelUrl:window.location.href+'?cancel=true',
+    customerEmail:email
+  });
+  if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
+
+  const modal=document.getElementById("modal-form");
+  modal.style.opacity="0";
+  modal.querySelector(".premium-modal").style.transform="scale(0.9)";
+  setTimeout(()=>{ modal.style.display="none"; liberarScroll(); },300);
+});
+</script>
 </body>
 </html>
