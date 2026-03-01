@@ -3,112 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bienvenida - Gerard Valls</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<title>Bienvenido - Gerard Valls</title>
 <style>
-:root {
-  --primary: #00ffc0;
-  --secondary: #ffbf00;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family:'Montserrat',sans-serif;
-  overflow:hidden;
-  background:#000;
-  color:#fff;
-}
+  /* VARIABLES */
+  :root {
+    --primary: #00ffc0;
+  }
 
-/* SPLASH */
-#splash {
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: url('gerard.jpg') center/cover no-repeat;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
+  /* RESET */
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Montserrat', sans-serif; overflow:hidden; background:#000; }
 
-#splash::after {
-  content:"";
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.45);
-}
+  /* SPLASH */
+  #splash {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    text-align:center; background:#000; z-index:1000;
+  }
 
-#splash h1, #splash p {
-  position:relative;
-  opacity:0;
-  transform: translateY(30px);
-  transition: all 0.8s ease;
-}
+  #splash img {
+    max-width:80%; height:auto; border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+  }
 
-#splash h1 {
-  font-size:2.8rem;
-  margin-bottom:15px;
-  font-weight:700;
-  text-shadow:0 0 15px rgba(0,255,192,0.6);
-}
+  #btn-comencemos {
+    margin-top:30px; padding:15px 40px; font-size:1.3rem;
+    border:none; border-radius:20px; background:var(--primary); color:#000;
+    cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s;
+  }
 
-#splash p {
-  font-size:1.3rem;
-  margin-bottom:40px;
-  text-shadow:0 0 10px rgba(0,255,192,0.4);
-}
-
-/* Botón */
-#btn-comencemos {
-  position:relative;
-  padding:18px 50px;
-  font-size:1.3rem;
-  border:none;
-  border-radius:30px;
-  background: var(--primary);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 5px 20px rgba(0,255,192,0.5);
-  transition:0.3s;
-  animation: pulse 2s infinite;
-}
-#btn-comencemos:hover {
-  transform:scale(1.05);
-  box-shadow:0 8px 30px rgba(0,255,192,0.7);
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
+  #btn-comencemos:hover {
+    transform:scale(1.05);
+    box-shadow:0 8px 25px rgba(0,255,192,0.5);
+  }
 </style>
 </head>
 <body>
 
 <div id="splash">
-  <h1>Bienvenido a tu transformación</h1>
-  <p>Descubre cómo transformar tu cuerpo sin sacrificar lo que más te gusta</p>
+  <img src="gerard.jpg" alt="Gerard Valls">
   <button id="btn-comencemos">Comencemos Ahora</button>
 </div>
 
 <script>
-// Animación de entrada del texto
-window.addEventListener("load", () => {
-  const h1 = document.querySelector("#splash h1");
-  const p = document.querySelector("#splash p");
+  // --- REDIRECCIÓN AUTOMÁTICA SI YA SE VIO EL SPLASH ---
+  if(localStorage.getItem("splashVisto") === "true"){
+    window.location.href = "index.html";
+  }
 
-  setTimeout(()=> { h1.style.opacity = 1; h1.style.transform = "translateY(0)"; }, 400);
-  setTimeout(()=> { p.style.opacity = 1; p.style.transform = "translateY(0)"; }, 800);
-
-  // Botón para ir a index.html
+  // --- BOTÓN COMENCEMOS ---
   document.getElementById("btn-comencemos").addEventListener("click", () => {
-    window.location.href = "index.html"; // <-- aquí apunta a tu web principal
+    // Guardar que ya se vio
+    localStorage.setItem("splashVisto", "true");
+
+    // Animación de salida
+    const splash = document.getElementById("splash");
+    splash.style.transition = "opacity 0.6s ease";
+    splash.style.opacity = 0;
+
+    // Redirigir al index después de la animación
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 600);
   });
-});
 </script>
 
 </body>
