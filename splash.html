@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerard Valls - Nutrición Profesional ULTRA PREMIUM</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #00ffc0;
+  --secondary: #ffbf00;
+  --darkbg: #1a1f3f;
+  --text-light: #e6e6e6;
+  --radius: 20px;
+  --transition: 0.4s ease;
+  --card-bg: rgba(255,255,255,0.05);
+  --card-shadow: 0 12px 40px rgba(0,0,0,0.55);
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Montserrat',sans-serif; background:var(--darkbg); color:var(--text-light); overflow-x:hidden; }
+a { text-decoration:none; color:var(--primary); transition:var(--transition); }
+a:hover { color:var(--secondary); }
+
+/* Splash page */
+#splash {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; z-index:10000;
+}
+#splash img {
+  max-width:80%; height:auto; border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+#btn-comencemos {
+  margin-top:30px; padding:15px 40px; font-size:1.2rem;
+  border:none; border-radius:20px; background:var(--primary); color:#000;
+  cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s;
+}
+#btn-comencemos:hover { transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5); }
+
+/* Ocultar contenido principal al inicio */
+#main-content { display:none; }
+</style>
+</head>
+<body>
+
+<!-- SPLASH / BIENVENIDA -->
+<div id="splash">
+  <img src="gerard.jpg" alt="Gerard Valls">
+  <button id="btn-comencemos">Comencemos Ahora</button>
+</div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div id="main-content">
+
+<!-- =================== HEADER =================== -->
+<header id="header">
+  <h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
+  <p>Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo.</p>
+  <div class="cta">
+    <button id="cta-reserva">EMPEZAR MI CAMBIO AHORA</button>
+    <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
+  </div>
+</header>
+
+<!-- =================== SECCIONES =================== -->
+<section id="servicios">
+  <h2>Lo que puedo ofrecerte</h2>
+  <div class="grid">
+    <div class="card">
+      <i class="fas fa-bowl-food" style="color:#00ffc0;"></i>
+      <h3>Planes personalizados</h3>
+      <p>Comidas y hábitos adaptados a ti, para progresar sin complicaciones.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-person-running" style="color:#00bfff;"></i>
+      <h3>Entrenamiento efectivo</h3>
+      <p>Rutinas que se ajustan a tu ritmo y estilo de vida.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer>
+  © 2026 Gerard Valls - Nutrición Profesional
+</footer>
+
+</div>
+
+<script>
+// =========================
+// BOTÓN COMENCEMOS
+// =========================
+document.getElementById("btn-comencemos").addEventListener("click", () => {
+  const splash = document.getElementById("splash");
+  const main = document.getElementById("main-content");
+
+  // Animación de salida
+  splash.style.transition = "opacity 0.6s ease";
+  splash.style.opacity = 0;
+
+  setTimeout(() => {
+    splash.style.display = "none";
+    main.style.display = "block";
+    document.body.style.overflow = 'auto';
+  }, 600);
+});
+</script>
+
+</body>
+</html>
