@@ -40,7 +40,21 @@ body { font-family: 'Montserrat', sans-serif; background: var(--darkbg); color: 
 a { text-decoration:none; color: var(--primary); transition: var(--transition); }
 a:hover { color: var(--secondary); }
 canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
-
+  
+/* SPLASH / BIENVENIDA */
+#splash {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; z-index:10000;
+}
+#splash img { max-width:80%; height:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+#btn-comencemos {
+  margin-top:30px; padding:15px 40px; font-size:1.2rem;
+  border:none; border-radius:20px; background:var(--primary); color:#000;
+  cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s;
+}
+#btn-comencemos:hover { transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5); }
+  
 /* MENÚ SUPERIOR NEÓN */
 #main-nav {
   position: fixed;
@@ -276,6 +290,12 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 </head>
 <body>
 
+  <!-- =================== SPLASH =================== -->
+<div id="splash">
+  <img src="gerard.jpg" alt="Gerard Valls">
+  <button id="btn-comencemos">Comencemos Ahora</button>
+</div>
+  
 <!-- Header -->
 <header id="header">
   <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
@@ -829,6 +849,21 @@ document.getElementById("close-unificado").addEventListener("click", closeModal)
 // Cerrar modal al hacer clic fuera del formulario
 document.getElementById("modal-unificado").addEventListener("click", e => {
   if (e.target.id === "modal-unificado") closeModal();
+});
+</script>
+      <script>
+document.getElementById("btn-comencemos").addEventListener("click", () => {
+  const splash = document.getElementById("splash");
+  const main = document.getElementById("main-content");
+
+  splash.style.transition = "opacity 0.6s ease";
+  splash.style.opacity = 0;
+
+  setTimeout(() => {
+    splash.style.display = "none";
+    main.style.display = "block";
+    document.body.style.overflow = 'auto';
+  }, 600);
 });
 </script>
 </body>
