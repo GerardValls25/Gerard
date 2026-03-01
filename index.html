@@ -811,33 +811,6 @@ setTimeout(()=>{
 }, 5000);
 </script>
 <script>
-// Abrir automáticamente modal de Suscripción Anual -10%
-window.addEventListener("load", () => {
-  const modal = document.getElementById("modal-unificado");
-  const form = modal.querySelector(".premium-modal");
-  const planName = "Suscripción Anual"; // nombre exacto que tienes en tu tarjeta
-  const stripePlans = {
-    "Suscripción Anual": "price_1AnualXYZ",
-    "Suscripción Trimestral": "price_1TrimestralXYZ",
-    "Suscripción Mensual": "price_1MensualXYZ"
-  };
-
-  // Configurar modal con datos de la oferta
-  document.getElementById("modal-title").textContent = planName + " -10%";
-  document.getElementById("plan-input").value = planName;
-  form.dataset.stripePlan = stripePlans[planName];
-
-  // Mostrar modal después de 2 segundos
-  setTimeout(() => {
-    modal.style.display = "flex";
-    requestAnimationFrame(() => {
-      modal.style.opacity = "1";
-      form.style.transform = "scale(1)";
-    });
-    document.body.style.overflow = 'hidden';
-  }, 2000);
-});
-
 // Función para cerrar modal
 function closeModal() {
   const modal = document.getElementById("modal-unificado");
