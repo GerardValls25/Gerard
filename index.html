@@ -683,30 +683,52 @@ function openModal(){
 // ENVÍO FORMULARIO
 form.addEventListener("submit", async e=>{
   e.preventDefault();
+
   const planID = form.dataset.stripePlan;
   const nombre = e.target.nombre.value;
   const email = e.target.email.value;
+  const plan = document.getElementById("plan-input").value;
 
-  // Formspree
-  fetch("https://formspree.io/f/YOUR_FORM_ID", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ nombre, email, plan:document.getElementById("plan-input").value })
-  }).catch(err=>console.log("Error Formspree:",err));
+  try {
 
-  // Stripe Checkout si hay plan
-  if(planID){
-    const {error} = await stripe.redirectToCheckout({
-      lineItems:[{ price:planID, quantity:1 }],
-      mode:'payment',
-      successUrl:window.location.href+'?success=true',
-      cancelUrl:window.location.href+'?cancel=true',
-      customerEmail:email
+    // 1️⃣ Enviar a Formspree
+    const response = await fetch("https://formspree.io/f/mbdaenpo", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+      },
+      body: JSON.stringify({ nombre, email, plan })
     });
-    if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
-  }
 
-  closeModal();
+    if(!response.ok){
+      alert("Error al enviar datos.");
+      return;
+    }
+
+    // 2️⃣ Si hay Stripe activo
+    if(planID && typeof stripe !== "undefined"){
+      const {error} = await stripe.redirectToCheckout({
+        lineItems:[{ price:planID, quantity:1 }],
+        mode:'payment',
+        successUrl:window.location.href+'?success=true',
+        cancelUrl:window.location.href+'?cancel=true',
+        customerEmail:email
+      });
+
+      if(error){
+        console.error(error);
+        alert("Error al redirigir a Stripe.");
+      }
+    }
+
+    // 3️⃣ Cerrar modal si no redirige
+    closeModal();
+
+  } catch(err){
+    console.error(err);
+    alert("Error de conexión.");
+  }
 });
 </script>
 <script>
