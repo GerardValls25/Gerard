@@ -559,7 +559,7 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
     const nombre = e.target.nombre.value;
     const email = e.target.email.value;
 
-    fetch("https://formspree.io/f/YOUR_FORM_ID", {
+    fetch("https://formspree.io/f/mbdaenpo", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ nombre, email })
@@ -671,7 +671,7 @@ form.addEventListener("submit", async e=>{
   const email = e.target.email.value;
 
   // Formspree
-  fetch("https://formspree.io/f/YOUR_FORM_ID", {
+  fetch("https://formspree.io/f/mbdaenpo", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify({ nombre, email, plan:document.getElementById("plan-input").value })
