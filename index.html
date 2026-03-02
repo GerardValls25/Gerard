@@ -554,20 +554,37 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   });
 
   // Envío del formulario a Formspree
-  formCambio.addEventListener("submit", e=>{
-    e.preventDefault();
-    const nombre = e.target.nombre.value;
-    const email = e.target.email.value;
+formCambio.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    fetch("https://formspree.io/f/YOUR_FORM_ID", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
+  const nombre = e.target.nombre.value;
+  const email = e.target.email.value;
+
+  try {
+    const response = await fetch("https://formspree.io/f/mbdaenpo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"   // 🔥 MUY IMPORTANTE
+      },
       body: JSON.stringify({ nombre, email })
-    }).then(()=>{
-      alert("¡Gracias! Pronto nos pondremos en contacto.");
-      cerrarModalCambio();
-    }).catch(err=>console.log(err));
-  });
+    });
+
+    if (response.ok) {
+      alert("✅ ¡Gracias! Pronto nos pondremos en contacto.");
+      
+      e.target.reset();           // Limpia formulario
+      cerrarModalCambio();        // Cierra el modal
+
+    } else {
+      alert("❌ Hubo un problema al enviar el formulario.");
+    }
+
+  } catch (error) {
+    console.error("Error:", error);
+    alert("❌ Error de conexión.");
+  }
+});
 </script>
 
 <!-- Scripts -->
