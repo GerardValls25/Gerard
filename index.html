@@ -869,5 +869,75 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
   }, 600);
 });
 </script>
+      <script>
+// Seleccionamos el modal y formulario
+const modalOferta = document.getElementById("modal-unificado");
+const formOferta = document.getElementById("form-unificado");
+
+// Abrir modal al pulsar cualquier botón de suscripción
+document.querySelectorAll(".subscription-card button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    document.getElementById("modal-title").textContent = planName;
+    document.getElementById("plan-input").value = planName;
+    modalOferta.style.display = "flex";
+    modalOferta.style.opacity = "1";
+    modalOferta.querySelector(".premium-modal").style.transform = "scale(1)";
+    document.body.style.overflow = "hidden";
+  });
+});
+
+// Función para cerrar modal
+function cerrarModalOferta() {
+  modalOferta.style.opacity = "0";
+  modalOferta.querySelector(".premium-modal").style.transform = "scale(0.9)";
+  setTimeout(() => {
+    modalOferta.style.display = "none";
+    document.body.style.overflow = "";
+  }, 300);
+}
+
+// Botón de cerrar y clic fuera del modal
+document.getElementById("close-unificado").addEventListener("click", cerrarModalOferta);
+modalOferta.addEventListener("click", e => {
+  if (e.target.id === "modal-unificado") cerrarModalOferta();
+});
+
+// Envío del formulario a Formspree con confirmación
+formOferta.addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const nombre = formOferta.nombre.value;
+  const email = formOferta.email.value;
+  const plan = formOferta.plan.value;
+
+  const submitBtn = formOferta.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = "Enviando...";
+  submitBtn.disabled = true;
+
+  try {
+    const res = await fetch("https://formspree.io/f/mbdaenpo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, email, plan })
+    });
+
+    if (res.ok) {
+      alert("¡Gracias! Pronto nos pondremos en contacto.");
+      formOferta.reset();
+      cerrarModalOferta();
+    } else {
+      alert("Hubo un problema al enviar el formulario. Intenta nuevamente.");
+    }
+  } catch (err) {
+    console.error("Error enviando Formspree:", err);
+    alert("No se pudo enviar el formulario. Revisa tu conexión e intenta de nuevo.");
+  } finally {
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
+});
+</script>
 </body>
 </html>
