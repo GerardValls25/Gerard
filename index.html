@@ -612,66 +612,86 @@ window.addEventListener("load", ()=>{
 });
 </script>
 
-// --- MODAL + FORMSPREE LIMPIO ---
-
+<script>
+// --- Modal Unificado + Stripe + Formspree ---
 function bloquearScroll(){ document.body.style.overflow='hidden'; }
 function liberarScroll(){ document.body.style.overflow=''; }
 
 const modal = document.getElementById("modal-unificado");
 const form = document.getElementById("form-unificado");
+const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
 
-// ABRIR MODAL
+const stripePlans = {
+  "Suscripción Anual": "price_1AnualXYZ",
+  "Suscripción Trimestral": "price_1TrimestralXYZ",
+  "Suscripción Mensual": "price_1MensualXYZ"
+};
+
+
+// ABRIR MODAL PREMIUM
 document.querySelectorAll(".subscription-card button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
-
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
-
+    form.dataset.stripePlan = stripePlans[planName];
     modal.style.display="flex";
-    setTimeout(()=> modal.style.opacity="1", 10);
-
+    modal.style.opacity="1";
+    modal.querySelector(".premium-modal").style.transform="scale(1)";
     bloquearScroll();
   });
 });
 
 // CERRAR MODAL
 document.getElementById("close-unificado").addEventListener("click", closeModal);
-
-modal.addEventListener("click", e=>{
-  if(e.target.id==="modal-unificado") closeModal();
-});
+modal.addEventListener("click", e=>{ if(e.target.id==="modal-unificado") closeModal(); });
 
 function closeModal(){
+  modal.style.display="none";
   modal.style.opacity="0";
-  setTimeout(()=>{
-    modal.style.display="none";
-    liberarScroll();
-  }, 300);
+  liberarScroll();
 }
 
-// ENVÍO FORMULARIO (SOLO FORMSPREE)
-form.addEventListener("submit", e=>{
-  e.preventDefault();
+function openModal(){
+  modal.style.display = "flex";
 
+  setTimeout(()=>{
+    modal.style.opacity = "1";
+    modal.querySelector(".premium-modal").style.transform = "scale(1)";
+  }, 10);
+
+  bloquearScroll();
+}
+
+// ENVÍO FORMULARIO
+form.addEventListener("submit", async e=>{
+  e.preventDefault();
+  const planID = form.dataset.stripePlan;
   const nombre = e.target.nombre.value;
   const email = e.target.email.value;
-  const plan = document.getElementById("plan-input").value;
 
-  fetch("https://formspree.io/f/mbdaenpo", {
+  // Formspree
+  fetch("https://formspree.io/f/YOUR_FORM_ID", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ nombre, email, plan })
-  })
-  .then(()=>{
-    alert("✅ Mensaje enviado correctamente");
-    form.reset();
-    closeModal();
-  })
-  .catch(()=>{
-    alert("❌ Error al enviar el mensaje");
-  });
+    body: JSON.stringify({ nombre, email, plan:document.getElementById("plan-input").value })
+  }).catch(err=>console.log("Error Formspree:",err));
+
+  // Stripe Checkout si hay plan
+  if(planID){
+    const {error} = await stripe.redirectToCheckout({
+      lineItems:[{ price:planID, quantity:1 }],
+      mode:'payment',
+      successUrl:window.location.href+'?success=true',
+      cancelUrl:window.location.href+'?cancel=true',
+      customerEmail:email
+    });
+    if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
+  }
+
+  closeModal();
 });
+</script>
 <script>
 // CONFIGURACIÓN
 const plazasIniciales = 5;      // Plazas al inicio del mes
