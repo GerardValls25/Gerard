@@ -435,10 +435,11 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   <p style="text-align:center; margin-bottom:15px;">Si estás cansado de empezar y abandonar, este es el sistema que necesitas.</p>
   <p style="text-align:center; color:#ffbf00; font-weight:600; margin-bottom:25px;">⚡ Solo 5 personas nuevas al mes</p>
   <div style="text-align:center;">
-    <button id="cta-reserva" style="padding:15px 40px; font-size:1.1rem; border:none; border-radius:20px; background:#ffbf00; color:#000; font-weight:700; cursor:pointer;">
-      EMPEZAR AHORA
-    </button>
-  </div>
+  <button id="cta-reserva-final" 
+    style="padding:15px 40px; font-size:1.1rem; border:none; border-radius:20px; background:#ffbf00; color:#000; font-weight:700; cursor:pointer;">
+    EMPEZAR AHORA
+  </button>
+</div>
 </section>
 
 <!-- Suscripciones Optimizado con Badge -->
@@ -561,14 +562,18 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   const formCambio = document.getElementById("form-cambio");
 
   // Abrir modal al pulsar botón principal
-  document.getElementById("cta-reserva").addEventListener("click", ()=>{
+  document.querySelectorAll(".cta-reserva").forEach(btn => {
+  btn.addEventListener("click", () => {
     modalCambio.style.display = "flex";
-    setTimeout(()=>{
+
+    setTimeout(() => {
       modalCambio.style.opacity = "1";
       formCambio.style.transform = "scale(1)";
-    }, 10); // pequeño delay para transición
-    document.body.style.overflow = 'hidden';
+    }, 10);
+
+    document.body.style.overflow = "hidden";
   });
+});
 
   // Función para cerrar modal
   function cerrarModalCambio() {
@@ -716,7 +721,7 @@ form.addEventListener("submit", async e=>{
   if(planID){
     const {error} = await stripe.redirectToCheckout({
       lineItems:[{ price:planID, quantity:1 }],
-      mode:'payment',
+      mode:'subscription',
       successUrl:window.location.href+'?success=true',
       cancelUrl:window.location.href+'?cancel=true',
       customerEmail:email
