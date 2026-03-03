@@ -25,6 +25,7 @@
 <script src="https://js.stripe.com/v3/"></script>
 
 <style>
+/* ==== Estilos ==== */
 :root {
   --primary: #00ffc0;
   --secondary: #ffbf00;
@@ -41,10 +42,11 @@ a { text-decoration:none; color: var(--primary); transition: var(--transition); 
 a:hover { color: var(--secondary); }
 canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
 
-/* MAIN CONTENT OCULTO AL INICIO */
+/* Main content hidden initially */
 #main-content { display: none; }
+
   
-/* SPLASH */
+/* Splash */
 #splash {
   position:fixed; top:0; left:0; width:100%; height:100%;
   background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center;
@@ -128,7 +130,7 @@ section {
 }
 
 /* Header */
-header { text-align:center; padding:140px 20px 60px; }
+header { text-align:center; padding:180px 20px 60px; }
 header {
   text-align: center;
   padding: 180px 20px 60px; 
@@ -293,71 +295,46 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 </head>
 <body>
 
-  <!-- =================== SPLASH =================== -->
-  <div id="splash">
-    <img src="gerard.jpg" alt="Gerard Valls">
-    <button id="btn-comencemos">Comencemos Ahora</button>
-  </div>
+<!-- Splash -->
+<div id="splash">
+  <img src="gerard.jpg" alt="Gerard Valls">
+  <button id="btn-comencemos">Comencemos Ahora</button>
+</div>
 
 
   <!-- =================== CONTENIDO PRINCIPAL =================== -->
-  <div id="main-content">
+ <div id="main-content">
 
-    <!-- Header -->
-    <header id="header">
-      <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
+  <!=================== Header  =================== -->
+<header id="header">
+  <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
+  <h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
+  <p>Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.</p>
 
-      <h1>
-        Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas
-      </h1>
+  <div style="margin-top:20px; font-size:0.95rem; opacity:0.9;">
+    ✔ Plan totalmente personalizado para ti<br>
+    ✔ Seguimiento directo conmigo<br>
+    ✔ Adaptado a tu estilo de vida real
+  </div>
+  <p style="margin-top:10px; color:#ffbf00; font-weight:600;">⚡ Trabajo con pocas personas para asegurar resultados reales</p>
 
-      <p>
-        Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo,
-        logrando progreso real y sostenible.
-      </p>
-
-      <div style="margin-top:20px; font-size:0.95rem; opacity:0.9;">
-        ✔ Plan totalmente personalizado para ti<br>
-        ✔ Seguimiento directo conmigo<br>
-        ✔ Adaptado a tu estilo de vida real
-      </div>
-
-      <p style="margin-top:10px; color:#ffbf00; font-weight:600;">
-        ⚡ Trabajo con pocas personas para asegurar resultados reales
-      </p>
-
-      <div class="cta">
-        <button id="cta-reserva">EMPEZAR MI CAMBIO AHORA</button>
-        <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
-        <a href="calculadora.html" class="neon-link">Calculadora</a>
-        <a href="imc.html" class="neon-link" target="_blank">IMC</a>
-      </div>
-    </header>
+  <div class="cta">
+    <button id="cta-reserva" class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
+    <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
+    <a href="calculadora.html" class="neon-link">Calculadora</a>
+    <a href="imc.html" class="neon-link" target="_blank">IMC</a>
+  </div>
+</header>
 
 <!-- Servicios -->
-    <section id="servicios">
-      <h2 style="text-align:center;">Lo que puedo ofrecerte</h2>
-
-      <div class="grid">
-        <div class="card">
-          <i class="fas fa-bowl-food"></i>
-          <h3>Planes personalizados</h3>
-          <p>Comidas y hábitos adaptados a ti, para progresar sin complicaciones.</p>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-person-running"></i>
-          <h3>Entrenamiento efectivo</h3>
-          <p>Rutinas que se ajustan a tu ritmo y estilo de vida.</p>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-laptop"></i>
-          <h3>Apoyo constante</h3>
-          <p>Seguimiento y consejos online para mantener tu progreso real.</p>
-        </div>
-      </div>
-    </section>
+<section id="servicios">
+  <h2 style="text-align:center;">Lo que puedo ofrecerte</h2>
+  <div class="grid">
+    <div class="card"><i class="fas fa-bowl-food"></i><h3>Planes personalizados</h3><p>Comidas y hábitos adaptados a ti, para progresar sin complicaciones.</p></div>
+    <div class="card"><i class="fas fa-person-running"></i><h3>Entrenamiento efectivo</h3><p>Rutinas que se ajustan a tu ritmo y estilo de vida.</p></div>
+    <div class="card"><i class="fas fa-laptop"></i><h3>Apoyo constante</h3><p>Seguimiento y consejos online para mantener tu progreso real.</p></div>
+  </div>
+</section>
 <!-- =========================== -->
 <!-- OFERTA LIMITADA + GARANTÍA + FAQ + LEAD MAGNET -->
 <!-- =========================== -->
