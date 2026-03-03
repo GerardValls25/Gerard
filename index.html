@@ -291,6 +291,81 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 .premium-modal button[type="submit"] { padding:12px 20px; border:none; border-radius: var(--radius); background:#ffbf00; color:#000; font-weight:700; cursor:pointer; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset; transition: all 0.3s ease-in-out; animation: pulse 2s infinite; }
 .premium-modal button[type="submit"]:hover { background: #00ffc0; box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset; transform: scale(1.05); }
 .premium-modal button#close-unificado { padding:8px; border:none; border-radius: var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
+/* ============================= */
+/* 🔥⚡ ENERGY FIRE ULTRA PREMIUM */
+/* ============================= */
+
+.energy-fire-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -3;
+  overflow: hidden;
+}
+
+/* Capa fuego */
+.energy-fire-overlay::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255,120,0,0.6), transparent 40%),
+    radial-gradient(circle at 80% 50%, rgba(255,80,0,0.6), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(255,150,0,0.5), transparent 50%);
+  filter: blur(60px);
+  animation: fireMove 8s ease-in-out infinite alternate;
+}
+
+/* Capa energía eléctrica */
+.energy-fire-overlay::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(0,255,255,0.6), transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(0,191,255,0.5), transparent 40%),
+    radial-gradient(circle at 50% 0%, rgba(0,255,192,0.5), transparent 50%);
+  filter: blur(70px);
+  mix-blend-mode: screen;
+  animation: energyPulse 6s ease-in-out infinite alternate;
+}
+
+/* Movimiento fuego */
+@keyframes fireMove {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.2) rotate(3deg);
+  }
+}
+
+/* Pulsación energía */
+@keyframes energyPulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+
+/* Máscara central limpia */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background: radial-gradient(circle at center,
+      rgba(26,31,63,1) 45%,
+      rgba(26,31,63,0.9) 60%,
+      rgba(26,31,63,0.4) 75%,
+      rgba(26,31,63,0) 100%);
+}
+ 
 </style>
 </head>
 <body>
@@ -1057,5 +1132,6 @@ formOferta.addEventListener("submit", async e => {
   }
 });
 </script>
+<div class="energy-fire-overlay"></div>
 </body>
 </html>
