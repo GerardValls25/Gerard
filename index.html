@@ -435,10 +435,10 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   <p style="text-align:center; margin-bottom:15px;">Si estás cansado de empezar y abandonar, este es el sistema que necesitas.</p>
   <p style="text-align:center; color:#ffbf00; font-weight:600; margin-bottom:25px;">⚡ Solo 5 personas nuevas al mes</p>
   <div style="text-align:center;">
-  <button id="cta-reserva-final" 
-    style="padding:15px 40px; font-size:1.1rem; border:none; border-radius:20px; background:#ffbf00; color:#000; font-weight:700; cursor:pointer;">
-    EMPEZAR AHORA
-  </button>
+  <button class="cta-reserva"
+  style="padding:15px 40px; font-size:1.1rem; border:none; border-radius:20px; background:#ffbf00; color:#000; font-weight:700; cursor:pointer;">
+  👉 QUIERO MI PLAN PERSONALIZADO
+</button>
 </div>
 </section>
 
@@ -559,10 +559,10 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   // Script Modal "Empezar Mi Cambio Ahora"
   // ================================
   const modalCambio = document.getElementById("modal-cambio");
-  const formCambio = document.getElementById("form-cambio");
+const formCambio = document.getElementById("form-cambio");
 
-  // Abrir modal al pulsar botón principal
-  document.querySelectorAll(".cta-reserva").forEach(btn => {
+// ===== ABRIR MODAL =====
+document.querySelectorAll(".cta-reserva").forEach(btn => {
   btn.addEventListener("click", () => {
     modalCambio.style.display = "flex";
 
@@ -575,25 +575,35 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   });
 });
 
-  // Función para cerrar modal
-  function cerrarModalCambio() {
-    modalCambio.style.opacity = "0";
-    formCambio.style.transform = "scale(0.9)";
-    setTimeout(()=>{
-      modalCambio.style.display = "none";
-      document.body.style.overflow = '';
-    }, 300);
+// ===== CERRAR MODAL =====
+function cerrarModal() {
+  modalCambio.style.opacity = "0";
+  formCambio.style.transform = "scale(0.9)";
+
+  setTimeout(() => {
+    modalCambio.style.display = "none";
+    document.body.style.overflow = "auto";
+  }, 300);
+}
+
+  // Botón cerrar (la X)
+document.querySelector(".cerrar-modal").addEventListener("click", cerrarModal);
+
+ // Cerrar haciendo click fuera del formulario
+modalCambio.addEventListener("click", (e) => {
+  if (e.target === modalCambio) {
+    cerrarModal();
   }
+});
 
-  // Cerrar al pulsar botón
-  document.getElementById("close-cambio").addEventListener("click", cerrarModalCambio);
-
-  // Cerrar al hacer click fuera del formulario
-  modalCambio.addEventListener("click", e=>{
-    if(e.target.id === "modal-cambio") cerrarModalCambio();
-  });
-
-  // Envío del formulario a Formspree
+  // Cerrar con tecla ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && modalCambio.style.display === "flex") {
+    cerrarModal();
+  }
+});
+  
+// Envío del formulario a Formspree
   formCambio.addEventListener("submit", e=>{
     e.preventDefault();
     const nombre = e.target.nombre.value;
