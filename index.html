@@ -49,17 +49,16 @@ canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
 /* ===============================
    SPLASH CON VIDEO Y BOTÓN
    =============================== */
+/* Contenedor splash */
 #splash {
   position: fixed;
   inset: 0;
-  background: #000;
+  z-index: 10000;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  text-align: center;
-  z-index: 10000;
+  background: #000;
 }
 
 /* Video de fondo */
@@ -68,8 +67,10 @@ canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
   width: 120%;
   height: 120%;
   object-fit: cover;
-  filter: blur(50px) brightness(0.6) saturate(1.4);
-  opacity: 0.8;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(10px) brightness(0.6);
   z-index: 0;
 }
 
@@ -420,12 +421,12 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 </head>
 <body>
 
-<!-- SPLASH CON VIDEO MEJORADO -->
+<!-- SPLASH CON VIDEO -->
 <div id="splash">
   <!-- Video de fondo -->
   <video id="bg-video" autoplay muted loop playsinline>
-    <source src="fire.mp4" type="video/mp4">
-    Tu navegador no soporta video HTML5.
+    <source src="fuego.mp4" type="video/mp4">
+    Tu navegador no soporta video.
   </video>
 
   <!-- Contenido encima del video -->
@@ -436,8 +437,11 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 </div>
 
 
-  <!-- =================== CONTENIDO PRINCIPAL =================== -->
- <div id="main-content">
+ <!-- CONTENIDO PRINCIPAL -->
+<div id="main-content" style="display:none;">
+  <h1>¡Bienvenido!</h1>
+  <p>Contenido principal de la web aquí.</p>
+</div>
 
   <!=================== Header  =================== -->
 <header id="header">
@@ -1110,7 +1114,7 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
   setTimeout(() => {
     splash.style.display = "none";
     main.style.display = "block";
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   }, 600);
 });
 </script>
