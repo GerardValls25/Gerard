@@ -535,69 +535,106 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   // ================================
   // Script Modal "Empezar Mi Cambio Ahora"
   // ================================
-  document.addEventListener("DOMContentLoaded", () => {
   const modalCambio = document.getElementById("modal-cambio");
-  const formCambio = document.getElementById("form-cambio");
-  const btnCerrar = document.getElementById("close-cambio");
+const formCambio = document.getElementById("form-cambio");
+const btnCerrar = document.getElementById("close-cambio");
+
+// Crear contenedor de mensaje dentro del modal
+let mensajeDiv = document.createElement("div");
+mensajeDiv.style.textAlign = "center";
+mensajeDiv.style.marginTop = "15px";
+mensajeDiv.style.fontWeight = "600";
+mensajeDiv.style.color = "#00ffc0";
+mensajeDiv.style.opacity = 0;
+mensajeDiv.style.transition = "opacity 0.4s ease";
+formCambio.appendChild(mensajeDiv);
 
 // Abrir modal
-  document.querySelectorAll(".btn-cambio").forEach(btn => {
+ document.querySelectorAll(".btn-cambio").forEach(btn => {
   btn.addEventListener("click", () => {
+    formCambio.reset();
+    mensajeDiv.style.opacity = 0;
+    mensajeDiv.textContent = "";
+
     modalCambio.style.display = "flex";
     setTimeout(() => {
       modalCambio.style.opacity = "1";
       formCambio.style.transform = "scale(1)";
+      formCambio.nombre.focus();
     }, 10);
+
     document.body.style.overflow = "hidden";
   });
 });
 
-
 // ===== CERRAR MODAL =====
   function cerrarModal() {
-    modalCambio.style.opacity = "0";
-    formCambio.style.transform = "scale(0.9)";
-    setTimeout(() => {
-      modalCambio.style.display = "none";
-      document.body.style.overflow = "auto";
-    }, 300);
-  }
-  // Botón cerrar (la X)
-btnCerrar.addEventListener("click", cerrarModal);
+  modalCambio.style.opacity = "0";
+  formCambio.style.transform = "scale(0.9)";
+  setTimeout(() => {
+    modalCambio.style.display = "none";
+    document.body.style.overflow = 'auto';
+  }, 300);
+}
 
- // Cerrar haciendo click fuera del formulario
-modalCambio.addEventListener("click", e => {
-    if(e.target === modalCambio) cerrarModal();
-  });
+btnCerrar.addEventListener("click", cerrarModal);
+modalCambio.addEventListener("click", e => { if(e.target === modalCambio) cerrarModal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape" && modalCambio.style.display==="flex") cerrarModal(); });
 
   // Cerrar con tecla ESC
  document.addEventListener("keydown", e => {
     if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
   });
   
-// Enviar formulario a Formspree
-  formCambio.addEventListener("submit", async e => {
-    e.preventDefault();
-    const nombre = formCambio.nombre.value;
-    const email = formCambio.email.value;
+// ===== ENVÍO DE FORMULARIO PROFESIONAL =====
+formCambio.addEventListener("submit", async e => {
+  e.preventDefault();
+    const submitBtn = formCambio.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
 
-    try {
-      const res = await fetch("https://formspree.io/f/mbdaenpo", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ nombre, email })
-      });
+  submitBtn.textContent = "Enviando...";
+  submitBtn.disabled = true;
+  submitBtn.style.background = "#00ffc0";
+  
+      try {
+    const res = await fetch("https://formspree.io/f/mbdaenpo", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        nombre: formCambio.nombre.value,
+        email: formCambio.email.value
+      })
+    });
 
       if(res.ok){
-        alert("¡Gracias! Pronto nos pondremos en contacto.");
-        formCambio.reset();
+      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos ✅";
+      mensajeDiv.style.opacity = 1;
+      submitBtn.style.background = "#ffbf00";
+      
+      // Cerrar modal automáticamente después de 2s
+      setTimeout(() => {
         cerrarModal();
-      } else throw new Error("Error en el envío");
-    } catch(err){
-      console.error(err);
-      alert("Hubo un error, inténtalo de nuevo.");
-    }
-  });
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        mensajeDiv.style.opacity = 0;
+      }, 2000);
+
+    } else throw new Error("Error en el envío");
+
+  } catch(err){
+    console.error(err);
+    mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensajeDiv.style.color = "#ff4d4d";
+    mensajeDiv.style.opacity = 1;
+
+    setTimeout(() => {
+      mensajeDiv.style.opacity = 0;
+      mensajeDiv.style.color = "#00ffc0";
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+      submitBtn.style.background = "#ffbf00";
+    }, 2500);
+  }
 });
 </script>
 
