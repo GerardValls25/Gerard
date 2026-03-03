@@ -587,7 +587,7 @@ function cerrarModal() {
 }
 
   // Botón cerrar (la X)
-document.querySelector(".cerrar-modal").addEventListener("click", cerrarModal);
+document.getElementById("close-cambio").addEventListener("click", cerrarModal);
 
  // Cerrar haciendo click fuera del formulario
 modalCambio.addEventListener("click", (e) => {
@@ -615,7 +615,7 @@ document.addEventListener("keydown", (e) => {
       body: JSON.stringify({ nombre, email })
     }).then(()=>{
       alert("¡Gracias! Pronto nos pondremos en contacto.");
-      cerrarModalCambio();
+      cerrarModal();
     }).catch(err=>console.log(err));
   });
 </script>
