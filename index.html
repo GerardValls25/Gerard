@@ -535,7 +535,7 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   // ================================
   // Script Modal "Empezar Mi Cambio Ahora"
   // ================================
-  const modalCambio = document.getElementById("modal-cambio");
+const modalCambio = document.getElementById("modal-cambio");
 const formCambio = document.getElementById("form-cambio");
 const btnCerrar = document.getElementById("close-cambio");
 
@@ -549,12 +549,32 @@ mensajeDiv.style.opacity = 0;
 mensajeDiv.style.transition = "opacity 0.4s ease";
 formCambio.appendChild(mensajeDiv);
 
-// Abrir modal
+  // Crear check animado SVG
+let checkSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+checkSVG.setAttribute("viewBox", "0 0 52 52");
+checkSVG.style.width = "50px";
+checkSVG.style.height = "50px";
+checkSVG.style.margin = "10px auto 0";
+checkSVG.style.display = "block";
+checkSVG.style.stroke = "#00ffc0";
+checkSVG.style.strokeWidth = "5";
+checkSVG.style.fill = "none";
+checkSVG.style.opacity = 0;
+checkSVG.style.transition = "opacity 0.4s ease";
+const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path.setAttribute("d", "M14 27 l10 10 l20 -20");
+path.setAttribute("stroke-dasharray", "50");
+path.setAttribute("stroke-dashoffset", "50");
+checkSVG.appendChild(path);
+formCambio.appendChild(checkSVG);
+  
+// ===== ABRIR MODAL =====
  document.querySelectorAll(".btn-cambio").forEach(btn => {
   btn.addEventListener("click", () => {
     formCambio.reset();
     mensajeDiv.style.opacity = 0;
-    mensajeDiv.textContent = "";
+    checkSVG.style.opacity = 0;
+    path.style.strokeDashoffset = "50";
 
     modalCambio.style.display = "flex";
     setTimeout(() => {
@@ -566,7 +586,6 @@ formCambio.appendChild(mensajeDiv);
     document.body.style.overflow = "hidden";
   });
 });
-
 // ===== CERRAR MODAL =====
   function cerrarModal() {
   modalCambio.style.opacity = "0";
@@ -581,7 +600,7 @@ btnCerrar.addEventListener("click", cerrarModal);
 modalCambio.addEventListener("click", e => { if(e.target === modalCambio) cerrarModal(); });
 document.addEventListener("keydown", e => { if(e.key==="Escape" && modalCambio.style.display==="flex") cerrarModal(); });
 
-  // Cerrar con tecla ESC
+// ======= Cerrar con tecla ESC =========
  document.addEventListener("keydown", e => {
     if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
   });
@@ -589,14 +608,15 @@ document.addEventListener("keydown", e => { if(e.key==="Escape" && modalCambio.s
 // ===== ENVÍO DE FORMULARIO PROFESIONAL =====
 formCambio.addEventListener("submit", async e => {
   e.preventDefault();
-    const submitBtn = formCambio.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
-
-  submitBtn.textContent = "Enviando...";
+  
+const submitBtn = formCambio.querySelector('button[type="submit"]');
+const originalText = submitBtn.textContent;
+  
+ submitBtn.textContent = "Enviando...";
   submitBtn.disabled = true;
   submitBtn.style.background = "#00ffc0";
   
-      try {
+    try {
     const res = await fetch("https://formspree.io/f/mbdaenpo", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
@@ -607,16 +627,25 @@ formCambio.addEventListener("submit", async e => {
     });
 
       if(res.ok){
-      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos ✅";
+      // Mostrar mensaje
+      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
       mensajeDiv.style.opacity = 1;
+
+      // Mostrar check animado
+      checkSVG.style.opacity = 1;
+      path.style.transition = "stroke-dashoffset 0.6s ease";
+      setTimeout(()=>{ path.style.strokeDashoffset = "0"; }, 50);
+
       submitBtn.style.background = "#ffbf00";
-      
+
       // Cerrar modal automáticamente después de 2s
       setTimeout(() => {
         cerrarModal();
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
         mensajeDiv.style.opacity = 0;
+        checkSVG.style.opacity = 0;
+        path.style.strokeDashoffset = "50";
       }, 2000);
 
     } else throw new Error("Error en el envío");
