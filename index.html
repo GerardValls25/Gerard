@@ -291,71 +291,72 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 .premium-modal button[type="submit"] { padding:12px 20px; border:none; border-radius: var(--radius); background:#ffbf00; color:#000; font-weight:700; cursor:pointer; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset; transition: all 0.3s ease-in-out; animation: pulse 2s infinite; }
 .premium-modal button[type="submit"]:hover { background: #00ffc0; box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset; transform: scale(1.05); }
 .premium-modal button#close-unificado { padding:8px; border:none; border-radius: var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
-/* ============================= */
-/* 🔥 FUEGO BORDES FUNCIONAL */
+
+  /* ============================= */
+/* 🔥 VIDEO REAL EN SPLASH */
 /* ============================= */
 
-.energy-fire-overlay {
+#splash {
   position: fixed;
   inset: 0;
-  pointer-events: none;
-  z-index: 0; /* clave */
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
+  z-index: 10000;
 }
 
-/* Aseguramos que tu contenido esté encima */
-#main-content,
-#splash,
-header,
-section,
-footer {
-  position: relative;
-  z-index: 2;
-}
-
-/* El canvas queda debajo */
-canvas {
-  z-index: -1 !important;
-}
-
-/* FUEGO ANIMADO */
-.energy-fire-overlay::before {
-  content: "";
+/* Video */
+#splash-video {
   position: absolute;
-  inset: -30%;
-  background:
-    radial-gradient(circle at 10% 50%, rgba(255,100,0,0.8), transparent 40%),
-    radial-gradient(circle at 90% 50%, rgba(255,80,0,0.8), transparent 40%),
-    radial-gradient(circle at 50% 100%, rgba(255,140,0,0.7), transparent 50%);
-  filter: blur(70px);
-  animation: fireMove 6s ease-in-out infinite alternate;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  filter: blur(50px) brightness(0.6) saturate(1.4);
+  opacity: 0.8;
+  z-index: 0;
 }
 
-@keyframes fireMove {
-  0% { transform: scale(1) rotate(0deg); }
-  100% { transform: scale(1.2) rotate(3deg); }
-}
-
-/* OSCURECE CENTRO */
-.energy-fire-overlay::after {
+/* Oscurece centro */
+#splash::after {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at center,
-      rgba(26,31,63,1) 40%,
-      rgba(26,31,63,0.8) 60%,
-      rgba(26,31,63,0.2) 80%,
-      rgba(26,31,63,0) 100%);
-}2
- 
+      rgba(0,0,0,0.95) 35%,
+      rgba(0,0,0,0.7) 55%,
+      rgba(0,0,0,0.3) 75%,
+      rgba(0,0,0,0) 100%);
+  z-index: 1;
+}
+
+/* Contenido encima */
+.splash-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>
 </head>
 <body>
 
 <!-- Splash -->
 <div id="splash">
-  <img src="gerard.jpg" alt="Gerard Valls">
-  <button id="btn-comencemos">Comencemos Ahora</button>
+
+  <!-- 🔥 VIDEO FUEGO REAL -->
+  <video id="splash-video" autoplay muted loop playsinline>
+    <source src="fire.mp4" type="video/mp4">
+  </video>
+
+  <!-- Contenido encima -->
+  <div class="splash-content">
+    <img src="gerard.jpg" alt="Gerard Valls">
+    <button id="btn-comencemos">Comencemos Ahora</button>
+  </div>
+
 </div>
 
 
@@ -1114,6 +1115,5 @@ formOferta.addEventListener("submit", async e => {
   }
 });
 </script>
-<div class="energy-fire-overlay"></div>
 </body>
 </html>
