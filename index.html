@@ -587,23 +587,37 @@ formCambio.appendChild(checkSVG);
   });
 });
 // ===== CERRAR MODAL =====
-  function cerrarModal() {
+function cerrarModal() {
+  // Ocultar visualmente el modal y escalar el formulario
   modalCambio.style.opacity = "0";
   formCambio.style.transform = "scale(0.9)";
+
+  // Reiniciar animaciones y mensajes
+  mensajeDiv.style.opacity = 0;
+  mensajeDiv.textContent = "";
+  checkSVG.style.opacity = 0;
+  path.style.strokeDashoffset = "50";
+
+  // Restaurar scroll del body después de la animación
   setTimeout(() => {
     modalCambio.style.display = "none";
     document.body.style.overflow = 'auto';
+    formCambio.reset(); // Limpia el formulario al cerrar
   }, 300);
 }
 
+// Cerrar modal al pulsar el botón
 btnCerrar.addEventListener("click", cerrarModal);
-modalCambio.addEventListener("click", e => { if(e.target === modalCambio) cerrarModal(); });
-document.addEventListener("keydown", e => { if(e.key==="Escape" && modalCambio.style.display==="flex") cerrarModal(); });
 
-// ======= Cerrar con tecla ESC =========
- document.addEventListener("keydown", e => {
-    if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
-  });
+// Cerrar modal al hacer clic fuera del formulario
+modalCambio.addEventListener("click", e => {
+  if(e.target === modalCambio) cerrarModal();
+});
+
+// Cerrar modal con tecla ESC
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
+});
   
 // ===== ENVÍO DE FORMULARIO PROFESIONAL =====
 formCambio.addEventListener("submit", async e => {
