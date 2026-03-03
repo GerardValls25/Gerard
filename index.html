@@ -558,66 +558,70 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   // ================================
   // Script Modal "Empezar Mi Cambio Ahora"
   // ================================
+  document.addEventListener("DOMContentLoaded", () => {
   const modalCambio = document.getElementById("modal-cambio");
-const formCambio = document.getElementById("form-cambio");
+  const formCambio = document.getElementById("form-cambio");
+  const btnCerrar = document.getElementById("close-cambio");
 
-// ===== ABRIR MODAL =====
-document.querySelectorAll(".cta-reserva").forEach(btn => {
-  btn.addEventListener("click", () => {
-    modalCambio.style.display = "flex";
-
-    setTimeout(() => {
-      modalCambio.style.opacity = "1";
-      formCambio.style.transform = "scale(1)";
-    }, 10);
-
-    document.body.style.overflow = "hidden";
+// Abrir modal
+  document.querySelectorAll(".btn-cambio").forEach(btn => {
+    btn.addEventListener("click", () => {
+      modalCambio.style.display = "flex";
+      setTimeout(() => {
+        modalCambio.style.opacity = "1";
+        formCambio.style.transform = "scale(1)";
+      }, 10);
+      document.body.style.overflow = "hidden";
+    });
   });
-});
+
 
 // ===== CERRAR MODAL =====
-function cerrarModal() {
-  modalCambio.style.opacity = "0";
-  formCambio.style.transform = "scale(0.9)";
-
-  setTimeout(() => {
-    modalCambio.style.display = "none";
-    document.body.style.overflow = "auto";
-  }, 300);
-}
-
+  function cerrarModal() {
+    modalCambio.style.opacity = "0";
+    formCambio.style.transform = "scale(0.9)";
+    setTimeout(() => {
+      modalCambio.style.display = "none";
+      document.body.style.overflow = "auto";
+    }, 300);
+  }
   // Botón cerrar (la X)
-document.getElementById("close-cambio").addEventListener("click", cerrarModal);
+btnCerrar.addEventListener("click", cerrarModal);
 
  // Cerrar haciendo click fuera del formulario
-modalCambio.addEventListener("click", (e) => {
-  if (e.target === modalCambio) {
-    cerrarModal();
-  }
-});
+modalCambio.addEventListener("click", e => {
+    if(e.target === modalCambio) cerrarModal();
+  });
 
   // Cerrar con tecla ESC
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && modalCambio.style.display === "flex") {
-    cerrarModal();
-  }
-});
-  
-// Envío del formulario a Formspree
-  formCambio.addEventListener("submit", e=>{
-    e.preventDefault();
-    const nombre = e.target.nombre.value;
-    const email = e.target.email.value;
-
-    fetch("https://formspree.io/f/mbdaenpo", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ nombre, email })
-    }).then(()=>{
-      alert("¡Gracias! Pronto nos pondremos en contacto.");
-      cerrarModal();
-    }).catch(err=>console.log(err));
+ document.addEventListener("keydown", e => {
+    if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
   });
+  
+// Enviar formulario a Formspree
+  formCambio.addEventListener("submit", async e => {
+    e.preventDefault();
+    const nombre = formCambio.nombre.value;
+    const email = formCambio.email.value;
+
+    try {
+      const res = await fetch("https://formspree.io/f/mbdaenpo", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ nombre, email })
+      });
+
+      if(res.ok){
+        alert("¡Gracias! Pronto nos pondremos en contacto.");
+        formCambio.reset();
+        cerrarModal();
+      } else throw new Error("Error en el envío");
+    } catch(err){
+      console.error(err);
+      alert("Hubo un error, inténtalo de nuevo.");
+    }
+  });
+});
 </script>
 
 <!-- Scripts -->
