@@ -15,12 +15,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.1/ScrollTrigger.min.js" defer></script>
 
 <!-- Three.js -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js" defer></script>
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
 <!-- Stripe -->
 <script src="https://js.stripe.com/v3/"></script>
@@ -536,19 +535,10 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   // ================================
   // Script Modal "Empezar Mi Cambio Ahora"
   // ================================
-document.getElementById("btn-comencemos").addEventListener("click", () => {
-  const splash = document.getElementById("splash");
-  const main = document.getElementById("main-content");
+const modalCambio = document.getElementById("modal-cambio");
+const formCambio = document.getElementById("form-cambio");
+const btnCerrar = document.getElementById("close-cambio");
 
-  splash.style.transition = "opacity 0.6s ease";
-  splash.style.opacity = 0;
-
-  setTimeout(() => {
-    splash.style.display = "none";
-    main.style.display = "block";
-    document.body.style.overflow = 'auto';
-  }, 600);
-});
 // Crear contenedor de mensaje dentro del modal
 let mensajeDiv = document.createElement("div");
 mensajeDiv.style.textAlign = "center";
@@ -748,6 +738,21 @@ const stripePlans = {
   "Suscripción Mensual": "price_1MensualXYZ"
 };
 
+
+// ABRIR MODAL PREMIUM
+document.querySelectorAll(".subscription-card button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    document.getElementById("modal-title").textContent = planName;
+    document.getElementById("plan-input").value = planName;
+    form.dataset.stripePlan = stripePlans[planName];
+    modal.style.display="flex";
+    modal.style.opacity="1";
+    modal.querySelector(".premium-modal").style.transform="scale(1)";
+    bloquearScroll();
+  });
+});
+
 // CERRAR MODAL
 document.getElementById("close-unificado").addEventListener("click", closeModal);
 modal.addEventListener("click", e=>{ if(e.target.id==="modal-unificado") closeModal(); });
@@ -940,80 +945,116 @@ setTimeout(()=>{
 }, 5000);
 </script>
 <script>
-// === MODAL PREMIUM UNIFICADO ===
-const modal = document.getElementById("modal-unificado");
-const form = document.getElementById("form-unificado");
-
-// Funciones para bloquear y liberar scroll
-function bloquearScroll(){ document.body.style.overflow='hidden'; }
-function liberarScroll(){ document.body.style.overflow=''; }
-
-// === ABRIR MODAL ===
-// Todos los botones de suscripción abren este modal
-document.querySelectorAll(".subscription-card button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
-    document.getElementById("modal-title").textContent = planName;
-    document.getElementById("plan-input").value = planName;
-
-    modal.style.display = "flex";
-    modal.style.opacity = "1";
-    modal.querySelector(".premium-modal").style.transform = "scale(1)";
-    bloquearScroll();
-  });
-});
-
-// === CERRAR MODAL ===
-function cerrarModal() {
+// Función para cerrar modal
+function closeModal() {
+  const modal = document.getElementById("modal-unificado");
+  const form = modal.querySelector(".premium-modal");
   modal.style.opacity = "0";
-  modal.querySelector(".premium-modal").style.transform = "scale(0.9)";
+  form.style.transform = "scale(0.9)";
   setTimeout(() => {
     modal.style.display = "none";
-    liberarScroll();
-    form.reset(); // limpia formulario al cerrar
+    document.body.style.overflow = '';
   }, 300);
 }
 
-// Cerrar con botón
-document.getElementById("close-unificado").addEventListener("click", cerrarModal);
+// Cerrar modal al pulsar botón
+document.getElementById("close-unificado").addEventListener("click", closeModal);
 
-// Cerrar al hacer clic fuera del formulario
-modal.addEventListener("click", e => {
-  if(e.target === modal) cerrarModal();
+// Cerrar modal al hacer clic fuera del formulario
+document.getElementById("modal-unificado").addEventListener("click", e => {
+  if (e.target.id === "modal-unificado") closeModal();
+});
+</script>
+      <script>
+document.getElementById("btn-comencemos").addEventListener("click", () => {
+  const splash = document.getElementById("splash");
+  const main = document.getElementById("main-content");
+
+  splash.style.transition = "opacity 0.6s ease";
+  splash.style.opacity = 0;
+
+  setTimeout(() => {
+    splash.style.display = "none";
+    main.style.display = "block";
+    document.body.style.overflow = 'auto';
+  }, 600);
+});
+</script>
+      
+<script>
+// Seleccionamos el modal y formulario
+const modalOferta = document.getElementById("modal-unificado");
+const formOferta = document.getElementById("form-unificado");
+
+// Abrir modal al pulsar cualquier botón de suscripción
+document.querySelectorAll(".subscription-card button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    document.getElementById("modal-title").textContent = planName;
+    document.getElementById("plan-input").value = planName;
+    modalOferta.style.display = "flex";
+    modalOferta.style.opacity = "1";
+    modalOferta.querySelector(".premium-modal").style.transform = "scale(1)";
+    document.body.style.overflow = "hidden";
+  });
 });
 
-// Cerrar con tecla ESC
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape" && modal.style.display === "flex") cerrarModal();
+// Función para cerrar modal
+function cerrarModalOferta() {
+  modalOferta.style.opacity = "0";
+  modalOferta.querySelector(".premium-modal").style.transform = "scale(0.9)";
+  setTimeout(() => {
+    modalOferta.style.display = "none";
+    document.body.style.overflow = "";
+  }, 300);
+}
+
+// Botón de cerrar y clic fuera del modal
+document.getElementById("close-unificado").addEventListener("click", cerrarModalOferta);
+modalOferta.addEventListener("click", e => {
+  if (e.target.id === "modal-unificado") cerrarModalOferta();
 });
 
-// === ENVÍO FORMULARIO ===
-form.addEventListener("submit", async e=>{
+// Envío del formulario a Formspree con confirmación
+formOferta.addEventListener("submit", async e => {
   e.preventDefault();
-  const planID = form.dataset.stripePlan;
-  const nombre = e.target.nombre.value;
-  const email = e.target.email.value;
+  const submitBtn = formOferta.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
 
-  // Enviar datos a Formspree
-  fetch("https://formspree.io/f/mbdaenpo", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ nombre, email, plan: document.getElementById("plan-input").value })
-  }).catch(err=>console.log("Error Formspree:",err));
+  submitBtn.textContent = "Enviando...";
+  submitBtn.style.background = "#00ffc0"; // indica proceso
+  submitBtn.disabled = true;
 
-  // Stripe Checkout si hay plan
-  if(planID){
-    const {error} = await stripe.redirectToCheckout({
-      lineItems:[{ price:planID, quantity:1 }],
-      mode:'subscription',
-      successUrl:window.location.href+'?success=true',
-      cancelUrl:window.location.href+'?cancel=true',
-      customerEmail:email
+  try {
+    const res = await fetch("https://formspree.io/f/mbdaenpo", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        nombre: formOferta.nombre.value,
+        email: formOferta.email.value,
+        plan: formOferta.plan.value
+      })
     });
-    if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
-  }
 
-  cerrarModal();
+    if(res.ok){
+      submitBtn.textContent = "¡Enviado! ✅";
+      submitBtn.style.background = "#ffbf00";
+      setTimeout(()=> {
+        formOferta.reset();
+        cerrarModalOferta();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }, 1500);
+    } else throw new Error("Error envío");
+  } catch(err){
+    submitBtn.textContent = "Error, intenta de nuevo";
+    submitBtn.style.background = "#ff4d4d";
+    setTimeout(()=> {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+      submitBtn.style.background = "#ffbf00";
+    }, 2000);
+  }
 });
 </script>
 </body>
