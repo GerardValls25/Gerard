@@ -1152,7 +1152,14 @@ setTimeout(()=>{
     else { btn.style.animation="none"; }
     counter.textContent = plazas;
   }
+ // Llamar inicialmente
+checkUrgencia();
+
+// Actualizar cada minuto para reflejar cambios en plazas
+setInterval(() => {
+  plazas = plazasElem ? parseInt(plazasElem.textContent) : 5;
   checkUrgencia();
+}, 60 * 1000);
 
   // --- Scroll dinámico ---
   let lastScroll = window.scrollY;
