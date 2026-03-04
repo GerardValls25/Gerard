@@ -14,12 +14,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.1/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.1/ScrollTrigger.min.js" defer></script>
 
-<!-- Three.js -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<!-- ============================= -->
+<!-- THREE.JS CORE + POSTPROCESS -->
+<!-- ============================= -->
+
+<!-- Motor principal -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js" defer crossorigin="anonymous"></script>
+
+<!-- Controles de cámara -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js" defer crossorigin="anonymous"></script>
+
+<!-- Sistema de postprocesado -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js" defer crossorigin="anonymous"></script>
+
+<!-- Render base -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js" defer crossorigin="anonymous"></script>
+
+<!-- Efecto Bloom (Glow Premium) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js" defer crossorigin="anonymous"></script>
 
 <!-- Stripe -->
 <script src="https://js.stripe.com/v3/"></script>
@@ -815,43 +827,118 @@ const originalText = submitBtn.textContent;
 
 <!-- Scripts -->
 <script>
-// --- Scroll Animaciones y Three.js ---
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.set(0,1.5,5);
-let renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+// ===============================
+// Scroll Animaciones + Three.js
+// ===============================
 
-let ambient = new THREE.AmbientLight(0xffffff,0.6); scene.add(ambient);
-let point = new THREE.PointLight(0xffbf00,1.2); point.position.set(5,5,5); scene.add(point);
-let geometry = new THREE.TorusKnotGeometry(0.7,0.2,128,32);
-let material = new THREE.MeshStandardMaterial({color:0x00ffc0, metalness:0.7, roughness:0.2});
-let torus = new THREE.Mesh(geometry, material); scene.add(torus);
+window.addEventListener("load", () => {
 
-let composer = new THREE.EffectComposer(renderer); composer.addPass(new THREE.RenderPass(scene,camera));
-let bloom = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth,window.innerHeight),1.2,0.4,0.85);
-composer.addPass(bloom);
+  if (typeof THREE === "undefined") return;
 
-let controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true; controls.enabled = window.innerWidth > 768;
+  // -------- ESCENA --------
+  let scene = new THREE.Scene();
 
-gsap.to(torus.rotation, {y:Math.PI*2, duration:20, repeat:-1, ease:"linear"});
-gsap.utils.toArray("section").forEach(sec=>{
-  gsap.from(sec,{opacity:0,y:50,duration:1,scrollTrigger:{trigger:sec,start:"top 80%",toggleActions:"play none none reverse"}});
-});
+  let camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.set(0, 1.5, 5);
 
-function animate(){
-  requestAnimationFrame(animate);
-  controls.update();
-  composer.render();
-}
+  let renderer = new THREE.WebGLRenderer({
+    antialias: window.innerWidth > 768,
+    alpha: true,
+    powerPreference: "high-performance"
+  });
 
-window.addEventListener("load", ()=>{
-  setTimeout(()=>{
-    animate();
-  }, 2500);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  document.body.appendChild(renderer.domElement);
+
+  // -------- LUCES --------
+  let ambient = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambient);
+
+  let point = new THREE.PointLight(0xffbf00, 1.2);
+  point.position.set(5, 5, 5);
+  scene.add(point);
+
+  // -------- GEOMETRÍA --------
+  let geometry = new THREE.TorusKnotGeometry(
+    0.7,
+    0.2,
+    window.innerWidth > 768 ? 128 : 64,
+    window.innerWidth > 768 ? 32 : 16
+  );
+
+  let material = new THREE.MeshStandardMaterial({
+    color: 0x00ffc0,
+    metalness: 0.7,
+    roughness: 0.2
+  });
+
+  let torus = new THREE.Mesh(geometry, material);
+  scene.add(torus);
+
+  // -------- POSTPROCESADO --------
+  let composer = new THREE.EffectComposer(renderer);
+  composer.addPass(new THREE.RenderPass(scene, camera));
+
+  let bloom = new THREE.UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    window.innerWidth > 768 ? 1.2 : 0.8,
+    0.4,
+    0.85
+  );
+
+  composer.addPass(bloom);
+
+  // -------- CONTROLES --------
+  let controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.enabled = window.innerWidth > 768;
+
+  // -------- ANIMACIÓN --------
+  function animate() {
+    requestAnimationFrame(animate);
+
+    torus.rotation.y += 0.002;
+    torus.rotation.x += 0.001;
+
+    controls.update();
+    composer.render();
+  }
+
+  animate();
+
+  // -------- RESPONSIVE --------
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // -------- GSAP SCROLL --------
+  if (typeof gsap !== "undefined") {
+    gsap.utils.toArray("section").forEach(sec => {
+      gsap.from(sec, {
+        opacity: 0,
+        y: 60,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sec,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+  }
+
 });
 </script>
 
@@ -1077,18 +1164,6 @@ setTimeout(()=>{
 }, 5000);
 </script>
 <script>
-// Función para cerrar modal
-function closeModal() {
-  const modal = document.getElementById("modal-unificado");
-  const form = modal.querySelector(".premium-modal");
-  modal.style.opacity = "0";
-  form.style.transform = "scale(0.9)";
-  setTimeout(() => {
-    modal.style.display = "none";
-    document.body.style.overflow = '';
-  }, 300);
-}
-
 // Cerrar modal al pulsar botón
 document.getElementById("close-unificado").addEventListener("click", closeModal);
 
@@ -1097,17 +1172,16 @@ document.getElementById("modal-unificado").addEventListener("click", e => {
   if (e.target.id === "modal-unificado") closeModal();
 });
 </script>
-      <script>
+     
+<script>
 document.getElementById("btn-comencemos").addEventListener("click", () => {
   const splash = document.getElementById("splash");
-  const main = document.getElementById("main-content");
 
   splash.style.transition = "opacity 0.6s ease";
   splash.style.opacity = 0;
 
   setTimeout(() => {
     splash.style.display = "none";
-    main.style.display = "block";
     document.body.style.overflow = "auto";
   }, 600);
 });
