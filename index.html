@@ -683,151 +683,118 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
 </div>
 
 <script>
-  // ================================
-  // Script Modal "Empezar Mi Cambio Ahora"
-  // ================================
+/* ===========================
+   SCRIPT UNIFICADO MODALES
+   =========================== */
+
+// FUNCIONES COMUNES
+function bloquearScroll(){ document.body.style.overflow='hidden'; }
+function liberarScroll(){ document.body.style.overflow=''; }
+
+// ================= MODAL "EMPEZAR MI CAMBIO AHORA" =================
 const modalCambio = document.getElementById("modal-cambio");
 const formCambio = document.getElementById("form-cambio");
-const btnCerrar = document.getElementById("close-cambio");
+const btnCerrarCambio = document.getElementById("close-cambio");;;
 
-// Crear contenedor de mensaje dentro del modal
-let mensajeDiv = document.createElement("div");
-mensajeDiv.style.textAlign = "center";
-mensajeDiv.style.marginTop = "15px";
-mensajeDiv.style.fontWeight = "600";
-mensajeDiv.style.color = "#00ffc0";
-mensajeDiv.style.opacity = 0;
-mensajeDiv.style.transition = "opacity 0.4s ease";
-formCambio.appendChild(mensajeDiv);
+// Contenedor de mensaje y check SVG
+let mensajeDivCambio = document.createElement("div");
+mensajeDivCambio.style.cssText = "text-align:center;margin-top:15px;font-weight:600;color:#00ffc0;opacity:0;transition:opacity 0.4s ease;";
+formCambio.appendChild(mensajeDivCambio);
 
   // Crear check animado SVG
-let checkSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-checkSVG.setAttribute("viewBox", "0 0 52 52");
-checkSVG.style.width = "50px";
-checkSVG.style.height = "50px";
-checkSVG.style.margin = "10px auto 0";
-checkSVG.style.display = "block";
-checkSVG.style.stroke = "#00ffc0";
-checkSVG.style.strokeWidth = "5";
-checkSVG.style.fill = "none";
-checkSVG.style.opacity = 0;
-checkSVG.style.transition = "opacity 0.4s ease";
-const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-path.setAttribute("d", "M14 27 l10 10 l20 -20");
-path.setAttribute("stroke-dasharray", "50");
-path.setAttribute("stroke-dashoffset", "50");
-checkSVG.appendChild(path);
-formCambio.appendChild(checkSVG);
+let checkSVGCambio = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+checkSVGCambio.setAttribute("viewBox", "0 0 52 52");
+checkSVGCambio.style.cssText = "width:50px;height:50px;margin:10px auto 0;display:block;stroke:#00ffc0;stroke-width:5;fill:none;opacity:0;transition:opacity 0.4s ease;";
+let pathCambio = document.createElementNS("http://www.w3.org/2000/svg", "path");
+pathCambio.setAttribute("d", "M14 27 l10 10 l20 -20");
+pathCambio.setAttribute("stroke-dasharray", "50");
+pathCambio.setAttribute("stroke-dashoffset", "50");
+checkSVGCambio.appendChild(pathCambio);
+formCambio.appendChild(checkSVGCambio);
   
 // ===== ABRIR MODAL =====
- document.querySelectorAll(".btn-cambio").forEach(btn => {
-  btn.addEventListener("click", () => {
+ document.querySelectorAll(".btn-cambio").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
     formCambio.reset();
-    mensajeDiv.style.opacity = 0;
-    checkSVG.style.opacity = 0;
-    path.style.strokeDashoffset = "50";
+    mensajeDivCambio.style.opacity = 0;
+    checkSVGCambio.style.opacity = 0;
+    pathCambio.style.strokeDashoffset = "50";
 
     modalCambio.style.display = "flex";
-    setTimeout(() => {
+    setTimeout(()=>{
       modalCambio.style.opacity = "1";
       formCambio.style.transform = "scale(1)";
       formCambio.nombre.focus();
-    }, 10);
-
-    document.body.style.overflow = "hidden";
+    },10);
+    bloquearScroll();
   });
 });
 // ===== CERRAR MODAL =====
-function cerrarModal() {
-  // Ocultar visualmente el modal y escalar el formulario
+function cerrarModalCambio(){
   modalCambio.style.opacity = "0";
   formCambio.style.transform = "scale(0.9)";
-
-  // Reiniciar animaciones y mensajes
-  mensajeDiv.style.opacity = 0;
-  mensajeDiv.textContent = "";
-  checkSVG.style.opacity = 0;
-  path.style.strokeDashoffset = "50";
-
-  // Restaurar scroll del body después de la animación
-  setTimeout(() => {
+  setTimeout(()=>{
     modalCambio.style.display = "none";
-    document.body.style.overflow = 'auto';
-    formCambio.reset(); // Limpia el formulario al cerrar
-  }, 300);
+    liberarScroll();
+    formCambio.reset();
+    mensajeDivCambio.style.opacity = 0;
+    checkSVGCambio.style.opacity = 0;
+    pathCambio.style.strokeDashoffset = "50";
+  },300);
 }
 
-// Cerrar modal al pulsar el botón
-btnCerrar.addEventListener("click", cerrarModal);
+btnCerrarCambio.addEventListener("click", cerrarModalCambio);
+modalCambio.addEventListener("click", e=>{ if(e.target === modalCambio) cerrarModalCambio(); });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && modalCambio.style.display==="flex") cerrarModalCambio(); });
 
-// Cerrar modal al hacer clic fuera del formulario
-modalCambio.addEventListener("click", e => {
-  if(e.target === modalCambio) cerrarModal();
-});
-
-// Cerrar modal con tecla ESC
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
-});
   
 // ===== ENVÍO DE FORMULARIO PROFESIONAL =====
-formCambio.addEventListener("submit", async e => {
+formCambio.addEventListener("submit", async e=>{
   e.preventDefault();
+ 
+  const submitBtn = formCambio.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
   
-const submitBtn = formCambio.querySelector('button[type="submit"]');
-const originalText = submitBtn.textContent;
-  
- submitBtn.textContent = "Enviando...";
+  submitBtn.textContent = "Enviando...";
   submitBtn.disabled = true;
   submitBtn.style.background = "#00ffc0";
   
-    try {
+  try {
     const res = await fetch("https://formspree.io/f/mbdaenpo", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
         nombre: formCambio.nombre.value,
         email: formCambio.email.value
       })
     });
 
-      if(res.ok){
-      // Mostrar mensaje
-      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
-      mensajeDiv.style.opacity = 1;
+    if(res.ok){
+      mensajeDivCambio.textContent = "¡Gracias! Pronto nos contactaremos";
+      mensajeDivCambio.style.opacity = 1;
 
       // Mostrar check animado
-      checkSVG.style.opacity = 1;
-      path.style.transition = "stroke-dashoffset 0.6s ease";
-      setTimeout(()=>{ path.style.strokeDashoffset = "0"; }, 50);
+      checkSVGCambio.style.opacity = 1;
+      pathCambio.style.transition = "stroke-dashoffset 0.6s ease";
+      setTimeout(()=>{ pathCambio.style.strokeDashoffset = "0"; },50);
 
       submitBtn.style.background = "#ffbf00";
-
-      // Cerrar modal automáticamente después de 2s
-      setTimeout(() => {
-        cerrarModal();
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        mensajeDiv.style.opacity = 0;
-        checkSVG.style.opacity = 0;
-        path.style.strokeDashoffset = "50";
-      }, 2000);
 
     } else throw new Error("Error en el envío");
 
   } catch(err){
     console.error(err);
-    mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
-    mensajeDiv.style.color = "#ff4d4d";
-    mensajeDiv.style.opacity = 1;
+    mensajeDivCambio.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensajeDivCambio.style.color = "#ff4d4d";
+    mensajeDivCambio.style.opacity = 1;
 
-    setTimeout(() => {
-      mensajeDiv.style.opacity = 0;
-      mensajeDiv.style.color = "#00ffc0";
+    setTimeout(()=>{
+      mensajeDivCambio.style.opacity = 0;
+      mensajeDivCambio.style.color = "#00ffc0";
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
       submitBtn.style.background = "#ffbf00";
-    }, 2500);
+    },2500);
   }
 });
 </script>
