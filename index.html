@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerard Valls - Nutrición Profesional ULTRA PREMIUM</title>
-<meta name="description" content="Pierde grasa y gana músculo con planes personalizados y asesoría profesional de Gerard Valls. Resultados garantizados.">
+<meta name="description" content="Pierde grasa y gana músculo con planes personalizados y asesoría profesional de Gerard Valls. Resultados sostenibles y medibles.">
 
 <!-- Fonts & Icons -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,24 +14,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.1/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.1/ScrollTrigger.min.js" defer></script>
 
-<!-- ============================= -->
-<!-- THREE.JS CORE + POSTPROCESS -->
-<!-- ============================= -->
-
-<!-- Motor principal -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js" defer crossorigin="anonymous"></script>
-
-<!-- Controles de cámara -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js" defer crossorigin="anonymous"></script>
-
-<!-- Sistema de postprocesado -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js" defer crossorigin="anonymous"></script>
-
-<!-- Render base -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js" defer crossorigin="anonymous"></script>
-
-<!-- Efecto Bloom (Glow Premium) -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js" defer crossorigin="anonymous"></script>
+<!-- Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
 <!-- Stripe -->
 <script src="https://js.stripe.com/v3/"></script>
@@ -52,111 +40,25 @@
 body { font-family: 'Montserrat', sans-serif; background: var(--darkbg); color: var(--text-light); line-height:1.5; overflow-x:hidden; }
 a { text-decoration:none; color: var(--primary); transition: var(--transition); }
 a:hover { color: var(--secondary); }
-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -5;
-}
+canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
 
 /* Main content hidden initially */
 #main-content { display: none; }
 
   
-/* ===============================
-   SPLASH CON VIDEO Y BOTÓN
-   =============================== */
-/* Contenedor del splash */
+/* Splash */
 #splash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0; /* debajo del contenido */
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; z-index:10000;
 }
-
-/* Video de fondo */
-#splash-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover; /* cubre toda la pantalla */
-  filter: blur(10px) brightness(0.8);
-  z-index: -1; /* asegurarse de que quede detrás */
-}
-
-/* Overlay degradado para oscurecer el centro */
-#splash::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center,
-      rgba(0,0,0,0.95) 35%,
-      rgba(0,0,0,0.7) 55%,
-      rgba(0,0,0,0.3) 75%,
-      rgba(0,0,0,0) 100%);
-  z-index: 1;
-}
-
-/* Contenido encima del video */
-.splash-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Imagen principal */
-.splash-content img {
-  max-width: 80%;
-  height: auto;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.splash-content img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-}
-
-/* Botón de acción */
+#splash img { max-width:80%; height:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
 #btn-comencemos {
-  margin-top: 30px;
-  padding: 15px 40px;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 20px;
-  background: var(--primary);
-  color: #000;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0,255,192,0.4);
-  transition: transform 0.3s, box-shadow 0.3s;
+  margin-top:30px; padding:15px 40px; font-size:1.2rem;
+  border:none; border-radius:20px; background:var(--primary); color:#000;
+  cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s;
 }
-#btn-comencemos:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0,255,192,0.5);
-}
-
-/* RESPONSIVO */
-@media(max-width: 992px){
-  .splash-content img { max-width: 70%; }
-}
-@media(max-width: 768px){
-  .splash-content img { max-width: 60%; }
-}
-@media(max-width: 480px){
-  .splash-content img { max-width: 50%; }
-}
+#btn-comencemos:hover { transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5); }
   
 /* MENÚ SUPERIOR NEÓN */
 #main-nav {
@@ -389,72 +291,19 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 .premium-modal button[type="submit"] { padding:12px 20px; border:none; border-radius: var(--radius); background:#ffbf00; color:#000; font-weight:700; cursor:pointer; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset; transition: all 0.3s ease-in-out; animation: pulse 2s infinite; }
 .premium-modal button[type="submit"]:hover { background: #00ffc0; box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset; transform: scale(1.05); }
 .premium-modal button#close-unificado { padding:8px; border:none; border-radius: var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
-
-  /* ============================= */
-/* 🔥 VIDEO REAL EN SPLASH */
-/* ============================= */
-
-#splash {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  z-index: 10000;
-}
-
-/* Video */
-#splash-video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(15px) brightness(0.7);
-  z-index: 0;
-}
-
-/* Oscurece centro */
-#splash::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center,
-      rgba(0,0,0,0.95) 35%,
-      rgba(0,0,0,0.7) 55%,
-      rgba(0,0,0,0.3) 75%,
-      rgba(0,0,0,0) 100%);
-  z-index: 1;
-}
-
-/* Contenido encima */
-.splash-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 </style>
 </head>
 <body>
 
-<!-- SPLASH CON VIDEO -->
+<!-- Splash -->
 <div id="splash">
-  <!-- Video de fondo -->
- <video id="splash-video" autoplay muted loop playsinline>
-  <source src="fire.mp4" type="video/mp4">
-  <source src="fire.webm" type="video/webm">
-  Tu navegador no soporta video.
-</video>
-
-  <!-- Contenido encima del video -->
-  <div class="splash-content">
-    <img src="gerard.jpg" alt="Logo">
-    <button id="btn-comencemos">Comencemos</button>
-  </div>
+  <img src="gerard.jpg" alt="Gerard Valls">
+  <button id="btn-comencemos">Comencemos Ahora</button>
 </div>
+
+
+  <!-- =================== CONTENIDO PRINCIPAL =================== -->
+ <div id="main-content">
 
   <!=================== Header  =================== -->
 <header id="header">
@@ -683,236 +532,194 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
 </div>
 
 <script>
-/* ===========================
-   SCRIPT UNIFICADO MODALES
-   =========================== */
-
-// FUNCIONES COMUNES
-function bloquearScroll(){ document.body.style.overflow='hidden'; }
-function liberarScroll(){ document.body.style.overflow=''; }
-
-// ================= MODAL "EMPEZAR MI CAMBIO AHORA" =================
+  // ================================
+  // Script Modal "Empezar Mi Cambio Ahora"
+  // ================================
 const modalCambio = document.getElementById("modal-cambio");
 const formCambio = document.getElementById("form-cambio");
-const btnCerrarCambio = document.getElementById("close-cambio");;;
+const btnCerrar = document.getElementById("close-cambio");
 
-// Contenedor de mensaje y check SVG
-let mensajeDivCambio = document.createElement("div");
-mensajeDivCambio.style.cssText = "text-align:center;margin-top:15px;font-weight:600;color:#00ffc0;opacity:0;transition:opacity 0.4s ease;";
-formCambio.appendChild(mensajeDivCambio);
+// Crear contenedor de mensaje dentro del modal
+let mensajeDiv = document.createElement("div");
+mensajeDiv.style.textAlign = "center";
+mensajeDiv.style.marginTop = "15px";
+mensajeDiv.style.fontWeight = "600";
+mensajeDiv.style.color = "#00ffc0";
+mensajeDiv.style.opacity = 0;
+mensajeDiv.style.transition = "opacity 0.4s ease";
+formCambio.appendChild(mensajeDiv);
 
   // Crear check animado SVG
-let checkSVGCambio = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-checkSVGCambio.setAttribute("viewBox", "0 0 52 52");
-checkSVGCambio.style.cssText = "width:50px;height:50px;margin:10px auto 0;display:block;stroke:#00ffc0;stroke-width:5;fill:none;opacity:0;transition:opacity 0.4s ease;";
-let pathCambio = document.createElementNS("http://www.w3.org/2000/svg", "path");
-pathCambio.setAttribute("d", "M14 27 l10 10 l20 -20");
-pathCambio.setAttribute("stroke-dasharray", "50");
-pathCambio.setAttribute("stroke-dashoffset", "50");
-checkSVGCambio.appendChild(pathCambio);
-formCambio.appendChild(checkSVGCambio);
+let checkSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+checkSVG.setAttribute("viewBox", "0 0 52 52");
+checkSVG.style.width = "50px";
+checkSVG.style.height = "50px";
+checkSVG.style.margin = "10px auto 0";
+checkSVG.style.display = "block";
+checkSVG.style.stroke = "#00ffc0";
+checkSVG.style.strokeWidth = "5";
+checkSVG.style.fill = "none";
+checkSVG.style.opacity = 0;
+checkSVG.style.transition = "opacity 0.4s ease";
+const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path.setAttribute("d", "M14 27 l10 10 l20 -20");
+path.setAttribute("stroke-dasharray", "50");
+path.setAttribute("stroke-dashoffset", "50");
+checkSVG.appendChild(path);
+formCambio.appendChild(checkSVG);
   
 // ===== ABRIR MODAL =====
- document.querySelectorAll(".btn-cambio").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
+ document.querySelectorAll(".btn-cambio").forEach(btn => {
+  btn.addEventListener("click", () => {
     formCambio.reset();
-    mensajeDivCambio.style.opacity = 0;
-    checkSVGCambio.style.opacity = 0;
-    pathCambio.style.strokeDashoffset = "50";
+    mensajeDiv.style.opacity = 0;
+    checkSVG.style.opacity = 0;
+    path.style.strokeDashoffset = "50";
 
     modalCambio.style.display = "flex";
-    setTimeout(()=>{
+    setTimeout(() => {
       modalCambio.style.opacity = "1";
       formCambio.style.transform = "scale(1)";
       formCambio.nombre.focus();
-    },10);
-    bloquearScroll();
+    }, 10);
+
+    document.body.style.overflow = "hidden";
   });
 });
 // ===== CERRAR MODAL =====
-function cerrarModalCambio(){
+function cerrarModal() {
+  // Ocultar visualmente el modal y escalar el formulario
   modalCambio.style.opacity = "0";
   formCambio.style.transform = "scale(0.9)";
-  setTimeout(()=>{
+
+  // Reiniciar animaciones y mensajes
+  mensajeDiv.style.opacity = 0;
+  mensajeDiv.textContent = "";
+  checkSVG.style.opacity = 0;
+  path.style.strokeDashoffset = "50";
+
+  // Restaurar scroll del body después de la animación
+  setTimeout(() => {
     modalCambio.style.display = "none";
-    liberarScroll();
-    formCambio.reset();
-    mensajeDivCambio.style.opacity = 0;
-    checkSVGCambio.style.opacity = 0;
-    pathCambio.style.strokeDashoffset = "50";
-  },300);
+    document.body.style.overflow = 'auto';
+    formCambio.reset(); // Limpia el formulario al cerrar
+  }, 300);
 }
 
-btnCerrarCambio.addEventListener("click", cerrarModalCambio);
-modalCambio.addEventListener("click", e=>{ if(e.target === modalCambio) cerrarModalCambio(); });
-document.addEventListener("keydown", e=>{ if(e.key==="Escape" && modalCambio.style.display==="flex") cerrarModalCambio(); });
+// Cerrar modal al pulsar el botón
+btnCerrar.addEventListener("click", cerrarModal);
 
+// Cerrar modal al hacer clic fuera del formulario
+modalCambio.addEventListener("click", e => {
+  if(e.target === modalCambio) cerrarModal();
+});
+
+// Cerrar modal con tecla ESC
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
+});
   
 // ===== ENVÍO DE FORMULARIO PROFESIONAL =====
-formCambio.addEventListener("submit", async e=>{
+formCambio.addEventListener("submit", async e => {
   e.preventDefault();
- 
-  const submitBtn = formCambio.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
   
-  submitBtn.textContent = "Enviando...";
+const submitBtn = formCambio.querySelector('button[type="submit"]');
+const originalText = submitBtn.textContent;
+  
+ submitBtn.textContent = "Enviando...";
   submitBtn.disabled = true;
   submitBtn.style.background = "#00ffc0";
   
-  try {
+    try {
     const res = await fetch("https://formspree.io/f/mbdaenpo", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
       body: JSON.stringify({
         nombre: formCambio.nombre.value,
         email: formCambio.email.value
       })
     });
 
-    if(res.ok){
-      mensajeDivCambio.textContent = "¡Gracias! Pronto nos contactaremos";
-      mensajeDivCambio.style.opacity = 1;
+      if(res.ok){
+      // Mostrar mensaje
+      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
+      mensajeDiv.style.opacity = 1;
 
       // Mostrar check animado
-      checkSVGCambio.style.opacity = 1;
-      pathCambio.style.transition = "stroke-dashoffset 0.6s ease";
-      setTimeout(()=>{ pathCambio.style.strokeDashoffset = "0"; },50);
+      checkSVG.style.opacity = 1;
+      path.style.transition = "stroke-dashoffset 0.6s ease";
+      setTimeout(()=>{ path.style.strokeDashoffset = "0"; }, 50);
 
       submitBtn.style.background = "#ffbf00";
+
+      // Cerrar modal automáticamente después de 2s
+      setTimeout(() => {
+        cerrarModal();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        mensajeDiv.style.opacity = 0;
+        checkSVG.style.opacity = 0;
+        path.style.strokeDashoffset = "50";
+      }, 2000);
 
     } else throw new Error("Error en el envío");
 
   } catch(err){
     console.error(err);
-    mensajeDivCambio.textContent = "Hubo un error, intenta de nuevo ❌";
-    mensajeDivCambio.style.color = "#ff4d4d";
-    mensajeDivCambio.style.opacity = 1;
+    mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensajeDiv.style.color = "#ff4d4d";
+    mensajeDiv.style.opacity = 1;
 
-    setTimeout(()=>{
-      mensajeDivCambio.style.opacity = 0;
-      mensajeDivCambio.style.color = "#00ffc0";
+    setTimeout(() => {
+      mensajeDiv.style.opacity = 0;
+      mensajeDiv.style.color = "#00ffc0";
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
       submitBtn.style.background = "#ffbf00";
-    },2500);
+    }, 2500);
   }
 });
 </script>
 
 <!-- Scripts -->
 <script>
-// ===============================
-// Scroll Animaciones + Three.js
-// ===============================
+// --- Scroll Animaciones y Three.js ---
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.set(0,1.5,5);
+let renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-window.addEventListener("load", () => {
+let ambient = new THREE.AmbientLight(0xffffff,0.6); scene.add(ambient);
+let point = new THREE.PointLight(0xffbf00,1.2); point.position.set(5,5,5); scene.add(point);
+let geometry = new THREE.TorusKnotGeometry(0.7,0.2,128,32);
+let material = new THREE.MeshStandardMaterial({color:0x00ffc0, metalness:0.7, roughness:0.2});
+let torus = new THREE.Mesh(geometry, material); scene.add(torus);
 
-  if (typeof THREE === "undefined") return;
+let composer = new THREE.EffectComposer(renderer); composer.addPass(new THREE.RenderPass(scene,camera));
+let bloom = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth,window.innerHeight),1.2,0.4,0.85);
+composer.addPass(bloom);
 
-  // -------- ESCENA --------
-  let scene = new THREE.Scene();
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.enabled = window.innerWidth > 768;
 
-  let camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  camera.position.set(0, 1.5, 5);
+gsap.to(torus.rotation, {y:Math.PI*2, duration:20, repeat:-1, ease:"linear"});
+gsap.utils.toArray("section").forEach(sec=>{
+  gsap.from(sec,{opacity:0,y:50,duration:1,scrollTrigger:{trigger:sec,start:"top 80%",toggleActions:"play none none reverse"}});
+});
 
-  let renderer = new THREE.WebGLRenderer({
-    antialias: window.innerWidth > 768,
-    alpha: true,
-    powerPreference: "high-performance"
-  });
+function animate(){
+  requestAnimationFrame(animate);
+  controls.update();
+  composer.render();
+}
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-  document.body.appendChild(renderer.domElement);
-
-  // -------- LUCES --------
-  let ambient = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambient);
-
-  let point = new THREE.PointLight(0xffbf00, 1.2);
-  point.position.set(5, 5, 5);
-  scene.add(point);
-
-  // -------- GEOMETRÍA --------
-  let geometry = new THREE.TorusKnotGeometry(
-    0.7,
-    0.2,
-    window.innerWidth > 768 ? 128 : 64,
-    window.innerWidth > 768 ? 32 : 16
-  );
-
-  let material = new THREE.MeshStandardMaterial({
-    color: 0x00ffc0,
-    metalness: 0.7,
-    roughness: 0.2
-  });
-
-  let torus = new THREE.Mesh(geometry, material);
-  scene.add(torus);
-
-  // -------- POSTPROCESADO --------
-  let composer = new THREE.EffectComposer(renderer);
-  composer.addPass(new THREE.RenderPass(scene, camera));
-
-  let bloom = new THREE.UnrealBloomPass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
-    window.innerWidth > 768 ? 1.2 : 0.8,
-    0.4,
-    0.85
-  );
-
-  composer.addPass(bloom);
-
-  // -------- CONTROLES --------
-  let controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.enabled = window.innerWidth > 768;
-
-  // -------- ANIMACIÓN --------
-  function animate() {
-    requestAnimationFrame(animate);
-
-    torus.rotation.y += 0.002;
-    torus.rotation.x += 0.001;
-
-    controls.update();
-    composer.render();
-  }
-
-  animate();
-
-  // -------- RESPONSIVE --------
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  // -------- GSAP SCROLL --------
-  if (typeof gsap !== "undefined") {
-    gsap.utils.toArray("section").forEach(sec => {
-      gsap.from(sec, {
-        opacity: 0,
-        y: 60,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sec,
-          start: "top 85%",
-          toggleActions: "play none none reverse"
-        }
-      });
-    });
-  }
-
+window.addEventListener("load", ()=>{
+  setTimeout(()=>{
+    animate();
+  }, 2500);
 });
 </script>
 
@@ -923,7 +730,7 @@ function liberarScroll(){ document.body.style.overflow=''; }
 
 const modal = document.getElementById("modal-unificado");
 const form = document.getElementById("form-unificado");
-const stripe = Stripe('https://formspree.io/f/mgvzyyqk');
+const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
 
 const stripePlans = {
   "Suscripción Anual": "price_1AnualXYZ",
@@ -1119,14 +926,7 @@ setTimeout(()=>{
     else { btn.style.animation="none"; }
     counter.textContent = plazas;
   }
- // Llamar inicialmente
-checkUrgencia();
-
-// Actualizar cada minuto para reflejar cambios en plazas
-setInterval(() => {
-  plazas = plazasElem ? parseInt(plazasElem.textContent) : 5;
   checkUrgencia();
-}, 60 * 1000);
 
   // --- Scroll dinámico ---
   let lastScroll = window.scrollY;
@@ -1145,6 +945,18 @@ setInterval(() => {
 }, 5000);
 </script>
 <script>
+// Función para cerrar modal
+function closeModal() {
+  const modal = document.getElementById("modal-unificado");
+  const form = modal.querySelector(".premium-modal");
+  modal.style.opacity = "0";
+  form.style.transform = "scale(0.9)";
+  setTimeout(() => {
+    modal.style.display = "none";
+    document.body.style.overflow = '';
+  }, 300);
+}
+
 // Cerrar modal al pulsar botón
 document.getElementById("close-unificado").addEventListener("click", closeModal);
 
@@ -1153,194 +965,96 @@ document.getElementById("modal-unificado").addEventListener("click", e => {
   if (e.target.id === "modal-unificado") closeModal();
 });
 </script>
-     
-<script>
+      <script>
 document.getElementById("btn-comencemos").addEventListener("click", () => {
   const splash = document.getElementById("splash");
+  const main = document.getElementById("main-content");
 
   splash.style.transition = "opacity 0.6s ease";
   splash.style.opacity = 0;
 
   setTimeout(() => {
     splash.style.display = "none";
-    document.body.style.overflow = "auto";
+    main.style.display = "block";
+    document.body.style.overflow = 'auto';
   }, 600);
 });
 </script>
+      
+<script>
+// Seleccionamos el modal y formulario
+const modalOferta = document.getElementById("modal-unificado");
+const formOferta = document.getElementById("form-unificado");
 
- <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  /* =========================
-     FUNCIONES DE SCROLL
-     ========================= */
-  const scrollManager = {
-    bloquear: ()=>document.body.style.overflow='hidden',
-    liberar: ()=>document.body.style.overflow=''
-  };
-
-  /* =========================
-     FUNCIONES DE MODAL GENÉRICO
-     ========================= */
-  function crearModal({ modalId, formId, onSubmit, focusInput }) {
-    const modal = document.getElementById(modalId);
-    const form = formId ? document.getElementById(formId) : null;
-    const btnCerrar = modal.querySelector(".close-modal");
-
-    // Mensaje y check para feedback visual
-    let mensajeDiv, checkSVG, path;
-    if(form){
-      mensajeDiv = document.createElement("div");
-      mensajeDiv.style.cssText="text-align:center;margin-top:15px;font-weight:600;color:#00ffc0;opacity:0;transition:opacity 0.4s;";
-      form.appendChild(mensajeDiv);
-
-      checkSVG = document.createElementNS("http://www.w3.org/2000/svg","svg");
-      checkSVG.setAttribute("viewBox","0 0 52 52");
-      checkSVG.style.cssText="width:50px;height:50px;margin:10px auto 0;display:block;stroke:#00ffc0;stroke-width:5;fill:none;opacity:0;transition:opacity 0.4s;";
-      path = document.createElementNS("http://www.w3.org/2000/svg","path");
-      path.setAttribute("d","M14 27 l10 10 l20 -20");
-      path.setAttribute("stroke-dasharray","50");
-      path.setAttribute("stroke-dashoffset","50");
-      checkSVG.appendChild(path);
-      form.appendChild(checkSVG);
-    }
-
-    function abrir(data={}){
-      if(form) form.reset();
-      if(mensajeDiv) { mensajeDiv.style.opacity=0; mensajeDiv.textContent=""; }
-      if(checkSVG){ checkSVG.style.opacity=0; path.style.strokeDashoffset="50"; }
-
-      modal.style.display="flex";
-      setTimeout(()=>{
-        modal.style.opacity="1";
-        if(form) form.style.transform="scale(1)";
-        if(focusInput && form && form[focusInput]) form[focusInput].focus();
-      },10);
-      scrollManager.bloquear();
-    }
-
-    function cerrar(){
-      modal.style.opacity="0";
-      if(form) form.style.transform="scale(0.9)";
-      setTimeout(()=>{ modal.style.display="none"; scrollManager.liberar(); },300);
-    }
-
-    // Eventos de cierre
-    btnCerrar?.addEventListener("click", cerrar);
-    modal.addEventListener("click", e=>{ if(e.target===modal) cerrar(); });
-    document.addEventListener("keydown", e=>{ if(e.key==="Escape" && modal.style.display==="flex") cerrar(); });
-
-    // Envío de formulario
-    if(form){
-      form.addEventListener("submit", async e=>{
-        e.preventDefault();
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent="Enviando...";
-        submitBtn.disabled=true;
-        submitBtn.style.background="#00ffc0";
-
-        try{
-          await onSubmit(form, mensajeDiv, checkSVG, path);
-          submitBtn.style.background="#ffbf00";
-          setTimeout(cerrar,2000);
-        } catch(err){
-          console.error(err);
-          if(mensajeDiv){
-            mensajeDiv.textContent="Hubo un error, intenta de nuevo ❌";
-            mensajeDiv.style.color="#ff4d4d";
-            mensajeDiv.style.opacity=1;
-          }
-          setTimeout(()=>{
-            submitBtn.textContent=originalText;
-            submitBtn.disabled=false;
-            submitBtn.style.background="#ffbf00";
-            if(mensajeDiv){ mensajeDiv.style.opacity=0; mensajeDiv.style.color="#00ffc0"; }
-          },2500);
-        }
-      });
-    }
-
-    return { abrir, cerrar };
-  }
-
-  /* =========================
-     MODAL PREMIUM (Stripe + Formspree)
-     ========================= */
-  const stripe = Stripe('https://formspree.io/f/mgvzyyqk'); // Cambia tu key
-  const stripePlans = {
-    "Suscripción Anual":"price_1AnualXYZ",
-    "Suscripción Trimestral":"price_1TrimestralXYZ",
-    "Suscripción Mensual":"price_1MensualXYZ"
-  };
-
-  const modalPremium = crearModal({
-    modalId:"modal-unificado",
-    formId:"form-unificado",
-    focusInput:"nombre",
-    onSubmit: async (form)=>{
-      const planName = document.getElementById("plan-input").value;
-      const planID = stripePlans[planName];
-      const nombre = form.nombre.value;
-      const email = form.email.value;
-
-      // Formspree
-      await fetch("https://formspree.io/f/mgvzyyqk", {
-  method:"POST",
-  headers:{"Content-Type":"application/json"},
-  body:JSON.stringify({ nombre, email, plan:planName })
+// Abrir modal al pulsar cualquier botón de suscripción
+document.querySelectorAll(".subscription-card button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    document.getElementById("modal-title").textContent = planName;
+    document.getElementById("plan-input").value = planName;
+    modalOferta.style.display = "flex";
+    modalOferta.style.opacity = "1";
+    modalOferta.querySelector(".premium-modal").style.transform = "scale(1)";
+    document.body.style.overflow = "hidden";
+  });
 });
 
-      // Stripe Checkout
-      if(planID){
-        const {error} = await stripe.redirectToCheckout({
-          lineItems:[{ price:planID, quantity:1 }],
-          mode:'subscription',
-          successUrl:window.location.href+'?success=true',
-          cancelUrl:window.location.href+'?cancel=true',
-          customerEmail:email
-        });
-        if(error) throw error;
-      }
-    }
-  });
+// Función para cerrar modal
+function cerrarModalOferta() {
+  modalOferta.style.opacity = "0";
+  modalOferta.querySelector(".premium-modal").style.transform = "scale(0.9)";
+  setTimeout(() => {
+    modalOferta.style.display = "none";
+    document.body.style.overflow = "";
+  }, 300);
+}
 
-  document.querySelectorAll(".subscription-card button").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
-      document.getElementById("plan-input").value = planName;
-      modalPremium.abrir();
+// Botón de cerrar y clic fuera del modal
+document.getElementById("close-unificado").addEventListener("click", cerrarModalOferta);
+modalOferta.addEventListener("click", e => {
+  if (e.target.id === "modal-unificado") cerrarModalOferta();
+});
+
+// Envío del formulario a Formspree con confirmación
+formOferta.addEventListener("submit", async e => {
+  e.preventDefault();
+  const submitBtn = formOferta.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
+  submitBtn.textContent = "Enviando...";
+  submitBtn.style.background = "#00ffc0"; // indica proceso
+  submitBtn.disabled = true;
+
+  try {
+    const res = await fetch("https://formspree.io/f/mbdaenpo", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        nombre: formOferta.nombre.value,
+        email: formOferta.email.value,
+        plan: formOferta.plan.value
+      })
     });
-  });
 
-  /* =========================
-     MODAL CAMBIO (Formspree)
-     ========================= */
-  const modalCambio = crearModal({
-    modalId:"modal-cambio",
-    formId:"form-cambio",
-    focusInput:"nombre",
-    onSubmit: async (form, mensajeDiv, checkSVG, path)=>{
-      // Formspree
-  await fetch("https://formspree.io/f/mgvzyyqk", {
-  method:"POST",
-  headers:{"Content-Type":"application/json"},
-  body:JSON.stringify({ nombre: form.nombre.value, email: form.email.value })
-});
-
-      // Animación check + mensaje
-      mensajeDiv.textContent="¡Gracias! Pronto nos contactaremos";
-      mensajeDiv.style.opacity=1;
-      checkSVG.style.opacity=1;
-      path.style.transition="stroke-dashoffset 0.6s ease";
-      setTimeout(()=>{ path.style.strokeDashoffset="0"; },50);
-    }
-  });
-
-  document.querySelectorAll(".btn-cambio").forEach(btn=>{
-    btn.addEventListener("click", modalCambio.abrir);
-  });
-
+    if(res.ok){
+      submitBtn.textContent = "¡Enviado! ✅";
+      submitBtn.style.background = "#ffbf00";
+      setTimeout(()=> {
+        formOferta.reset();
+        cerrarModalOferta();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }, 1500);
+    } else throw new Error("Error envío");
+  } catch(err){
+    submitBtn.textContent = "Error, intenta de nuevo";
+    submitBtn.style.background = "#ff4d4d";
+    setTimeout(()=> {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+      submitBtn.style.background = "#ffbf00";
+    }, 2000);
+  }
 });
 </script>
 </body>
