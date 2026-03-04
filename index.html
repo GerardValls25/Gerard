@@ -52,7 +52,14 @@
 body { font-family: 'Montserrat', sans-serif; background: var(--darkbg); color: var(--text-light); line-height:1.5; overflow-x:hidden; }
 a { text-decoration:none; color: var(--primary); transition: var(--transition); }
 a:hover { color: var(--secondary); }
-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -5;
+}
 
 /* Main content hidden initially */
 #main-content { display: none; }
@@ -949,7 +956,7 @@ function liberarScroll(){ document.body.style.overflow=''; }
 
 const modal = document.getElementById("modal-unificado");
 const form = document.getElementById("form-unificado");
-const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
+const stripe = Stripe('https://formspree.io/f/mgvzyyqk');
 
 const stripePlans = {
   "Suscripción Anual": "price_1AnualXYZ",
@@ -1184,6 +1191,182 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
     splash.style.display = "none";
     document.body.style.overflow = "auto";
   }, 600);
+});
+</script>
+
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* =========================
+     FUNCIONES DE SCROLL
+     ========================= */
+  const scrollManager = {
+    bloquear: ()=>document.body.style.overflow='hidden',
+    liberar: ()=>document.body.style.overflow=''
+  };
+
+  /* =========================
+     FUNCIONES DE MODAL GENÉRICO
+     ========================= */
+  function crearModal({ modalId, formId, onSubmit, focusInput }) {
+    const modal = document.getElementById(modalId);
+    const form = formId ? document.getElementById(formId) : null;
+    const btnCerrar = modal.querySelector(".close-modal");
+
+    // Mensaje y check para feedback visual
+    let mensajeDiv, checkSVG, path;
+    if(form){
+      mensajeDiv = document.createElement("div");
+      mensajeDiv.style.cssText="text-align:center;margin-top:15px;font-weight:600;color:#00ffc0;opacity:0;transition:opacity 0.4s;";
+      form.appendChild(mensajeDiv);
+
+      checkSVG = document.createElementNS("http://www.w3.org/2000/svg","svg");
+      checkSVG.setAttribute("viewBox","0 0 52 52");
+      checkSVG.style.cssText="width:50px;height:50px;margin:10px auto 0;display:block;stroke:#00ffc0;stroke-width:5;fill:none;opacity:0;transition:opacity 0.4s;";
+      path = document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d","M14 27 l10 10 l20 -20");
+      path.setAttribute("stroke-dasharray","50");
+      path.setAttribute("stroke-dashoffset","50");
+      checkSVG.appendChild(path);
+      form.appendChild(checkSVG);
+    }
+
+    function abrir(data={}){
+      if(form) form.reset();
+      if(mensajeDiv) { mensajeDiv.style.opacity=0; mensajeDiv.textContent=""; }
+      if(checkSVG){ checkSVG.style.opacity=0; path.style.strokeDashoffset="50"; }
+
+      modal.style.display="flex";
+      setTimeout(()=>{
+        modal.style.opacity="1";
+        if(form) form.style.transform="scale(1)";
+        if(focusInput && form && form[focusInput]) form[focusInput].focus();
+      },10);
+      scrollManager.bloquear();
+    }
+
+    function cerrar(){
+      modal.style.opacity="0";
+      if(form) form.style.transform="scale(0.9)";
+      setTimeout(()=>{ modal.style.display="none"; scrollManager.liberar(); },300);
+    }
+
+    // Eventos de cierre
+    btnCerrar?.addEventListener("click", cerrar);
+    modal.addEventListener("click", e=>{ if(e.target===modal) cerrar(); });
+    document.addEventListener("keydown", e=>{ if(e.key==="Escape" && modal.style.display==="flex") cerrar(); });
+
+    // Envío de formulario
+    if(form){
+      form.addEventListener("submit", async e=>{
+        e.preventDefault();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent="Enviando...";
+        submitBtn.disabled=true;
+        submitBtn.style.background="#00ffc0";
+
+        try{
+          await onSubmit(form, mensajeDiv, checkSVG, path);
+          submitBtn.style.background="#ffbf00";
+          setTimeout(cerrar,2000);
+        } catch(err){
+          console.error(err);
+          if(mensajeDiv){
+            mensajeDiv.textContent="Hubo un error, intenta de nuevo ❌";
+            mensajeDiv.style.color="#ff4d4d";
+            mensajeDiv.style.opacity=1;
+          }
+          setTimeout(()=>{
+            submitBtn.textContent=originalText;
+            submitBtn.disabled=false;
+            submitBtn.style.background="#ffbf00";
+            if(mensajeDiv){ mensajeDiv.style.opacity=0; mensajeDiv.style.color="#00ffc0"; }
+          },2500);
+        }
+      });
+    }
+
+    return { abrir, cerrar };
+  }
+
+  /* =========================
+     MODAL PREMIUM (Stripe + Formspree)
+     ========================= */
+  const stripe = Stripe('https://formspree.io/f/mgvzyyqk'); // Cambia tu key
+  const stripePlans = {
+    "Suscripción Anual":"price_1AnualXYZ",
+    "Suscripción Trimestral":"price_1TrimestralXYZ",
+    "Suscripción Mensual":"price_1MensualXYZ"
+  };
+
+  const modalPremium = crearModal({
+    modalId:"modal-unificado",
+    formId:"form-unificado",
+    focusInput:"nombre",
+    onSubmit: async (form)=>{
+      const planName = document.getElementById("plan-input").value;
+      const planID = stripePlans[planName];
+      const nombre = form.nombre.value;
+      const email = form.email.value;
+
+      // Formspree
+      await fetch("https://formspree.io/f/mgvzyyqk", {
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({ nombre, email, plan:planName })
+});
+
+      // Stripe Checkout
+      if(planID){
+        const {error} = await stripe.redirectToCheckout({
+          lineItems:[{ price:planID, quantity:1 }],
+          mode:'subscription',
+          successUrl:window.location.href+'?success=true',
+          cancelUrl:window.location.href+'?cancel=true',
+          customerEmail:email
+        });
+        if(error) throw error;
+      }
+    }
+  });
+
+  document.querySelectorAll(".subscription-card button").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+      document.getElementById("plan-input").value = planName;
+      modalPremium.abrir();
+    });
+  });
+
+  /* =========================
+     MODAL CAMBIO (Formspree)
+     ========================= */
+  const modalCambio = crearModal({
+    modalId:"modal-cambio",
+    formId:"form-cambio",
+    focusInput:"nombre",
+    onSubmit: async (form, mensajeDiv, checkSVG, path)=>{
+      // Formspree
+  await fetch("https://formspree.io/f/mgvzyyqk", {
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({ nombre: form.nombre.value, email: form.email.value })
+});
+
+      // Animación check + mensaje
+      mensajeDiv.textContent="¡Gracias! Pronto nos contactaremos";
+      mensajeDiv.style.opacity=1;
+      checkSVG.style.opacity=1;
+      path.style.transition="stroke-dashoffset 0.6s ease";
+      setTimeout(()=>{ path.style.strokeDashoffset="0"; },50);
+    }
+  });
+
+  document.querySelectorAll(".btn-cambio").forEach(btn=>{
+    btn.addEventListener("click", modalCambio.abrir);
+  });
+
 });
 </script>
 </body>
