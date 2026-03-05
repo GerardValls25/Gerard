@@ -840,14 +840,17 @@ function actualizarOfertaDiaria() {
 const style = document.createElement('style');
 style.innerHTML = `
 @keyframes parpadeo {
-  0%, 50%, 100% { opacity: 1; transform: scale(1); }
-  25%, 75% { opacity: 0.3; transform: scale(1.2); }
-}`;
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.3; }
+}
+`;
 document.head.appendChild(style);
 
-// Inicializar
+// Inicializar contador
 actualizarOfertaDiaria();
-setInterval(actualizarOfertaDiaria, 1000 * 60 * 60); // Actualiza cada hora
+
+// Actualizar cada hora
+setInterval(actualizarOfertaDiaria, 1000 * 60 * 60);
 </script>
 <!-- Botón WhatsApp con contador -->
 <a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20más%20info" 
