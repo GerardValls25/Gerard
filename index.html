@@ -672,18 +672,16 @@ const stripePlans = {
 
 
 // ABRIR MODAL PREMIUM
-document.querySelectorAll(".subscription-card button").forEach(btn => {
-  btn.addEventListener("click", () => {
+document.querySelectorAll(".subscription-card button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
     const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
-
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
-
-    modalOferta.style.display = "flex";
-    modalOferta.style.opacity = "1";
-    modalOferta.querySelector(".premium-modal").style.transform = "scale(1)";
-
-    document.body.style.overflow = "hidden";
+    form.dataset.stripePlan = stripePlans[planName];
+    modal.style.display="flex";
+    modal.style.opacity="1";
+    modal.querySelector(".premium-modal").style.transform="scale(1)";
+    bloquearScroll();
   });
 });
 
@@ -919,6 +917,19 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
 // Seleccionamos el modal y formulario
 const modalOferta = document.getElementById("modal-unificado");
 const formOferta = document.getElementById("form-unificado");
+
+// Abrir modal al pulsar cualquier botón de suscripción
+document.querySelectorAll(".subscription-card button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    document.getElementById("modal-title").textContent = planName;
+    document.getElementById("plan-input").value = planName;
+    modalOferta.style.display = "flex";
+    modalOferta.style.opacity = "1";
+    modalOferta.querySelector(".premium-modal").style.transform = "scale(1)";
+    document.body.style.overflow = "hidden";
+  });
+});
 
 // Función para cerrar modal
 function cerrarModalOferta() {
