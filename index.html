@@ -526,6 +526,10 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
     <h3>Empezar Mi Cambio Ahora</h3>
     <input type="text" name="nombre" placeholder="Nombre completo" required>
     <input type="email" name="email" placeholder="Correo electrónico" required>
+
+    <!-- Aquí agregamos el input oculto -->
+    <input type="hidden" name="pagina" value="Landing cambio físico">
+
     <button type="submit">Enviar</button>
     <button type="button" id="close-cambio">Cerrar</button>
   </form>
@@ -568,24 +572,6 @@ path.setAttribute("stroke-dashoffset", "50");
 checkSVG.appendChild(path);
 formCambio.appendChild(checkSVG);
   
-// ===== ABRIR MODAL =====
- document.querySelectorAll(".btn-cambio").forEach(btn => {
-  btn.addEventListener("click", () => {
-    formCambio.reset();
-    mensajeDiv.style.opacity = 0;
-    checkSVG.style.opacity = 0;
-    path.style.strokeDashoffset = "50";
-
-    modalCambio.style.display = "flex";
-    setTimeout(() => {
-      modalCambio.style.opacity = "1";
-      formCambio.style.transform = "scale(1)";
-      formCambio.nombre.focus();
-    }, 10);
-
-    document.body.style.overflow = "hidden";
-  });
-});
 // ===== CERRAR MODAL =====
 function cerrarModal() {
   // Ocultar visualmente el modal y escalar el formulario
@@ -730,26 +716,29 @@ function liberarScroll(){ document.body.style.overflow=''; }
 
 const modal = document.getElementById("modal-unificado");
 const form = document.getElementById("form-unificado");
-const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
-
-const stripePlans = {
-  "Suscripción Anual": "price_1AnualXYZ",
-  "Suscripción Trimestral": "price_1TrimestralXYZ",
-  "Suscripción Mensual": "price_1MensualXYZ"
 };
 
 
-// ABRIR MODAL PREMIUM
+// ===== ABRIR MODAL PREMIUM =====
 document.querySelectorAll(".subscription-card button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
+
     const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
+
     form.dataset.stripePlan = stripePlans[planName];
+
     modal.style.display="flex";
-    modal.style.opacity="1";
-    modal.querySelector(".premium-modal").style.transform="scale(1)";
+
+    setTimeout(()=>{
+      modal.style.opacity="1";
+      modal.querySelector(".premium-modal").style.transform="scale(1)";
+    },10);
+
     bloquearScroll();
+
   });
 });
 
@@ -947,28 +936,8 @@ setTimeout(()=>{
 
 }, 5000);
 </script>
+
 <script>
-// Función para cerrar modal
-function closeModal() {
-  const modal = document.getElementById("modal-unificado");
-  const form = modal.querySelector(".premium-modal");
-  modal.style.opacity = "0";
-  form.style.transform = "scale(0.9)";
-  setTimeout(() => {
-    modal.style.display = "none";
-    document.body.style.overflow = '';
-  }, 300);
-}
-
-// Cerrar modal al pulsar botón
-document.getElementById("close-unificado").addEventListener("click", closeModal);
-
-// Cerrar modal al hacer clic fuera del formulario
-document.getElementById("modal-unificado").addEventListener("click", e => {
-  if (e.target.id === "modal-unificado") closeModal();
-});
-</script>
-      <script>
 document.getElementById("btn-comencemos").addEventListener("click", () => {
   const splash = document.getElementById("splash");
   const main = document.getElementById("main-content");
@@ -983,82 +952,6 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
   }, 600);
 });
 </script>
-      
-<script>
-// Seleccionamos el modal y formulario
-const modalOferta = document.getElementById("modal-unificado");
-const formOferta = document.getElementById("form-unificado");
-
-// Abrir modal al pulsar cualquier botón de suscripción
-document.querySelectorAll(".subscription-card button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
-    document.getElementById("modal-title").textContent = planName;
-    document.getElementById("plan-input").value = planName;
-    modalOferta.style.display = "flex";
-    modalOferta.style.opacity = "1";
-    modalOferta.querySelector(".premium-modal").style.transform = "scale(1)";
-    document.body.style.overflow = "hidden";
-  });
-});
-
-// Función para cerrar modal
-function cerrarModalOferta() {
-  modalOferta.style.opacity = "0";
-  modalOferta.querySelector(".premium-modal").style.transform = "scale(0.9)";
-  setTimeout(() => {
-    modalOferta.style.display = "none";
-    document.body.style.overflow = "";
-  }, 300);
-}
-
-// Botón de cerrar y clic fuera del modal
-document.getElementById("close-unificado").addEventListener("click", cerrarModalOferta);
-modalOferta.addEventListener("click", e => {
-  if (e.target.id === "modal-unificado") cerrarModalOferta();
-});
-
-// Envío del formulario a Formspree con confirmación
-formOferta.addEventListener("submit", async e => {
-  e.preventDefault();
-  const submitBtn = formOferta.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
-
-  submitBtn.textContent = "Enviando...";
-  submitBtn.style.background = "#00ffc0"; // indica proceso
-  submitBtn.disabled = true;
-
-  try {
-    const res = await fetch("https://formspree.io/f/mbdaenpo", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        nombre: formOferta.nombre.value,
-        email: formOferta.email.value,
-        plan: formOferta.plan.value
-      })
-    });
-
-    if(res.ok){
-      submitBtn.textContent = "¡Enviado! ✅";
-      submitBtn.style.background = "#ffbf00";
-      setTimeout(()=> {
-        formOferta.reset();
-        cerrarModalOferta();
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }, 1500);
-    } else throw new Error("Error envío");
-  } catch(err){
-    submitBtn.textContent = "Error, intenta de nuevo";
-    submitBtn.style.background = "#ff4d4d";
-    setTimeout(()=> {
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
-      submitBtn.style.background = "#ffbf00";
-    }, 2000);
-  }
-});
-</script>
+  
 </body>
 </html>
