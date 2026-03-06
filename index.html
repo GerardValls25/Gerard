@@ -245,11 +245,23 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 
 <script>
 // ===== Splash =====
-const splash = document.getElementById('splash');
-const mainContent = document.getElementById('main-content');
-document.getElementById('btn-comencemos').addEventListener('click', () => {
-  gsap.to(splash, {opacity:0, duration:0.6, onComplete: ()=>{ splash.style.display='none'; mainContent.style.display='block'; }});
-});
+document.addEventListener('DOMContentLoaded', () => {
+  const splash = document.getElementById('splash');
+  const mainContent = document.getElementById('main-content');
+  const btnComencemos = document.getElementById('btn-comencemos');
+
+  btnComencemos.addEventListener('click', () => {
+    // Oculta splash con GSAP y muestra contenido
+    gsap.to(splash, {
+      opacity: 0,
+      duration: 0.6,
+      onComplete: () => {
+        splash.style.display = 'none';
+        mainContent.style.display = 'block';
+        // Opcional: animación de entrada del main content
+        gsap.from(mainContent, {opacity: 0, y: 30, duration: 0.8});
+      }
+    });
 
 // ===== Contador de plazas =====
 let plazas = 12;
