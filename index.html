@@ -21,9 +21,6 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
-<!-- Stripe -->
-<script src="https://js.stripe.com/v3/"></script>
-
 <style>
 /* ==== Estilos ==== */
 :root {
@@ -508,12 +505,12 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 <!-- Modal Unificado -->
 <div id="modal-unificado" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
 background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:2000; opacity:0;">
-  <form id="form-unificado" class="premium-modal" data-stripe-plan="">
+  <form id="form-unificado" class="premium-modal">
     <h3 id="modal-title">Oferta Especial EMS</h3>
     <input type="text" name="nombre" placeholder="Nombre completo" required>
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <input type="text" name="plan" id="plan-input" readonly>
-    <button type="submit">Enviar y Pagar</button>
+    <button type="submit">Enviar solicitud</button>
     <button type="button" id="close-unificado">Cerrar</button>
   </form>
 </div>
@@ -710,14 +707,12 @@ window.addEventListener("load", ()=>{
 </script>
 
 <script>
-// --- Modal Unificado + Stripe + Formspree ---
+// --- Modal Unificado + Formspree ---
 function bloquearScroll(){ document.body.style.overflow='hidden'; }
 function liberarScroll(){ document.body.style.overflow=''; }
 
 const modal = document.getElementById("modal-unificado");
 const form = document.getElementById("form-unificado");
-};
-
 
 // ===== ABRIR MODAL PREMIUM =====
 document.querySelectorAll(".subscription-card button").forEach(btn=>{
@@ -727,8 +722,6 @@ document.querySelectorAll(".subscription-card button").forEach(btn=>{
 
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
-
-    form.dataset.stripePlan = stripePlans[planName];
 
     modal.style.display="flex";
 
@@ -766,28 +759,22 @@ function openModal(){
 // ENVÍO FORMULARIO
 form.addEventListener("submit", async e=>{
   e.preventDefault();
-  const planID = form.dataset.stripePlan;
+
   const nombre = e.target.nombre.value;
   const email = e.target.email.value;
+  const plan = document.getElementById("plan-input").value;
 
-  // Formspree
   fetch("https://formspree.io/f/mbdaenpo", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ nombre, email, plan:document.getElementById("plan-input").value })
-  }).catch(err=>console.log("Error Formspree:",err));
-
-  // Stripe Checkout si hay plan
-  if(planID){
-    const {error} = await stripe.redirectToCheckout({
-      lineItems:[{ price:planID, quantity:1 }],
-      mode:'subscription',
-      successUrl:window.location.href+'?success=true',
-      cancelUrl:window.location.href+'?cancel=true',
-      customerEmail:email
-    });
-    if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
-  }
+    body: JSON.stringify({ nombre, email, plan })
+  })
+  .then(()=>{
+    alert("Formulario enviado correctamente");
+  })
+  .catch(()=>{
+    alert("Hubo un error al enviar el formulario");
+  });
 
   closeModal();
 });
@@ -849,11 +836,12 @@ setInterval(actualizarOfertaDiaria, 1000 * 60 * 60);
 </a>
 
 <style>
+/* Botón WhatsApp */
 #whatsapp-btn-ultimate {
   position: fixed;
   bottom: 25px;
   right: 25px;
-  background: #25d366;
+  background-color: #25d366;
   color: #fff;
   font-size: 2.2rem;
   border-radius: 50%;
@@ -862,15 +850,52 @@ setInterval(actualizarOfertaDiaria, 1000 * 60 * 60);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset;
+  box-shadow:
+    0 0 10px #25d366,
+    0 0 20px #25d366,
+    0 0 30px #25d366,
+    0 0 40px #25d366 inset;
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, bottom 0.3s ease, background 0.3s ease, opacity 0.5s ease;
   gap: 8px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    bottom 0.3s ease,
+    background-color 0.3s ease,
+    opacity 0.5s ease;
 }
-#whatsapp-btn-ultimate.show { opacity:1; pointer-events:auto; }
-#whatsapp-btn-ultimate:hover { transform: scale(1.15); }
 
+#whatsapp-btn-ultimate.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#whatsapp-btn-ultimate:hover {
+  transform: scale(1.15);
+  background-color: #1ebe57;
+  box-shadow:
+    0 0 15px #25d366,
+    0 0 30px #25d366,
+    0 0 45px #25d366,
+    0 0 60px #25d366 inset;
+}
+
+#whatsapp-counter {
+  background: rgba(0,0,0,0.6);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+/* Animación urgente */
+@keyframes whatsapp-urgent {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Contador */
 #whatsapp-counter {
   background: rgba(0,0,0,0.6);
   font-size: 0.8rem;
@@ -893,46 +918,46 @@ setInterval(actualizarOfertaDiaria, 1000 * 60 * 60);
 </style>
 
 <script>
-setTimeout(()=>{
+setTimeout(() => {
   const btn = document.getElementById("whatsapp-btn-ultimate");
   const counter = document.getElementById("whatsapp-counter");
-
-  btn.classList.add("show");
-
-  // --- Inicializar plazas desde la página ---
   const plazasElem = document.getElementById("plazas");
   let plazas = plazasElem ? parseInt(plazasElem.textContent) : 5;
+
+  btn.classList.add("show");
   counter.textContent = plazas;
 
-  // --- Actualizar color según oferta ---
+  // Colores según oferta
   const premiumCard = document.querySelector(".subscription-card.premium");
-  const ofertaLimitada = document.getElementById("oferta-limitada");
-  
-  if(premiumCard){ btn.style.background="#00ffc0"; btn.style.boxShadow="0 0 15px #00ffc0,0 0 30px #00bfff inset"; }
-  else if(ofertaLimitada){ btn.style.background="#ffbf00"; btn.style.boxShadow="0 0 15px #ffbf00,0 0 30px #ffbf00 inset"; }
-  else { btn.style.background="#25d366"; btn.style.boxShadow="0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset"; }
+  if(premiumCard){
+    btn.style.background="#00ffc0";
+    btn.style.boxShadow="0 0 15px #00ffc0,0 0 30px #00bfff inset";
+  }
 
-  // --- Animación de urgencia si plazas ≤3 ---
+  // Animación de urgencia si quedan <=3 plazas
   function checkUrgencia() {
-    if(plazas <=3 && plazas >0){ btn.style.animation="whatsapp-urgent 1s infinite alternate"; }
-    else { btn.style.animation="none"; }
+    if(plazas <= 3 && plazas > 0) {
+      btn.style.animation = "whatsapp-urgent 1s infinite alternate";
+    } else {
+      btn.style.animation = "none";
+    }
     counter.textContent = plazas;
   }
   checkUrgencia();
 
-  // --- Scroll dinámico ---
+  // Scroll dinámico
   let lastScroll = window.scrollY;
-  window.addEventListener("scroll", ()=>{
+  window.addEventListener("scroll", () => {
     const currentScroll = window.scrollY;
-    btn.style.bottom = (currentScroll > lastScroll ? 15 : 35)+"px";
+    btn.style.bottom = (currentScroll > lastScroll ? 15 : 35) + "px";
     lastScroll = currentScroll;
   });
 
-  // --- Actualizar contador automáticamente cada hora según tu script de plazas ---
-  setInterval(()=>{
+  // Actualizar plazas cada hora
+  setInterval(() => {
     plazas = plazasElem ? parseInt(plazasElem.textContent) : plazas;
     checkUrgencia();
-  }, 1000*60*60);
+  }, 1000 * 60 * 60);
 
 }, 5000);
 </script>
@@ -952,6 +977,42 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
   }, 600);
 });
 </script>
-  
+  <!-- tu script del modal -->
+<script>
+
+const modalCambio = document.getElementById("modal-unificado");
+const formCambio = document.querySelector(".premium-modal");
+
+document.querySelectorAll(".btn-cambio").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    modalCambio.style.display = "flex";
+
+    setTimeout(()=>{
+      modalCambio.style.opacity = "1";
+      formCambio.style.transform = "scale(1)";
+    },10);
+
+    document.body.style.overflow = "hidden";
+  });
+});
+
+</script>
+      <script>
+// ABRIR MODAL "EMPEZAR MI CAMBIO"
+document.querySelectorAll(".btn-cambio").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+
+    modalCambio.style.display = "flex";
+
+    setTimeout(()=>{
+      modalCambio.style.opacity = "1";
+      formCambio.style.transform = "scale(1)";
+    },10);
+
+    document.body.style.overflow = "hidden";
+
+  });
+});
+</script>
 </body>
 </html>
