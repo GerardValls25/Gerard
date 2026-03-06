@@ -29,8 +29,6 @@
   --card-bg: rgba(255,255,255,0.05);
   --card-shadow: 0 12px 40px rgba(0,0,0,0.55);
 }
-
-/* Reset y body */
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Montserrat',sans-serif;background:var(--darkbg);color:var(--text-light);line-height:1.5;overflow-x:hidden;}
 a{text-decoration:none;color:var(--primary);transition:var(--transition);}
@@ -52,7 +50,7 @@ main{display:none;}
 @keyframes neon-flicker {0%,18%,22%,25%,53%,57%,100% {text-shadow:0 0 5px var(--primary),0 0 10px var(--primary),0 0 20px var(--primary),0 0 40px #00bfff,0 0 80px #00bfff;} 20%,24%,55%{text-shadow:none;color:var(--primary);}}
 
 /* Sections */
-section { max-width:1100px; margin:100px auto; padding:60px 30px; border-radius:var(--radius); backdrop-filter:blur(12px); background:var(--card-bg); box-shadow:var(--card-shadow); opacity:0; transform:translateY(50px); }
+section { max-width:1100px; margin:100px auto; padding:60px 30px; border-radius:var(--radius); backdrop-filter:blur(12px); background:var(--card-bg); box-shadow:var(--card-shadow); opacity:0; transform:translateY(50px); transition:all 0.6s ease; }
 header { text-align:center; padding:180px 20px 60px; }
 header img { width:100%; max-width:500px; height:auto; border-radius:15px; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin-bottom:30px; transition: transform 0.3s ease, box-shadow 0.3s ease;}
 header img:hover {transform:scale(1.05); box-shadow:0 25px 60px rgba(0,0,0,0.7);}
@@ -157,17 +155,25 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 <section id="oferta-limitada">
   <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">🔥 Oferta Especial Solo por este Mes 🔥</h2>
   <div class="grid">
+    <div class="card subscription-card">
+      <h3>Plan Básico</h3>
+      <p>€39 / mes</p>
+      <ul>
+        <li>Plan de comidas semanal</li>
+        <li>1 sesión de seguimiento</li>
+        <li>Acceso a comunidad online</li>
+      </ul>
+      <button class="btn-cambio">¡Contratar Básico!</button>
+    </div>
     <div class="card subscription-card premium">
-      <h3>Suscripción Anual -10%</h3>
-      <p style="font-size:1.6rem;font-weight:700;">
-        <span style="text-decoration:line-through; opacity:0.6;">€510</span> → €459 / 12 meses
-      </p>
-      <ul style="text-align:left; margin:15px 0; padding-left:20px; line-height:1.5;">
+      <h3>Plan Premium</h3>
+      <p><span style="text-decoration:line-through; opacity:0.6;">€510</span> → €459 / año</p>
+      <ul>
         <li>Acceso completo a todos los planes</li>
         <li>Soporte prioritario 24/7</li>
-        <li>Descuento válido solo hasta fin de mes</li>
+        <li>Seguimiento personalizado</li>
       </ul>
-      <button class="btn-cambio">¡APROVECHAR AHORA!</button>
+      <button class="btn-cambio">¡Aprovechar Oferta!</button>
       <p id="contador" style="text-align:center; margin-top:15px; color:#ffbf00; font-weight:600;">
         ⚡ Quedan solo <span id="plazas"></span> plazas disponibles
       </p>
@@ -202,7 +208,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 <footer>© 2026 Gerard Valls - Nutrición Profesional ULTRA PREMIUM</footer>
 </main>
 
-<!-- MODAL UNIFICADO -->
+<!-- MODAL -->
 <div id="modal-unificado" class="premium-modal">
   <h3>EMPEZAR MI CAMBIO AHORA</h3>
   <form id="form-unificado">
@@ -228,7 +234,7 @@ document.getElementById('btn-comencemos').addEventListener('click', () => {
   gsap.to('.faq-item', {opacity:1, y:0, duration:1, stagger:0.2});
 });
 
-// MODAL UNIFICADO
+// MODAL
 const modal = document.getElementById('modal-unificado');
 const btnAbrir = document.querySelectorAll('.btn-cambio');
 const btnCerrar = document.getElementById('close-unificado');
@@ -245,7 +251,7 @@ form.addEventListener('submit', e=>{
   },1500);
 });
 
-// CONTADOR DE PLAZAS Y FECHA LÍMITE
+// CONTADOR
 let plazasDisponibles=10;
 const plazasSpan=document.getElementById('plazas');
 const fechaSpan=document.getElementById('fecha-limite');
@@ -258,7 +264,7 @@ function actualizarContador(){
 actualizarContador();
 setInterval(actualizarContador, 15000);
 
-// WHATSAPP URGENTE
+// WHATSAPP
 const whatsappBtn = document.getElementById('whatsapp-btn-ultimate');
 const whatsappCounter = document.getElementById('whatsapp-counter');
 let whatsappClicks = 0;
@@ -274,7 +280,7 @@ document.querySelectorAll('.faq-item button').forEach(btn=>{
   });
 });
 
-// THREE.JS BACKGROUND con partículas
+// THREE.JS BACKGROUND
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
 camera.position.z=50;
@@ -286,7 +292,6 @@ let sphere=new THREE.Mesh(geometry,material); scene.add(sphere);
 
 let light=new THREE.PointLight(0xffffff,1); light.position.set(50,50,50); scene.add(light);
 
-// partículas
 let particles=[];
 let particleGeo = new THREE.BufferGeometry();
 let particleCount=500;
@@ -314,6 +319,5 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
   });
 });
 </script>
-
 </body>
 </html>
