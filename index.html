@@ -365,27 +365,27 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
 const modalCambio = document.getElementById("modal-cambio");
 const formCambio = document.getElementById("form-cambio");
 const btnCerrarCambio = document.getElementById("close-cambio");
+  
+// Crear contenedor de mensaje
 const mensajeDiv = formCambio.querySelector(".mensaje-div");
-const checkSVG = document.querySelector("#check-svg"); // ajusta selector según tu HTML
-const path = document.querySelector("#check-svg path"); // ajusta selector según tu HTML
-
-  // Crear check animado
+  
+// Crear SVG check animado
 const checkSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-checkSVG.setAttribute("viewBox", "0 0 52 52");
-checkSVG.style.width = "50px";
-checkSVG.style.height = "50px";
-checkSVG.style.margin = "10px auto 0";
-checkSVG.style.display = "block";
-checkSVG.style.stroke = "#00ffc0";
-checkSVG.style.strokeWidth = "5";
-checkSVG.style.fill = "none";
-checkSVG.style.opacity = 0;
-checkSVG.style.transition = "opacity 0.4s ease";
+checkSVG.setAttribute("viewBox","0 0 52 52");
+checkSVG.style.width="50px";
+checkSVG.style.height="50px";
+checkSVG.style.margin="10px auto 0";
+checkSVG.style.display="block";
+checkSVG.style.stroke="#00ffc0";
+checkSVG.style.strokeWidth="5";
+checkSVG.style.fill="none";
+checkSVG.style.opacity=0;
+checkSVG.style.transition="opacity 0.4s ease";
 
-const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-path.setAttribute("d", "M14 27 l10 10 l20 -20");
-path.setAttribute("stroke-dasharray", "50");
-path.setAttribute("stroke-dashoffset", "50");
+const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+path.setAttribute("d","M14 27 l10 10 l20 -20");
+path.setAttribute("stroke-dasharray","50");
+path.setAttribute("stroke-dashoffset","50");
 
 checkSVG.appendChild(path);
 formCambio.appendChild(checkSVG);
@@ -421,22 +421,17 @@ formCambio.appendChild(checkSVG);
   
 // ===== CERRAR MODAL =====
 function cerrarModal() {
-  // Ocultar visualmente el modal y escalar el formulario
-  modalCambio.style.opacity = "0";
+  modalCambio.style.opacity = 0;
   formCambio.style.transform = "scale(0.9)";
-
-  // Reiniciar animaciones y mensajes
   mensajeDiv.style.opacity = 0;
-  mensajeDiv.textContent = "";
-  checkSVG.style.opacity = 0;
   path.style.strokeDashoffset = "50";
+  checkSVG.style.opacity = 0;
 
-  // Restaurar scroll del body después de la animación
-  setTimeout(() => {
+  setTimeout(()=>{
     modalCambio.style.display = "none";
-    document.body.style.overflow = 'auto';
-    formCambio.reset(); // Limpia el formulario al cerrar
-  }, 300);
+    document.body.style.overflow = "auto";
+    formCambio.reset();
+  },300);
 }
   
 // ===== EVENTOS PARA CERRAR EL MODAL =====
