@@ -36,29 +36,21 @@
   --card-bg: rgba(255,255,255,0.05);
   --card-shadow: 0 12px 40px rgba(0,0,0,0.55);
 }
-* { box-sizing: border-box; margin:0; padding:0; }
-body { font-family: 'Montserrat', sans-serif; background: var(--darkbg); color: var(--text-light); line-height:1.5; overflow-x:hidden; }
-a { text-decoration:none; color: var(--primary); transition: var(--transition); }
-a:hover { color: var(--secondary); }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Montserrat',sans-serif; background:var(--darkbg); color:var(--text-light); line-height:1.5; overflow-x:hidden; }
+a { text-decoration:none; color:var(--primary); transition:var(--transition); }
+a:hover { color:var(--secondary); }
 canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
 
 /* Main content hidden initially */
 #main-content { display: none; }
 
-  
 /* Splash */
-#splash {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center;
-  text-align:center; z-index:10000;
-}
+#splash { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; z-index:10000; }
 #splash img { max-width:80%; height:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
-#btn-comencemos {
-  margin-top:30px; padding:15px 40px; font-size:1.2rem;
-  border:none; border-radius:20px; background:var(--primary); color:#000;
-  cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s;
-}
+#btn-comencemos { margin-top:30px; padding:15px 40px; font-size:1.2rem; border:none; border-radius:20px; background:var(--primary); color:#000; cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s; }
 #btn-comencemos:hover { transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5); }
+
   
 /* MENÚ SUPERIOR NEÓN */
 #main-nav {
@@ -131,39 +123,8 @@ section {
 
 /* Header */
 header { text-align:center; padding:180px 20px 60px; }
-header {
-  text-align: center;
-  padding: 180px 20px 60px; 
-}
-
-header img {
-  width: 100%;          /* ocupa todo el ancho del header */
-  max-width: 500px;     /* tamaño máximo */
-  height: auto;         /* mantiene proporción */
-  border-radius: 15px;  /* esquinas ligeramente redondeadas */
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6); /* sombra intensa */
-  margin-bottom: 30px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-header img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
-}
-
-/* RESPONSIVO */
-@media(max-width: 992px){
-  header img { max-width: 400px; }
-  header { padding: 140px 20px 50px; }
-}
-@media(max-width: 768px){
-  header img { max-width: 300px; }
-  header { padding: 120px 15px 40px; }
-}
-@media(max-width: 480px){
-  header img { max-width: 220px; }
-  header { padding: 100px 10px 30px; }
-}
+header img { width:100%; max-width:500px; height:auto; border-radius:15px; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin-bottom:30px; transition:transform 0.3s ease, box-shadow 0.3s ease; }
+header img:hover { transform:scale(1.05); box-shadow:0 25px 60px rgba(0,0,0,0.7); }
 header h1 { font-size:2.2rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.3); margin-bottom:10px; line-height:1.2; }
 header p { font-size:1rem; max-width:600px; margin:auto; opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s; }
 header .cta { margin-top:25px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
@@ -172,6 +133,7 @@ header .cta button { background: var(--secondary); color:#000; border:none; }
 header .cta button:hover { background: var(--primary); transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,255,192,0.3);}
 header .cta a { border:2px solid var(--primary); color: var(--primary); }
 header .cta a:hover { background: var(--primary); color:#000; box-shadow:0 5px 15px rgba(0,255,192,0.3); }
+
 
 /* Grid cards */
 .grid {
@@ -263,7 +225,21 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   .grid { gap:15px; }
   .grid .card { padding:15px; }
 }
-
+.modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(6px);
+  z-index:9999;
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
 /* Modal Premium Unificado */
 .premium-modal {
   background: rgba(17,17,17,0.9);
@@ -303,7 +279,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 
 
   <!-- =================== CONTENIDO PRINCIPAL =================== -->
- <div id="main-content">
+ <div id="main-content" style="display:none;">
 
   <!=================== Header  =================== -->
 <header id="header">
@@ -319,7 +295,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   <p style="margin-top:10px; color:#ffbf00; font-weight:600;">⚡ Trabajo con pocas personas para asegurar resultados reales</p>
 
   <div class="cta">
-    <button id="cta-reserva" class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
+    <button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
     <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
     <a href="calculadora.html" class="neon-link">Calculadora</a>
     <a href="imc.html" class="neon-link" target="_blank">IMC</a>
@@ -506,28 +482,26 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 </footer>
 
 <!-- Modal Unificado -->
-<div id="modal-unificado" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:2000; opacity:0;">
-  <form id="form-unificado" class="premium-modal" data-stripe-plan="">
+<div class="modal" id="modal-unificado" role="dialog" aria-modal="true">
+  <form class="premium-modal" id="form-unificado" data-stripe-plan="">
     <h3 id="modal-title">Oferta Especial EMS</h3>
     <input type="text" name="nombre" placeholder="Nombre completo" required>
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <input type="text" name="plan" id="plan-input" readonly>
     <button type="submit">Enviar y Pagar</button>
-    <button type="button" id="close-unificado">Cerrar</button>
+    <button type="button" class="close-modal">Cerrar</button>
   </form>
 </div>
 <!-- ================================ -->
 <!-- MODAL NUEVO: "EMPEZAR MI CAMBIO AHORA" -->
 <!-- ================================ -->
-<div id="modal-cambio" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:2000; opacity:0;">
-  <form id="form-cambio" class="premium-modal" style="transform:scale(0.9); transition: transform 0.3s ease, opacity 0.3s ease;">
+<div class="modal" id="modal-cambio" role="dialog" aria-modal="true">
+  <form class="premium-modal" id="form-cambio">
     <h3>Empezar Mi Cambio Ahora</h3>
     <input type="text" name="nombre" placeholder="Nombre completo" required>
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <button type="submit">Enviar</button>
-    <button type="button" id="close-cambio">Cerrar</button>
+    <button type="button" class="close-modal">Cerrar</button>
   </form>
 </div>
 
@@ -537,7 +511,7 @@ background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-inde
   // ================================
 const modalCambio = document.getElementById("modal-cambio");
 const formCambio = document.getElementById("form-cambio");
-const btnCerrar = document.getElementById("close-cambio");
+const btnCerrar = document.querySelector("#modal-cambio .close-modal");
 
 // Crear contenedor de mensaje dentro del modal
 let mensajeDiv = document.createElement("div");
@@ -965,19 +939,13 @@ document.getElementById("modal-unificado").addEventListener("click", e => {
   if (e.target.id === "modal-unificado") closeModal();
 });
 </script>
-      <script>
-document.getElementById("btn-comencemos").addEventListener("click", () => {
-  const splash = document.getElementById("splash");
-  const main = document.getElementById("main-content");
-
-  splash.style.transition = "opacity 0.6s ease";
-  splash.style.opacity = 0;
-
-  setTimeout(() => {
-    splash.style.display = "none";
-    main.style.display = "block";
-    document.body.style.overflow = 'auto';
-  }, 600);
+<script>
+// ===== Splash =====
+document.getElementById('btn-comencemos').addEventListener('click',()=>{
+  const splash=document.getElementById('splash');
+  const main=document.getElementById('main-content');
+  splash.style.opacity='0';
+  setTimeout(()=>{ splash.style.display='none'; main.style.display='block'; document.body.style.overflow='auto'; },600);
 });
 </script>
       
