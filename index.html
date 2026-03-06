@@ -61,89 +61,49 @@ canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
 
 /* MENÚ SUPERIOR NEÓN */
 #main-nav {
-  position: fixed;
-  top: 0;
-  left: 50%;
+  position: fixed; top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 95%;
-  max-width: 1200px;
-  background: rgba(10,10,25,0.6);
-  backdrop-filter: blur(15px);
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,255,192,0.3);
+  width: 95%; max-width: 1200px;
+  background: rgba(10,10,25,0.6); backdrop-filter: blur(15px);
+  border-radius: 15px; box-shadow: 0 4px 20px rgba(0,255,192,0.3);
   z-index: 1000;
 }
-#main-nav ul {
-  display:flex;
-  justify-content: space-around;
-  list-style: none;
-  padding: 10px 0;
-  margin:0;
-}
+#main-nav ul { display:flex; justify-content: space-around; list-style: none; padding: 10px 0; margin:0; }
 .neon-link {
-  color: #00ffc0;
-  font-weight:600;
-  font-size:0.95rem;
-  padding:6px 12px;
-  border-radius:10px;
-  text-shadow:
-     0 0 5px #00ffc0,
-     0 0 10px #00ffc0,
-     0 0 20px #00ffc0,
-     0 0 40px #00bfff,
-     0 0 80px #00bfff;
-  transition: all 0.3s ease-in-out;
-  position: relative;
-  animation: neon-flicker 2.5s infinite;
+  color: var(--primary); font-weight:600; font-size:0.95rem; padding:6px 12px; border-radius:10px;
+  text-shadow:0 0 5px var(--primary),0 0 10px var(--primary),0 0 20px var(--primary),0 0 40px #00bfff,0 0 80px #00bfff;
+  transition: all 0.3s ease-in-out; position: relative; animation: neon-flicker 2.5s infinite;
 }
 .neon-link:hover {
-  color: #ffbf00;
-  text-shadow:
-     0 0 5px #ffbf00,
-     0 0 10px #ffbf00,
-     0 0 20px #ffbf00,
-     0 0 40px #ffbf00,
-     0 0 80px #ffbf00;
+  color: var(--secondary);
+  text-shadow:0 0 5px var(--secondary),0 0 10px var(--secondary),0 0 20px var(--secondary),0 0 40px var(--secondary),0 0 80px var(--secondary);
   background: rgba(0,0,0,0.2);
 }
 @keyframes neon-flicker {
-  0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 
-    0 0 5px #00ffc0,
-    0 0 10px #00ffc0,
-    0 0 20px #00ffc0,
-    0 0 40px #00bfff,
-    0 0 80px #00bfff;
-  }
-  20%, 24%, 55% { text-shadow: none; color:#00ffc0; }
+  0%,18%,22%,25%,53%,57%,100% { text-shadow: 0 0 5px var(--primary),0 0 10px var(--primary),0 0 20px var(--primary),0 0 40px #00bfff,0 0 80px #00bfff; }
+  20%,24%,55% { text-shadow:none; color:var(--primary); }
 }
 
 /* Secciones */
 section {
-  max-width: 1100px;
-  margin: 100px auto;
-  padding: 60px 30px;
-  border-radius: var(--radius);
-  backdrop-filter: blur(12px);
-  background: var(--card-bg);
-  box-shadow: var(--card-shadow);
+  max-width: 1100px; margin: 100px auto; padding: 60px 30px;
+  border-radius: var(--radius); backdrop-filter: blur(12px);
+  background: var(--card-bg); box-shadow: var(--card-shadow);
 }
 
 /* Header */
 header { text-align:center; padding:180px 20px 60px; }
 header img {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  border-radius: 15px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-  margin-bottom: 30px;
+  width: 100%; max-width: 500px; height: auto; border-radius: 15px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6); margin-bottom:30px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-header img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+header img:hover { transform: scale(1.05); box-shadow: 0 25px 60px rgba(0,0,0,0.7); }
+header h1 {
+  font-size:2.2rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00);
+  -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.3);
+  margin-bottom:10px; line-height:1.2;
 }
-header h1 { font-size:2.2rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.3); margin-bottom:10px; line-height:1.2; }
 header p { font-size:1rem; max-width:600px; margin:auto; opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s; }
 header .cta { margin-top:25px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
 header .cta button, header .cta a { padding:12px 28px; border-radius: var(--radius); font-weight:600; cursor:pointer; transition: var(--transition); font-size:0.95rem; }
@@ -153,27 +113,10 @@ header .cta a { border:2px solid var(--primary); color: var(--primary); }
 header .cta a:hover { background: var(--primary); color:#000; box-shadow:0 5px 15px rgba(0,255,192,0.3); }
 
 /* Grid cards */
-.grid {
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap:25px;
-}
-.grid .card {
-  padding:20px;
-  border-radius: var(--radius);
-  background: var(--card-bg);
-  backdrop-filter:blur(12px);
-  box-shadow: var(--card-shadow);
-  text-align:center;
-  transition: var(--transition);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.grid .card:hover {
-  transform:translateY(-5px) scale(1.02);
-  box-shadow:0 16px 45px rgba(0,0,0,0.6);
-}
+.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:25px; }
+.grid .card { padding:20px; border-radius: var(--radius); background: var(--card-bg); backdrop-filter:blur(12px);
+box-shadow: var(--card-shadow); text-align:center; transition: var(--transition); display:flex; flex-direction:column; justify-content:center; }
+.grid .card:hover { transform:translateY(-5px) scale(1.02); box-shadow:0 16px 45px rgba(0,0,0,0.6); }
 .grid .card i { font-size:2rem; margin-bottom:10px; }
 .grid .card h3 { font-size:1.15rem; margin-bottom:6px; font-weight:600; }
 .grid .card p { font-size:0.9rem; opacity:0.85; line-height:1.4; }
@@ -187,103 +130,37 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 /* Suscripciones premium */
 .subscription-card {
   background: linear-gradient(145deg, rgba(0,255,192,0.05), rgba(0,191,255,0.1));
-  border-radius: var(--radius);
-  padding: 25px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0,255,192,0.4), 0 0 50px rgba(0,191,255,0.3);
-  transition: all 0.3s ease;
+  border-radius: var(--radius); padding: 25px; text-align: center;
+  box-shadow: 0 0 25px rgba(0,255,192,0.4), 0 0 50px rgba(0,191,255,0.3); transition: all 0.3s ease;
 }
-.subscription-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 0 35px rgba(0,255,192,0.6), 0 0 60px rgba(0,191,255,0.5);
-}
-.subscription-card h3 {
-  font-size:1.2rem;
-  margin-bottom:10px;
-  font-weight:700;
-  background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip: text;
-  color: transparent;
-}
+.subscription-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 0 35px rgba(0,255,192,0.6), 0 0 60px rgba(0,191,255,0.5); }
+.subscription-card h3 { font-size:1.2rem; margin-bottom:10px; font-weight:700; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip: text; color: transparent; }
 .subscription-card button {
-  margin-top:15px;
-  padding:12px 20px;
-  border-radius: var(--radius);
-  font-weight:600;
-  color:#000;
-  background:#ffbf00;
-  border:none;
-  cursor:pointer;
-  box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset;
-  transition: all 0.3s ease-in-out;
-  animation: pulse 2s infinite;
+  margin-top:15px; padding:12px 20px; border-radius: var(--radius); font-weight:600;
+  color:#000; background:#ffbf00; border:none; cursor:pointer; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset;
+  transition: all 0.3s ease-in-out; animation: pulse 2s infinite;
 }
-.subscription-card button:hover {
-  background: #00ffc0;
-  box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset;
-  transform: scale(1.05);
-}
-.subscription-card.premium {
-  transform: scale(1.05);
-  border: 2px solid #00ffc0;
-  box-shadow: 0 0 35px #00ffc0, 0 0 70px #00bfff inset;
-  animation: neonGlow 2.5s infinite alternate;
-}
-@keyframes neonGlow {
-  0% { box-shadow: 0 0 20px #00ffc0, 0 0 50px #00bfff inset; }
-  50% { box-shadow: 0 0 40px #00ffc0, 0 0 80px #00bfff inset; }
-  100% { box-shadow: 0 0 20px #00ffc0, 0 0 50px #00bfff inset; }
-}
+.subscription-card button:hover { background: var(--primary); box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset; transform: scale(1.05); }
+.subscription-card.premium { transform: scale(1.05); border: 2px solid var(--primary); box-shadow: 0 0 35px var(--primary), 0 0 70px #00bfff inset; animation: neonGlow 2.5s infinite alternate; }
+@keyframes neonGlow { 0% { box-shadow: 0 0 20px var(--primary),0 0 50px #00bfff inset; } 50% { box-shadow: 0 0 40px var(--primary),0 0 80px #00bfff inset; } 100% { box-shadow: 0 0 20px var(--primary),0 0 50px #00bfff inset; } }
 
-/* WhatsApp */
-#whatsapp-btn-ultimate {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: #25d366;
-  color: #fff;
-  font-size: 2.2rem;
-  border-radius: 50%;
-  padding: 16px;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset;
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, bottom 0.3s ease, background 0.3s ease, opacity 0.5s ease;
-  gap: 8px;
-}
-#whatsapp-btn-ultimate.show { opacity:1; pointer-events:auto; }
-#whatsapp-btn-ultimate:hover { transform: scale(1.15); }
-#whatsapp-counter {
-  background: rgba(0,0,0,0.6);
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 8px;
-}
-@keyframes whatsapp-urgent {
-  0%,100% { transform: scale(1); box-shadow: 0 0 15px,0 0 30px,0 0 45px,0 0 60px inset; }
-  50% { transform: scale(1.2); box-shadow: 0 0 30px,0 0 60px,0 0 90px,0 0 120px inset; }
-}
+/* Responsivo */
+@media(max-width:768px){ header h1 { font-size:1.8rem; } header p { font-size:0.95rem; } .grid { gap:15px; } .grid .card { padding:15px; } }
 
-/* Responsive */
-@media(max-width:768px){
-  header h1 { font-size:1.8rem; }
-  header p { font-size:0.95rem; }
-  .grid { gap:15px; }
-  .grid .card { padding:15px; }
-  #whatsapp-btn-ultimate { font-size:1.8rem; padding:12px; bottom:18px; right:18px; }
-  #whatsapp-counter { font-size:0.7rem; padding:1px 4px; }
+/* Modal Premium Unificado */
+.premium-modal {
+  background: rgba(17,17,17,0.9); padding:30px; border-radius: var(--radius);
+  width:90%; max-width:400px; display:flex; flex-direction:column; gap:15px;
+  box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset; border: 2px solid var(--primary);
+  position: relative; animation: neonBorder 2.5s infinite alternate; transition: transform 0.3s ease, opacity 0.3s ease;
 }
-
-/* Parpadeo plazas limitadas */
-@keyframes parpadeo {
-  0%,50%,100% { opacity:1; transform:scale(1); }
-  25%,75% { opacity:0.3; transform:scale(1.2); }
-}
+@keyframes neonBorder { 0% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } 50% { box-shadow: 0 0 35px var(--primary), 0 0 70px #00bfff inset; border-color: #00bfff; } 100% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } }
+.premium-modal h3 { text-align:center; font-size:1.5rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; margin-bottom:10px; }
+.premium-modal input { padding:10px; border-radius: var(--radius); border:none; background: rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; transition: 0.3s; }
+.premium-modal input:focus { outline:2px solid var(--primary); background: rgba(255,255,255,0.15); }
+.premium-modal button[type="submit"] { padding:12px 20px; border:none; border-radius: var(--radius); background:#ffbf00; color:#000; font-weight:700; cursor:pointer; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset; transition: all 0.3s ease-in-out; animation: pulse 2s infinite; }
+.premium-modal button[type="submit"]:hover { background: var(--primary); box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset; transform: scale(1.05); }
+.premium-modal button#close-unificado { padding:8px; border:none; border-radius: var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -294,24 +171,22 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   <button id="btn-comencemos">Comencemos Ahora</button>
 </div>
 
-<!-- =================== CONTENIDO PRINCIPAL =================== -->
+<!-- Contenido Principal -->
 <div id="main-content">
 
-  <!=================== Header  =================== -->
+<!-- Header -->
 <header id="header">
   <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
   <h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
   <p>Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.</p>
-
   <div style="margin-top:20px; font-size:0.95rem; opacity:0.9;">
     ✔ Plan totalmente personalizado para ti<br>
     ✔ Seguimiento directo conmigo<br>
     ✔ Adaptado a tu estilo de vida real
   </div>
   <p style="margin-top:10px; color:#ffbf00; font-weight:600;">⚡ Trabajo con pocas personas para asegurar resultados reales</p>
-
   <div class="cta">
-    <button id="cta-reserva" class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
+    <button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
     <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
     <a href="calculadora.html" class="neon-link">Calculadora</a>
     <a href="imc.html" class="neon-link" target="_blank">IMC</a>
@@ -328,7 +203,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   </div>
 </section>
 
-<!-- Oferta limitada -->
+<!-- Oferta Limitada -->
 <section id="oferta-limitada">
   <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">🔥 Oferta Especial Solo por este Mes 🔥</h2>
   <div class="grid">
@@ -339,79 +214,93 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
       </p>
       <ul style="text-align:left; margin:15px 0; padding-left:20px; line-height:1.5;">
         <li>Acceso completo a todos los planes</li>
-        <li>Asesoría directa conmigo</li>
-        <li>Seguimiento mensual de progresos</li>
+        <li>Soporte prioritario 24/7</li>
+        <li>Descuento válido solo hasta fin de mes</li>
       </ul>
-      <button>¡Quiero esta oferta!</button>
-      <p id="plazas" style="margin-top:10px; font-weight:700; color:#ff3333;">3 plazas restantes</p>
+      <button>¡APROVECHAR AHORA!</button>
+      <p id="contador-plazas" style="margin-top:8px; font-weight:600; color:#ff4444;">Solo quedan 12 plazas</p>
     </div>
   </div>
 </section>
 
+<!-- Footer -->
 <footer>
-  &copy; 2026 Gerard Valls | Todos los derechos reservados
+  &copy; 2026 Gerard Valls. Todos los derechos reservados.
 </footer>
+
+<!-- Modal Unificado -->
+<div id="modal-unificado" style="display:none; position:fixed; inset:0; background: rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; z-index:10000;">
+  <div class="premium-modal">
+    <h3>¡Empieza tu cambio ahora!</h3>
+    <form id="form-unificado" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="email" placeholder="Tu correo" required>
+      <button type="submit">¡Quiero mi plan!</button>
+    </form>
+    <button id="close-unificado">Cerrar</button>
+  </div>
 </div>
 
-<!-- Botón WhatsApp -->
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20más%20info" 
-   target="_blank" id="whatsapp-btn-ultimate">
-  <i class="fab fa-whatsapp"></i>
-  <span id="whatsapp-counter"></span>
-</a>
+</div>
 
 <script>
-// ==== Splash & mostrar contenido ====
-const splash = document.getElementById("splash");
-const mainContent = document.getElementById("main-content");
-document.getElementById("btn-comencemos").addEventListener("click", ()=>{
-  splash.style.display="none";
-  mainContent.style.display="block";
+// ===== Splash =====
+const splash = document.getElementById('splash');
+const mainContent = document.getElementById('main-content');
+document.getElementById('btn-comencemos').addEventListener('click', () => {
+  gsap.to(splash, {opacity:0, duration:0.6, onComplete: ()=>{ splash.style.display='none'; mainContent.style.display='block'; }});
 });
 
-// ==== WhatsApp dinámico ====
-setTimeout(()=>{
-  const btn = document.getElementById("whatsapp-btn-ultimate");
-  const counter = document.getElementById("whatsapp-counter");
-  const plazasElem = document.getElementById("plazas");
-  let plazas = plazasElem ? parseInt(plazasElem.textContent) : 5;
+// ===== Contador de plazas =====
+let plazas = 12;
+const contador = document.getElementById('contador-plazas');
+setInterval(()=> {
+  if(plazas>3){ plazas--; contador.textContent=`Solo quedan ${plazas} plazas`; }
+}, 60000); // baja 1 cada minuto
 
-  btn.classList.add("show");
-  counter.textContent = plazas;
+// ===== Modal Unificado =====
+const modal = document.getElementById('modal-unificado');
+document.querySelectorAll('.btn-cambio').forEach(btn => btn.addEventListener('click', ()=>{ modal.style.display='flex'; modal.querySelector('input').focus(); }));
+document.getElementById('close-unificado').addEventListener('click', ()=> modal.style.display='none');
+window.addEventListener('click', e=> { if(e.target===modal) modal.style.display='none'; });
+window.addEventListener('keydown', e=> { if(e.key==='Escape') modal.style.display='none'; });
 
-  const premiumCard = document.querySelector(".subscription-card.premium");
-  const ofertaLimitada = document.getElementById("oferta-limitada");
-  if(premiumCard){ 
-    btn.style.background="#00ffc0"; 
-    btn.style.boxShadow="0 0 15px #00ffc0,0 0 30px #00bfff inset"; 
-  } else if(ofertaLimitada){ 
-    btn.style.background="#ffbf00"; 
-    btn.style.boxShadow="0 0 15px #ffbf00,0 0 30px #ffbf00 inset"; 
-  }
+// ===== GSAP Header Animations =====
+gsap.from("header h1", {opacity:0, y:30, duration:1, delay:0.3});
+gsap.from("header img", {opacity:0, y:30, duration:1, delay:0.5});
+gsap.from("header p", {opacity:0, y:20, duration:1, delay:0.7});
+gsap.from(".cta button,.cta a",{opacity:0, y:20, duration:0.8, stagger:0.2, delay:1});
 
-  function checkUrgencia() {
-    if(plazas <=3 && plazas >0){ 
-      btn.style.animation="whatsapp-urgent 1s infinite alternate"; 
-    } else { 
-      btn.style.animation="none"; 
-    }
-    counter.textContent = plazas;
-  }
-  checkUrgencia();
+// ===== Three.js Fondo =====
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,0.1,1000);
+camera.position.z = 5;
+const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-  let lastScroll = window.scrollY;
-  window.addEventListener("scroll", ()=>{
-    const currentScroll = window.scrollY;
-    btn.style.bottom = (currentScroll > lastScroll ? 15 : 35)+"px";
-    lastScroll = currentScroll;
-  });
+const geometry = new THREE.TorusGeometry(1.5,0.4,16,100);
+const material = new THREE.MeshStandardMaterial({color:0x00ffc0, metalness:0.7, roughness:0.2});
+const torus = new THREE.Mesh(geometry, material);
+scene.add(torus);
 
-  setInterval(()=>{
-    plazas = plazasElem ? parseInt(plazasElem.textContent) : plazas;
-    checkUrgencia();
-  }, 1000*60*60);
+const light = new THREE.PointLight(0x00ffc0,1.5);
+light.position.set(5,5,5);
+scene.add(light);
 
-}, 5000);
+function animate(){ requestAnimationFrame(animate); torus.rotation.x +=0.005; torus.rotation.y +=0.01; renderer.render(scene,camera);}
+animate();
+
+window.addEventListener('resize', ()=>{ camera.aspect = window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+
+// ===== Formspree Feedback =====
+const form = document.getElementById('form-unificado');
+form.addEventListener('submit', e=> {
+  e.preventDefault();
+  fetch(form.action, {method:'POST', body:new FormData(form)})
+    .then(r=> { alert('¡Formulario enviado con éxito!'); modal.style.display='none'; form.reset(); })
+    .catch(err=> alert('Hubo un error, intenta de nuevo.'));
+});
 </script>
 </body>
 </html>
