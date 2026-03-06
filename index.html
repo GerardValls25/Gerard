@@ -846,18 +846,15 @@ document.querySelectorAll(".btn-cambio").forEach(btn => {
 // ABRIR MODAL "EMPEZAR MI CAMBIO"
 document.querySelectorAll(".btn-cambio").forEach(btn=>{
   btn.addEventListener("click", ()=>{
-
     modalCambio.style.display = "flex";
-
     setTimeout(()=>{
       modalCambio.style.opacity = "1";
       formCambio.style.transform = "scale(1)";
     },10);
-
     document.body.style.overflow = "hidden";
-
   });
 });
+
 </script>
 </body>
 </html>
