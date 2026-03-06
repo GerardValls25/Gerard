@@ -17,9 +17,6 @@
 <!-- Three.js -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
 <style>
 :root {
@@ -90,12 +87,12 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 @keyframes neonGlow {0%{box-shadow:0 0 20px #00ffc0,0 0 50px #00bfff inset;}50%{box-shadow:0 0 40px #00ffc0,0 0 80px #00bfff inset;}100%{box-shadow:0 0 20px #00ffc0,0 0 50px #00bfff inset;}}
 
 /* Modal general */
-.premium-modal{background: rgba(17,17,17,0.9); padding:30px; border-radius:var(--radius); width:90%; max-width:400px; display:flex; flex-direction:column; gap:15px; box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset; border:2px solid var(--primary); position: relative; transform:scale(0.9); opacity:0; transition: transform 0.3s ease, opacity 0.3s ease;}
+.premium-modal{background: rgba(17,17,17,0.9); padding:30px; border-radius:var(--radius); width:90%; max-width:400px; display:flex; flex-direction:column; gap:15px; box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset; border:2px solid var(--primary); position: fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.9); opacity:0; transition: transform 0.3s ease, opacity 0.3s ease; z-index:9999;}
 .premium-modal input{padding:10px;border-radius:var(--radius);border:none;background: rgba(255,255,255,0.1);color:#fff;font-size:0.95rem;transition:0.3s;}
 .premium-modal input:focus{outline:2px solid var(--primary);background: rgba(255,255,255,0.15);}
 .premium-modal button[type="submit"]{padding:12px 20px;border:none;border-radius:var(--radius);background:var(--secondary);color:#000;font-weight:700;cursor:pointer;box-shadow:0 0 15px var(--secondary),0 0 30px var(--secondary) inset;transition:all 0.3s ease-in-out;animation:pulse 2s infinite;}
 .premium-modal button[type="submit"]:hover{background:var(--primary);box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset;transform:scale(1.05);}
-.premium-modal button#close-unificado, .premium-modal button#close-cambio{padding:8px;border:none;border-radius:var(--radius);background:rgba(255,0,0,0.5);color:#fff;cursor:pointer;}
+.premium-modal button.close-modal{padding:8px;border:none;border-radius:var(--radius);background:rgba(255,0,0,0.5);color:#fff;cursor:pointer;}
 .mensaje-div{ text-align:center;margin-top:15px;font-weight:600;color:var(--primary); opacity:0; transition: opacity 0.4s ease; }
 
 /* WhatsApp */
@@ -104,8 +101,13 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 #whatsapp-btn-ultimate:hover {transform: scale(1.15); background-color: #1ebe57; box-shadow: 0 0 15px #25d366,0 0 30px #25d366,0 0 45px #25d366,0 0 60px #25d366 inset;}
 #whatsapp-counter {background: rgba(0,0,0,0.6); font-size:0.8rem; font-weight:700; padding:2px 6px; border-radius:8px;}
 @keyframes whatsapp-urgent {0%,100{transform:scale(1);}50%{transform:scale(1.2);}}
-@media(max-width:768px){#whatsapp-btn-ultimate { font-size:1.8rem; padding:12px; bottom:18px; right:18px;} #whatsapp-counter{font-size:0.7rem; padding:1px 4px;}}
 
+/* FAQ */
+.faq-item{margin-bottom:15px;}
+.faq-item button{width:100%; text-align:left; background:var(--card-bg); color:#fff; border:none; padding:15px; border-radius:var(--radius); font-weight:600; cursor:pointer; box-shadow:var(--card-shadow); transition:var(--transition);}
+.faq-item button:hover{background: rgba(0,255,192,0.1);}
+.faq-answer{padding:10px 15px; max-height:0; overflow:hidden; transition:max-height 0.4s ease; font-size:0.9rem; opacity:0.8;}
+.faq-item.active .faq-answer{max-height:200px;}
 </style>
 </head>
 <body>
@@ -118,19 +120,28 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 
 <main id="main-content">
 
+<!-- NAV -->
+<nav id="main-nav">
+  <ul>
+    <li><a href="#header" class="neon-link">Inicio</a></li>
+    <li><a href="#servicios" class="neon-link">Servicios</a></li>
+    <li><a href="#oferta-limitada" class="neon-link">Oferta</a></li>
+    <li><a href="#garantia" class="neon-link">Garantía</a></li>
+    <li><a href="#faq" class="neon-link">FAQ</a></li>
+  </ul>
+</nav>
+
 <!-- HEADER -->
 <header id="header">
   <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
   <h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
   <p>Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.</p>
-
   <div style="margin-top:20px; font-size:0.95rem; opacity:0.9;">
     ✔ Plan totalmente personalizado para ti<br>
     ✔ Seguimiento directo conmigo<br>
     ✔ Adaptado a tu estilo de vida real
   </div>
   <p style="margin-top:10px; color:#ffbf00; font-weight:600;">⚡ Trabajo con pocas personas para asegurar resultados reales</p>
-
   <div class="cta">
     <button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
     <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
@@ -161,7 +172,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
         <li>Soporte prioritario 24/7</li>
         <li>Descuento válido solo hasta fin de mes</li>
       </ul>
-      <button>¡APROVECHAR AHORA!</button>
+      <button class="btn-cambio">¡APROVECHAR AHORA!</button>
       <p id="contador" style="text-align:center; margin-top:15px; color:#ffbf00; font-weight:600;">
         ⚡ Quedan solo <span id="plazas"></span> plazas disponibles
       </p>
@@ -170,22 +181,41 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   </div>
 </section>
 
-<!-- GARANTÍA + FAQ + CTA -->
-<section id="garantia"> ... </section>
-<section id="faq"> ... </section>
+<!-- GARANTÍA -->
+<section id="garantia">
+  <h2 style="text-align:center;">✅ Garantía de Satisfacción</h2>
+  <p style="text-align:center; max-width:700px; margin:auto;">Si sigues el plan y no ves resultados en 30 días, te devolvemos tu dinero. Sin complicaciones, sin preguntas. Esto es para que tengas seguridad absoluta al iniciar tu cambio.</p>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <h2 style="text-align:center;">❓ Preguntas Frecuentes</h2>
+  <div class="faq-item">
+    <button>¿Necesito experiencia previa en nutrición o entrenamiento?</button>
+    <div class="faq-answer">No, todos los planes están adaptados a tu nivel actual y progresan contigo.</div>
+  </div>
+  <div class="faq-item">
+    <button>¿Qué incluye la suscripción?</button>
+    <div class="faq-answer">Acceso a todos los planes, seguimiento personalizado, soporte online y materiales exclusivos.</div>
+  </div>
+  <div class="faq-item">
+    <button>¿Puedo pausar o cancelar mi suscripción?</button>
+    <div class="faq-answer">Sí, puedes gestionar tu suscripción en cualquier momento desde tu cuenta o contactando al soporte.</div>
+  </div>
+</section>
 
 <footer>© 2026 Gerard Valls - Nutrición Profesional ULTRA PREMIUM</footer>
 </main>
 
 <!-- MODAL UNIFICADO -->
-<div id="modal-unificado" class="premium-modal" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.9); opacity:0; z-index:9999;">
+<div id="modal-unificado" class="premium-modal">
   <h3>EMPEZAR MI CAMBIO AHORA</h3>
   <form id="form-unificado">
     <input type="text" name="nombre" placeholder="Tu nombre" required>
     <input type="tel" name="telefono" placeholder="Tu WhatsApp" required>
     <button type="submit">QUIERO EMPEZAR</button>
   </form>
-  <button id="close-unificado">Cerrar</button>
+  <button id="close-unificado" class="close-modal">Cerrar</button>
   <div class="mensaje-div" id="mensaje-unificado"></div>
 </div>
 
@@ -239,6 +269,14 @@ let whatsappClicks = 0;
 function actualizarWhatsApp(){ whatsappCounter.textContent = whatsappClicks; whatsappBtn.classList.add('show'); whatsappBtn.style.animation='whatsapp-urgent 1s infinite alternate'; }
 whatsappBtn.addEventListener('click', ()=>{whatsappClicks++; actualizarWhatsApp();});
 actualizarWhatsApp();
+
+// FAQ expandible
+document.querySelectorAll('.faq-item button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const parent = btn.parentElement;
+    parent.classList.toggle('active');
+  });
+});
 
 // THREE.JS BACKGROUND
 let scene = new THREE.Scene();
