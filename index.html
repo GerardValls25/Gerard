@@ -565,9 +565,15 @@ function liberarScroll() { document.body.style.overflow = ''; }
 
 // Abrir modal
 function openModal(planName = "") {
+  const planInput = document.getElementById("plan-input");
+
   if (planName) {
     document.getElementById("modal-title").textContent = planName;
-    document.getElementById("plan-input").value = planName;
+    planInput.value = planName;
+    planInput.readOnly = true; // si es un plan fijo
+  } else {
+    planInput.value = "";
+    planInput.readOnly = false; // si es plan personalizado
   }
 
   modal.style.display = "flex";
@@ -607,10 +613,9 @@ document.addEventListener("keydown", e => { if(e.key==="Escape" && modal.style.d
 form.addEventListener("submit", async e => {
   e.preventDefault();
 
-   // Capturar valores, incluyendo plan personalizado
   const nombre = form.querySelector("[name='nombre']").value.trim();
   const email = form.querySelector("[name='email']").value.trim();
-  const plan = form.querySelector("[name='plan']").value.trim(); // importante: name="plan"
+  const plan = form.querySelector("[name='plan']").value.trim();
 
   if (!nombre || !email || !plan) {
     alert("Por favor completa todos los campos.");
