@@ -46,12 +46,12 @@ canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
 #btn-comencemos:hover { transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5); }
 
 
-/* MENÚ NEÓN */
+/* Menú Neón */
 #main-nav { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; background: rgba(10,10,25,0.6); backdrop-filter: blur(15px); border-radius: 15px; box-shadow: 0 4px 20px rgba(0,255,192,0.3); z-index: 1000; }
 #main-nav ul { display:flex; justify-content: space-around; list-style: none; padding: 10px 0; margin:0; }
-.neon-link { color: #00ffc0; font-weight:600; font-size:0.95rem; padding:6px 12px; border-radius:10px; text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff; transition: all 0.3s ease-in-out; position: relative; animation: neon-flicker 2.5s infinite; }
-.neon-link:hover { color: #ffbf00; text-shadow:0 0 5px #ffbf00,0 0 10px #ffbf00,0 0 20px #ffbf00,0 0 40px #ffbf00,0 0 80px #ffbf00; background: rgba(0,0,0,0.2);}
-@keyframes neon-flicker {0%,18%,22%,25%,53%,57%,100% { text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff;}20%,24%,55% { text-shadow:none; color:#00ffc0;}}
+.neon-link { color: var(--primary); font-weight:600; font-size:0.95rem; padding:6px 12px; border-radius:10px; text-shadow:0 0 5px var(--primary),0 0 10px var(--primary),0 0 20px var(--primary),0 0 40px #00bfff,0 0 80px #00bfff; transition: all 0.3s ease-in-out; position: relative; animation: neon-flicker 2.5s infinite; }
+.neon-link:hover { color: var(--secondary); text-shadow:0 0 5px var(--secondary),0 0 10px var(--secondary),0 0 20px var(--secondary),0 0 40px var(--secondary),0 0 80px var(--secondary); background: rgba(0,0,0,0.2);}
+@keyframes neon-flicker {0%,18%,22%,25%,53%,57%,100% { text-shadow:0 0 5px var(--primary),0 0 10px var(--primary),0 0 20px var(--primary),0 0 40px #00bfff,0 0 80px #00bfff;}20%,24%,55% { text-shadow:none; color:var(--primary);}}
 
 /* Header */
 header { text-align:center; padding:180px 20px 60px; }
@@ -83,8 +83,7 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 ========================== */
 @keyframes fadeInUp { 0% { opacity:0; transform: translateY(20px); } 100% { opacity:1; transform: translateY(0); } }
 @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-@keyframes neonGlow { 0% { box-shadow: 0 0 20px #00ffc0, 0 0 50px #00bfff inset; } 50% { box-shadow: 0 0 40px #00ffc0, 0 0 80px #00bfff inset; } 100% { box-shadow: 0 0 20px #00ffc0, 0 0 50px #00bfff inset; } }
-@keyframes neonBorder { 0% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; } 50% { box-shadow: 0 0 35px #00ffc0, 0 0 70px #00bfff inset; border-color: #00bfff; } 100% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; } }
+@keyframes neonBorder { 0% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } 50% { box-shadow: 0 0 35px var(--primary), 0 0 70px #00bfff inset; border-color: #00bfff; } 100% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } }
 
 /* ==========================
    Tarjetas de Suscripción
@@ -97,114 +96,21 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 .subscription-card.premium { transform: scale(1.05); border:2px solid #00ffc0; box-shadow:0 0 35px #00ffc0,0 0 70px #00bfff inset; animation: neonGlow 2.5s infinite alternate; }
 
 
-/* Animación de neón en el borde */
-@keyframes neonBorder {
-  0% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
-  50% { box-shadow: 0 0 35px #00ffc0, 0 0 70px #00bfff inset; border-color: #00bfff; }
-  100% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
-}
-  /* Animaciones */
-@keyframes neonBorder {
-  0% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
-  50% { box-shadow: 0 0 35px #00ffc0, 0 0 70px #00bfff inset; border-color: #00bfff; }
-  100% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; }
-}
+/* Animaciones */
+@keyframes fadeInUp { 0% { opacity:0; transform: translateY(20px); } 100% { opacity:1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes neonBorder { 0% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } 50% { box-shadow: 0 0 35px var(--primary), 0 0 70px #00bfff inset; border-color: #00bfff; } 100% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-/* Fondo del modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(6px);
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* Modal Premium */
-.premium-modal {
-  background: rgba(17,17,17,0.9);
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset;
-  border: 2px solid #00ffc0;
-  position: relative;
-  animation: neonBorder 2.5s infinite alternate;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-  /* Título */
-.premium-modal h3 {
-  text-align: center;
-  font-size: 1.5rem;
-  background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 10px;
-}
-/* Inputs */
-.premium-modal input {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  font-size: 0.95rem;
-  transition: 0.3s;
-}
-  .premium-modal input:focus {
-  outline: 2px solid #00ffc0;
-  background: rgba(255,255,255,0.15);
-}
-  /* Botón enviar */
-.premium-modal button[type="submit"] {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #ffbf00;
-  color: #000;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 0 15px #ffbf00, 0 0 30px #ffbf00 inset;
-  transition: all 0.3s ease-in-out;
-}
-  .premium-modal button[type="submit"]:hover {
-  background: #00ffc0;
-  box-shadow: 0 0 25px #00ffc0, 0 0 50px #00bfff inset;
-  transform: scale(1.05);
-}
-  /* Botón cerrar */
-.premium-modal button#close-unificado {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 10px;
-  background: rgba(255, 0, 0, 0.5);
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 0 10px rgba(255,0,0,0.6), 0 0 20px rgba(255,0,0,0.3) inset;
-}
-
-.premium-modal button#close-unificado:hover {
-  background: rgba(255, 0, 0, 0.8);
-  box-shadow: 0 0 20px rgba(255,0,0,0.8), 0 0 35px rgba(255,0,0,0.5) inset;
-  transform: scale(1.05);
-}
+/* Modal y Premium */
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); z-index: 9999; opacity: 0; transition: opacity 0.3s ease; }
+.premium-modal { background: rgba(17,17,17,0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset; border: 2px solid var(--primary); position: relative; animation: neonBorder 2.5s infinite alternate; transition: transform 0.3s ease, opacity 0.3s ease; }
+.premium-modal h3 { text-align: center; font-size: 1.5rem; background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00); -webkit-background-clip: text; color: transparent; margin-bottom: 10px; }
+.premium-modal input { padding: 10px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 0.95rem; transition: 0.3s; }
+.premium-modal input:focus { outline: 2px solid var(--primary); background: rgba(255,255,255,0.15); }
+.premium-modal button[type="submit"] { padding: 12px 20px; border: none; border-radius: 10px; background: var(--secondary); color: #000; font-weight: 700; cursor: pointer; box-shadow:0 0 15px var(--secondary),0 0 30px var(--secondary) inset; transition: all 0.3s ease-in-out; }
+.premium-modal button[type="submit"]:hover { background: var(--primary); box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset; transform: scale(1.05); }
+.premium-modal button.close-modal { padding: 8px 12px; border: none; border-radius: 10px; background: rgba(255,0,0,0.5); color: #fff; font-weight: 600; cursor: pointer; transition: all 0.3s ease-in-out; box-shadow:0 0 10px rgba(255,0,0,0.6),0 0 20px rgba(255,0,0,0.3) inset; }
+.premium-modal button.close-modal:hover { background: rgba(255,0,0,0.8); box-shadow:0 0 20px rgba(255,0,0,0.8),0 0 35px rgba(255,0,0,0.5) inset; transform: scale(1.05); }
 </style>
 </head>
 <body>
@@ -214,8 +120,6 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
   <img src="gerard.jpg" alt="Gerard Valls">
   <button id="btn-comencemos">Comencemos Ahora</button>
 </div>
-
-
   <!-- =================== CONTENIDO PRINCIPAL =================== -->
  <div id="main-content" style="display:none;">
    <nav id="main-nav">
