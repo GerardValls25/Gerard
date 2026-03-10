@@ -549,54 +549,32 @@ window.addEventListener("load", ()=>{
 
 <script>
 // --- Modal Unificado + Formspree ---
-function bloquearScroll(){
-  document.body.style.overflow='hidden';
-}
-
-function liberarScroll(){
-  document.body.style.overflow='';
-}
-
 const modal = document.getElementById("modal-unificado");
 const form = document.getElementById("form-unificado");
 
-// ABRIR MODAL PREMIUM
-document.querySelectorAll(".subscription-card button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const planName = btn.closest(".subscription-card").querySelector("h3").textContent.trim();
+// Opcional: define los planes de Stripe si los usas
+const stripePlans = {
+  "Suscripción Mensual": "plan_mensual_id",
+  "Suscripción Trimestral": "plan_trimestral_id",
+  "Suscripción Anual": "plan_anual_id"
+};
 
+// Funciones para bloquear/desbloquear scroll
+function bloquearScroll() { document.body.style.overflow = 'hidden'; }
+function liberarScroll() { document.body.style.overflow = ''; }
+
+// Función para abrir modal
+function openModal(planName = "") {
+  if (planName) {
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
 
-    // Detectar plan de Stripe
-    const stripePlan = stripePlans[planName];
-    form.dataset.stripePlan = stripePlan || "";
+    // Asignar plan Stripe
+    form.dataset.stripePlan = stripePlans[planName] || "";
+  }
 
-    modal.style.display = "flex";
-
-    setTimeout(()=>{
-      modal.style.opacity = "1";
-      modal.querySelector(".premium-modal").style.transform = "scale(1)";
-    },10);
-
-    bloquearScroll();
-  });
-});
-
-// CERRAR MODAL
-document.getElementById("close-unificado").addEventListener("click", closeModal);
-modal.addEventListener("click", e=>{ if(e.target.id==="modal-unificado") closeModal(); });
-
-function closeModal(){
-  modal.style.display="none";
-  modal.style.opacity="0";
-  liberarScroll();
-}
-
-function openModal(){
   modal.style.display = "flex";
-
-  setTimeout(()=>{
+  setTimeout(() => {
     modal.style.opacity = "1";
     modal.querySelector(".premium-modal").style.transform = "scale(1)";
   }, 10);
@@ -604,36 +582,65 @@ function openModal(){
   bloquearScroll();
 }
 
-// ENVÍO FORMULARIO
-// ENVÍO FORMULARIO
+// Función para cerrar modal
+function closeModal() {
+  modal.style.opacity = "0";
+  modal.querySelector(".premium-modal").style.transform = "scale(0.9)";
+  liberarScroll();
+  setTimeout(() => {
+    modal.style.display = "none";
+    form.reset();
+  }, 300);
+}
+
+// --- Abrir modal al hacer clic en botones de planes ---
+document.querySelectorAll(".subscription-card button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent.trim();
+    openModal(planName);
+  });
+});
+
+// --- Cerrar modal ---
+document.getElementById("close-unificado").addEventListener("click", closeModal);
+modal.addEventListener("click", e => {
+  if (e.target.id === "modal-unificado") closeModal();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && modal.style.display === "flex") closeModal();
+});
+
+// --- Enviar formulario ---
 form.addEventListener("submit", async e => {
   e.preventDefault();
 
-const nombre = e.target.nombre.value;
-const email = e.target.email.value;
-const plan = document.getElementById("plan-input").value;
+  const nombre = form.nombre.value.trim();
+  const email = form.email.value.trim();
+  const plan = document.getElementById("plan-input").value;
+
+  if (!nombre || !email) {
+    alert("Por favor completa todos los campos.");
+    return;
+  }
 
   try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
+      headers: { "Accept": "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, email, plan })
     });
+
     if (res.ok) {
       alert("¡Solicitud enviada! Te contactaremos pronto.");
-      closeModal(); // <-- cerramos el modal después del envío
+      closeModal();
     } else {
-      throw new Error("Error al enviar");
+      throw new Error("Error en el envío");
     }
   } catch (err) {
-    console.log(err);
-    alert("Hubo un error al enviar el formulario");
+    console.error(err);
+    alert("Hubo un error al enviar el formulario. Intenta de nuevo.");
   }
 });
-
 </script>
 <script>
 // CONFIGURACIÓN
