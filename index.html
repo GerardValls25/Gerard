@@ -280,6 +280,15 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 
   <!-- =================== CONTENIDO PRINCIPAL =================== -->
  <div id="main-content" style="display:none;">
+   <nav id="main-nav">
+<ul>
+<li><a class="neon-link" href="#header">Inicio</a></li>
+<li><a class="neon-link" href="#servicios">Servicios</a></li>
+<li><a class="neon-link" href="#suscripciones">Planes</a></li>
+<li><a class="neon-link" href="#testimonios">Testimonios</a></li>
+<li><a class="neon-link" href="#cta-final">Empezar</a></li>
+</ul>
+</nav>
 
   <!=================== Header  =================== -->
 <header id="header">
@@ -598,49 +607,51 @@ document.addEventListener("keydown", e => {
 formCambio.addEventListener("submit", async e => {
   e.preventDefault();
   
-const submitBtn = formCambio.querySelector('button[type="submit"]');
-const originalText = submitBtn.textContent;
+  const submitBtn = formCambio.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
   
- submitBtn.textContent = "Enviando...";
+  submitBtn.textContent = "Enviando...";
   submitBtn.disabled = true;
   submitBtn.style.background = "#00ffc0";
   
-    try {
-    const res = await fetch("https://formspree.io/f/mbdaenpo", {
+  try {
+
+    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method: "POST",
-      headers: {"Content-Type":"application/json"},
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      },
       body: JSON.stringify({
         nombre: formCambio.nombre.value,
         email: formCambio.email.value
       })
     });
 
-      if(res.ok){
-      // Mostrar mensaje
+    if(res.ok){
+      // Mostrar mensaje de éxito
       mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
       mensajeDiv.style.opacity = 1;
 
-      // Mostrar check animado
       checkSVG.style.opacity = 1;
       path.style.transition = "stroke-dashoffset 0.6s ease";
       setTimeout(()=>{ path.style.strokeDashoffset = "0"; }, 50);
 
       submitBtn.style.background = "#ffbf00";
 
-      // Cerrar modal automáticamente después de 2s
       setTimeout(() => {
         cerrarModal();
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        mensajeDiv.style.opacity = 0;
-        checkSVG.style.opacity = 0;
-        path.style.strokeDashoffset = "50";
       }, 2000);
 
-    } else throw new Error("Error en el envío");
+    } else {
+      throw new Error("Error en el envío");
+    }
 
   } catch(err){
     console.error(err);
+
     mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
     mensajeDiv.style.color = "#ff4d4d";
     mensajeDiv.style.opacity = 1;
@@ -653,6 +664,7 @@ const originalText = submitBtn.textContent;
       submitBtn.style.background = "#ffbf00";
     }, 2500);
   }
+
 });
 </script>
 
