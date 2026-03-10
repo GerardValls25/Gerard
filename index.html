@@ -21,9 +21,6 @@
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
-<!-- Stripe -->
-<script src="https://js.stripe.com/v3/"></script>
-
 <style>
 /* ==== Estilos ==== */
 :root {
@@ -711,21 +708,17 @@ window.addEventListener("load", ()=>{
 </script>
 
 <script>
-// --- Modal Unificado + Stripe + Formspree ---
-function bloquearScroll(){ document.body.style.overflow='hidden'; }
-function liberarScroll(){ document.body.style.overflow=''; }
+// --- Modal Unificado + Formspree ---
+function bloquearScroll(){
+  document.body.style.overflow='hidden';
+}
+
+function liberarScroll(){
+  document.body.style.overflow='';
+}
 
 const modal = document.getElementById("modal-unificado");
 const form = document.getElementById("form-unificado");
-const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
-
-const stripePlans = {
-  "Suscripción Anual -10%": "price_1Pabcde123",
-  "Suscripción Anual": "price_1Pabcde123",
-  "Suscripción Trimestral": "price_1Pxyz789",
-  "Suscripción Mensual": "price_1Pmensual456"
-};
-
 
 // ABRIR MODAL PREMIUM
 document.querySelectorAll(".subscription-card button").forEach(btn=>{
@@ -774,16 +767,40 @@ function openModal(){
 // ENVÍO FORMULARIO
 form.addEventListener("submit", async e=>{
   e.preventDefault();
-  const planID = form.dataset.stripePlan;
+
   const nombre = e.target.nombre.value;
   const email = e.target.email.value;
+  const plan = document.getElementById("plan-input").value;
 
-  // Formspree
-  fetch("https://formspree.io/f/mbdaenpo", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ nombre, email, plan:document.getElementById("plan-input").value })
-  }).catch(err=>console.log("Error Formspree:",err));
+  try{
+
+    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+      method:"POST",
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        nombre,
+        email,
+        plan
+      })
+    });
+
+    if(res.ok){
+      alert("¡Solicitud enviada! Te contactaremos pronto.");
+      modal.style.display = "none";
+      liberarScroll();
+    }else{
+      throw new Error("Error al enviar");
+    }
+
+  }catch(err){
+    console.log(err);
+    alert("Hubo un error al enviar el formulario");
+  }
+
+});
 
   // Stripe Checkout si hay plan
   if(planID){
