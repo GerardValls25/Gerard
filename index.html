@@ -330,14 +330,15 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
 <!-- MODAL NUEVO: "EMPEZAR MI CAMBIO AHORA" -->
 <!-- ================================ -->
 <div class="modal" id="modal-unificado">
-    <form class="premium-modal" id="form-unificado">
-      <h3>Oferta Especial EMS</h3>
-      <input type="text" name="nombre" placeholder="Nombre completo" required>
-      <input type="email" name="email" placeholder="Correo electrónico" required>
-      <input type="text" name="plan" id="plan-input" readonly>
-      <button type="submit">Enviar y Pagar</button>
-      <button type="button" id="close-unificado" class="close-modal">Cerrar</button>
-    </form>
+  <form class="premium-modal" id="form-unificado">
+    <h3>Oferta Especial EMS</h3>
+    <input type="text" name="nombre" placeholder="Nombre completo" required>
+    <input type="email" name="email" placeholder="Correo electrónico" required>
+    <input type="text" name="plan" id="plan-input" readonly>
+    <button type="submit">Enviar y Pagar</button>
+    <button type="button" id="close-unificado" class="close-modal">Cerrar</button>
+    <div class="mensaje-form" style="text-align:center; margin-top:15px; font-weight:600; color:#00ffc0; opacity:0;"></div>
+  </form>
 </div>
 <!-- Modal Cambio -->
 <div class="modal" id="modal-cambio">
@@ -347,6 +348,7 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <button type="submit">Enviar y Pagar</button>
     <button type="button" id="close-cambio" class="close-modal">Cerrar</button>
+    <div class="mensaje-form" style="text-align:center; margin-top:15px; font-weight:600; color:#00ffc0; opacity:0;"></div>
   </form>
 </div>
 <script>
@@ -530,28 +532,29 @@ function bloquearScroll() { document.body.style.overflow = 'hidden'; }
 function liberarScroll() { document.body.style.overflow = ''; }
 
 // Abrir modal
-function abrirModal(modal, form, plan = "") {
+function abrirModal(modal, form, plan=""){
   const planInput = form.querySelector("[name='plan']");
   if(planInput){
     planInput.value = plan;
-    planInput.readOnly = !!plan; // bloquea solo si es plan fijo
+    planInput.readOnly = !!plan;
   }
   modal.style.display = "flex";
   setTimeout(()=>{
-    modal.style.opacity = "1";
-    form.style.transform = "scale(1)";
+    modal.style.opacity="1";
+    form.style.transform="scale(1)";
     form.querySelector("input[name='nombre']").focus();
   },10);
-  bloquearScroll();
+  document.body.style.overflow = 'hidden';
 }
-
 function cerrarModal(modal, form){
-  modal.style.opacity = "0";
-  form.style.transform = "scale(0.9)";
+  modal.style.opacity="0";
+  form.style.transform="scale(0.9)";
+  const mensaje = form.querySelector(".mensaje-form");
+  if(mensaje){ mensaje.style.opacity=0; mensaje.textContent=""; mensaje.style.color="#00ffc0"; }
   setTimeout(()=>{
-    modal.style.display = "none";
+    modal.style.display="none";
     form.reset();
-    liberarScroll();
+    document.body.style.overflow = 'auto';
   },300);
 }
 
