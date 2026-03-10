@@ -32,56 +32,58 @@
   --card-bg: rgba(255,255,255,0.05);
   --card-shadow: 0 12px 40px rgba(0,0,0,0.55);
 }
-* { box-sizing:border-box; margin:0; padding:0; }
-body { font-family:'Montserrat',sans-serif; background:var(--darkbg); color:var(--text-light); line-height:1.5; overflow-x:hidden; }
-a { text-decoration:none; color:var(--primary); transition:var(--transition); }
-a:hover { color:var(--secondary); }
-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
-#main-content { display:none; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:'Montserrat',sans-serif; background:var(--darkbg); color:var(--text-light); line-height:1.5; overflow-x:hidden; }
+a{text-decoration:none; color:var(--primary); transition:var(--transition);}
+a:hover{ color:var(--secondary);}
+canvas{ position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;}
+#main-content{ display:none; }
 
 /* Splash */
-#splash { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; z-index:10000; }
-#splash img { max-width:80%; height:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
-#btn-comencemos { margin-top:30px; padding:15px 40px; font-size:1.2rem; border:none; border-radius:20px; background:var(--primary); color:#000; cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s; }
-#btn-comencemos:hover { transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5); }
+#splash{ position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; z-index:10000; transition: opacity 0.6s ease;}
+#splash img{ max-width:80%; height:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.6);}
+#btn-comencemos{ margin-top:30px; padding:15px 40px; font-size:1.2rem; border:none; border-radius:20px; background:var(--primary); color:#000; cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s;}
+#btn-comencemos:hover{ transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5);}
 
 /* Menú neón */
-#main-nav { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; background: rgba(10,10,25,0.6); backdrop-filter: blur(15px); border-radius: 15px; box-shadow: 0 4px 20px rgba(0,255,192,0.3); z-index: 1000; }
-#main-nav ul { display:flex; justify-content: space-around; list-style: none; padding: 10px 0; margin:0; }
-.neon-link { color: #00ffc0; font-weight:600; font-size:0.95rem; padding:6px 12px; border-radius:10px; text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff; transition: all 0.3s ease-in-out; position: relative; animation: neon-flicker 2.5s infinite; }
-.neon-link:hover { color: #ffbf00; text-shadow:0 0 5px #ffbf00,0 0 10px #ffbf00,0 0 20px #ffbf00,0 0 40px #ffbf00,0 0 80px #ffbf00; background: rgba(0,0,0,0.2);}
-@keyframes neon-flicker {0%,18%,22%,25%,53%,57%,100% { text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff;}20%,24%,55% { text-shadow:none; color:#00ffc0;}}
+#main-nav{ position: fixed; top:0; left:50%; transform:translateX(-50%); width:95%; max-width:1200px; background: rgba(10,10,25,0.6); backdrop-filter: blur(15px); border-radius:15px; box-shadow:0 4px 20px rgba(0,255,192,0.3); z-index:1000; }
+#main-nav ul{ display:flex; justify-content: space-around; list-style:none; padding:10px 0; margin:0;}
+.neon-link{ color:#00ffc0; font-weight:600; font-size:0.95rem; padding:6px 12px; border-radius:10px; text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff; transition: all 0.3s ease-in-out; position: relative; animation: neon-flicker 2.5s infinite;}
+.neon-link:hover{ color:#ffbf00; text-shadow:0 0 5px #ffbf00,0 0 10px #ffbf00,0 0 20px #ffbf00,0 0 40px #ffbf00,0 0 80px #ffbf00; background: rgba(0,0,0,0.2);}
+@keyframes neon-flicker{0%,18%,22%,25%,53%,57%,100%{ text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff;}20%,24%,55%{ text-shadow:none; color:#00ffc0;}}
 
 /* Header */
-header { text-align:center; padding:180px 20px 60px; }
-header img { width:100%; max-width:500px; height:auto; border-radius:15px; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin-bottom:30px; transition:transform 0.3s ease, box-shadow 0.3s ease; }
-header img:hover { transform:scale(1.05); box-shadow:0 25px 60px rgba(0,0,0,0.7); }
-header h1 { font-size:2.2rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.3); margin-bottom:10px; line-height:1.2; }
-header p { font-size:1rem; max-width:600px; margin:auto; opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s; }
-header .cta { margin-top:25px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
-header .cta button, header .cta a { padding:12px 28px; border-radius: var(--radius); font-weight:600; cursor:pointer; transition: var(--transition); font-size:0.95rem; }
-header .cta button { background: var(--secondary); color:#000; border:none; }
-header .cta button:hover { background: var(--primary); transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,255,192,0.3);}
-header .cta a { border:2px solid var(--primary); color: var(--primary); }
-header .cta a:hover { background: var(--primary); color:#000; box-shadow:0 5px 15px rgba(0,255,192,0.3); }
+header{ text-align:center; padding:180px 20px 60px;}
+header img{ width:100%; max-width:500px; height:auto; border-radius:15px; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin-bottom:30px; transition:transform 0.3s ease, box-shadow 0.3s ease;}
+header img:hover{ transform:scale(1.05); box-shadow:0 25px 60px rgba(0,0,0,0.7);}
+header h1{ font-size:2.2rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.3); margin-bottom:10px; line-height:1.2; }
+header p{ font-size:1rem; max-width:600px; margin:auto; opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s; }
+header .cta{ margin-top:25px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;}
+header .cta button, header .cta a{ padding:12px 28px; border-radius: var(--radius); font-weight:600; cursor:pointer; transition: var(--transition); font-size:0.95rem;}
+header .cta button{ background: var(--secondary); color:#000; border:none;}
+header .cta button:hover{ background: var(--primary); transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,255,192,0.3);}
+header .cta a{ border:2px solid var(--primary); color: var(--primary);}
+header .cta a:hover{ background: var(--primary); color:#000; box-shadow:0 5px 15px rgba(0,255,192,0.3);}
 
 /* Secciones y grids */
-section { max-width: 1100px; margin: 100px auto; padding: 60px 30px; border-radius: var(--radius); backdrop-filter: blur(12px); background: var(--card-bg); box-shadow: var(--card-shadow); }
-.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:25px; }
-.grid .card { padding:20px; border-radius: var(--radius); background: var(--card-bg); backdrop-filter:blur(12px); box-shadow: var(--card-shadow); text-align:center; transition: var(--transition); display:flex; flex-direction:column; justify-content:center;}
-.grid .card:hover { transform:translateY(-5px) scale(1.02); box-shadow:0 16px 45px rgba(0,0,0,0.6);}
-.grid .card i { font-size:2rem; margin-bottom:10px;}
-.grid .card h3 { font-size:1.15rem; margin-bottom:6px; font-weight:600;}
-.grid .card p { font-size:0.9rem; opacity:0.85; line-height:1.4; }
+section{ max-width:1100px; margin:100px auto; padding:60px 30px; border-radius:var(--radius); backdrop-filter: blur(12px); background: var(--card-bg); box-shadow:var(--card-shadow);}
+.grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:25px;}
+.grid .card{ padding:20px; border-radius: var(--radius); background: var(--card-bg); backdrop-filter:blur(12px); box-shadow:var(--card-shadow); text-align:center; transition: var(--transition); display:flex; flex-direction:column; justify-content:center;}
+.grid .card:hover{ transform:translateY(-5px) scale(1.02); box-shadow:0 16px 45px rgba(0,0,0,0.6);}
+.grid .card i{ font-size:2rem; margin-bottom:10px;}
+.grid .card h3{ font-size:1.15rem; margin-bottom:6px; font-weight:600;}
+.grid .card p{ font-size:0.9rem; opacity:0.85; line-height:1.4;}
 
 /* Footer */
-footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
+footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
 
 /* Animaciones */
-@keyframes fadeInUp { 0% { opacity:0; transform: translateY(20px); } 100% { opacity:1; transform: translateY(0); } }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-@keyframes neonGlow { 0% { box-shadow: 0 0 20px #00ffc0, 0 0 50px #00bfff inset; } 50% { box-shadow: 0 0 40px #00ffc0, 0 0 80px #00bfff inset; } 100% { box-shadow: 0 0 20px #00ffc0, 0 0 50px #00bfff inset; } }
-@keyframes neonBorder { 0% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; } 50% { box-shadow: 0 0 35px #00ffc0, 0 0 70px #00bfff inset; border-color: #00bfff; } 100% { box-shadow: 0 0 20px #00ffc0, 0 0 40px #00bfff inset; border-color: #00ffc0; } }
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes neonGlow{0%{box-shadow:0 0 20px #00ffc0,0 0 50px #00bfff inset;}50%{box-shadow:0 0 40px #00ffc0,0 0 80px #00bfff inset;}100%{box-shadow:0 0 20px #00ffc0,0 0 50px #00bfff inset;}}
+@keyframes neonBorder{0%{box-shadow:0 0 20px var(--primary),0 0 40px #00bfff inset;border-color:var(--primary);}50%{box-shadow:0 0 35px var(--primary),0 0 70px #00bfff inset;border-color:#00bfff;}100%{box-shadow:0 0 20px var(--primary),0 0 40px #00bfff inset;border-color:var(--primary);}}
+
+@media(max-width:768px){ header h1{ font-size:1.8rem;} header p{ font-size:0.95rem;} .grid{ gap:15px;} .grid .card{ padding:15px; } }
 
 /* ==========================
    Tarjetas de Suscripción
@@ -92,11 +94,6 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 .subscription-card button { margin-top:15px; padding:12px 20px; border-radius: var(--radius); font-weight:600; color:#000; background:#ffbf00; border:none; cursor:pointer; box-shadow:0 0 15px #ffbf00,0 0 30px #ffbf00 inset; animation: pulse 2s infinite; transition: all 0.3s ease-in-out; }
 .subscription-card button:hover { background:#00ffc0; box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset; transform: scale(1.05);}
 .subscription-card.premium { transform: scale(1.05); border:2px solid #00ffc0; box-shadow:0 0 35px #00ffc0,0 0 70px #00bfff inset; animation: neonGlow 2.5s infinite alternate; }
-
-/* Animaciones */
-@keyframes fadeInUp { 0% { opacity:0; transform: translateY(20px); } 100% { opacity:1; transform: translateY(0); } }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-@keyframes neonBorder { 0% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } 50% { box-shadow: 0 0 35px var(--primary), 0 0 70px #00bfff inset; border-color: #00bfff; } 100% { box-shadow: 0 0 20px var(--primary), 0 0 40px #00bfff inset; border-color: var(--primary); } }
 
 /* Modal Unificado */
 .modal{ position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); z-index:9999; opacity:0; transition:opacity 0.3s ease;}
@@ -134,31 +131,31 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 
 <!=================== Header  =================== -->
 <header id="header">
-  <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
-  <h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
-  <p>Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.</p>
-  <div style="margin-top:20px; font-size:0.95rem; opacity:0.9;">
-    ✔ Plan totalmente personalizado<br>
-    ✔ Seguimiento directo<br>
-    ✔ Adaptado a tu estilo de vida
-  </div>
-  <p style="margin-top:10px; color:#ffbf00; font-weight:600;">⚡ Trabajo con pocas personas para asegurar resultados reales</p>
-  <div class="cta">
-    <button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
-    <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
-    <a href="calculadora.html" class="neon-link">Calculadora</a>
-    <a href="imc.html" class="neon-link" target="_blank">IMC</a>
-  </div>
+<img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
+<h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
+<p>Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.</p>
+<div style="margin-top:20px; font-size:0.95rem; opacity:0.9;">
+✔ Plan totalmente personalizado<br>
+✔ Seguimiento directo<br>
+✔ Adaptado a tu estilo de vida
+</div>
+<p style="margin-top:10px; color:#ffbf00; font-weight:600;">⚡ Trabajo con pocas personas para asegurar resultados reales</p>
+<div class="cta">
+<button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
+<a href="#servicios" class="neon-link">VER PROGRAMAS</a>
+<a href="calculadora.html" class="neon-link">Calculadora</a>
+<a href="imc.html" class="neon-link" target="_blank">IMC</a>
+</div>
 </header>
 
 <!-- Servicios -->
 <section id="servicios">
-  <h2 style="text-align:center;">Lo que puedo ofrecerte</h2>
-  <div class="grid">
-    <div class="card"><i class="fas fa-bowl-food"></i><h3>Planes personalizados</h3><p>Comidas y hábitos adaptados a ti, para progresar sin complicaciones.</p></div>
-    <div class="card"><i class="fas fa-person-running"></i><h3>Entrenamiento efectivo</h3><p>Rutinas que se ajustan a tu ritmo y estilo de vida.</p></div>
-    <div class="card"><i class="fas fa-laptop"></i><h3>Apoyo constante</h3><p>Seguimiento y consejos online para mantener tu progreso real.</p></div>
-  </div>
+<h2 style="text-align:center;">Lo que puedo ofrecerte</h2>
+<div class="grid">
+<div class="card"><i class="fas fa-bowl-food"></i><h3>Planes personalizados</h3><p>Comidas y hábitos adaptados a ti, para progresar sin complicaciones.</p></div>
+<div class="card"><i class="fas fa-person-running"></i><h3>Entrenamiento efectivo</h3><p>Rutinas que se ajustan a tu ritmo y estilo de vida.</p></div>
+<div class="card"><i class="fas fa-laptop"></i><h3>Apoyo constante</h3><p>Seguimiento y consejos online para mantener tu progreso real.</p></div>
+</div>
 </section>
 <!-- =========================== -->
 <!-- OFERTA LIMITADA + GARANTÍA + FAQ + LEAD MAGNET -->
@@ -357,152 +354,141 @@ footer { text-align:center; padding:30px; font-size:0.85rem; opacity:0.7; }
 
 <script>
  // ---- Modal "Empezar Mi Cambio Ahora" ----
-const modalCambio = document.getElementById("modal-cambio");
-const formCambio = document.getElementById("form-cambio");
-const btnCerrarCambio = modalCambio.querySelector(".close-modal");
+  const modalCambio = document.getElementById("modal-cambio");
+  const formCambio = document.getElementById("form-cambio");
+  const btnCerrarCambio = modalCambio.querySelector(".close-modal");
 
 // Mensaje y check animado
-let mensajeDiv = document.createElement("div");
-mensajeDiv.style.textAlign = "center";
-mensajeDiv.style.marginTop = "15px";
-mensajeDiv.style.fontWeight = "600";
-mensajeDiv.style.color = "#00ffc0";
-mensajeDiv.style.opacity = 0;
-mensajeDiv.style.transition = "opacity 0.4s ease";
-formCambio.appendChild(mensajeDiv);
+  const mensajeDiv = document.createElement("div");
+  mensajeDiv.style.cssText = `
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #00ffc0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  `;
+  formCambio.appendChild(mensajeDiv);
 
-let checkSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-checkSVG.setAttribute("viewBox", "0 0 52 52");
-checkSVG.style.width = "50px";
-checkSVG.style.height = "50px";
-checkSVG.style.margin = "10px auto 0";
-checkSVG.style.display = "block";
-checkSVG.style.stroke = "#00ffc0";
-checkSVG.style.strokeWidth = "5";
-checkSVG.style.fill = "none";
-checkSVG.style.opacity = 0;
-checkSVG.style.transition = "opacity 0.4s ease";
-const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-path.setAttribute("d", "M14 27 l10 10 l20 -20");
-path.setAttribute("stroke-dasharray", "50");
-path.setAttribute("stroke-dashoffset", "50");
-checkSVG.appendChild(path);
-formCambio.appendChild(checkSVG);
+  const checkSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  checkSVG.setAttribute("viewBox", "0 0 52 52");
+  checkSVG.style.cssText = `
+    width: 50px;
+    height: 50px;
+    margin: 10px auto 0;
+    display: block;
+    stroke: #00ffc0;
+    stroke-width: 5;
+    fill: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  `;
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M14 27 l10 10 l20 -20");
+  path.setAttribute("stroke-dasharray", "50");
+  path.setAttribute("stroke-dashoffset", "50");
+  checkSVG.appendChild(path);
+  formCambio.appendChild(checkSVG);
   
 // Abrir modal cambio
 document.querySelectorAll(".btn-cambio").forEach(btn => {
-  btn.addEventListener("click", () => {
-    formCambio.reset();
+    btn.addEventListener("click", () => {
+      formCambio.reset();
+      mensajeDiv.style.opacity = 0;
+      mensajeDiv.textContent = "";
+      checkSVG.style.opacity = 0;
+      path.style.strokeDashoffset = "50";
+
+      modalCambio.style.display = "flex";
+      setTimeout(() => {
+        modalCambio.style.opacity = "1";
+        formCambio.style.transform = "scale(1)";
+        formCambio.nombre.focus();
+      }, 10);
+
+      document.body.style.overflow = "hidden";
+    });
+  });
+// ===== CERRAR MODAL =====
+function cerrarModal() {
+    modalCambio.style.opacity = "0";
+    formCambio.style.transform = "scale(0.9)";
     mensajeDiv.style.opacity = 0;
+    mensajeDiv.textContent = "";
     checkSVG.style.opacity = 0;
     path.style.strokeDashoffset = "50";
 
-    modalCambio.style.display = "flex";
     setTimeout(() => {
-      modalCambio.style.opacity = "1";
-      formCambio.style.transform = "scale(1)";
-      formCambio.nombre.focus();
-    }, 10);
+      modalCambio.style.display = "none";
+      document.body.style.overflow = "auto";
+      formCambio.reset();
+    }, 300);
+  }
 
-    document.body.style.overflow = "hidden";
-  });
-});
-// ===== CERRAR MODAL =====
-function cerrarModal() {
-  // Ocultar visualmente el modal y escalar el formulario
-  modalCambio.style.opacity = "0";
-  formCambio.style.transform = "scale(0.9)";
+  btnCerrarCambio.addEventListener("click", cerrarModal);
+  modalCambio.addEventListener("click", e => { if(e.target === modalCambio) cerrarModal(); });
+  document.addEventListener("keydown", e => { if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal(); });
 
-  // Reiniciar animaciones y mensajes
-  mensajeDiv.style.opacity = 0;
-  mensajeDiv.textContent = "";
-  checkSVG.style.opacity = 0;
-  path.style.strokeDashoffset = "50";
-
-  // Restaurar scroll del body después de la animación
-  setTimeout(() => {
-    modalCambio.style.display = "none";
-    document.body.style.overflow = 'auto';
-    formCambio.reset(); // Limpia el formulario al cerrar
-  }, 300);
-}
-
-// Cerrar modal al pulsar el botón
-btnCerrar.addEventListener("click", cerrarModal);
-
-// Cerrar modal al hacer clic fuera del formulario
-modalCambio.addEventListener("click", e => {
-  if(e.target === modalCambio) cerrarModal();
-});
-
-// Cerrar modal con tecla ESC
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape" && modalCambio.style.display === "flex") cerrarModal();
-});
   
 // ===== ENVÍO DE FORMULARIO PROFESIONAL =====
-formCambio.addEventListener("submit", async e => {
-  e.preventDefault();
-  
-  const submitBtn = formCambio.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
+  formCambio.addEventListener("submit", async e => {
+    e.preventDefault();
+    const submitBtn = formCambio.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
   
   submitBtn.textContent = "Enviando...";
   submitBtn.disabled = true;
   submitBtn.style.background = "#00ffc0";
   
-  try {
-
-    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-      method: "POST",
-      headers:{
-        "Accept":"application/json",
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        nombre: formCambio.nombre.value,
-        email: formCambio.email.value
-      })
-    });
+ try {
+      const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+        method: "POST",
+        headers: {
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          nombre: formCambio.nombre.value,
+          email: formCambio.email.value
+        })
+      });
 
     if(res.ok){
-      // Mostrar mensaje de éxito
-      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
-      mensajeDiv.style.opacity = 1;
+   // Mensaje y check animado
+    mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
+    mensajeDiv.style.opacity = 1;
 
-      checkSVG.style.opacity = 1;
-      path.style.transition = "stroke-dashoffset 0.6s ease";
-      setTimeout(()=>{ path.style.strokeDashoffset = "0"; }, 50);
+    checkSVG.style.opacity = 1;
+    path.style.transition = "stroke-dashoffset 0.6s ease";
+    setTimeout(()=> path.style.strokeDashoffset = "0", 50);
 
-      submitBtn.style.background = "#ffbf00";
+    submitBtn.style.background = "#ffbf00";
 
-      setTimeout(() => {
-        cerrarModal();
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }, 2000);
+    setTimeout(() => {
+    cerrarModal();
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+    }, 2000);
 
     } else {
       throw new Error("Error en el envío");
     }
 
-  } catch(err){
-    console.error(err);
+    } catch(err){
+      console.error(err);
+      mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
+      mensajeDiv.style.color = "#ff4d4d";
+      mensajeDiv.style.opacity = 1;
 
-    mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
-    mensajeDiv.style.color = "#ff4d4d";
-    mensajeDiv.style.opacity = 1;
-
-    setTimeout(() => {
-      mensajeDiv.style.opacity = 0;
-      mensajeDiv.style.color = "#00ffc0";
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
-      submitBtn.style.background = "#ffbf00";
-    }, 2500);
-  }
-
-});
+      setTimeout(() => {
+        mensajeDiv.style.opacity = 0;
+        mensajeDiv.style.color = "#00ffc0";
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        submitBtn.style.background = "#ffbf00";
+      }, 2500);
+    }
+  });
 </script>
 
 <!-- Scripts -->
