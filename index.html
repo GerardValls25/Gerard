@@ -95,16 +95,22 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
 .subscription-card button:hover { background:#00ffc0; box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset; transform: scale(1.05);}
 .subscription-card.premium { transform: scale(1.05); border:2px solid #00ffc0; box-shadow:0 0 35px #00ffc0,0 0 70px #00bfff inset; animation: neonGlow 2.5s infinite alternate; }
 
-/* Modal Unificado */
-.modal{ position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); z-index:9999; opacity:0; transition:opacity 0.3s ease;}
-.premium-modal{ background:rgba(17,17,17,0.9); padding:30px; border-radius:var(--radius); width:90%; max-width:400px; display:flex; flex-direction:column; gap:15px; box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset; border:2px solid #00ffc0; position:relative; animation: neonBorder 2.5s infinite alternate; transition: transform 0.3s ease, opacity 0.3s ease; }
-.premium-modal h3{ text-align:center; font-size:1.5rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; margin-bottom:10px;}
-.premium-modal input{ padding:10px; border-radius:var(--radius); border:none; background: rgba(255,255,255,0.1); color:#fff; font-size:0.95rem; transition:0.3s;}
-.premium-modal input:focus{ outline:2px solid #00ffc0; background: rgba(255,255,255,0.15);}
-.premium-modal button[type="submit"]{ padding:12px 20px; border:none; border-radius:var(--radius); background:#ffbf00; color:#000; font-weight:700; cursor:pointer; box-shadow:0 0 15px #ffbf00,0 0 30px #ffbf00 inset; animation:pulse 2s infinite; transition:0.3s;}
-.premium-modal button[type="submit"]:hover{ background:#00ffc0; box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset; transform:scale(1.05);}
-.premium-modal button.close-modal{ padding:8px; border:none; border-radius:var(--radius); background: rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
-
+/* ===========================
+   MODALES Y FORMULARIOS
+=========================== */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;display:none;justify-content:center;align-items:center;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:9999;opacity:0;transition:opacity 0.3s ease;}
+.premium-modal{background:rgba(17,17,17,0.9);padding:15px 20px;border-radius:var(--radius);width:320px;max-width:90%;display:flex;flex-direction:column;gap:10px;box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset;border:2px solid #00ffc0;position:relative;animation:neonBorder 2.5s infinite alternate;transition:transform 0.3s ease,opacity 0.3s ease;}
+.premium-modal h3{text-align:center;font-size:1.2rem;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;margin-bottom:8px;}
+.premium-modal input{padding:6px 8px;border-radius:var(--radius);border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:0.85rem;transition:0.3s;}
+.premium-modal input:focus{outline:2px solid #00ffc0;background:rgba(255,255,255,0.15);}
+.premium-modal button[type="submit"]{padding:8px 12px;border:none;border-radius:var(--radius);background:#ffbf00;color:#000;font-weight:700;cursor:pointer;box-shadow:0 0 15px #ffbf00,0 0 30px #ffbf00 inset;animation:pulse 2s infinite;transition:0.3s;}
+.premium-modal button[type="submit"]:hover{background:#00ffc0;box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset;transform:scale(1.05);}
+.premium-modal button.close-modal{padding:6px 10px;border:none;border-radius:var(--radius);background:rgba(255,0,0,0.5);color:#fff;cursor:pointer;}
+.mensaje-check{margin-top:10px;text-align:center;font-weight:600;color:#00ffc0;opacity:0;transition:opacity 0.4s ease;}
+.check-svg{width:40px;height:40px;margin:10px auto 0;display:block;stroke:#00ffc0;stroke-width:4;fill:none;opacity:0;transition:opacity 0.4s ease;}
+.check-svg path{stroke-dasharray:50;stroke-dashoffset:50;transition:stroke-dashoffset 0.5s ease;}
+@media(max-width:480px){.premium-modal{width:90%;padding:12px 15px;gap:8px;}.premium-modal h3{font-size:1rem;}.premium-modal input{font-size:0.8rem;padding:5px 6px;}.premium-modal button[type="submit"]{font-size:0.85rem;padding:7px 10px;}.premium-modal button.close-modal{padding:5px 8px;font-size:0.8rem;}}
+  
 /* Responsive */
 @media(max-width:768px){ header h1{ font-size:1.8rem;} header p{ font-size:0.95rem;} .grid{ gap:15px;} .grid .card{ padding:15px; } }
 </style>
@@ -350,122 +356,113 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
   </form>
 </div>
 <script>
- // ---- Modal "Empezar Mi Cambio Ahora" ----
-const modalCambio = document.getElementById("modal-cambio");
-const formCambio = document.getElementById("form-cambio");
-const btnCerrarCambio = document.getElementById("close-cambio");
+ // ==============================
+// MODAL UNIFICADO PARA TODOS LOS PLANES
+// ==============================
+const modalUnificado = document.getElementById("modal-unificado");
+const formUnificado = document.getElementById("form-unificado");
+const btnCerrar = modalUnificado.querySelector(".close-modal");
 
-// Mensaje y check animado
-const mensajeDiv = document.createElement("div");
-mensajeDiv.style.cssText = `
-  text-align: center;
-  margin-top: 15px;
-  font-weight: 600;
-  color: #00ffc0;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-`;
-formCambio.appendChild(mensajeDiv);
+// --- Mensaje y check animado ---
+const mensaje = formUnificado.querySelector(".mensaje-check") || (() => {
+  const m = document.createElement("div");
+  m.className = "mensaje-check";
+  formUnificado.appendChild(m);
+  return m;
+})();
+const checkSVG = formUnificado.querySelector(".check-svg") || (() => {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox","0 0 52 52");
+  svg.classList.add("check-svg");
+  const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+  path.setAttribute("d","M14 27 l10 10 l20 -20");
+  path.setAttribute("stroke-dasharray","50");
+  path.setAttribute("stroke-dashoffset","50");
+  svg.appendChild(path);
+  formUnificado.appendChild(svg);
+  return svg;
+})();
+const checkPath = checkSVG.querySelector("path");
   
-const checkSVG = document.createElementNS("http://www.w3.org/2000/svg","svg");
-checkSVG.setAttribute("viewBox","0 0 52 52");
-checkSVG.style.cssText = `
-  width:50px; height:50px; margin:10px auto 0; display:block;
-  stroke:#00ffc0; stroke-width:5; fill:none; opacity:0; transition:opacity 0.4s ease;
-`;
-const path = document.createElementNS("http://www.w3.org/2000/svg","path");
-path.setAttribute("d","M14 27 l10 10 l20 -20");
-path.setAttribute("stroke-dasharray","50");
-path.setAttribute("stroke-dashoffset","50");
-checkSVG.appendChild(path);
-formCambio.appendChild(checkSVG);
-  
-// Abrir modal cambio
-document.querySelectorAll(".btn-cambio").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    formCambio.reset();
-    mensajeDiv.style.opacity=0;
-    mensajeDiv.textContent="";
+// ===== Abrir modal con plan =====
+document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    
+       // Detectar plan
+    let plan = "";
+    const card = btn.closest(".subscription-card");
+    if(card) plan = card.querySelector("h3")?.textContent || "";
+    formUnificado.reset();
+    mensaje.style.opacity=0;
+    mensaje.textContent="";
     checkSVG.style.opacity=0;
-    path.style.strokeDashoffset="50";
+    checkPath.style.strokeDashoffset="50";
+    formUnificado.plan.value = plan;
 
-    modalCambio.style.display="flex";
+    modalUnificado.style.display="flex";
     setTimeout(()=>{
-      modalCambio.style.opacity="1";
-      formCambio.style.transform="scale(1)";
-      formCambio.nombre.focus();
+      modalUnificado.style.opacity=1;
+      formUnificado.style.transform="scale(1)";
+      formUnificado.nombre.focus();
     },10);
-
     document.body.style.overflow="hidden";
   });
 });
+  
 // ===== CERRAR MODAL =====
-function cerrarModalCambio(){
-  modalCambio.style.opacity="0";
-  formCambio.style.transform="scale(0.9)";
-  mensajeDiv.style.opacity=0;
-  mensajeDiv.textContent="";
+function cerrarModal() {
+  modalUnificado.style.opacity=0;
+  formUnificado.style.transform="scale(0.9)";
+  mensaje.style.opacity=0;
+  mensaje.textContent="";
   checkSVG.style.opacity=0;
-  path.style.strokeDashoffset="50";
-
-setTimeout(()=>{
-    modalCambio.style.display="none";
+  checkPath.style.strokeDashoffset="50";
+  setTimeout(()=>{
+    modalUnificado.style.display="none";
+    formUnificado.reset();
     document.body.style.overflow="auto";
-    formCambio.reset();
   },300);
 }
-
-btnCerrarCambio.addEventListener("click",cerrarModalCambio);
-modalCambio.addEventListener("click", e => { if(e.target===modalCambio) cerrarModalCambio(); });
-document.addEventListener("keydown", e => { if(e.key==="Escape" && modalCambio.style.display==="flex") cerrarModalCambio(); });
- 
-// ===== ENVÍO DE FORMULARIO PROFESIONAL =====
-formCambio.addEventListener("submit", async e => {
-  e.preventDefault();
-  const submitBtn = formCambio.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
   
-  try {
+btnCerrar.addEventListener("click", cerrarModal);
+modalUnificado.addEventListener("click", e => { if(e.target===modalUnificado) cerrarModal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape" && modalUnificado.style.display==="flex") cerrarModal(); });
+
+// ===== ENVÍO FORMULARIO UNIFICADO =====
+formUnificado.addEventListener("submit", async e=>{
+  e.preventDefault();
+  const btn = formUnificado.querySelector("button[type='submit']");
+  const originalText = btn.textContent;
+  btn.textContent="Enviando...";
+  btn.disabled=true;
+  const data = {
+    nombre: formUnificado.nombre.value,
+    email: formUnificado.email.value,
+    plan: formUnificado.plan.value
+  };
+  try{
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-      method: "POST",
-      headers: { "Accept":"application/json", "Content-Type":"application/json" },
-      body: JSON.stringify({
-        nombre: formCambio.nombre.value,
-        email: formCambio.email.value
-      })
+      method:"POST",
+      headers: {"Accept":"application/json","Content-Type":"application/json"},
+      body: JSON.stringify(data)
     });
-    
-    if (res.ok) {
-      // Mostrar mensaje y check animado
-      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
-      mensajeDiv.style.opacity = 1;
-      animarCheck();
-setTimeout(() => {
-        modalCambio.style.opacity = 0;
-        formCambio.style.transform = "scale(0.9)";
-        setTimeout(() => {
-          modalCambio.style.display = "none";
-          formCambio.reset();
-          mensajeDiv.style.opacity = 0;
-          path.style.strokeDashoffset = 50; // reiniciar check
-          checkSVG.style.opacity = 0;
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalText;
-          document.body.style.overflow = 'auto';
-        }, 300);
-      }, 2000);
-    } else throw new Error("Error en el envío");
-  } catch (err) {
-    console.error(err);
-    mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
-    mensajeDiv.style.color = "#ff4d4d";
-    mensajeDiv.style.opacity = 1;
-    setTimeout(() => {
-      mensajeDiv.style.opacity = 0;
-      mensajeDiv.style.color = "#00ffc0";
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-    }, 2500);
+    if(!res.ok) throw new Error("Error envío");
+    mensaje.textContent="¡Gracias! Pronto nos contactaremos";
+    mensaje.style.color="#00ffc0";
+    mensaje.style.opacity=1;
+    checkSVG.style.opacity=1;
+    setTimeout(()=>checkPath.style.strokeDashoffset=0,50);
+    setTimeout(cerrarModal,2000);
+  }catch(err){
+    mensaje.textContent="Hubo un error, intenta de nuevo ❌";
+    mensaje.style.color="#ff4d4d";
+    mensaje.style.opacity=1;
+    setTimeout(()=>{
+      mensaje.style.opacity=0;
+      mensaje.style.color="#00ffc0";
+      btn.disabled=false;
+      btn.textContent=originalText;
+    },2500);
   }
 });
 </script>
