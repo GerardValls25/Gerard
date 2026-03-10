@@ -559,16 +559,15 @@ const stripePlans = {
   "Suscripción Anual": "plan_anual_id"
 };
 
-// Funciones para bloquear/desbloquear scroll
+// Funciones de scroll
 function bloquearScroll() { document.body.style.overflow = 'hidden'; }
 function liberarScroll() { document.body.style.overflow = ''; }
 
-// --- Función para abrir modal ---
+// Abrir modal
 function openModal(planName = "") {
   if (planName) {
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
-    form.dataset.stripePlan = stripePlans[planName] || "";
   }
 
   modal.style.display = "flex";
@@ -580,20 +579,18 @@ function openModal(planName = "") {
   bloquearScroll();
 }
 
-// --- Función para cerrar modal ---
+// Cerrar modal
 function closeModal() {
   modal.style.opacity = "0";
-  const contenido = modal.querySelector(".premium-modal");
-  if (contenido) contenido.style.transform = "scale(0.9)";
+  modal.querySelector(".premium-modal").style.transform = "scale(0.9)";
   liberarScroll();
-
   setTimeout(() => {
     modal.style.display = "none";
     form.reset();
-  }, 300); // coincide con la animación
+  }, 300);
 }
 
-// --- Abrir modal al hacer clic en botones de planes ---
+// Abrir modal botones planes
 document.querySelectorAll(".subscription-card button").forEach(btn => {
   btn.addEventListener("click", () => {
     const planName = btn.closest(".subscription-card").querySelector("h3").textContent.trim();
@@ -601,27 +598,21 @@ document.querySelectorAll(".subscription-card button").forEach(btn => {
   });
 });
 
-// --- Cerrar modal ---
+// Cerrar modal
 document.getElementById("close-unificado").addEventListener("click", closeModal);
-  
-// Cerrar al hacer clic fuera del contenido
-modal.addEventListener("click", e => {
-  if (e.target === modal) closeModal();
-});
-// Cerrar con tecla ESC
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && modal.style.display === "flex") closeModal();
-});
+modal.addEventListener("click", e => { if(e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape" && modal.style.display==="flex") closeModal(); });
 
 // --- Enviar formulario ---
 form.addEventListener("submit", async e => {
   e.preventDefault();
 
-  const nombre = form.nombre.value.trim();
-  const email = form.email.value.trim();
-  const plan = document.getElementById("plan-input").value;
+   // Capturar valores, incluyendo plan personalizado
+  const nombre = form.querySelector("[name='nombre']").value.trim();
+  const email = form.querySelector("[name='email']").value.trim();
+  const plan = form.querySelector("[name='plan']").value.trim(); // importante: name="plan"
 
-  if (!nombre || !email) {
+  if (!nombre || !email || !plan) {
     alert("Por favor completa todos los campos.");
     return;
   }
@@ -629,10 +620,7 @@ form.addEventListener("submit", async e => {
   try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method: "POST",
-      headers: { 
-        "Accept": "application/json", 
-        "Content-Type": "application/json" 
-      },
+      headers: { "Accept":"application/json", "Content-Type":"application/json" },
       body: JSON.stringify({ nombre, email, plan })
     });
 
