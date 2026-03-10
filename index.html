@@ -563,13 +563,11 @@ const stripePlans = {
 function bloquearScroll() { document.body.style.overflow = 'hidden'; }
 function liberarScroll() { document.body.style.overflow = ''; }
 
-// Función para abrir modal
+// --- Función para abrir modal ---
 function openModal(planName = "") {
   if (planName) {
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
-
-    // Asignar plan Stripe
     form.dataset.stripePlan = stripePlans[planName] || "";
   }
 
@@ -582,15 +580,17 @@ function openModal(planName = "") {
   bloquearScroll();
 }
 
-// Función para cerrar modal
+// --- Función para cerrar modal ---
 function closeModal() {
   modal.style.opacity = "0";
-  modal.querySelector(".premium-modal").style.transform = "scale(0.9)";
+  const contenido = modal.querySelector(".premium-modal");
+  if (contenido) contenido.style.transform = "scale(0.9)";
   liberarScroll();
+
   setTimeout(() => {
     modal.style.display = "none";
     form.reset();
-  }, 300);
+  }, 300); // coincide con la animación
 }
 
 // --- Abrir modal al hacer clic en botones de planes ---
@@ -603,9 +603,12 @@ document.querySelectorAll(".subscription-card button").forEach(btn => {
 
 // --- Cerrar modal ---
 document.getElementById("close-unificado").addEventListener("click", closeModal);
+  
+// Cerrar al hacer clic fuera del contenido
 modal.addEventListener("click", e => {
-  if (e.target.id === "modal-unificado") closeModal();
+  if (e.target === modal) closeModal();
 });
+// Cerrar con tecla ESC
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && modal.style.display === "flex") closeModal();
 });
@@ -626,7 +629,10 @@ form.addEventListener("submit", async e => {
   try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method: "POST",
-      headers: { "Accept": "application/json", "Content-Type": "application/json" },
+      headers: { 
+        "Accept": "application/json", 
+        "Content-Type": "application/json" 
+      },
       body: JSON.stringify({ nombre, email, plan })
     });
 
