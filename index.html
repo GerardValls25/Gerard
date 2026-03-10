@@ -336,8 +336,11 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <input type="text" name="plan" id="plan-input" readonly>
     <button type="submit">Enviar y Pagar</button>
-    <button type="button" id="close-unificado" class="close-modal">Cerrar</button>
-    <div class="mensaje-form" style="text-align:center; margin-top:15px; font-weight:600; color:#00ffc0; opacity:0;"></div>
+    <button type="button" class="close-modal" data-modal="modal-unificado">Cerrar</button>
+    <div class="mensaje-check" style="text-align:center; margin-top:15px; font-weight:600; color:#00ffc0; opacity:0; transition:opacity 0.4s;"></div>
+    <svg class="check-svg" viewBox="0 0 52 52" style="width:50px; height:50px; display:block; margin:10px auto 0; stroke:#00ffc0; stroke-width:5; fill:none; opacity:0; transition:opacity 0.4s;">
+      <path d="M14 27 l10 10 l20 -20" stroke-dasharray="50" stroke-dashoffset="50"></path>
+    </svg>
   </form>
 </div>
 <!-- Modal Cambio -->
@@ -347,8 +350,11 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
     <input type="text" name="nombre" placeholder="Nombre completo" required>
     <input type="email" name="email" placeholder="Correo electrónico" required>
     <button type="submit">Enviar y Pagar</button>
-    <button type="button" id="close-cambio" class="close-modal">Cerrar</button>
-    <div class="mensaje-form" style="text-align:center; margin-top:15px; font-weight:600; color:#00ffc0; opacity:0;"></div>
+    <button type="button" class="close-modal" data-modal="modal-cambio">Cerrar</button>
+    <div class="mensaje-check" style="text-align:center; margin-top:15px; font-weight:600; color:#00ffc0; opacity:0; transition:opacity 0.4s;"></div>
+    <svg class="check-svg" viewBox="0 0 52 52" style="width:50px; height:50px; display:block; margin:10px auto 0; stroke:#00ffc0; stroke-width:5; fill:none; opacity:0; transition:opacity 0.4s;">
+      <path d="M14 27 l10 10 l20 -20" stroke-dasharray="50" stroke-dashoffset="50"></path>
+    </svg>
   </form>
 </div>
 <script>
@@ -515,91 +521,149 @@ window.addEventListener("load", ()=>{
 </script>
 
 <script>
-// --- Modal Unificado + Formspree ---
-const modal = document.getElementById("modal-unificado");
-const form = document.getElementById("form-unificado");
-
-// Opcional: define los planes de Stripe si los usas
-const stripePlans = {
-  "Suscripción Mensual": "plan_mensual_id",
-  "Suscripción Trimestral": "plan_trimestral_id",
-  "Suscripción Anual": "plan_anual_id"
-};
+// ==============================
+// MODALES Y FORMULARIOS
+// ==============================
 
 // Funciones de scroll
 function bloquearScroll() { document.body.style.overflow = 'hidden'; }
 function liberarScroll() { document.body.style.overflow = ''; }
 
 // Abrir modal
-function abrirModal(modal, form, plan=""){
+function abrirModal(id, plan="") {
+  const modal = document.getElementById(id);
+  const form = modal.querySelector("form");
   const planInput = form.querySelector("[name='plan']");
-  if(planInput){
-    planInput.value = plan;
-    planInput.readOnly = !!plan;
-  }
+  if(planInput) planInput.value = plan;
+
   modal.style.display = "flex";
-  setTimeout(()=>{
-    modal.style.opacity="1";
-    form.style.transform="scale(1)";
-    form.querySelector("input[name='nombre']").focus();
-  },10);
-  document.body.style.overflow = 'hidden';
-}
-function cerrarModal(modal, form){
-  modal.style.opacity="0";
-  form.style.transform="scale(0.9)";
-  const mensaje = form.querySelector(".mensaje-form");
-  if(mensaje){ mensaje.style.opacity=0; mensaje.textContent=""; mensaje.style.color="#00ffc0"; }
-  setTimeout(()=>{
-    modal.style.display="none";
-    form.reset();
-    document.body.style.overflow = 'auto';
-  },300);
+  setTimeout(() => { modal.style.opacity = 1; form.style.transform = "scale(1)"; }, 10);
+  bloquearScroll();
 }
 
-// Abrir modal botones planes
-document.querySelectorAll(".subscription-card button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const planName = btn.closest(".subscription-card").querySelector("h3").textContent.trim();
-    openModal(planName);
+// Cerrar modal
+function cerrarModal(id) {
+  const modal = document.getElementById(id);
+  const form = modal.querySelector("form");
+  modal.style.opacity = 0;
+  form.style.transform = "scale(0.9)";
+  setTimeout(() => {
+    modal.style.display = "none";
+    form.reset();
+
+    // Reset mensaje y check
+    const mensaje = form.querySelector(".mensaje-check");
+    const svg = form.querySelector(".check-svg");
+    if(mensaje) mensaje.style.opacity = 0;
+    if(svg) {
+      svg.style.opacity = 0;
+      const path = svg.querySelector("path");
+      path.style.strokeDashoffset = "50";
+    }
+
+    liberarScroll();
+  }, 300);
+}
+
+// Cerrar con click fuera
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", e => { if(e.target === modal) cerrarModal(modal.id); });
+});
+
+// Cerrar con botón
+document.querySelectorAll(".close-modal").forEach(btn => {
+  btn.addEventListener("click", e => {
+    const modal = btn.closest(".modal");
+    cerrarModal(modal.id);
   });
 });
 
-// Cerrar modal
-document.getElementById("close-unificado").addEventListener("click", closeModal);
-modal.addEventListener("click", e => { if(e.target === modal) closeModal(); });
-document.addEventListener("keydown", e => { if(e.key==="Escape" && modal.style.display==="flex") closeModal(); });
-
-// --- Enviar formulario ---
-form.addEventListener("submit", async e => {
-  e.preventDefault();
-
-  const nombre = form.querySelector("[name='nombre']").value.trim();
-  const email = form.querySelector("[name='email']").value.trim();
-  const plan = form.querySelector("[name='plan']").value.trim();
-
-  if (!nombre || !email || !plan) {
-    alert("Por favor completa todos los campos.");
-    return;
+// Cerrar con Escape
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") {
+    document.querySelectorAll(".modal").forEach(m => {
+      if(m.style.display === "flex") cerrarModal(m.id);
+    });
   }
+});
+
+// ==============================
+// CHECK ANIMADO Y MENSAJE
+// ==============================
+document.querySelectorAll("form").forEach(f => {
+  // Crear mensaje
+  const mensajeDiv = document.createElement("div");
+  mensajeDiv.className = "mensaje-check";
+  mensajeDiv.style.cssText = "text-align:center; margin-top:15px; font-weight:600; color:#00ffc0; opacity:0; transition:opacity 0.4s;";
+  f.appendChild(mensajeDiv);
+
+  // Crear check SVG
+  const checkSVG = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  checkSVG.setAttribute("viewBox","0 0 52 52");
+  checkSVG.classList.add("check-svg");
+  checkSVG.style.cssText = "width:50px; height:50px; margin:10px auto 0; display:block; stroke:#00ffc0; stroke-width:5; fill:none; opacity:0; transition:opacity 0.4s;";
+  const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+  path.setAttribute("d","M14 27 l10 10 l20 -20");
+  path.setAttribute("stroke-dasharray","50");
+  path.setAttribute("stroke-dashoffset","50");
+  checkSVG.appendChild(path);
+  f.appendChild(checkSVG);
+});
+
+// ==============================
+// FUNCION ENVIAR FORMULARIO
+// ==============================
+async function enviar(form) {
+  const mensaje = form.querySelector(".mensaje-check");
+  const svg = form.querySelector(".check-svg");
+  const path = svg.querySelector("path");
+  const btn = form.querySelector("button[type='submit']");
+  const originalText = btn.textContent;
+
+  btn.textContent = "Enviando...";
+  btn.disabled = true;
+
+  const data = { nombre: form.nombre.value, email: form.email.value };
+  if(form.plan) data.plan = form.plan.value;
 
   try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method: "POST",
       headers: { "Accept":"application/json", "Content-Type":"application/json" },
-      body: JSON.stringify({ nombre, email, plan })
+      body: JSON.stringify(data)
     });
+    if(!res.ok) throw new Error("Error envío");
 
-    if (res.ok) {
-      alert("¡Solicitud enviada! Te contactaremos pronto.");
-      closeModal();
-    } else {
-      throw new Error("Error en el envío");
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Hubo un error al enviar el formulario. Intenta de nuevo.");
+    // Mostrar check y mensaje
+    mensaje.textContent = "¡Gracias! Pronto nos contactaremos";
+    mensaje.style.opacity = 1;
+    svg.style.opacity = 1;
+    path.style.transition = "stroke-dashoffset 0.6s ease";
+    setTimeout(() => path.style.strokeDashoffset = 0, 50);
+
+    setTimeout(() => cerrarModal(form.closest(".modal").id), 2000);
+
+  } catch(err) {
+    mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensaje.style.color = "#ff4d4d";
+    mensaje.style.opacity = 1;
+    setTimeout(() => {
+      mensaje.style.opacity = 0;
+      mensaje.style.color = "#00ffc0";
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }, 2500);
   }
+}
+
+// ==============================
+// ASOCIAR ENVIO A TODOS LOS FORMULARIOS
+// ==============================
+document.querySelectorAll("form").forEach(f => {
+  f.addEventListener("submit", e => {
+    e.preventDefault();
+    enviar(f);
+  });
 });
 </script>
 <script>
