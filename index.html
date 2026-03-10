@@ -765,57 +765,35 @@ function openModal(){
 }
 
 // ENVÍO FORMULARIO
-form.addEventListener("submit", async e=>{
+// ENVÍO FORMULARIO
+form.addEventListener("submit", async e => {
   e.preventDefault();
 
-  const nombre = e.target.nombre.value;
-  const email = e.target.email.value;
-  const plan = document.getElementById("plan-input").value;
+const nombre = e.target.nombre.value;
+const email = e.target.email.value;
+const plan = document.getElementById("plan-input").value;
 
-  try{
-
+  try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-      method:"POST",
-      headers:{
-        "Accept":"application/json",
-        "Content-Type":"application/json"
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        nombre,
-        email,
-        plan
-      })
+      body: JSON.stringify({ nombre, email, plan })
     });
-
-    if(res.ok){
+    if (res.ok) {
       alert("¡Solicitud enviada! Te contactaremos pronto.");
-      modal.style.display = "none";
-      liberarScroll();
-    }else{
+      closeModal(); // <-- cerramos el modal después del envío
+    } else {
       throw new Error("Error al enviar");
     }
-
-  }catch(err){
+  } catch (err) {
     console.log(err);
     alert("Hubo un error al enviar el formulario");
   }
-
 });
 
-  // Stripe Checkout si hay plan
-  if(planID){
-    const {error} = await stripe.redirectToCheckout({
-      lineItems:[{ price:planID, quantity:1 }],
-      mode:'subscription',
-      successUrl:window.location.href+'?success=true',
-      cancelUrl:window.location.href+'?cancel=true',
-      customerEmail:email
-    });
-    if(error){ console.error(error); alert("Hubo un error al redirigir a Stripe. Intenta de nuevo."); }
-  }
-
-  closeModal();
-});
 </script>
 <script>
 // CONFIGURACIÓN
