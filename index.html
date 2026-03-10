@@ -422,53 +422,52 @@ modalCambio.addEventListener("click", e => { if(e.target===modalCambio) cerrarMo
 document.addEventListener("keydown", e => { if(e.key==="Escape" && modalCambio.style.display==="flex") cerrarModalCambio(); });
  
 // ===== ENVÍO DE FORMULARIO PROFESIONAL =====
-formCambio.addEventListener("submit", async e=>{
+formCambio.addEventListener("submit", async e => {
   e.preventDefault();
   const submitBtn = formCambio.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
-
-  submitBtn.textContent="Enviando...";
-  submitBtn.disabled=true;
-  submitBtn.style.background="#00ffc0";
   
-  try{
+  try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-      method:"POST",
-      headers:{"Accept":"application/json","Content-Type":"application/json"},
-      body:JSON.stringify({nombre:formCambio.nombre.value,email:formCambio.email.value})
+      method: "POST",
+      headers: { "Accept":"application/json", "Content-Type":"application/json" },
+      body: JSON.stringify({
+        nombre: formCambio.nombre.value,
+        email: formCambio.email.value
+      })
     });
     
-    if(res.ok){
-      mensajeDiv.textContent="¡Gracias! Pronto nos contactaremos";
-      mensajeDiv.style.opacity=1;
-
-      checkSVG.style.opacity=1;
-      path.style.transition="stroke-dashoffset 0.6s ease";
-      setTimeout(()=>path.style.strokeDashoffset="0",50);
-
-      submitBtn.style.background="#ffbf00";
-
-      setTimeout(()=>{
-        cerrarModalCambio();
-        submitBtn.textContent=originalText;
-        submitBtn.disabled=false;
-      },2000);
-      
-}else{throw new Error("Error en el envío");}
-
-  }catch(err){
+    if (res.ok) {
+      // Mostrar mensaje y check animado
+      mensajeDiv.textContent = "¡Gracias! Pronto nos contactaremos";
+      mensajeDiv.style.opacity = 1;
+      animarCheck();
+setTimeout(() => {
+        modalCambio.style.opacity = 0;
+        formCambio.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          modalCambio.style.display = "none";
+          formCambio.reset();
+          mensajeDiv.style.opacity = 0;
+          path.style.strokeDashoffset = 50; // reiniciar check
+          checkSVG.style.opacity = 0;
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          document.body.style.overflow = 'auto';
+        }, 300);
+      }, 2000);
+    } else throw new Error("Error en el envío");
+  } catch (err) {
     console.error(err);
-    mensajeDiv.textContent="Hubo un error, intenta de nuevo ❌";
-    mensajeDiv.style.color="#ff4d4d";
-    mensajeDiv.style.opacity=1;
-    
-    setTimeout(()=>{
-    mensajeDiv.style.opacity=0;
-    mensajeDiv.style.color="#00ffc0";
-    submitBtn.textContent=originalText;
-    submitBtn.disabled=false;
-    submitBtn.style.background="#ffbf00";
-    },2500);
+    mensajeDiv.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensajeDiv.style.color = "#ff4d4d";
+    mensajeDiv.style.opacity = 1;
+    setTimeout(() => {
+      mensajeDiv.style.opacity = 0;
+      mensajeDiv.style.color = "#00ffc0";
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }, 2500);
   }
 });
 </script>
