@@ -707,22 +707,32 @@ const form = document.getElementById("form-unificado");
 const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
 
 const stripePlans = {
-  "Suscripción Anual": "price_1AnualXYZ",
-  "Suscripción Trimestral": "price_1TrimestralXYZ",
-  "Suscripción Mensual": "price_1MensualXYZ"
+  "Suscripción Anual -10%": "price_1Pabcde123",
+  "Suscripción Anual": "price_1Pabcde123",
+  "Suscripción Trimestral": "price_1Pxyz789",
+  "Suscripción Mensual": "price_1Pmensual456"
 };
 
 
 // ABRIR MODAL PREMIUM
 document.querySelectorAll(".subscription-card button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
-    const planName = btn.closest(".subscription-card").querySelector("h3").textContent;
+    const planName = btn.closest(".subscription-card").querySelector("h3").textContent.trim();
+
     document.getElementById("modal-title").textContent = planName;
     document.getElementById("plan-input").value = planName;
-    form.dataset.stripePlan = stripePlans[planName];
-    modal.style.display="flex";
-    modal.style.opacity="1";
-    modal.querySelector(".premium-modal").style.transform="scale(1)";
+
+    // Detectar plan de Stripe
+    const stripePlan = stripePlans[planName];
+    form.dataset.stripePlan = stripePlan || "";
+
+    modal.style.display = "flex";
+
+    setTimeout(()=>{
+      modal.style.opacity = "1";
+      modal.querySelector(".premium-modal").style.transform = "scale(1)";
+    },10);
+
     bloquearScroll();
   });
 });
