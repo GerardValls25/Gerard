@@ -564,36 +564,29 @@ function bloquearScroll() { document.body.style.overflow = 'hidden'; }
 function liberarScroll() { document.body.style.overflow = ''; }
 
 // Abrir modal
-function openModal(planName = "") {
-  const planInput = document.getElementById("plan-input");
-
-  if (planName) {
-    document.getElementById("modal-title").textContent = planName;
-    planInput.value = planName;
-    planInput.readOnly = true; // si es un plan fijo
-  } else {
-    planInput.value = "";
-    planInput.readOnly = false; // si es plan personalizado
+function abrirModal(modal, form, plan = "") {
+  const planInput = form.querySelector("[name='plan']");
+  if(planInput){
+    planInput.value = plan;
+    planInput.readOnly = !!plan; // bloquea solo si es plan fijo
   }
-
   modal.style.display = "flex";
-  setTimeout(() => {
+  setTimeout(()=>{
     modal.style.opacity = "1";
-    modal.querySelector(".premium-modal").style.transform = "scale(1)";
-  }, 10);
-
+    form.style.transform = "scale(1)";
+    form.querySelector("input[name='nombre']").focus();
+  },10);
   bloquearScroll();
 }
 
-// Cerrar modal
-function closeModal() {
+function cerrarModal(modal, form){
   modal.style.opacity = "0";
-  modal.querySelector(".premium-modal").style.transform = "scale(0.9)";
-  liberarScroll();
-  setTimeout(() => {
+  form.style.transform = "scale(0.9)";
+  setTimeout(()=>{
     modal.style.display = "none";
     form.reset();
-  }, 300);
+    liberarScroll();
+  },300);
 }
 
 // Abrir modal botones planes
