@@ -1102,7 +1102,7 @@ class SplashScreen {
 new SplashScreen();
 
 // ==============================
-// TEST RÁPIDO NEÓN
+// TEST RÁPIDO NEÓN (Arreglado)
 // ==============================
 document.addEventListener('DOMContentLoaded', () => {
   class TestRapido {
@@ -1128,8 +1128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Cerrar modal clic en fondo
       this.modal.addEventListener('click', e => { if(e.target===this.modal) this.cerrarTest(); });
-    }
-
+    
     abrirTest(){
       this.modal.style.display = 'flex';
       setTimeout(() => this.modal.style.opacity = 1, 10);
@@ -1140,7 +1139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(this.final) this.final.style.display = 'none';
     }
 
-    showPregunta(){
+   showPregunta(){
       this.preguntas.forEach((p,i) => p.style.display = (i===this.preguntaActual ? 'block' : 'none'));
     }
 
@@ -1174,8 +1173,7 @@ document.addEventListener('DOMContentLoaded', () => {
       this.preguntas.forEach(p => p.style.display = 'none');
       if(this.final) this.final.style.display = 'flex';
     }
-
-    cerrarTest(){
+   cerrarTest(){
       this.modal.style.opacity = 0;
       setTimeout(()=>{
         this.modal.style.display = 'none';
