@@ -876,131 +876,116 @@ window.addEventListener("load", ()=>{
 
 <script>
 // ==============================
-// MODALES Y FORMULARIOS
+// SCROLL
 // ==============================
-
-// Funciones de scroll
-function bloquearScroll() { document.body.style.overflow = 'hidden'; }
-function liberarScroll() { document.body.style.overflow = ''; }
-
-// Función para cerrar modal
-function cerrarModal(id) {
-  const modal = document.getElementById(id);
-  if (!modal) return;
-
-  const form = modal.querySelector("form");
-  const mensaje = form?.querySelector(".mensaje-check");
-  const svg = form?.querySelector(".check-svg");
-  const path = svg?.querySelector("path");
-
-  modal.style.opacity = 0;
-  if(form) form.style.transform = "scale(0.9)";
-
-  setTimeout(() => {
-    modal.style.display = "none";
-    if(form) form.reset();
-    if(mensaje) mensaje.style.opacity = 0;
-    if(path) path.style.strokeDashoffset = "50";
-    if(svg) svg.style.opacity = 0;
-    liberarScroll();
-  }, 300);
-}
+const Scroll = {
+  bloquear: () => document.body.style.overflow = 'hidden',
+  liberar: () => document.body.style.overflow = ''
+};
 
 // ==============================
-// Cerrar modal con botón o click fuera
+// MODALES
 // ==============================
-document.querySelectorAll(".close-modal").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const modal = btn.closest(".modal");
-    if(modal) cerrarModal(modal.id);
-  });
+const Modal = {
+  abrir: (id) => {
+    const modal = document.getElementById(id);
+    if(!modal) return;
+    modal.style.display = 'flex';
+    setTimeout(() => modal.style.opacity = 1, 10);
+    const form = modal.querySelector('form');
+    if(form) form.style.transform = 'scale(1)';
+    Scroll.bloquear();
+  },
+
+  cerrar: (id) => {
+    const modal = document.getElementById(id);
+    if(!modal) return;
+
+    const form = modal.querySelector('form');
+    const mensaje = form?.querySelector('.mensaje-check');
+    const svg = form?.querySelector('.check-svg');
+    const path = svg?.querySelector('path');
+
+    modal.style.opacity = 0;
+    if(form) form.style.transform = 'scale(0.9)';
+
+    setTimeout(() => {
+      modal.style.display = 'none';
+      form?.reset();
+      if(mensaje) { mensaje.style.opacity = 0; mensaje.textContent = ''; mensaje.style.color = '#00ffc0'; }
+      if(svg) { svg.style.opacity = 0; if(path) path.style.strokeDashoffset = '50'; }
+      Scroll.liberar();
+    }, 300);
+  }
+};
+
+// ==============================
+// EVENTOS MODALES
+// ==============================
+document.addEventListener('click', e => {
+  if(e.target.matches('.close-modal')) {
+    const modal = e.target.closest('.modal');
+    if(modal) Modal.cerrar(modal.id);
+  }
+  if(e.target.matches('.modal')) {
+    Modal.cerrar(e.target.id);
+  }
 });
 
-document.querySelectorAll(".modal").forEach(modal => {
-  modal.addEventListener("click", e => {
-    if(e.target === modal) cerrarModal(modal.id);
-  });
-});
-
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape") {
-    document.querySelectorAll(".modal").forEach(modal => {
-      if(modal.style.display === "flex") cerrarModal(modal.id);
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') {
+    document.querySelectorAll('.modal').forEach(m => {
+      if(getComputedStyle(m).display === 'flex') Modal.cerrar(m.id);
     });
   }
 });
 
 // ==============================
-// FUNCION ENVIAR FORMULARIO
+// FORMULARIO GENERAL
 // ==============================
 async function enviar(form) {
-  if (!form) return;
+  if(!form) return;
 
+  const btn = form.querySelector("button[type='submit']");
+  const originalText = btn?.textContent || 'Enviar';
   const mensaje = form.querySelector(".mensaje-check");
   const svg = form.querySelector(".check-svg");
-  const path = svg?.querySelector("path");
-  const btn = form.querySelector("button[type='submit']");
-  const originalText = btn?.textContent || "Enviar";
+  const path = svg?.querySelector('path');
 
-  if(btn) {
-    btn.textContent = "Enviando...";
-    btn.disabled = true;
-  }
+  if(btn) { btn.textContent = "Enviando..."; btn.disabled = true; }
 
-  // Construir datos a enviar
-  const data = {
-    nombre: form.nombre?.value || "",
-    email: form.email?.value || ""
-  };
+  const data = { nombre: form.nombre?.value || '', email: form.email?.value || '' };
   if(form.plan) data.plan = form.plan.value;
 
   try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method: "POST",
-      headers: { "Accept":"application/json", "Content-Type":"application/json" },
+      headers: { "Accept":"application/json","Content-Type":"application/json" },
       body: JSON.stringify(data)
     });
-
     if(!res.ok) throw new Error("Error envío");
 
-    // Mostrar mensaje de éxito
-    if(mensaje) {
-      mensaje.textContent = "¡Gracias! Pronto nos contactaremos";
-      mensaje.style.color = "#00ffc0";
-      mensaje.style.opacity = 1;
-    }
-    if(svg) svg.style.opacity = 1;
-    if(path) {
-      path.style.transition = "stroke-dashoffset 0.5s ease";
-      setTimeout(() => path.style.strokeDashoffset = 0, 50);
-    }
+    if(mensaje) { mensaje.textContent = "¡Gracias! Pronto nos contactaremos"; mensaje.style.color="#00ffc0"; mensaje.style.opacity=1; }
+    if(svg) svg.style.opacity=1;
+    if(path) { path.style.transition="stroke-dashoffset 0.5s ease"; setTimeout(()=>path.style.strokeDashoffset=0,50); }
 
-    setTimeout(() => cerrarModal(form.closest(".modal")?.id), 2000);
+    setTimeout(()=>Modal.cerrar(form.closest('.modal')?.id), 2000);
 
   } catch(err) {
-    if(mensaje) {
-      mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
-      mensaje.style.color = "#ff4d4d";
-      mensaje.style.opacity = 1;
-    }
-    setTimeout(() => {
-      if(mensaje) {
-        mensaje.style.opacity = 0;
-        mensaje.style.color = "#00ffc0";
-      }
-      if(btn) {
-        btn.disabled = false;
-        btn.textContent = originalText;
-      }
+    if(mensaje) { mensaje.textContent="Hubo un error, intenta de nuevo ❌"; mensaje.style.color="#ff4d4d"; mensaje.style.opacity=1; }
+    setTimeout(()=>{
+      if(mensaje) { mensaje.style.opacity=0; mensaje.style.color="#00ffc0"; }
+      if(btn) { btn.disabled=false; btn.textContent=originalText; }
     }, 2500);
   }
 }
-</script>
-<script>
-// CONFIGURACIÓN
-const plazasIniciales = 5;      // Plazas al inicio del mes
-const diasParaAgotar = 30;      // Total de días hasta que se agoten todas las plazas (ajusta según urgencia)
-const parpadeoLimite = 2;       // Si quedan <=2 plazas, parpadea
+
+// ==============================
+// OFERTA DIARIA
+// ==============================
+const plazasIniciales = 5;
+const diasParaAgotar = 30;
+const parpadeoLimite = 2;
 
 function actualizarOfertaDiaria() {
   const hoy = new Date();
@@ -1008,292 +993,146 @@ function actualizarOfertaDiaria() {
   const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
 
   const diasTranscurridos = Math.floor((hoy - inicioMes) / (1000 * 60 * 60 * 24));
-
-  // Calcula plazas restantes proporcionalmente a los días transcurridos
   let plazasRestantes = Math.ceil(plazasIniciales * (1 - diasTranscurridos / diasParaAgotar));
-  if(plazasRestantes < 0) plazasRestantes = 0;
+  plazasRestantes = Math.max(plazasRestantes, 0);
 
   const spanPlazas = document.getElementById("plazas");
-  spanPlazas.textContent = plazasRestantes;
-
-  // Parpadeo si quedan pocas plazas
-  if(plazasRestantes <= parpadeoLimite && plazasRestantes > 0){
-    spanPlazas.style.animation = "parpadeo 1s infinite";
-  } else {
-    spanPlazas.style.animation = "none";
+  if(spanPlazas) {
+    spanPlazas.textContent = plazasRestantes;
+    spanPlazas.style.animation = (plazasRestantes <= parpadeoLimite && plazasRestantes > 0) ? "parpadeo 1s infinite" : "none";
   }
 
-  // Fecha límite del mes
   const opciones = { day: 'numeric', month: 'long' };
-  document.getElementById("fecha-limite").textContent =
-    "Oferta válida hasta el " + finMes.toLocaleDateString('es-ES', opciones);
+  const fechaElem = document.getElementById("fecha-limite");
+  if(fechaElem) fechaElem.textContent = "Oferta válida hasta el " + finMes.toLocaleDateString('es-ES', opciones);
 }
 
-// Animación CSS para parpadeo
 const style = document.createElement('style');
 style.innerHTML = `
 @keyframes parpadeo {
-  0%, 50%, 100% { opacity: 1; transform: scale(1); }
-  25%, 75% { opacity: 0.3; transform: scale(1.2); }
+  0%,50%,100%{opacity:1;transform:scale(1);}
+  25%,75%{opacity:0.3;transform:scale(1.2);}
 }`;
 document.head.appendChild(style);
-
-// Inicializar
 actualizarOfertaDiaria();
-setInterval(actualizarOfertaDiaria, 1000 * 60 * 60); // Actualiza cada hora
-</script>
-<!-- Botón WhatsApp con contador -->
-<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20más%20info" 
-   target="_blank" id="whatsapp-btn-ultimate">
-  <i class="fab fa-whatsapp"></i>
-  <span id="whatsapp-counter"></span>
-</a>
+setInterval(actualizarOfertaDiaria, 1000*60*60);
 
-<style>
-#whatsapp-btn-ultimate {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: #25d366;
-  color: #fff;
-  font-size: 2.2rem;
-  border-radius: 50%;
-  padding: 16px;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset;
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, bottom 0.3s ease, background 0.3s ease, opacity 0.5s ease;
-  gap: 8px;
-}
-#whatsapp-btn-ultimate.show { opacity:1; pointer-events:auto; }
-#whatsapp-btn-ultimate:hover { transform: scale(1.15); }
-
-#whatsapp-counter {
-  background: rgba(0,0,0,0.6);
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 8px;
-}
-
-/* Parpadeo + pulse */
-@keyframes whatsapp-urgent {
-  0%,100% { transform: scale(1); box-shadow: 0 0 15px,0 0 30px,0 0 45px,0 0 60px inset; }
-  50% { transform: scale(1.2); box-shadow: 0 0 30px,0 0 60px,0 0 90px,0 0 120px inset; }
-}
-
-/* Responsive */
-@media(max-width:768px){
-  #whatsapp-btn-ultimate { font-size:1.8rem; padding:12px; bottom:18px; right:18px; }
-  #whatsapp-counter { font-size:0.7rem; padding:1px 4px; }
-}
-</style>
-
-<script>
+// ==============================
+// BOTÓN WHATSAPP
+// ==============================
 setTimeout(()=>{
   const btn = document.getElementById("whatsapp-btn-ultimate");
   const counter = document.getElementById("whatsapp-counter");
-
-  btn.classList.add("show");
-
-  // --- Inicializar plazas desde la página ---
   const plazasElem = document.getElementById("plazas");
   let plazas = plazasElem ? parseInt(plazasElem.textContent) : 5;
-  counter.textContent = plazas;
 
-  // --- Actualizar color según oferta ---
-  const premiumCard = document.querySelector(".subscription-card.premium");
-  const ofertaLimitada = document.getElementById("oferta-limitada");
-  
-  if(premiumCard){ btn.style.background="#00ffc0"; btn.style.boxShadow="0 0 15px #00ffc0,0 0 30px #00bfff inset"; }
-  else if(ofertaLimitada){ btn.style.background="#ffbf00"; btn.style.boxShadow="0 0 15px #ffbf00,0 0 30px #ffbf00 inset"; }
-  else { btn.style.background="#25d366"; btn.style.boxShadow="0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset"; }
-
-  // --- Animación de urgencia si plazas ≤3 ---
-  function checkUrgencia() {
-    if(plazas <=3 && plazas >0){ btn.style.animation="whatsapp-urgent 1s infinite alternate"; }
-    else { btn.style.animation="none"; }
+  if(btn && counter){
+    btn.classList.add("show");
     counter.textContent = plazas;
-  }
-  checkUrgencia();
 
-  // --- Scroll dinámico ---
-  let lastScroll = window.scrollY;
-  window.addEventListener("scroll", ()=>{
-    const currentScroll = window.scrollY;
-    btn.style.bottom = (currentScroll > lastScroll ? 15 : 35)+"px";
-    lastScroll = currentScroll;
-  });
-
-  // --- Actualizar contador automáticamente cada hora según tu script de plazas ---
-  setInterval(()=>{
-    plazas = plazasElem ? parseInt(plazasElem.textContent) : plazas;
+    function checkUrgencia() {
+      if(plazas <= 3 && plazas > 0) btn.style.animation = "whatsapp-urgent 1s infinite alternate";
+      else btn.style.animation = "none";
+      counter.textContent = plazas;
+    }
     checkUrgencia();
-  }, 1000*60*60);
 
+    let lastScroll = window.scrollY;
+    window.addEventListener("scroll", ()=>{
+      const currentScroll = window.scrollY;
+      btn.style.bottom = (currentScroll > lastScroll ? 15 : 35)+"px";
+      lastScroll = currentScroll;
+    });
+
+    setInterval(()=>{
+      plazas = plazasElem ? parseInt(plazasElem.textContent) : plazas;
+      checkUrgencia();
+    }, 1000*60*60);
+  }
 }, 5000);
-</script>
-<script>
+
 // ==============================
-//   SPLASH SCREEN
+// SPLASH SCREEN
 // ==============================
 const splash = document.getElementById("splash");
 const mainContent = document.getElementById("main-content");
-document.getElementById("btn-comencemos").addEventListener("click", () => {
-  splash.style.opacity = 0;
-  setTimeout(() => splash.style.display = "none", 600);
-  mainContent.style.display = "block";
+document.getElementById("btn-comencemos")?.addEventListener("click", ()=>{
+  splash.style.opacity=0;
+  setTimeout(()=> splash.style.display="none",600);
+  mainContent.style.display="block";
 });
-</script>
-<!-- Modal Test -->
-<div class="modal" id="modal-test">
-  <div class="premium-modal">
-    <h3>Test Rápido</h3>
 
-   <!-- Contador y barra de progreso -->
-    <div class="countdown-container">
-      <span class="countdown">30</span>
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
-    </div>
-
-    <!-- Pregunta 1 -->
-    <div class="test-pregunta active">
-      <p>¿Cuál es tu objetivo principal?</p>
-      <button class="respuesta">Perder grasa</button>
-      <button class="respuesta">Ganar músculo</button>
-      <button class="respuesta">Mejorar hábitos</button>
-    </div>
-
-     <!-- Pregunta 2 -->
-     <div class="test-pregunta">
-      <p>¿Cuántos días entrenas?</p>
-      <button class="respuesta">0-1</button>
-      <button class="respuesta">2-3</button>
-      <button class="respuesta">4+</button>
-    </div>
-
-    <!-- Pregunta 3 -->
-    <div class="test-pregunta">
-      <p>¿Qué es lo que más te cuesta?</p>
-      <button class="respuesta">Constancia</button>
-      <button class="respuesta">Comida</button>
-      <button class="respuesta">Tiempo</button>
-    </div>
-
-    <!-- Final: Email -->
-     <div class="test-final">
-      <p>Déjanos tu email y te enviaremos tu plan recomendado</p>
-      <input type="email" placeholder="Tu email" required>
-      <button type="submit">Ver mi plan</button>
-
-      <!-- Check animado -->
-      <svg class="check-svg" viewBox="0 0 52 52">
-        <path d="M14 27l10 10 20-20" stroke="#00ffc0" stroke-width="4" fill="none"/>
-      </svg>
-      <div class="mensaje-check">¡Email enviado!</div>
-    </div>
-
-    <button class="close-modal">Cerrar</button>
-  </div>
-</div>
-   
-<script>
-// ===== Test Rápido =====
+// ==============================
+// TEST RÁPIDO
+// ==============================
 const btnTest = document.getElementById("btn-test");
 const modalTest = document.getElementById("modal-test");
-const closeTest = modalTest.querySelector(".close-modal");
-const preguntas = modalTest.querySelectorAll(".test-pregunta");
-const finalTest = modalTest.querySelector(".test-final");
-const countdownEl = modalTest.querySelector(".countdown");
-const progressFill = modalTest.querySelector(".progress-fill");
+const preguntas = modalTest?.querySelectorAll(".test-pregunta");
+const finalTest = modalTest?.querySelector(".test-final");
+const countdownEl = modalTest?.querySelector(".countdown");
+const progressFill = modalTest?.querySelector(".progress-fill");
 
-let tiempo = 30; 
-let preguntaActual = 0;
-let interval;
+let tiempo = 30, preguntaActual = 0, interval;
 
-// Abrir modal test
-btnTest.addEventListener("click", () => {
+btnTest?.addEventListener("click", ()=>{
   modalTest.style.display = "flex";
-  setTimeout(()=> modalTest.style.opacity = 1, 10);
-  document.body.style.overflow = "hidden";
+  setTimeout(()=> modalTest.style.opacity=1,10);
+  Scroll.bloquear();
   iniciarPregunta();
 });
 
-// Cerrar modal
-closeTest.addEventListener("click", cerrarModal);
-modalTest.addEventListener("click", e => { if(e.target === modalTest) cerrarModal(); });
-document.addEventListener("keydown", e => { if(e.key === "Escape" && modalTest.style.display==="flex") cerrarModal(); });
+modalTest?.querySelector(".close-modal")?.addEventListener("click", cerrarTestModal);
+modalTest?.addEventListener("click", e => { if(e.target===modalTest) cerrarTestModal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape" && getComputedStyle(modalTest).display==="flex") cerrarTestModal(); });
 
-function cerrarModal(){
+function cerrarTestModal(){
   modalTest.style.opacity=0;
   setTimeout(()=>{
     modalTest.style.display="none";
-    preguntas.forEach(p => p.classList.remove("active"));
-    preguntas[0].classList.add("active");
-    finalTest.style.display="none";
-    finalTest.querySelector("input").value="";
-    progressFill.style.width="0%";
-    countdownEl.textContent = 30;
-    document.body.style.overflow="auto";
+    preguntas?.forEach(p=>p.classList.remove("active"));
+    preguntas?.[0]?.classList.add("active");
+    if(finalTest){ finalTest.style.display="none"; finalTest.querySelector("input").value=""; }
+    if(progressFill) progressFill.style.width="0%";
+    if(countdownEl) countdownEl.textContent=30;
+    Scroll.liberar();
     clearInterval(interval);
-    preguntaActual = 0;
-    tiempo = 30;
+    preguntaActual=0; tiempo=30;
   },300);
 }
 
-// Iniciar una pregunta
 function iniciarPregunta(){
-  tiempo = 30;
-  countdownEl.textContent = tiempo;
-  progressFill.style.width = "0%";
+  if(!preguntas?.[preguntaActual]) return;
+  tiempo=30; countdownEl.textContent=tiempo; progressFill.style.width="0%";
 
   interval = setInterval(()=>{
-    tiempo--;
-    countdownEl.textContent = tiempo;
+    tiempo--; countdownEl.textContent=tiempo;
     progressFill.style.width = `${((30-tiempo)/30)*100}%`;
-
-    if(tiempo <= 0){
-      clearInterval(interval);
-      avanzarPregunta();
-    }
+    if(tiempo<=0){ clearInterval(interval); avanzarPregunta(); }
   },1000);
 
-  // Eventos de respuesta
   const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
-  respuestas.forEach(btn=>{
-    btn.onclick = ()=>{
-      clearInterval(interval);
-      avanzarPregunta();
-    };
+  respuestas.forEach(btn => btn.onclick = ()=>{
+    clearInterval(interval);
+    avanzarPregunta();
   });
 }
 
-// Avanzar a siguiente pregunta o mostrar final
 function avanzarPregunta(){
-  preguntas[preguntaActual].classList.remove("active");
+  preguntas?.[preguntaActual]?.classList.remove("active");
   preguntaActual++;
-  if(preguntaActual < preguntas.length){
+  if(preguntaActual<preguntas.length){
     preguntas[preguntaActual].classList.add("active");
     iniciarPregunta();
-  } else {
-    mostrarFinal();
-  }
+  } else mostrarFinal();
 }
 
-// Mostrar sección final del test
 function mostrarFinal(){
+  if(!finalTest) return;
   finalTest.style.display="block";
   finalTest.querySelector("input").focus();
-  countdownEl.textContent = "";
-  progressFill.style.width = "100%";
+  countdownEl.textContent="";
+  progressFill.style.width="100%";
 
-  // Enviar email
   finalTest.querySelector("button[type='submit']").onclick = async (e)=>{
     e.preventDefault();
     const inputEmail = finalTest.querySelector("input").value;
@@ -1302,11 +1141,9 @@ function mostrarFinal(){
     const path = svg.querySelector("path");
     const btn = finalTest.querySelector("button[type='submit']");
     const originalText = btn.textContent;
-
     if(!inputEmail) return;
 
-    btn.textContent="Enviando...";
-    btn.disabled=true;
+    btn.textContent="Enviando..."; btn.disabled=true;
 
     try{
       const res = await fetch("https://formspree.io/f/mgvzyyqk", {
@@ -1317,24 +1154,18 @@ function mostrarFinal(){
       if(!res.ok) throw new Error("Error envío");
 
       mensaje.textContent="¡Gracias! Te enviaremos tu plan";
-      mensaje.style.opacity=1;
-      svg.style.opacity=1;
-      path.style.strokeDashoffset=0;
-
-      setTimeout(cerrarModal,2000);
+      mensaje.style.opacity=1; svg.style.opacity=1; path.style.strokeDashoffset=0;
+      setTimeout(cerrarTestModal,2000);
 
     } catch(err){
       mensaje.textContent="Error, intenta de nuevo ❌";
-      mensaje.style.color="#ff4d4d";
-      mensaje.style.opacity=1;
+      mensaje.style.color="#ff4d4d"; mensaje.style.opacity=1;
       setTimeout(()=>{
-        mensaje.style.opacity=0;
-        mensaje.style.color="#00ffc0";
-        btn.disabled=false;
-        btn.textContent=originalText;
+        mensaje.style.opacity=0; mensaje.style.color="#00ffc0";
+        btn.disabled=false; btn.textContent=originalText;
       },2500);
     }
-  }
+  };
 }
 </script>
 </body>
