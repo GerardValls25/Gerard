@@ -795,12 +795,24 @@ modalUnificado.addEventListener("click", e => {
   }
 });
 
-// cerrar con botón
+// Cerrar con botón
 btnCerrar.addEventListener("click", cerrarModal);
 
-// cerrar con escape
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && modalUnificado.style.display === "flex") {
+// Cerrar al hacer clic fuera del formulario
+document.addEventListener("click", function(e){
+  if(
+    modalUnificado.style.display === "flex" &&
+    !e.target.closest("#form-unificado") &&
+    !e.target.closest(".btn-cambio") &&
+    !e.target.closest(".subscription-card button")
+  ){
+    cerrarModal();
+  }
+});
+
+// Cerrar con tecla Escape
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
     cerrarModal();
   }
 });
