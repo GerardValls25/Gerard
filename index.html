@@ -879,351 +879,294 @@ window.addEventListener("load", ()=>{
 // SCROLL
 // ==============================
 const Scroll = {
-  bloquear() { document.body.style.overflow = 'hidden'; },
-  liberar() { document.body.style.overflow = ''; }
+  bloquear: () => document.body.style.overflow = 'hidden',
+  liberar: () => document.body.style.overflow = ''
 };
 
 // ==============================
-// MODAL GENERICO
+// MODALES
 // ==============================
-class ModalManager {
-  constructor(modalEl) {
-    this.modal = modalEl;
-    this.form = this.modal.querySelector('form');
-    this.mensaje = this.form?.querySelector('.mensaje-check');
-    this.svg = this.form?.querySelector('.check-svg');
-    this.path = this.svg?.querySelector('path');
-
-    this.initEvents();
-  }
-
-  initEvents() {
-    // Cerrar modal clic en fondo
-    this.modal.addEventListener('click', e => {
-      if(e.target === this.modal) this.cerrar();
-    });
-
-    // Cerrar modal botón
-    const closeBtn = this.modal.querySelector('.close-modal');
-    closeBtn?.addEventListener('click', () => this.cerrar());
-  }
-
-  abrir() {
-    this.modal.style.display = 'flex';
-    setTimeout(()=> this.modal.style.opacity = 1, 10);
-    if(this.form) this.form.style.transform = 'scale(1)';
+const Modal = {
+  abrir: (id) => {
+    const modal = document.getElementById(id);
+    if(!modal) return;
+    modal.style.display = 'flex';
+    setTimeout(() => modal.style.opacity = 1, 10);
+    const form = modal.querySelector('form');
+    if(form) form.style.transform = 'scale(1)';
     Scroll.bloquear();
-  }
+  },
 
-  cerrar() {
-    this.modal.style.opacity = 0;
-    if(this.form) this.form.style.transform = 'scale(0.9)';
+  cerrar: (id) => {
+    const modal = document.getElementById(id);
+    if(!modal) return;
+
+    const form = modal.querySelector('form');
+    const mensaje = form?.querySelector('.mensaje-check');
+    const svg = form?.querySelector('.check-svg');
+    const path = svg?.querySelector('path');
+
+    modal.style.opacity = 0;
+    if(form) form.style.transform = 'scale(0.9)';
 
     setTimeout(() => {
-      this.modal.style.display = 'none';
-      this.form?.reset();
-      if(this.mensaje) { this.mensaje.style.opacity = 0; this.mensaje.textContent = ''; this.mensaje.style.color = '#00ffc0'; }
-      if(this.svg) { this.svg.style.opacity = 0; if(this.path) this.path.style.strokeDashoffset = '50'; }
+      modal.style.display = 'none';
+      form?.reset();
+      if(mensaje) { mensaje.style.opacity = 0; mensaje.textContent = ''; mensaje.style.color = '#00ffc0'; }
+      if(svg) { svg.style.opacity = 0; if(path) path.style.strokeDashoffset = '50'; }
       Scroll.liberar();
     }, 300);
   }
-}
+};
 
-// Inicializar todos los modales
-document.querySelectorAll('.modal').forEach(modalEl => {
-  const modal = new ModalManager(modalEl);
-  modalEl.dataset.modalInstance = modal; // Guardamos referencia
+// ==============================
+// EVENTOS MODALES
+// ==============================
+document.addEventListener('click', e => {
+  if(e.target.matches('.close-modal')) {
+    const modal = e.target.closest('.modal');
+    if(modal) Modal.cerrar(modal.id);
+  }
+  if(e.target.matches('.modal')) {
+    Modal.cerrar(e.target.id);
+  }
 });
 
-// Cerrar todos los modales con ESC
 document.addEventListener('keydown', e => {
-  if(e.key === 'Escape'){
-    document.querySelectorAll('.modal').forEach(m=>{
-      if(getComputedStyle(m).display==='flex'){
-        m.dataset.modalInstance.cerrar();
-      }
+  if(e.key === 'Escape') {
+    document.querySelectorAll('.modal').forEach(m => {
+      if(getComputedStyle(m).display === 'flex') Modal.cerrar(m.id);
     });
   }
 });
 
 // ==============================
-// FORMULARIO GENERICO
+// FORMULARIO GENERAL
 // ==============================
-class FormHandler {
-  constructor(formEl) {
-    this.form = formEl;
-    this.mensaje = formEl.querySelector('.mensaje-check');
-    this.svg = formEl.querySelector('.check-svg');
-    this.path = this.svg?.querySelector('path');
-    this.btn = formEl.querySelector('button[type="submit"]');
-    this.originalText = this.btn?.textContent || 'Enviar';
+async function enviar(form) {
+  if(!form) return;
 
-    this.form.addEventListener('submit', e => this.submit(e));
-  }
+  const btn = form.querySelector("button[type='submit']");
+  const originalText = btn?.textContent || 'Enviar';
+  const mensaje = form.querySelector(".mensaje-check");
+  const svg = form.querySelector(".check-svg");
+  const path = svg?.querySelector('path');
 
-  async submit(e){
-    e.preventDefault();
-    if(!this.btn) return;
+  if(btn) { btn.textContent = "Enviando..."; btn.disabled = true; }
 
-    this.btn.textContent = "Enviando...";
-    this.btn.disabled = true;
+  const data = { nombre: form.nombre?.value || '', email: form.email?.value || '' };
+  if(form.plan) data.plan = form.plan.value;
 
-    const data = {};
-    if(this.form.nombre) data.nombre = this.form.nombre.value;
-    if(this.form.email) data.email = this.form.email.value;
-    if(this.form.plan) data.plan = this.form.plan.value;
+  try {
+    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+      method: "POST",
+      headers: { "Accept":"application/json","Content-Type":"application/json" },
+      body: JSON.stringify(data)
+    });
+    if(!res.ok) throw new Error("Error envío");
 
-    try {
-      const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-        method: "POST",
-        headers: { "Accept":"application/json","Content-Type":"application/json" },
-        body: JSON.stringify(data)
-      });
-      if(!res.ok) throw new Error('Error envío');
+    if(mensaje) { mensaje.textContent = "¡Gracias! Pronto nos contactaremos"; mensaje.style.color="#00ffc0"; mensaje.style.opacity=1; }
+    if(svg) svg.style.opacity=1;
+    if(path) { path.style.transition="stroke-dashoffset 0.5s ease"; setTimeout(()=>path.style.strokeDashoffset=0,50); }
 
-      if(this.mensaje) { this.mensaje.textContent = "¡Gracias! Pronto nos contactaremos"; this.mensaje.style.color="#00ffc0"; this.mensaje.style.opacity=1; }
-      if(this.svg) this.svg.style.opacity=1;
-      if(this.path) { this.path.style.transition="stroke-dashoffset 0.5s ease"; setTimeout(()=>this.path.style.strokeDashoffset=0,50); }
+    setTimeout(()=>Modal.cerrar(form.closest('.modal')?.id), 2000);
 
-      const modal = this.form.closest('.modal')?.dataset.modalInstance;
-      setTimeout(()=>modal?.cerrar(),2000);
-
-    } catch(err){
-      if(this.mensaje) { this.mensaje.textContent="Hubo un error, intenta de nuevo ❌"; this.mensaje.style.color="#ff4d4d"; this.mensaje.style.opacity=1; }
-      setTimeout(()=>{
-        if(this.mensaje) { this.mensaje.style.opacity=0; this.mensaje.style.color="#00ffc0"; }
-        this.btn.disabled=false; this.btn.textContent=this.originalText;
-      }, 2500);
-    }
+  } catch(err) {
+    if(mensaje) { mensaje.textContent="Hubo un error, intenta de nuevo ❌"; mensaje.style.color="#ff4d4d"; mensaje.style.opacity=1; }
+    setTimeout(()=>{
+      if(mensaje) { mensaje.style.opacity=0; mensaje.style.color="#00ffc0"; }
+      if(btn) { btn.disabled=false; btn.textContent=originalText; }
+    }, 2500);
   }
 }
-
-// Inicializar todos los formularios
-document.querySelectorAll('form').forEach(formEl => new FormHandler(formEl));
 
 // ==============================
 // OFERTA DIARIA
 // ==============================
-class OfertaDiaria {
-  constructor(plazasIniciales=5, diasParaAgotar=30, parpadeoLimite=2){
-    this.plazasIniciales = plazasIniciales;
-    this.diasParaAgotar = diasParaAgotar;
-    this.parpadeoLimite = parpadeoLimite;
-    this.spanPlazas = document.getElementById('plazas');
-    this.fechaElem = document.getElementById('fecha-limite');
+const plazasIniciales = 5;
+const diasParaAgotar = 30;
+const parpadeoLimite = 2;
 
-    this.initStyle();
-    this.actualizar();
-    setInterval(()=>this.actualizar(),1000*60*60);
+function actualizarOfertaDiaria() {
+  const hoy = new Date();
+  const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+
+  const diasTranscurridos = Math.floor((hoy - inicioMes) / (1000 * 60 * 60 * 24));
+  let plazasRestantes = Math.ceil(plazasIniciales * (1 - diasTranscurridos / diasParaAgotar));
+  plazasRestantes = Math.max(plazasRestantes, 0);
+
+  const spanPlazas = document.getElementById("plazas");
+  if(spanPlazas) {
+    spanPlazas.textContent = plazasRestantes;
+    spanPlazas.style.animation = (plazasRestantes <= parpadeoLimite && plazasRestantes > 0) ? "parpadeo 1s infinite" : "none";
   }
 
-  initStyle(){
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes parpadeo {
-        0%,50%,100%{opacity:1;transform:scale(1);}
-        25%,75%{opacity:0.3;transform:scale(1.2);}
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  actualizar(){
-    const hoy = new Date();
-    const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-    const finMes = new Date(hoy.getFullYear(), hoy.getMonth()+1, 0);
-    const diasTranscurridos = Math.floor((hoy-inicioMes)/(1000*60*60*24));
-
-    let plazas = Math.ceil(this.plazasIniciales*(1-diasTranscurridos/this.diasParaAgotar));
-    plazas = Math.max(plazas,0);
-
-    if(this.spanPlazas){
-      this.spanPlazas.textContent = plazas;
-      this.spanPlazas.style.animation = (plazas<=this.parpadeoLimite && plazas>0) ? "parpadeo 1s infinite" : "none";
-    }
-    if(this.fechaElem){
-      this.fechaElem.textContent = "Oferta válida hasta "+finMes.toLocaleDateString('es-ES',{day:'numeric',month:'long'});
-    }
-  }
+  const opciones = { day: 'numeric', month: 'long' };
+  const fechaElem = document.getElementById("fecha-limite");
+  if(fechaElem) fechaElem.textContent = "Oferta válida hasta el " + finMes.toLocaleDateString('es-ES', opciones);
 }
 
-new OfertaDiaria();
+const style = document.createElement('style');
+style.innerHTML = `
+@keyframes parpadeo {
+  0%,50%,100%{opacity:1;transform:scale(1);}
+  25%,75%{opacity:0.3;transform:scale(1.2);}
+}`;
+document.head.appendChild(style);
+actualizarOfertaDiaria();
+setInterval(actualizarOfertaDiaria, 1000*60*60);
 
 // ==============================
-// BOTON WHATSAPP
+// BOTÓN WHATSAPP
 // ==============================
-class WhatsAppBtn {
-  constructor(btnSelector="#whatsapp-btn-ultimate", counterSelector="#whatsapp-counter"){
-    this.btn = document.querySelector(btnSelector);
-    this.counter = document.querySelector(counterSelector);
-    this.plazasElem = document.getElementById('plazas');
-    if(!this.btn || !this.counter) return;
+setTimeout(()=>{
+  const btn = document.getElementById("whatsapp-btn-ultimate");
+  const counter = document.getElementById("whatsapp-counter");
+  const plazasElem = document.getElementById("plazas");
+  let plazas = plazasElem ? parseInt(plazasElem.textContent) : 5;
 
-    this.btn.classList.add('show');
-    this.updateCounter();
-    this.initScroll();
-    setInterval(()=>this.updateCounter(),1000*60*60);
-  }
+  if(btn && counter){
+    btn.classList.add("show");
+    counter.textContent = plazas;
 
-  updateCounter(){
-    this.plazas = this.plazasElem ? parseInt(this.plazasElem.textContent) : 5;
-    this.counter.textContent = this.plazas;
-    if(this.plazas <=3 && this.plazas>0) this.btn.style.animation="whatsapp-urgent 1s infinite alternate";
-    else this.btn.style.animation="none";
-  }
+    function checkUrgencia() {
+      if(plazas <= 3 && plazas > 0) btn.style.animation = "whatsapp-urgent 1s infinite alternate";
+      else btn.style.animation = "none";
+      counter.textContent = plazas;
+    }
+    checkUrgencia();
 
-  initScroll(){
     let lastScroll = window.scrollY;
-    window.addEventListener('scroll',()=>{
+    window.addEventListener("scroll", ()=>{
       const currentScroll = window.scrollY;
-      this.btn.style.bottom = (currentScroll>lastScroll ? 15:35)+'px';
+      btn.style.bottom = (currentScroll > lastScroll ? 15 : 35)+"px";
       lastScroll = currentScroll;
     });
-  }
-}
 
-setTimeout(()=>new WhatsAppBtn(),5000);
+    setInterval(()=>{
+      plazas = plazasElem ? parseInt(plazasElem.textContent) : plazas;
+      checkUrgencia();
+    }, 1000*60*60);
+  }
+}, 5000);
 
 // ==============================
 // SPLASH SCREEN
 // ==============================
-class SplashScreen {
-  constructor(splashId='splash', mainId='main-content', btnId='btn-comencemos'){
-    this.splash = document.getElementById(splashId);
-    this.main = document.getElementById(mainId);
-    document.getElementById(btnId)?.addEventListener('click',()=>{
-      this.splash.style.opacity=0;
-      setTimeout(()=> this.splash.style.display='none',600);
-      this.main.style.display='block';
-    });
-  }
-}
-
-new SplashScreen();
+const splash = document.getElementById("splash");
+const mainContent = document.getElementById("main-content");
+document.getElementById("btn-comencemos")?.addEventListener("click", ()=>{
+  splash.style.opacity=0;
+  setTimeout(()=> splash.style.display="none",600);
+  mainContent.style.display="block";
+});
 
 // ==============================
-// TEST RAPIDO
+// TEST RÁPIDO
 // ==============================
-class TestRapido {
-  constructor(modalSelector="#modal-test", btnSelector="#btn-test", tiempo=30){
-    this.modal = document.querySelector(modalSelector);
-    this.btn = document.querySelector(btnSelector);
-    if(!this.modal || !this.btn) return;
+const btnTest = document.getElementById("btn-test");
+const modalTest = document.getElementById("modal-test");
+const preguntas = modalTest?.querySelectorAll(".test-pregunta");
+const finalTest = modalTest?.querySelector(".test-final");
+const countdownEl = modalTest?.querySelector(".countdown");
+const progressFill = modalTest?.querySelector(".progress-fill");
 
-    this.preguntas = Array.from(this.modal.querySelectorAll('.test-pregunta'));
-    this.final = this.modal.querySelector('.test-final');
-    this.countdownEl = this.modal.querySelector('.countdown');
-    this.progressFill = this.modal.querySelector('.progress-fill');
-    this.tiempoMax = tiempo;
-    this.preguntaActual = 0;
-    this.interval = null;
+let tiempo = 30, preguntaActual = 0, interval;
 
-    // Eventos
-    this.btn.addEventListener('click', ()=>this.abrir());
-    this.modal.querySelector('.close-modal')?.addEventListener('click', ()=>this.cerrar());
-    this.modal.addEventListener('click', e => { if(e.target===this.modal) this.cerrar(); });
-    document.addEventListener('keydown', e => { if(e.key==='Escape' && getComputedStyle(this.modal).display==='flex') this.cerrar(); });
-  }
+btnTest?.addEventListener("click", ()=>{
+  modalTest.style.display = "flex";
+  setTimeout(()=> modalTest.style.opacity=1,10);
+  Scroll.bloquear();
+  iniciarPregunta();
+});
 
-  abrir(){
-    this.modal.style.display='flex';
-    setTimeout(()=> this.modal.style.opacity=1,10);
-    Scroll.bloquear();
-    this.preguntaActual = 0;
-    this.preguntas.forEach(p => p.classList.remove('active'));
-    this.preguntas[0].classList.add('active');
-    this.final.style.display='none';
-    this.iniciarPregunta();
-  }
+modalTest?.querySelector(".close-modal")?.addEventListener("click", cerrarTestModal);
+modalTest?.addEventListener("click", e => { if(e.target===modalTest) cerrarTestModal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape" && getComputedStyle(modalTest).display==="flex") cerrarTestModal(); });
 
-  cerrar(){
-    this.modal.style.opacity=0;
-    setTimeout(()=>{
-      this.modal.style.display='none';
-      this.preguntas.forEach(p=>p.classList.remove('active'));
-      this.preguntas[0]?.classList.add('active');
-      if(this.final){ this.final.style.display='none'; this.final.querySelector('input').value=''; }
-      if(this.progressFill) this.progressFill.style.width='0%';
-      if(this.countdownEl) this.countdownEl.textContent=this.tiempoMax;
-      Scroll.liberar();
-      clearInterval(this.interval);
-    },300);
-  }
-
-  iniciarPregunta(){
-    if(!this.preguntas[this.preguntaActual]) return;
-    this.tiempo = this.tiempoMax;
-    if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
-    if(this.progressFill) this.progressFill.style.width='0%';
-
-    this.interval = setInterval(()=>{
-      this.tiempo--;
-      if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
-      if(this.progressFill) this.progressFill.style.width = `${((this.tiempoMax-this.tiempo)/this.tiempoMax)*100}%`;
-      if(this.tiempo <= 0){ clearInterval(this.interval); this.avanzarPregunta(); }
-    },1000);
-
-    const respuestas = this.preguntas[this.preguntaActual].querySelectorAll('.respuesta');
-    respuestas.forEach(btn => btn.onclick = ()=>{
-      clearInterval(this.interval);
-      this.avanzarPregunta();
-    });
-  }
-
-  avanzarPregunta(){
-    this.preguntas[this.preguntaActual]?.classList.remove('active');
-    this.preguntaActual++;
-    if(this.preguntaActual < this.preguntas.length){
-      this.preguntas[this.preguntaActual].classList.add('active');
-      this.iniciarPregunta();
-    } else this.mostrarFinal();
-  }
-
-  mostrarFinal(){
-    if(!this.final) return;
-    this.final.style.display='block';
-    this.final.querySelector('input').focus();
-    if(this.countdownEl) this.countdownEl.textContent='';
-    if(this.progressFill) this.progressFill.style.width='100%';
-
-    const submitBtn = this.final.querySelector('button[type="submit"]');
-    submitBtn.onclick = async (e)=>{
-      e.preventDefault();
-      const inputEmail = this.final.querySelector('input').value;
-      const mensaje = this.final.querySelector('.mensaje-check');
-      const svg = this.final.querySelector('.check-svg');
-      const path = svg.querySelector('path');
-      const originalText = submitBtn.textContent;
-
-      if(!inputEmail) return;
-      submitBtn.textContent='Enviando...'; submitBtn.disabled=true;
-
-      try{
-        const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-          method:"POST",
-          headers: {"Accept":"application/json","Content-Type":"application/json"},
-          body: JSON.stringify({ email: inputEmail })
-        });
-        if(!res.ok) throw new Error('Error envío');
-
-        mensaje.textContent='¡Gracias! Te enviaremos tu plan';
-        mensaje.style.opacity=1; svg.style.opacity=1; path.style.strokeDashoffset=0;
-        setTimeout(()=>this.cerrar(),2000);
-
-      } catch(err){
-        mensaje.textContent='Error, intenta de nuevo ❌';
-        mensaje.style.color='#ff4d4d'; mensaje.style.opacity=1;
-        setTimeout(()=>{
-          mensaje.style.opacity=0; mensaje.style.color='#00ffc0';
-          submitBtn.disabled=false; submitBtn.textContent=originalText;
-        },2500);
-      }
-    };
-  }
+function cerrarTestModal(){
+  modalTest.style.opacity=0;
+  setTimeout(()=>{
+    modalTest.style.display="none";
+    preguntas?.forEach(p=>p.classList.remove("active"));
+    preguntas?.[0]?.classList.add("active");
+    if(finalTest){ finalTest.style.display="none"; finalTest.querySelector("input").value=""; }
+    if(progressFill) progressFill.style.width="0%";
+    if(countdownEl) countdownEl.textContent=30;
+    Scroll.liberar();
+    clearInterval(interval);
+    preguntaActual=0; tiempo=30;
+  },300);
 }
 
-// Inicialización
-document.addEventListener('DOMContentLoaded', ()=> new TestRapido());
+function iniciarPregunta(){
+  if(!preguntas?.[preguntaActual]) return;
+  tiempo=30; countdownEl.textContent=tiempo; progressFill.style.width="0%";
+
+  interval = setInterval(()=>{
+    tiempo--; countdownEl.textContent=tiempo;
+    progressFill.style.width = `${((30-tiempo)/30)*100}%`;
+    if(tiempo<=0){ clearInterval(interval); avanzarPregunta(); }
+  },1000);
+
+  const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
+  respuestas.forEach(btn => btn.onclick = ()=>{
+    clearInterval(interval);
+    avanzarPregunta();
+  });
+}
+
+function avanzarPregunta(){
+  preguntas?.[preguntaActual]?.classList.remove("active");
+  preguntaActual++;
+  if(preguntaActual<preguntas.length){
+    preguntas[preguntaActual].classList.add("active");
+    iniciarPregunta();
+  } else mostrarFinal();
+}
+
+function mostrarFinal(){
+  if(!finalTest) return;
+  finalTest.style.display="block";
+  finalTest.querySelector("input").focus();
+  countdownEl.textContent="";
+  progressFill.style.width="100%";
+
+  finalTest.querySelector("button[type='submit']").onclick = async (e)=>{
+    e.preventDefault();
+    const inputEmail = finalTest.querySelector("input").value;
+    const mensaje = finalTest.querySelector(".mensaje-check");
+    const svg = finalTest.querySelector(".check-svg");
+    const path = svg.querySelector("path");
+    const btn = finalTest.querySelector("button[type='submit']");
+    const originalText = btn.textContent;
+    if(!inputEmail) return;
+
+    btn.textContent="Enviando..."; btn.disabled=true;
+
+    try{
+      const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+        method:"POST",
+        headers: {"Accept":"application/json","Content-Type":"application/json"},
+        body: JSON.stringify({ email: inputEmail })
+      });
+      if(!res.ok) throw new Error("Error envío");
+
+      mensaje.textContent="¡Gracias! Te enviaremos tu plan";
+      mensaje.style.opacity=1; svg.style.opacity=1; path.style.strokeDashoffset=0;
+      setTimeout(cerrarTestModal,2000);
+
+    } catch(err){
+      mensaje.textContent="Error, intenta de nuevo ❌";
+      mensaje.style.color="#ff4d4d"; mensaje.style.opacity=1;
+      setTimeout(()=>{
+        mensaje.style.opacity=0; mensaje.style.color="#00ffc0";
+        btn.disabled=false; btn.textContent=originalText;
+      },2500);
+    }
+  };
+}
 </script>
 </body>
 </html>
