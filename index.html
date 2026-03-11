@@ -781,7 +781,7 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
     <h3>Test rápido</h3>
 
     <!-- Pregunta 1 -->
-    <div class="test-pregunta active" data-step="1">
+    <div class="test-pregunta active">
       <p>¿Cuál es tu objetivo principal?</p>
       <button class="respuesta">Perder grasa</button>
       <button class="respuesta">Ganar músculo</button>
@@ -789,7 +789,7 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
     </div>
 
     <!-- Pregunta 2 -->
-    <div class="test-pregunta" data-step="2">
+    <div class="test-pregunta">
       <p>¿Cuántos días entrenas?</p>
       <button class="respuesta">0-1</button>
       <button class="respuesta">2-3</button>
@@ -797,19 +797,23 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
     </div>
 
     <!-- Pregunta 3 -->
-    <div class="test-pregunta" data-step="3">
+    <div class="test-pregunta">
       <p>¿Qué es lo que más te cuesta?</p>
       <button class="respuesta">Constancia</button>
       <button class="respuesta">Comida</button>
       <button class="respuesta">Tiempo</button>
     </div>
 
-    <!-- Final - Email -->
+    <!-- Final: Email -->
     <div class="test-final">
       <p>Déjanos tu email y te enviaremos tu plan recomendado</p>
       <input type="email" placeholder="Tu email" required>
-      <button id="btn-enviar-plan">Ver mi plan</button>
-      <p class="mensaje-check">¡Email enviado con éxito! Revisa tu bandeja.</p>
+      <button>Ver mi plan</button>
+
+      <!-- Check animado -->
+      <svg class="check-svg" viewBox="0 0 52 52">
+        <path d="M14 27l10 10 20-20" />
+      </svg>
     </div>
 
     <button class="close-modal">Cerrar</button>
