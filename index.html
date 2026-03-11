@@ -836,16 +836,62 @@ const checkPath = checkSVG.querySelector("path");
 checkPath.style.strokeDasharray = "50";
 checkPath.style.strokeDashoffset = "50";
 checkSVG.style.opacity = 0;
-  
-let actual = 0;
 
-// Abrir modal
+let actual = 0;
+let timer;
+const TIEMPO_TEST = 30; // segundos
+const countdownEl = modalTest.querySelector(".countdown"); // Span para mostrar el tiempo
+
+// ===== Función para iniciar el temporizador =====
+function iniciarTemporizador() {
+  let tiempoRestante = TIEMPO_TEST;
+  countdownEl.textContent = tiempoRestante;
+
+  timer = setInterval(() => {
+    tiempoRestante--;
+    countdownEl.textContent = tiempoRestante;
+
+    if (tiempoRestante <= 0) {
+      clearInterval(timer);
+      finalizarTest(); // termina el test automáticamente
+    }
+  }, 1000);
+}
+
+// ===== Función para finalizar el test =====
+function finalizarTest() {
+  preguntas.forEach(p => p.classList.remove("active"));
+  finalTest.style.display = "block";
+
+  // Mostrar check automáticamente
+  checkPath.style.transition = "none";
+  checkPath.style.strokeDashoffset = "50";
+  checkSVG.style.opacity = 1;
+
+  setTimeout(() => {
+    checkPath.style.transition = "stroke-dashoffset 0.5s ease";
+    checkPath.style.strokeDashoffset = "0";
+  }, 50);
+
+  btnEnviar.disabled = true;
+}
+
+// ===== Abrir modal =====
 btnTest.addEventListener("click", () => {
   modalTest.style.display = "flex";
   setTimeout(() => modalTest.style.opacity = 1, 10);
+
+  // Iniciar primer pregunta y temporizador
+  preguntas.forEach(p => p.classList.remove("active"));
+  preguntas[0].classList.add("active");
+  iniciarTemporizador();
+  actual = 0;
+  finalTest.style.display = "none";
+  btnEnviar.disabled = false;
+  checkSVG.style.opacity = 0;
 });
 
-// Navegar preguntas
+// ===== Navegar preguntas =====
 respuestas.forEach(btn => {
   btn.addEventListener("click", () => {
     preguntas[actual].classList.remove("active");
@@ -854,23 +900,24 @@ respuestas.forEach(btn => {
     if(actual < preguntas.length){
       preguntas[actual].classList.add("active");
     } else {
-      finalTest.style.display = "block";
+      clearInterval(timer);
+      finalizarTest();
     }
   });
 });
 
-// Enviar email con animación check
+// ===== Enviar email con animación check =====
 btnEnviar.addEventListener("click", () => {
   const emailInput = finalTest.querySelector("input").value.trim();
   if(!emailInput) return alert("Ingresa un email válido");
 
   console.log("Email enviado:", emailInput); // Aquí iría tu lógica real
 
-// Resetear y mostrar check
+  // Mostrar check
   checkPath.style.transition = "none";
   checkPath.style.strokeDashoffset = "50";
   checkSVG.style.opacity = 1;
-  
+
   setTimeout(() => {
     checkPath.style.transition = "stroke-dashoffset 0.5s ease";
     checkPath.style.strokeDashoffset = "0";
@@ -878,20 +925,27 @@ btnEnviar.addEventListener("click", () => {
 
   btnEnviar.disabled = true;
 });
-  
-// Cerrar modal y resetear test
+
+// ===== Cerrar modal y resetear test =====
 closeBtn.addEventListener("click", () => {
   modalTest.style.opacity = 0;
+  clearInterval(timer);
+
   setTimeout(() => {
     modalTest.style.display = "none";
 
-   // Reset check
+    // Reset check
     checkPath.style.transition = "none";
     checkPath.style.strokeDashoffset = "50";
     checkSVG.style.opacity = 0;
 
+    // Reset test
+    preguntas.forEach(p => p.classList.remove("active"));
     actual = 0;
     btnEnviar.disabled = false;
+    countdownEl.textContent = TIEMPO_TEST;
+    finalTest.style.display = "none";
+    finalTest.querySelector("input").value = "";
   }, 300);
 });
 </script>
