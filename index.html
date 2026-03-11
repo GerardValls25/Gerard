@@ -966,137 +966,68 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
 </div>
    
 <script>
-// ===== ELEMENTOS =====
-  const btnTest = document.getElementById("btn-test");
-  const modalTest = document.getElementById("modal-test");
-  const closeBtn = modalTest.querySelector(".close-modal");
-  const preguntas = modalTest.querySelectorAll(".test-pregunta");
-  const finalTest = modalTest.querySelector(".test-final");
-  const btnEnviar = finalTest.querySelector("button");
-  const countdownEl = modalTest.querySelector(".countdown");
-  const progressFill = modalTest.querySelector(".progress-fill");
-  const checkSVG = finalTest.querySelector(".check-svg");
-  const checkPath = checkSVG.querySelector("path");
-  const mensajeCheck = finalTest.querySelector(".mensaje-check");
+// ===== Abrir modal del test =====
+const btnTest = document.getElementById("btn-test");
+const modalTest = document.getElementById("modal-test");
+const closeTest = modalTest.querySelector(".close-modal");
 
-  let actual = 0;
-  const TIEMPO_TEST = 30;
-  let timer;
-  let respuestas = [];
-   
-// Inicializar SVG del check
-  checkPath.style.strokeDasharray = "50";
-  checkPath.style.strokeDashoffset = "50";
-  checkSVG.style.opacity = 0;
-
-// ===== FUNCIONES =====
-  function iniciarTemporizador() {
-    let tiempoRestante = TIEMPO_TEST;
-    countdownEl.textContent = tiempoRestante;
-    progressFill.style.width = "0%";
-
- timer = setInterval(() => {
-      tiempoRestante--;
-      countdownEl.textContent = tiempoRestante;
-      progressFill.style.width = `${((TIEMPO_TEST - tiempoRestante)/TIEMPO_TEST)*100}%`;
-
-      if(tiempoRestante <= 0){
-        clearInterval(timer);
-        avanzarPregunta();
-      }
-    }, 1000);
-  }
-
-function abrirModalTest() {
-    modalTest.style.display = "flex";
-    setTimeout(() => {
-      modalTest.style.opacity = 1;
-      modalTest.querySelector(".premium-modal").style.transform = "scale(1)";
-    }, 10);
-
-  // Reiniciar test
-    preguntas.forEach(p => p.classList.remove("active"));
-    preguntas[0].classList.add("active");
-    actual = 0;
-    respuestas = [];
-    finalTest.style.display = "none";
-
- // Reiniciar check y temporizador
-    checkSVG.style.opacity = 0;
-    checkPath.style.strokeDashoffset = "50";
-    clearInterval(timer);
-    iniciarTemporizador();
-
-    document.body.style.overflow = "hidden";
-  }
-
-function cerrarModalTest() {
-    modalTest.style.opacity = 0;
-    modalTest.querySelector(".premium-modal").style.transform = "scale(0.9)";
-    clearInterval(timer);
-
+btnTest.addEventListener("click", () => {
+  modalTest.style.display = "flex";
   setTimeout(() => {
-      modalTest.style.display = "none";
-      countdownEl.textContent = TIEMPO_TEST;
-      progressFill.style.width = "0%";
-      preguntas.forEach(p => p.classList.remove("active"));
-      finalTest.style.display = "none";
-      document.body.style.overflow = "auto";
-    }, 300);
-  }
+    modalTest.style.opacity = 1;
+  }, 10);
+  document.body.style.overflow = "hidden";
 
-function avanzarPregunta(respuestaSeleccionada = null) {
-    respuestas.push(respuestaSeleccionada ?? null);
+  // Inicializar contador y progreso
+  let tiempo = 30;
+  const countdown = modalTest.querySelector(".countdown");
+  const progress = modalTest.querySelector(".progress-fill");
+  countdown.textContent = tiempo;
+  progress.style.width = "0%";
 
-  preguntas[actual].classList.remove("active");
-    actual++;
-    if(actual < preguntas.length){
-      preguntas[actual].classList.add("active");
-      clearInterval(timer);
-      iniciarTemporizador();
-    } else {
-      finalizarTest();
+  const interval = setInterval(() => {
+    tiempo--;
+    countdown.textContent = tiempo;
+    progress.style.width = ((30 - tiempo)/30*100) + "%";
+
+    if(tiempo <= 0){
+      clearInterval(interval);
+      // Mostrar sección final
+      modalTest.querySelectorAll(".test-pregunta").forEach(p => p.classList.remove("active"));
+      modalTest.querySelector(".test-final").classList.add("active");
     }
-  }
+  }, 1000);
+});
 
-function finalizarTest() {
-    preguntas.forEach(p => p.classList.remove("active"));
-    finalTest.style.display = "block";
-    clearInterval(timer);
-    countdownEl.textContent = "0";
-    progressFill.style.width = "100%";
+// ===== Cerrar modal del test =====
+closeTest.addEventListener("click", () => {
+  modalTest.style.opacity = 0;
+  setTimeout(() => {
+    modalTest.style.display = "none";
+    document.body.style.overflow = "auto";
+    // Reset modal
+    modalTest.querySelectorAll(".test-pregunta").forEach((p, i) => {
+      p.classList.toggle("active", i === 0);
+    });
+    modalTest.querySelector(".test-final").classList.remove("active");
+  }, 300);
+});
 
-    checkSVG.style.opacity = 1;
-    checkPath.style.transition = "stroke-dashoffset 0.5s ease";
-    setTimeout(()=> checkPath.style.strokeDashoffset = 0, 50);
-
-    btnEnviar.disabled = false;
-    mensajeCheck.innerHTML = "<strong>Respuestas:</strong><br>" + respuestas.map((r,i)=> `Pregunta ${i+1}: ${r ?? "No respondida"}`).join("<br>");
-  }
-
-// ===== EVENTOS =====
-  btnTest.addEventListener("click", abrirModalTest);
-  closeBtn.addEventListener("click", cerrarModalTest);
-
-  modalTest.addEventListener("click", e => { 
-    if(e.target === modalTest) cerrarModalTest(); 
-  });
-
-  document.addEventListener("keydown", e => { 
-    if(e.key === "Escape") cerrarModalTest(); 
-  });
-
-preguntas.forEach((pregunta) => {
-    pregunta.querySelectorAll(".respuesta").forEach(btn => {
-      btn.addEventListener("click", () => avanzarPregunta(btn.textContent));
+// ===== Navegar preguntas =====
+const preguntas = modalTest.querySelectorAll(".test-pregunta");
+preguntas.forEach((preg, i) => {
+  preg.querySelectorAll(".respuesta").forEach(btn => {
+    btn.addEventListener("click", () => {
+      preg.classList.remove("active");
+      if(i + 1 < preguntas.length){
+        preguntas[i+1].classList.add("active");
+      } else {
+        // Mostrar sección final si era la última pregunta
+        modalTest.querySelector(".test-final").classList.add("active");
+      }
     });
   });
-btnEnviar.addEventListener("click", () => {
-    btnEnviar.disabled = true;
-    console.log("Respuestas enviadas:", respuestas);
-    mensajeCheck.innerHTML += "<br>¡Respuestas enviadas por email!";
-    setTimeout(cerrarModalTest, 2000);
-  });
+});
 </script>
 </body>
 </html>
