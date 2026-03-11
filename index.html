@@ -113,6 +113,31 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
   
 /* Responsive */
 @media(max-width:768px){ header h1{ font-size:1.8rem;} header p{ font-size:0.95rem;} .grid{ gap:15px;} .grid .card{ padding:15px; } }
+
+.test-pregunta{
+display:none;
+text-align:center;
+}
+
+.test-pregunta.active{
+display:block;
+}
+
+.test-pregunta button{
+display:block;
+margin:10px auto;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#00ffc0;
+cursor:pointer;
+}
+
+.test-final{
+display:none;
+text-align:center;
+}
+  
 </style>
 </head>
 <body>
@@ -151,6 +176,7 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
 <a href="calculadora.html" class="neon-link">Calculadora</a>
 <a href="imc.html" class="neon-link" target="_blank">IMC</a>
 </div>
+<button id="btn-test" class="btn-cambio">Haz el test de 30 segundos</button>
 </header>
 
 <!-- Servicios -->
@@ -785,6 +811,66 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
   setTimeout(()=>{ splash.style.display='none'; main.style.display='block'; document.body.style.overflow='auto'; },600);
 });
 </script>
-      
+<div class="modal" id="modal-test">
+<div class="premium-modal">
+
+<h3>Test rápido</h3>
+
+<div class="test-pregunta active">
+<p>¿Cuál es tu objetivo principal?</p>
+<button class="respuesta">Perder grasa</button>
+<button class="respuesta">Ganar músculo</button>
+<button class="respuesta">Mejorar hábitos</button>
+</div>
+
+<div class="test-pregunta">
+<p>¿Cuántos días entrenas?</p>
+<button class="respuesta">0-1</button>
+<button class="respuesta">2-3</button>
+<button class="respuesta">4+</button>
+</div>
+
+<div class="test-pregunta">
+<p>¿Qué es lo que más te cuesta?</p>
+<button class="respuesta">Constancia</button>
+<button class="respuesta">Comida</button>
+<button class="respuesta">Tiempo</button>
+</div>
+
+<div class="test-final">
+<p>Déjanos tu email y te enviaremos tu plan recomendado</p>
+<input type="email" placeholder="Tu email">
+<button>Ver mi plan</button>
+</div>
+
+<button class="close-modal">Cerrar</button>
+
+</div>
+</div>
+  const btnTest = document.getElementById("btn-test");
+const modalTest = document.getElementById("modal-test");
+
+btnTest.onclick = () =>{
+modalTest.style.display="flex";
+modalTest.style.opacity="1";
+};
+
+let preguntas = document.querySelectorAll(".test-pregunta");
+let actual = 0;
+
+document.querySelectorAll(".respuesta").forEach(btn=>{
+btn.addEventListener("click", ()=>{
+
+preguntas[actual].classList.remove("active");
+actual++;
+
+if(actual < preguntas.length){
+preguntas[actual].classList.add("active");
+}else{
+document.querySelector(".test-final").style.display="block";
+}
+
+});
+});
 </body>
 </html>
