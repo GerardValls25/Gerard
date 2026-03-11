@@ -833,7 +833,6 @@ const respuestas = modalTest.querySelectorAll(".respuesta");
 const btnEnviar = finalTest.querySelector("button");
 const countdownEl = modalTest.querySelector(".countdown");
 const progressFill = modalTest.querySelector(".progress-fill");
-
 const checkSVG = finalTest.querySelector(".check-svg");
 const checkPath = checkSVG.querySelector("path");
 
@@ -879,6 +878,20 @@ function finalizarTest() {
   progressFill.style.width = "100%";
 }
 
+// Avanzar a la siguiente pregunta
+respuestas.forEach(btn => {
+  btn.addEventListener("click", () => {
+    preguntas[actual].classList.remove("active");
+    actual++;
+    if(actual < preguntas.length){
+      preguntas[actual].classList.add("active");
+    } else {
+      clearInterval(timer);
+      finalizarTest();
+    }
+  });
+});
+
 // Abrir modal
 btnTest.addEventListener("click", () => {
   modalTest.style.display = "flex";
@@ -890,64 +903,66 @@ btnTest.addEventListener("click", () => {
   finalTest.style.display = "none";
   btnEnviar.disabled = false;
   checkSVG.style.opacity = 0;
+  checkPath.style.strokeDashoffset = "50";
 
   iniciarTemporizador();
-});
-
-// Navegar preguntas
-respuestas.forEach(btn => {
-  btn.addEventListener("click", () => {
-    preguntas[actual].classList.remove("active");
-    actual++;
-    if(actual < preguntas.length) {
-      preguntas[actual].classList.add("active");
-    } else {
-      clearInterval(timer);
-      finalizarTest();
-    }
-  });
-});
-
-// Enviar email
-btnEnviar.addEventListener("click", () => {
-  const emailInput = finalTest.querySelector("input").value.trim();
-  if(!emailInput) return alert("Ingresa un email válido");
-
-  console.log("Email enviado:", emailInput);
-
-  checkPath.style.transition = "none";
-  checkPath.style.strokeDashoffset = "50";
-  checkSVG.style.opacity = 1;
-
-  setTimeout(() => {
-    checkPath.style.transition = "stroke-dashoffset 0.5s ease";
-    checkPath.style.strokeDashoffset = "0";
-  }, 50);
-
-  btnEnviar.disabled = true;
-  progressFill.style.width = "100%";
+  document.body.style.overflow = "hidden";
 });
 
 // Cerrar modal
 closeBtn.addEventListener("click", () => {
   modalTest.style.opacity = 0;
-  clearInterval(timer);
   setTimeout(() => {
     modalTest.style.display = "none";
-
-    checkPath.style.transition = "none";
-    checkPath.style.strokeDashoffset = "50";
-    checkSVG.style.opacity = 0;
-
     preguntas.forEach(p => p.classList.remove("active"));
-    preguntas[0].classList.add("active");
-    actual = 0;
-    btnEnviar.disabled = false;
     finalTest.style.display = "none";
-    finalTest.querySelector("input").value = "";
-    countdownEl.textContent = TIEMPO_TEST;
-    progressFill.style.width = "0%";
+    clearInterval(timer);
+    document.body.style.overflow = "auto";
   }, 300);
+});
+
+// Enviar email del test
+btnEnviar.addEventListener("click", async () => {
+  const inputEmail = finalTest.querySelector("input[type='email']");
+  if(!inputEmail.value) return alert("Por favor, ingresa tu email");
+
+  btnEnviar.textContent = "Enviando...";
+  btnEnviar.disabled = true;
+
+  const data = { email: inputEmail.value };
+
+  try {
+    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+      method: "POST",
+      headers: { "Accept":"application/json","Content-Type":"application/json" },
+      body: JSON.stringify(data)
+    });
+    if(!res.ok) throw new Error("Error al enviar");
+
+    finalTest.querySelector(".mensaje-check").textContent = "¡Email enviado!";
+    finalTest.querySelector(".mensaje-check").style.opacity = 1;
+    checkSVG.style.opacity = 1;
+    setTimeout(() => checkPath.style.strokeDashoffset = "0", 50);
+
+    setTimeout(() => {
+      modalTest.style.opacity = 0;
+      setTimeout(() => {
+        modalTest.style.display = "none";
+        inputEmail.value = "";
+        finalTest.style.display = "none";
+        preguntas.forEach(p => p.classList.remove("active"));
+        btnEnviar.disabled = false;
+        checkSVG.style.opacity = 0;
+        checkPath.style.strokeDashoffset = "50";
+        document.body.style.overflow = "auto";
+      }, 300);
+    }, 2000);
+
+  } catch(err) {
+    alert("Hubo un error, intenta nuevamente");
+    btnEnviar.textContent = "Ver mi plan";
+    btnEnviar.disabled = false;
+  }
 });
 </script>
 </body>
