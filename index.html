@@ -722,8 +722,8 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 </div>
 <script>
  // ==============================
-// MODAL UNIFICADO PARA TODOS LOS PLANES
-// ==============================
+ // MODAL UNIFICADO PARA TODOS LOS PLANES
+ // ==============================
 const modalUnificado = document.getElementById("modal-unificado");
 const formUnificado = document.getElementById("form-unificado");
 const btnCerrar = modalUnificado.querySelector(".close-modal");
@@ -748,15 +748,14 @@ const checkSVG = formUnificado.querySelector(".check-svg") || (() => {
   return svg;
 })();
 const checkPath = checkSVG.querySelector("path");
-  
+
 // ===== Abrir modal con plan =====
 document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
-    
-       // Detectar plan
     let plan = "";
     const card = btn.closest(".subscription-card");
     if(card) plan = card.querySelector("h3")?.textContent || "";
+
     formUnificado.reset();
     mensaje.style.opacity=0;
     mensaje.textContent="";
@@ -773,8 +772,8 @@ document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=
     document.body.style.overflow="hidden";
   });
 });
-  
-// ===== CERRAR MODAL =====
+
+// ===== FUNCION CERRAR MODAL =====
 function cerrarModal() {
   modalUnificado.style.opacity=0;
   formUnificado.style.transform="scale(0.9)";
@@ -788,14 +787,18 @@ function cerrarModal() {
     document.body.style.overflow="auto";
   },300);
 }
-  
-document.querySelectorAll(".modal").forEach(modal => {
-  modal.addEventListener("click", e => {
-    // Cierra modal si clic afuera del contenido
-    if(!modal.querySelector(".premium-modal").contains(e.target)) {
-      cerrarModal(modal.id);
-    }
-  });
+
+// ===== Cerrar al hacer clic fuera del contenido =====
+modalUnificado.addEventListener("click", e => {
+  if(!formUnificado.contains(e.target)) cerrarModal();
+});
+
+// ===== Cerrar con botón =====
+btnCerrar.addEventListener("click", cerrarModal);
+
+// ===== Cerrar con tecla Escape =====
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape" && modalUnificado.style.display==="flex") cerrarModal();
 });
 
 // ===== ENVÍO FORMULARIO UNIFICADO =====
