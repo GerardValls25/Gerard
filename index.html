@@ -301,6 +301,8 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 #modal-test .premium-modal{
   width:260px;
   max-width:90%;
+  max-height:70vh;   /* 👈 evita que ocupe toda la pantalla */
+  overflow:auto;     /* 👈 añade scroll si el contenido crece */
   padding:12px 14px;
   gap:8px;
 }
@@ -331,7 +333,6 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
   width:28px;
   height:28px;
 }
-
 /* ==========================
    TEST RÁPIDO NEÓN
 ========================== */
