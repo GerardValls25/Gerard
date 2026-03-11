@@ -922,8 +922,15 @@ class ModalManager {
     setTimeout(() => {
       this.modal.style.display = 'none';
       this.form?.reset();
-      if(this.mensaje) { this.mensaje.style.opacity = 0; this.mensaje.textContent = ''; this.mensaje.style.color = '#00ffc0'; }
-      if(this.svg) { this.svg.style.opacity = 0; if(this.path) this.path.style.strokeDashoffset = '50'; }
+      if(this.mensaje) { 
+        this.mensaje.style.opacity = 0; 
+        this.mensaje.textContent = ''; 
+        this.mensaje.style.color = '#00ffc0'; 
+      }
+      if(this.svg) { 
+        this.svg.style.opacity = 0; 
+        if(this.path) this.path.style.strokeDashoffset = '50'; 
+      }
       Scroll.liberar();
     }, 300);
   }
@@ -981,18 +988,33 @@ class FormHandler {
       });
       if(!res.ok) throw new Error('Error envío');
 
-      if(this.mensaje) { this.mensaje.textContent = "¡Gracias! Pronto nos contactaremos"; this.mensaje.style.color="#00ffc0"; this.mensaje.style.opacity=1; }
+      if(this.mensaje) { 
+        this.mensaje.textContent = "¡Gracias! Pronto nos contactaremos"; 
+        this.mensaje.style.color="#00ffc0"; 
+        this.mensaje.style.opacity=1; 
+      }
       if(this.svg) this.svg.style.opacity=1;
-      if(this.path) { this.path.style.transition="stroke-dashoffset 0.5s ease"; setTimeout(()=>this.path.style.strokeDashoffset=0,50); }
+      if(this.path) { 
+        this.path.style.transition="stroke-dashoffset 0.5s ease"; 
+        setTimeout(()=>this.path.style.strokeDashoffset=0,50); 
+      }
 
       const modal = this.form.closest('.modal')?.dataset.modalInstance;
       setTimeout(()=>modal?.cerrar(),2000);
 
     } catch(err){
-      if(this.mensaje) { this.mensaje.textContent="Hubo un error, intenta de nuevo ❌"; this.mensaje.style.color="#ff4d4d"; this.mensaje.style.opacity=1; }
+      if(this.mensaje) { 
+        this.mensaje.textContent="Hubo un error, intenta de nuevo ❌"; 
+        this.mensaje.style.color="#ff4d4d"; 
+        this.mensaje.style.opacity=1; 
+      }
       setTimeout(()=>{
-        if(this.mensaje) { this.mensaje.style.opacity=0; this.mensaje.style.color="#00ffc0"; }
-        this.btn.disabled=false; this.btn.textContent=this.originalText;
+        if(this.mensaje) { 
+          this.mensaje.style.opacity=0; 
+          this.mensaje.style.color="#00ffc0"; 
+        }
+        this.btn.disabled=false; 
+        this.btn.textContent=this.originalText;
       }, 2500);
     }
   }
@@ -1102,14 +1124,14 @@ class SplashScreen {
 new SplashScreen();
 
 // ==============================
-// TEST RÁPIDO NEÓN (Arreglado)
+// TEST RÁPIDO NEÓN
 // ==============================
 document.addEventListener('DOMContentLoaded', () => {
   class TestRapido {
     constructor(modalSelector="#modal-test", btnSelector="#btn-test", tiempo=30){
       this.modal = document.querySelector(modalSelector);
       this.btn = document.querySelector(btnSelector);
-      if(!this.modal || !this.btn) return;
+      if(!this.modal) return;
 
       this.preguntas = Array.from(this.modal.querySelectorAll('.test-pregunta'));
       this.final = this.modal.querySelector('.test-final');
@@ -1119,8 +1141,8 @@ document.addEventListener('DOMContentLoaded', () => {
       this.preguntaActual = 0;
       this.interval = null;
 
-      // Abrir modal al hacer clic
-      this.btn.addEventListener('click', () => this.abrirTest());
+      // Abrir modal si hay botón
+      this.btn?.addEventListener('click', () => this.abrirTest());
 
       // Cerrar modal con botón
       const closeBtn = this.modal.querySelector('.close-modal');
@@ -1128,19 +1150,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Cerrar modal clic en fondo
       this.modal.addEventListener('click', e => { if(e.target===this.modal) this.cerrarTest(); });
-    
-    abrirTest(){
-      this.modal.style.display = 'flex';
-      setTimeout(() => this.modal.style.opacity = 1, 10);
-      this.preguntaActual = 0;
-      this.showPregunta();
-      this.startCountdown();
-      document.body.style.overflow = 'hidden';
-      if(this.final) this.final.style.display = 'none';
+
+      // Avanzar preguntas al hacer clic en respuesta
+      this.modal.querySelectorAll('.respuesta').forEach(btn => {
+        btn.addEventListener('click', () => this.nextPregunta());
+      });
+
+      // Manejar envío del formulario final
+      const form = this.final?.querySelector('form');
+      if(form){
+        form.addEventListener('submit', async e => {
+          e.preventDefault();
+          const data = {
+            nombre: form.nombre.value,
+            email: form.email.value
+          };
+          const mensaje = this.final.querySelector('.mensaje-check');
+          const svg = this.final.querySelector('.check-svg');
+          const path = svg?.querySelector('path');
+
+          try {
+            const res = await fetch(form.action, {
+              method: "POST",
+              headers: { "Accept":"application/json","Content-Type":"application/json" },
+              body: JSON.stringify(data)
+            });
+            if(!res.ok) throw new Error("Error");
+
+            if(mensaje) { mensaje.textContent = "¡Gracias! Pronto nos contactaremos"; mensaje.style.color="#00ffc0"; mensaje.style.opacity=1; }
+            if(svg) svg.style.opacity=1;
+            if(path){ path.style.transition="stroke-dashoffset 0.5s ease"; setTimeout(()=>path.style.strokeDashoffset=0,50); }
+
+            setTimeout(()=>this.cerrarTest(),2000);
+
+          } catch(err){
+            if(mensaje){ mensaje.textContent="Hubo un error, intenta de nuevo ❌"; mensaje.style.color="#ff4d4d"; mensaje.style.opacity=1; }
+            setTimeout(()=>{ if(mensaje) mensaje.style.opacity=0; },2500);
+          }
+        });
+      }
     }
 
-   showPregunta(){
-      this.preguntas.forEach((p,i) => p.style.display = (i===this.preguntaActual ? 'block' : 'none'));
+    abrirTest(){
+      this.modal.style.display = 'flex';
+      setTimeout(()=> this.modal.style.opacity=1,10);
+      this.preguntaActual=0;
+      this.showPregunta();
+      this.startCountdown();
+      document.body.style.overflow='hidden';
+      if(this.final) this.final.style.display='none';
+    }
+
+    showPregunta(){
+      this.preguntas.forEach((p,i)=> p.style.display = i===this.preguntaActual ? 'block':'none');
     }
 
     nextPregunta(){
@@ -1155,13 +1217,13 @@ document.addEventListener('DOMContentLoaded', () => {
     startCountdown(){
       let tiempo = this.tiempoMax;
       if(this.countdownEl) this.countdownEl.textContent = tiempo+'s';
-      if(this.progressFill) this.progressFill.style.width = '0%';
+      if(this.progressFill) this.progressFill.style.width='0%';
       clearInterval(this.interval);
       this.interval = setInterval(()=>{
         tiempo--;
         if(this.countdownEl) this.countdownEl.textContent = tiempo+'s';
         if(this.progressFill) this.progressFill.style.width = ((this.tiempoMax-tiempo)/this.tiempoMax*100)+'%';
-        if(tiempo <= 0){
+        if(tiempo <=0){
           clearInterval(this.interval);
           this.finishTest();
         }
@@ -1170,14 +1232,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     finishTest(){
       clearInterval(this.interval);
-      this.preguntas.forEach(p => p.style.display = 'none');
-      if(this.final) this.final.style.display = 'flex';
+      this.preguntas.forEach(p=> p.style.display='none');
+      if(this.final) this.final.style.display='flex';
     }
-   cerrarTest(){
-      this.modal.style.opacity = 0;
+
+    cerrarTest(){
+      this.modal.style.opacity=0;
       setTimeout(()=>{
-        this.modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+        this.modal.style.display='none';
+        document.body.style.overflow='auto';
         clearInterval(this.interval);
       },300);
     }
@@ -1186,43 +1249,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicializar test rápido
   new TestRapido();
 });
-
-<!-- Modal Test Rápido -->
-<div class="modal" id="modal-test">
-  <div class="premium-modal">
-    <div class="countdown-container">
-      <div class="countdown">30s</div>
-      <div class="progress-bar"><div class="progress-fill"></div></div>
-    </div>
-
-    <div class="test-pregunta">
-      <p>Pregunta 1: ¿Te gustaría mejorar tu alimentación?</p>
-      <button class="respuesta">Sí</button>
-      <button class="respuesta">No</button>
-    </div>
-
-    <div class="test-pregunta">
-      <p>Pregunta 2: ¿Tienes metas de pérdida de peso?</p>
-      <button class="respuesta">Sí</button>
-      <button class="respuesta">No</button>
-    </div>
-
-    <div class="test-pregunta">
-      <p>Pregunta 3: ¿Puedes dedicar 30 minutos diarios a entrenar?</p>
-      <button class="respuesta">Sí</button>
-      <button class="respuesta">No</button>
-    </div>
-
-    <div class="test-final">
-      <h3>¡Casi listo!</h3>
-      <input type="text" placeholder="Nombre completo">
-      <input type="email" placeholder="Correo electrónico">
-      <button type="submit">Enviar</button>
-    </div>
-
-    <button class="close-modal">Cerrar</button>
-  </div>
-</div>
 </script>
 </body>
 </html>
