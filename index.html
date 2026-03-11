@@ -966,116 +966,67 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
    
 <script>
 <script>
-// ===== ELEMENTOS =====
+// ===== Abrir modal del test =====
 const btnTest = document.getElementById("btn-test");
 const modalTest = document.getElementById("modal-test");
-const closeBtn = modalTest.querySelector(".close-modal");
-const preguntas = modalTest.querySelectorAll(".test-pregunta");
-const finalTest = modalTest.querySelector(".test-final");
-const btnEnviar = finalTest.querySelector("button");
-const countdownEl = modalTest.querySelector(".countdown");
-const progressFill = modalTest.querySelector(".progress-fill");
-const checkSVG = finalTest.querySelector(".check-svg path");
-const mensajeCheck = finalTest.querySelector(".mensaje-check");
+const closeTest = modalTest.querySelector(".close-modal");
 
-let actual = 0;
-const TIEMPO_TEST = 30;
-let timer;
-let respuestas = [];
-
-// Abrir modal
 btnTest.addEventListener("click", () => {
   modalTest.style.display = "flex";
-  setTimeout(()=>modalTest.style.opacity=1,10);
-  document.body.style.overflow="hidden";
-  iniciarCountdown();
+  setTimeout(() => {
+    modalTest.style.opacity = 1;
+  }, 10);
+  document.body.style.overflow = "hidden";
+
+  // Inicializar contador y progreso
+  let tiempo = 30;
+  const countdown = modalTest.querySelector(".countdown");
+  const progress = modalTest.querySelector(".progress-fill");
+  countdown.textContent = tiempo;
+  progress.style.width = "0%";
+
+  const interval = setInterval(() => {
+    tiempo--;
+    countdown.textContent = tiempo;
+    progress.style.width = ((30 - tiempo)/30*100) + "%";
+
+    if(tiempo <= 0){
+      clearInterval(interval);
+      // Mostrar sección final
+      modalTest.querySelectorAll(".test-pregunta").forEach(p => p.classList.remove("active"));
+      modalTest.querySelector(".test-final").classList.add("active");
+    }
+  }, 1000);
 });
 
-// Cerrar modal
-function cerrarModalTest() {
-  modalTest.style.opacity=0;
-  setTimeout(()=>{ 
-    modalTest.style.display="none"; 
-    document.body.style.overflow="auto"; 
-    resetTest(); 
-  },300);
-}
-closeBtn.addEventListener("click", cerrarModalTest);
-modalTest.addEventListener("click", e => { if(e.target===modalTest) cerrarModalTest(); });
-document.addEventListener("keydown", e => { if(e.key==="Escape" && modalTest.style.display==="flex") cerrarModalTest(); });
+// ===== Cerrar modal del test =====
+closeTest.addEventListener("click", () => {
+  modalTest.style.opacity = 0;
+  setTimeout(() => {
+    modalTest.style.display = "none";
+    document.body.style.overflow = "auto";
+    // Reset modal
+    modalTest.querySelectorAll(".test-pregunta").forEach((p, i) => {
+      p.classList.toggle("active", i === 0);
+    });
+    modalTest.querySelector(".test-final").classList.remove("active");
+  }, 300);
+});
 
-// Countdown
-function iniciarCountdown() {
-  let tiempo = TIEMPO_TEST;
-  countdownEl.textContent = tiempo;
-  progressFill.style.width = "0%";
-  timer = setInterval(() => {
-    tiempo--;
-    countdownEl.textContent = tiempo;
-    progressFill.style.width = ((TIEMPO_TEST-tiempo)/TIEMPO_TEST*100)+"%";
-    if(tiempo<=0){ clearInterval(timer); mostrarFinal(); }
-  },1000);
-}
-
-// Manejar respuestas
-preguntas.forEach((pregunta,i)=>{
-  pregunta.querySelectorAll(".respuesta").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      respuestas[i]=btn.textContent;
-      pregunta.classList.remove("active");
-      if(i+1 < preguntas.length){
+// ===== Navegar preguntas =====
+const preguntas = modalTest.querySelectorAll(".test-pregunta");
+preguntas.forEach((preg, i) => {
+  preg.querySelectorAll(".respuesta").forEach(btn => {
+    btn.addEventListener("click", () => {
+      preg.classList.remove("active");
+      if(i + 1 < preguntas.length){
         preguntas[i+1].classList.add("active");
       } else {
-        mostrarFinal();
+        // Mostrar sección final si era la última pregunta
+        modalTest.querySelector(".test-final").classList.add("active");
       }
     });
   });
-});
-
-// Mostrar final
-function mostrarFinal(){
-  preguntas.forEach(p=>p.classList.remove("active"));
-  finalTest.style.display="block";
-  countdownEl.parentElement.style.display="none";
-  clearInterval(timer);
-}
-
-// Resetear test
-function resetTest(){
-  actual=0; respuestas=[];
-  preguntas.forEach((p,i)=>{
-    p.classList.remove("active");
-    if(i===0) p.classList.add("active");
-  });
-  finalTest.style.display="none";
-  countdownEl.parentElement.style.display="flex";
-  mensajeCheck.style.opacity=0;
-  checkSVG.style.strokeDashoffset="50";
-}
-
-// Enviar email
-btnEnviar.addEventListener("click", async ()=>{
-  const email = finalTest.querySelector("input").value;
-  if(!email) return alert("Ingresa tu email");
-  
-  btnEnviar.textContent="Enviando...";
-  btnEnviar.disabled=true;
-  
-  try{
-    await fetch("https://formspree.io/f/mgvzyyqk", {
-      method:"POST",
-      headers: {"Accept":"application/json","Content-Type":"application/json"},
-      body: JSON.stringify({email,respuestas})
-    });
-    mensajeCheck.style.opacity=1;
-    checkSVG.style.strokeDasharray="50";
-    checkSVG.style.strokeDashoffset="0";
-    setTimeout(cerrarModalTest,2000);
-  }catch(err){
-    alert("Error enviando email");
-    btnEnviar.textContent="Ver mi plan";
-    btnEnviar.disabled=false;
-  }
 });
 </script>
 </body>
