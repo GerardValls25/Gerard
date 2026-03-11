@@ -847,30 +847,5 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
 
 </div>
 </div>
-  const btnTest = document.getElementById("btn-test");
-const modalTest = document.getElementById("modal-test");
-
-btnTest.onclick = () =>{
-modalTest.style.display="flex";
-modalTest.style.opacity="1";
-};
-
-let preguntas = document.querySelectorAll(".test-pregunta");
-let actual = 0;
-
-document.querySelectorAll(".respuesta").forEach(btn=>{
-btn.addEventListener("click", ()=>{
-
-preguntas[actual].classList.remove("active");
-actual++;
-
-if(actual < preguntas.length){
-preguntas[actual].classList.add("active");
-}else{
-document.querySelector(".test-final").style.display="block";
-}
-
-});
-});
 </body>
 </html>
