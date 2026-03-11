@@ -1187,5 +1187,41 @@ document.addEventListener('DOMContentLoaded', () => {
   new TestRapido();
 });
 </script>
+<!-- Modal Test Rápido -->
+<div class="modal" id="modal-test">
+  <div class="premium-modal">
+    <div class="countdown-container">
+      <div class="countdown">30s</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <div class="test-pregunta">
+      <p>Pregunta 1: ¿Te gustaría mejorar tu alimentación?</p>
+      <button class="respuesta">Sí</button>
+      <button class="respuesta">No</button>
+    </div>
+
+    <div class="test-pregunta">
+      <p>Pregunta 2: ¿Tienes metas de pérdida de peso?</p>
+      <button class="respuesta">Sí</button>
+      <button class="respuesta">No</button>
+    </div>
+
+    <div class="test-pregunta">
+      <p>Pregunta 3: ¿Puedes dedicar 30 minutos diarios a entrenar?</p>
+      <button class="respuesta">Sí</button>
+      <button class="respuesta">No</button>
+    </div>
+
+    <div class="test-final">
+      <h3>¡Casi listo!</h3>
+      <input type="text" placeholder="Nombre completo">
+      <input type="email" placeholder="Correo electrónico">
+      <button type="submit">Enviar</button>
+    </div>
+
+    <button class="close-modal">Cerrar</button>
+  </div>
+</div>
 </body>
 </html>
