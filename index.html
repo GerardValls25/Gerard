@@ -795,12 +795,14 @@ modalUnificado.addEventListener("click", e => {
   }
 });
 
-// ===== Cerrar con botón =====
+// cerrar con botón
 btnCerrar.addEventListener("click", cerrarModal);
 
-// ===== Cerrar con tecla Escape =====
-document.addEventListener("keydown", e=>{
-  if(e.key==="Escape" && modalUnificado.style.display==="flex") cerrarModal();
+// cerrar con escape
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && modalUnificado.style.display === "flex") {
+    cerrarModal();
+  }
 });
 
 // ===== ENVÍO FORMULARIO UNIFICADO =====
