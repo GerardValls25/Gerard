@@ -1219,5 +1219,148 @@ class TestRapido {
 
 new TestRapido();
 </script>
+
+✅ Ventajas de esta versión modular:
+
+Cada sección (modal, formulario, test, WhatsApp, splash, oferta diaria) es una clase independiente.
+
+No dependemos de IDs fijos para múltiples instancias: se pueden duplicar modales o tests fácilmente.
+
+Código más limpio, fácil de mantener y escalable.
+
+Manejo de errores y animaciones consistente.
+
+Se puede ampliar fácilmente para más formularios o tests.
+
+Si quieres, puedo hacer ahora la versión final con CSS integrado para todos los efectos, incluyendo: parpadeo de oferta, urgencia WhatsApp, barra de progreso y check animado, totalmente listo para producción.
+
+¿Quieres que haga eso?
+
+ahora no se abre el hacer el test
+
+¡Ah! Ahora entiendo: el problema es que en tu versión modular el botón del test (#btn-test) intenta abrir el modal, pero el código espera que exista el modal con #modal-test y además que las referencias estén listas.
+
+En mi versión anterior hay un detalle: el constructor TestRapido solo guarda referencias si el modal y el botón existen, y además la función de abrir usa Scroll.bloquear() y this.iniciarPregunta(), pero no encuentra correctamente las preguntas si no están en el DOM todavía o si el modal tiene display:none al cargar.
+
+Para solucionarlo, aquí tienes la versión corregida y funcional del Test Rápido dentro de la modularización:
+
+class TestRapido {
+  constructor(modalSelector="#modal-test", btnSelector="#btn-test", tiempo=30){
+    this.modal = document.querySelector(modalSelector);
+    this.btn = document.querySelector(btnSelector);
+    if(!this.modal || !this.btn) return;
+
+    this.preguntas = Array.from(this.modal.querySelectorAll('.test-pregunta'));
+    this.final = this.modal.querySelector('.test-final');
+    this.countdownEl = this.modal.querySelector('.countdown');
+    this.progressFill = this.modal.querySelector('.progress-fill');
+    this.tiempoMax = tiempo;
+    this.preguntaActual = 0;
+    this.interval = null;
+
+    // Eventos
+    this.btn.addEventListener('click', ()=>this.abrir());
+    this.modal.querySelector('.close-modal')?.addEventListener('click', ()=>this.cerrar());
+    this.modal.addEventListener('click', e => { if(e.target===this.modal) this.cerrar(); });
+    document.addEventListener('keydown', e => { if(e.key==='Escape' && getComputedStyle(this.modal).display==='flex') this.cerrar(); });
+  }
+
+  abrir(){
+    this.modal.style.display='flex';
+    setTimeout(()=> this.modal.style.opacity=1,10);
+    Scroll.bloquear();
+    this.preguntaActual = 0;
+    this.preguntas.forEach(p => p.classList.remove('active'));
+    this.preguntas[0].classList.add('active');
+    this.final.style.display='none';
+    this.iniciarPregunta();
+  }
+
+  cerrar(){
+    this.modal.style.opacity=0;
+    setTimeout(()=>{
+      this.modal.style.display='none';
+      this.preguntas.forEach(p=>p.classList.remove('active'));
+      this.preguntas[0]?.classList.add('active');
+      if(this.final){ this.final.style.display='none'; this.final.querySelector('input').value=''; }
+      if(this.progressFill) this.progressFill.style.width='0%';
+      if(this.countdownEl) this.countdownEl.textContent=this.tiempoMax;
+      Scroll.liberar();
+      clearInterval(this.interval);
+    },300);
+  }
+
+  iniciarPregunta(){
+    if(!this.preguntas[this.preguntaActual]) return;
+    this.tiempo = this.tiempoMax;
+    if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
+    if(this.progressFill) this.progressFill.style.width='0%';
+
+    this.interval = setInterval(()=>{
+      this.tiempo--;
+      if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
+      if(this.progressFill) this.progressFill.style.width = `${((this.tiempoMax-this.tiempo)/this.tiempoMax)*100}%`;
+      if(this.tiempo <= 0){ clearInterval(this.interval); this.avanzarPregunta(); }
+    },1000);
+
+    const respuestas = this.preguntas[this.preguntaActual].querySelectorAll('.respuesta');
+    respuestas.forEach(btn => btn.onclick = ()=>{
+      clearInterval(this.interval);
+      this.avanzarPregunta();
+    });
+  }
+
+  avanzarPregunta(){
+    this.preguntas[this.preguntaActual]?.classList.remove('active');
+    this.preguntaActual++;
+    if(this.preguntaActual < this.preguntas.length){
+      this.preguntas[this.preguntaActual].classList.add('active');
+      this.iniciarPregunta();
+    } else this.mostrarFinal();
+  }
+
+  mostrarFinal(){
+    if(!this.final) return;
+    this.final.style.display='block';
+    this.final.querySelector('input').focus();
+    if(this.countdownEl) this.countdownEl.textContent='';
+    if(this.progressFill) this.progressFill.style.width='100%';
+
+    const submitBtn = this.final.querySelector('button[type="submit"]');
+    submitBtn.onclick = async (e)=>{
+      e.preventDefault();
+      const inputEmail = this.final.querySelector('input').value;
+      const mensaje = this.final.querySelector('.mensaje-check');
+      const svg = this.final.querySelector('.check-svg');
+      const path = svg.querySelector('path');
+      const originalText = submitBtn.textContent;
+
+      if(!inputEmail) return;
+      submitBtn.textContent='Enviando...'; submitBtn.disabled=true;
+
+      try{
+        const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+          method:"POST",
+          headers: {"Accept":"application/json","Content-Type":"application/json"},
+          body: JSON.stringify({ email: inputEmail })
+        });
+        if(!res.ok) throw new Error('Error envío');
+
+        mensaje.textContent='¡Gracias! Te enviaremos tu plan';
+        mensaje.style.opacity=1; svg.style.opacity=1; path.style.strokeDashoffset=0;
+        setTimeout(()=>this.cerrar(),2000);
+
+      } catch(err){
+        mensaje.textContent='Error, intenta de nuevo ❌';
+        mensaje.style.color='#ff4d4d'; mensaje.style.opacity=1;
+        setTimeout(()=>{
+          mensaje.style.opacity=0; mensaje.style.color='#00ffc0';
+          submitBtn.disabled=false; submitBtn.textContent=originalText;
+        },2500);
+      }
+    };
+  }
+}
+</script>
 </body>
 </html>
