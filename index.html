@@ -967,110 +967,140 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
 </div>
 <script>
 const btnTest = document.getElementById("btn-test");
-  const modalTest = document.getElementById("modal-test");
-  const closeBtn = modalTest.querySelector(".close-modal");
-  const preguntas = modalTest.querySelectorAll(".test-pregunta");
-  const finalTest = modalTest.querySelector(".test-final");
-  const btnEnviar = finalTest.querySelector("button");
-  const countdownEl = modalTest.querySelector(".countdown");
-  const progressFill = modalTest.querySelector(".progress-fill");
-  const checkSVG = finalTest.querySelector(".check-svg");
-  const checkPath = checkSVG.querySelector("path");
-  
-  let actual = 0;
-  let timer;
-  const TIEMPO_TEST = 30;
+const modalTest = document.getElementById("modal-test");
+const closeBtn = modalTest.querySelector(".close-modal");
+const preguntas = modalTest.querySelectorAll(".test-pregunta");
+const finalTest = modalTest.querySelector(".test-final");
+const btnEnviar = finalTest.querySelector("button");
+const countdownEl = modalTest.querySelector(".countdown");
+const progressFill = modalTest.querySelector(".progress-fill");
+const checkSVG = finalTest.querySelector(".check-svg");
+const checkPath = checkSVG.querySelector("path");
+const mensajeCheck = finalTest.querySelector(".mensaje-check");
 
-  // Inicializar SVG del check
-  checkPath.style.strokeDasharray = "50";
-  checkPath.style.strokeDashoffset = "50";
-  checkSVG.style.opacity = 0;
+let actual = 0;
+const TIEMPO_TEST = 30;
+let timer;
+let respuestas = [];
 
-  // --- FUNCIONES ---
-  function iniciarTemporizador() {
-    let tiempoRestante = TIEMPO_TEST;
+// Inicializar SVG del check
+checkPath.style.strokeDasharray = "50";
+checkPath.style.strokeDashoffset = "50";
+checkSVG.style.opacity = 0;
+
+// ===== FUNCIONES =====
+function iniciarTemporizador() {
+  let tiempoRestante = TIEMPO_TEST;
+  countdownEl.textContent = tiempoRestante;
+  progressFill.style.width = "0%";
+
+  timer = setInterval(() => {
+    tiempoRestante--;
     countdownEl.textContent = tiempoRestante;
-    progressFill.style.width = "0%";
+    progressFill.style.width = `${((TIEMPO_TEST - tiempoRestante)/TIEMPO_TEST)*100}%`;
 
-    timer = setInterval(() => {
-      tiempoRestante--;
-      countdownEl.textContent = tiempoRestante;
-      progressFill.style.width = `${((TIEMPO_TEST - tiempoRestante) / TIEMPO_TEST) * 100}%`;
+    if(tiempoRestante <= 0){
+      clearInterval(timer);
+      avanzarPregunta();
+    }
+  }, 1000);
+}
 
-      if(tiempoRestante <= 0){
-        clearInterval(timer);
-        finalizarTest();
-      }
-    }, 1000);
-  }
-  function finalizarTest() {
-    preguntas.forEach(p => p.classList.remove("active"));
-    finalTest.style.display = "block";
+function abrirModalTest() {
+  modalTest.style.display = "flex";
+  setTimeout(()=> modalTest.style.opacity = 1, 10);
 
-    checkSVG.style.opacity = 1;
-    checkPath.style.transition = "stroke-dashoffset 0.5s ease";
-    setTimeout(()=> checkPath.style.strokeDashoffset = 0, 50);
+  // Reiniciar test
+  preguntas.forEach(p => p.classList.remove("active"));
+  preguntas[0].classList.add("active");
+  actual = 0;
+  respuestas = [];
 
-    btnEnviar.disabled = true;
-    progressFill.style.width = "100%";
-  }
-  function abrirModalTest() {
-    modalTest.style.display = "flex";
-    setTimeout(()=> modalTest.style.opacity = 1, 10);
-    
-  // Reiniciar preguntas
-    preguntas.forEach(p => p.classList.remove("active"));
-    preguntas[0].classList.add("active");
-    actual = 0;
+  finalTest.style.display = "none";
 
-    finalTest.style.display = "none";
+  // Reiniciar check y temporizador
+  checkSVG.style.opacity = 0;
+  checkPath.style.strokeDashoffset = "50";
+  clearInterval(timer);
+  iniciarTemporizador();
 
-// Reiniciar check y temporizador
-    checkSVG.style.opacity = 0;
-    checkPath.style.strokeDashoffset = "50";
-    clearInterval(timer);
-    iniciarTemporizador();
-    document.body.style.overflow = "hidden";
+  document.body.style.overflow = "hidden";
+}
 
 function cerrarModalTest() {
-    modalTest.style.opacity = 0;
-    setTimeout(()=>{
-      modalTest.style.display = "none";
-      clearInterval(timer);
-      countdownEl.textContent = TIEMPO_TEST;
-      progressFill.style.width = "0%";
-      preguntas.forEach(p => p.classList.remove("active"));
-      finalTest.style.display = "none";
-      document.body.style.overflow = "auto";
-    }, 300);
-  }
- // --- EVENTOS ---
-  btnTest.addEventListener("click", abrirModalTest);
-  closeBtn.addEventListener("click", cerrarModalTest);
-  modalTest.addEventListener("click", e => { if(e.target === modalTest) cerrarModalTest(); });
-  document.addEventListener("keydown", e => { if(e.key === "Escape") cerrarModalTest(); });
+  modalTest.style.opacity = 0;
+  clearInterval(timer);
+  setTimeout(()=>{
+    modalTest.style.display = "none";
+    countdownEl.textContent = TIEMPO_TEST;
+    progressFill.style.width = "0%";
+    preguntas.forEach(p => p.classList.remove("active"));
+    finalTest.style.display = "none";
+    document.body.style.overflow = "auto";
+  }, 300);
+}
 
-  // Avanzar preguntas
-  preguntas.forEach(pregunta => {
-    pregunta.querySelectorAll(".respuesta").forEach(btn => {
-      btn.addEventListener("click", () => {
-        preguntas[actual].classList.remove("active");
-        actual++;
-        if(actual < preguntas.length){
-          preguntas[actual].classList.add("active");
-        } else {
-          finalizarTest();
-        }
-      });
+function avanzarPregunta(respuestaSeleccionada = null) {
+  // Guardar respuesta
+  if(respuestaSeleccionada !== null){
+    respuestas.push(respuestaSeleccionada);
+  } else {
+    respuestas.push(null); // si no seleccionó nada
+  }
+
+  preguntas[actual].classList.remove("active");
+  actual++;
+  if(actual < preguntas.length){
+    preguntas[actual].classList.add("active");
+    clearInterval(timer);
+    iniciarTemporizador();
+  } else {
+    finalizarTest();
+  }
+}
+
+function finalizarTest() {
+  preguntas.forEach(p => p.classList.remove("active"));
+  finalTest.style.display = "block";
+  clearInterval(timer);
+  countdownEl.textContent = "0";
+  progressFill.style.width = "100%";
+
+  // Mostrar check
+  checkSVG.style.opacity = 1;
+  checkPath.style.transition = "stroke-dashoffset 0.5s ease";
+  setTimeout(()=> checkPath.style.strokeDashoffset = 0, 50);
+
+  btnEnviar.disabled = false;
+
+  // Mostrar resumen de respuestas
+  mensajeCheck.innerHTML = "<strong>Respuestas:</strong><br>" + respuestas.map((r,i)=> `Pregunta ${i+1}: ${r ?? "No respondida"}`).join("<br>");
+}
+
+// ===== EVENTOS =====
+btnTest.addEventListener("click", abrirModalTest);
+closeBtn.addEventListener("click", cerrarModalTest);
+modalTest.addEventListener("click", e => { if(e.target === modalTest) cerrarModalTest(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") cerrarModalTest(); });
+
+// Avanzar preguntas al hacer click en respuesta
+preguntas.forEach((pregunta, i) => {
+  pregunta.querySelectorAll(".respuesta").forEach(btn => {
+    btn.addEventListener("click", () => {
+      avanzarPregunta(btn.textContent);
     });
   });
+});
 
-  // Botón enviar final
-  btnEnviar.addEventListener("click", () => {
-    // Aquí puedes agregar envío de email o formulario
-    finalizarTest();
-  });
+// Botón enviar
+btnEnviar.addEventListener("click", () => {
+  btnEnviar.disabled = true;
 
+  // Simulación de envío por email
+  console.log("Respuestas enviadas:", respuestas);
+  mensajeCheck.innerHTML += "<br>¡Respuestas enviadas por email!";
+
+  setTimeout(cerrarModalTest, 2000);
 });
 </script>
 </body>
