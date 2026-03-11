@@ -883,73 +883,116 @@ window.addEventListener("load", ()=>{
 function bloquearScroll() { document.body.style.overflow = 'hidden'; }
 function liberarScroll() { document.body.style.overflow = ''; }
 
-// Cerrar modal
+// Función para cerrar modal
 function cerrarModal(id) {
   const modal = document.getElementById(id);
+  if (!modal) return;
+
   const form = modal.querySelector("form");
-  modal.style.opacity=0;
-  form.style.transform="scale(0.9)";
-  setTimeout(()=>{
-    modal.style.display="none";
-    form.reset();
-    const mensaje = form.querySelector(".mensaje-check");
-    const svg = form.querySelector(".check-svg");
-    if(mensaje) mensaje.style.opacity=0;
-    if(svg) { svg.style.opacity=0; svg.querySelector("path").style.strokeDashoffset="50"; }
-    document.body.style.overflow="auto";
+  const mensaje = form?.querySelector(".mensaje-check");
+  const svg = form?.querySelector(".check-svg");
+  const path = svg?.querySelector("path");
+
+  modal.style.opacity = 0;
+  if(form) form.style.transform = "scale(0.9)";
+
+  setTimeout(() => {
+    modal.style.display = "none";
+    if(form) form.reset();
+    if(mensaje) mensaje.style.opacity = 0;
+    if(path) path.style.strokeDashoffset = "50";
+    if(svg) svg.style.opacity = 0;
+    liberarScroll();
   }, 300);
 }
 
-// Cerrar con botón o click fuera
+// ==============================
+// Cerrar modal con botón o click fuera
+// ==============================
 document.querySelectorAll(".close-modal").forEach(btn => {
-  btn.addEventListener("click", e => cerrarModal(btn.closest(".modal").id));
+  btn.addEventListener("click", () => {
+    const modal = btn.closest(".modal");
+    if(modal) cerrarModal(modal.id);
+  });
 });
-document.querySelectorAll(".modal").forEach(m => {
-  m.addEventListener("click", e => { if(e.target === m) cerrarModal(m.id); });
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", e => {
+    if(e.target === modal) cerrarModal(modal.id);
+  });
 });
-document.addEventListener("keydown", e => { if(e.key==="Escape") document.querySelectorAll(".modal").forEach(m=>{ if(m.style.display==="flex") cerrarModal(m.id); }); });
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") {
+    document.querySelectorAll(".modal").forEach(modal => {
+      if(modal.style.display === "flex") cerrarModal(modal.id);
+    });
+  }
+});
 
 // ==============================
 // FUNCION ENVIAR FORMULARIO
 // ==============================
 async function enviar(form) {
+  if (!form) return;
+
   const mensaje = form.querySelector(".mensaje-check");
   const svg = form.querySelector(".check-svg");
-  const path = svg.querySelector("path");
+  const path = svg?.querySelector("path");
   const btn = form.querySelector("button[type='submit']");
-  const originalText = btn.textContent;
+  const originalText = btn?.textContent || "Enviar";
 
-  btn.textContent="Enviando...";
-  btn.disabled=true;
-  
-const data = { nombre: form.nombre.value, email: form.email.value };
-  if(form.plan) data.plan=form.plan.value;
+  if(btn) {
+    btn.textContent = "Enviando...";
+    btn.disabled = true;
+  }
+
+  // Construir datos a enviar
+  const data = {
+    nombre: form.nombre?.value || "",
+    email: form.email?.value || ""
+  };
+  if(form.plan) data.plan = form.plan.value;
 
   try {
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method: "POST",
-      headers: {"Accept":"application/json","Content-Type":"application/json"},
+      headers: { "Accept":"application/json", "Content-Type":"application/json" },
       body: JSON.stringify(data)
     });
+
     if(!res.ok) throw new Error("Error envío");
-    
-    mensaje.textContent="¡Gracias! Pronto nos contactaremos";
-    mensaje.style.opacity=1;
-    svg.style.opacity=1;
-    path.style.transition="stroke-dashoffset 0.5s ease";
-    setTimeout(()=>path.style.strokeDashoffset=0,50);
-    setTimeout(()=>cerrarModal(form.closest(".modal").id),2000);
+
+    // Mostrar mensaje de éxito
+    if(mensaje) {
+      mensaje.textContent = "¡Gracias! Pronto nos contactaremos";
+      mensaje.style.color = "#00ffc0";
+      mensaje.style.opacity = 1;
+    }
+    if(svg) svg.style.opacity = 1;
+    if(path) {
+      path.style.transition = "stroke-dashoffset 0.5s ease";
+      setTimeout(() => path.style.strokeDashoffset = 0, 50);
+    }
+
+    setTimeout(() => cerrarModal(form.closest(".modal")?.id), 2000);
 
   } catch(err) {
-    mensaje.textContent="Hubo un error, intenta de nuevo ❌";
-    mensaje.style.color="#ff4d4d";
-    mensaje.style.opacity=1;
-    setTimeout(()=>{
-      mensaje.style.opacity=0;
-      mensaje.style.color="#00ffc0";
-      btn.disabled=false;
-      btn.textContent=originalText;
-    },2500);
+    if(mensaje) {
+      mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
+      mensaje.style.color = "#ff4d4d";
+      mensaje.style.opacity = 1;
+    }
+    setTimeout(() => {
+      if(mensaje) {
+        mensaje.style.opacity = 0;
+        mensaje.style.color = "#00ffc0";
+      }
+      if(btn) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }, 2500);
   }
 }
 </script>
@@ -1095,12 +1138,15 @@ setTimeout(()=>{
 }, 5000);
 </script>
 <script>
-// ===== Splash =====
-document.getElementById('btn-comencemos').addEventListener('click',()=>{
-  const splash=document.getElementById('splash');
-  const main=document.getElementById('main-content');
-  splash.style.opacity='0';
-  setTimeout(()=>{ splash.style.display='none'; main.style.display='block'; document.body.style.overflow='auto'; },600);
+// ==============================
+//   SPLASH SCREEN
+// ==============================
+const splash = document.getElementById("splash");
+const mainContent = document.getElementById("main-content");
+document.getElementById("btn-comencemos").addEventListener("click", () => {
+  splash.style.opacity = 0;
+  setTimeout(() => splash.style.display = "none", 600);
+  mainContent.style.display = "block";
 });
 </script>
 <!-- Modal Test -->
