@@ -178,31 +178,160 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 .subscription-card.premium{transform:scale(1.05);border:2px solid var(--primary);box-shadow:0 0 35px var(--primary),0 0 70px #00bfff inset;animation:neonGlow 2.5s infinite alternate;}
 
 /* ==========================
-   MODALES Y FORMULARIOS
+   MODALES Y TEST RÁPIDO NEÓN
 ========================== */
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;display:none;justify-content:center;align-items:center;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:9999;opacity:0;transition:opacity 0.3s ease;}
-.premium-modal{
-  background:rgba(17,17,17,0.9);padding:15px 20px;border-radius:var(--radius);width:320px;max-width:90%;
-  display:flex;flex-direction:column;gap:10px;box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset;
-  border:2px solid var(--primary);position:relative;transition:transform 0.3s ease,opacity 0.3s ease;
+
+/* Fondo del modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.premium-modal h3{font-size:1.2rem;text-align:center;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;margin-bottom:8px;}
-.premium-modal input{padding:6px 8px;border-radius:var(--radius);border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:0.85rem;transition:0.3s;}
-.premium-modal input:focus{outline:2px solid var(--primary);background:rgba(255,255,255,0.15);}
-.premium-modal button[type="submit"]{padding:8px 12px;border:none;border-radius:var(--radius);background:var(--secondary);color:#000;font-weight:700;cursor:pointer;box-shadow:0 0 15px var(--secondary),0 0 30px var(--secondary) inset;transition:0.3s;}
-.premium-modal button[type="submit"]:hover{background:var(--primary);box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset;transform:scale(1.05);}
-.premium-modal button.close-modal{padding:6px 10px;border:none;border-radius:var(--radius);background:rgba(255,0,0,0.5);color:#fff;cursor:pointer;}
-.mensaje-check{margin-top:10px;text-align:center;font-weight:600;color:var(--primary);opacity:0;transition:opacity 0.4s ease;}
-.check-svg{width:40px;height:40px;margin:10px auto 0;display:block;stroke:var(--primary);stroke-width:4;fill:none;opacity:0;transition:opacity 0.4s ease;}
-.check-svg path{stroke-dasharray:50;stroke-dashoffset:50;transition:stroke-dashoffset 0.5s ease;}
+
+/* Contenedor principal del modal */
+.premium-modal {
+  background: rgba(17, 17, 17, 0.9);
+  padding: 15px 20px;
+  border-radius: var(--radius);
+  width: 320px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset;
+  border: 2px solid var(--primary);
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Título con gradiente neón */
+.premium-modal h3 {
+  font-size: 1.2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
+}
+
+/* Inputs del modal */
+.premium-modal input {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.premium-modal input:focus {
+  outline: 2px solid var(--primary);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Botones generales */
+.premium-modal button[type="submit"] {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--secondary);
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 15px var(--secondary), 0 0 30px var(--secondary) inset;
+  transition: all 0.3s ease-in-out;
+}
+.premium-modal button[type="submit"]:hover {
+  background: var(--primary);
+  box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset;
+  transform: scale(1.05);
+}
+
+/* Botón cerrar */
+.premium-modal button.close-modal {
+  padding: 6px 10px;
+  border: none;
+  border-radius: var(--radius);
+  background: rgba(255, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Mensaje de check */
+.mensaje-check {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--primary);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Animación SVG check */
+.check-svg {
+  width: 40px;
+  height: 40px;
+  margin: 10px auto 0;
+  display: block;
+  stroke: var(--primary);
+  stroke-width: 4;
+  fill: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.check-svg path {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  transition: stroke-dashoffset 0.5s ease;
+}
 
 
 /* ==========================
-   TEST & PREGUNTAS
+   TEST RÁPIDO NEÓN
 ========================== */
-.test-pregunta { display:none; text-align:center; }
-.test-pregunta.active { display:block; }
-.test-final { display:none; text-align:center; }
+.test-pregunta p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-shadow: 0 0 5px var(--primary);
+}
+.test-pregunta button.respuesta {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+  transition: all 0.3s ease-in-out;
+}
+.test-pregunta button.respuesta:hover {
+  background: var(--secondary);
+  text-shadow: 0 0 5px var(--secondary), 0 0 10px var(--secondary), 0 0 20px var(--secondary);
+}
+
+/* Inputs del test final */
+.test-final input[type="email"] {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
 
 /* ==========================
    COUNTDOWN Y PROGRESO
@@ -911,11 +1040,11 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
 });
 </script>
 <!-- Modal Test -->
-<div class="modal" id="modal-test" style="display:none; opacity:0;">
+<div class="modal" id="modal-test">
   <div class="premium-modal">
-    <h3>Test rápido</h3>
+    <h3>Test Rápido</h3>
 
-    <!-- Contador y barra de progreso -->
+   <!-- Contador y barra de progreso -->
     <div class="countdown-container">
       <span class="countdown">30</span>
       <div class="progress-bar">
@@ -932,7 +1061,7 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
     </div>
 
      <!-- Pregunta 2 -->
-    <div class="test-pregunta">
+     <div class="test-pregunta">
       <p>¿Cuántos días entrenas?</p>
       <button class="respuesta">0-1</button>
       <button class="respuesta">2-3</button>
@@ -948,7 +1077,7 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
     </div>
 
     <!-- Final: Email -->
-    <div class="test-final">
+     <div class="test-final">
       <p>Déjanos tu email y te enviaremos tu plan recomendado</p>
       <input type="email" placeholder="Tu email" required>
       <button type="submit">Ver mi plan</button>
