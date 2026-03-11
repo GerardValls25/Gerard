@@ -1232,6 +1232,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
    
+// ==============================
+// TEST RAPIDO
+// ==============================
 class TestRapido {
   constructor(modalSelector="#modal-test", btnSelector="#btn-test", tiempo=30){
     this.modal = document.querySelector(modalSelector);
@@ -1250,46 +1253,65 @@ class TestRapido {
     this.btn.addEventListener('click', ()=>this.abrir());
     this.modal.querySelector('.close-modal')?.addEventListener('click', ()=>this.cerrar());
     this.modal.addEventListener('click', e => { if(e.target===this.modal) this.cerrar(); });
-    document.addEventListener('keydown', e => { if(e.key==='Escape' && getComputedStyle(this.modal).display==='flex') this.cerrar(); });
+    document.addEventListener('keydown', e => { 
+      if(e.key==='Escape' && getComputedStyle(this.modal).display==='flex') this.cerrar(); 
+    });
+
+   this.preguntas.forEach(p => {
+      p.querySelectorAll('button.respuesta').forEach(btn => {
+        btn.addEventListener('click', ()=> this.siguientePregunta());
+      });
+    });
   }
 
   abrir(){
-    this.modal.style.display='flex';
-    setTimeout(()=> this.modal.style.opacity=1,10);
-    Scroll.bloquear();
+    this.modal.style.display = 'flex';
+    setTimeout(()=>this.modal.style.opacity = 1, 10);
     this.preguntaActual = 0;
-    this.preguntas.forEach(p => p.classList.remove('active'));
-    this.preguntas[0].classList.add('active');
-    this.final.style.display='none';
-    this.iniciarPregunta();
+    this.mostrarPregunta(this.preguntaActual);
+    this.startCountdown();
+    document.body.style.overflow='hidden';
   }
 
   cerrar(){
     this.modal.style.opacity=0;
     setTimeout(()=>{
       this.modal.style.display='none';
-      this.preguntas.forEach(p=>p.classList.remove('active'));
-      this.preguntas[0]?.classList.add('active');
-      if(this.final){ this.final.style.display='none'; this.final.querySelector('input').value=''; }
-      if(this.progressFill) this.progressFill.style.width='0%';
-      if(this.countdownEl) this.countdownEl.textContent=this.tiempoMax;
-      Scroll.liberar();
-      clearInterval(this.interval);
+      this.resetTest();
+      document.body.style.overflow='auto';
     },300);
   }
 
-  iniciarPregunta(){
-    if(!this.preguntas[this.preguntaActual]) return;
-    this.tiempo = this.tiempoMax;
-    if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
-    if(this.progressFill) this.progressFill.style.width='0%';
+  mostrarPregunta(index){
+    this.preguntas.forEach((p,i)=>p.style.display=(i===index ? 'block':'none'));
+    if(index >= this.preguntas.length) this.mostrarFinal();
+  }
+
+  siguientePregunta(){
+    this.preguntaActual++;
+    if(this.preguntaActual < this.preguntas.length){
+      this.mostrarPregunta(this.preguntaActual);
+    } else {
+      this.mostrarFinal();
+    }
+  }
+
+  startCountdown(){
+    let tiempoRestante = this.tiempoMax;
+    if(this.interval) clearInterval(this.interval);
+    this.updateProgress(tiempoRestante);
+    this.countdownEl.textContent = tiempoRestante;
 
     this.interval = setInterval(()=>{
-      this.tiempo--;
-      if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
-      if(this.progressFill) this.progressFill.style.width = `${((this.tiempoMax-this.tiempo)/this.tiempoMax)*100}%`;
-      if(this.tiempo <= 0){ clearInterval(this.interval); this.avanzarPregunta(); }
+      tiempoRestante--;
+      this.countdownEl.textContent = tiempoRestante;
+      this.updateProgress(tiempoRestante);
+      if(tiempoRestante<=0){
+        clearInterval(this.interval);
+        this.mostrarFinal();
+      }
     },1000);
+  }
 
     const respuestas = this.preguntas[this.preguntaActual].querySelectorAll('.respuesta');
     respuestas.forEach(btn => btn.onclick = ()=>{
@@ -1306,14 +1328,27 @@ class TestRapido {
       this.iniciarPregunta();
     } else this.mostrarFinal();
   }
+ updateProgress(tiempo){
+    const porcentaje = (tiempo/this.tiempoMax)*100;
+    if(this.progressFill) this.progressFill.style.width = porcentaje+'%';
+  }
 
   mostrarFinal(){
-    if(!this.final) return;
-    this.final.style.display='block';
-    this.final.querySelector('input').focus();
+    this.preguntas.forEach(p=>p.style.display='none');
+    if(this.final) this.final.style.display='flex';
+    clearInterval(this.interval);
+    this.countdownEl.textContent='0';
+    this.updateProgress(0);
+  }
+      resetTest(){
+    this.preguntaActual = 0;
+    this.preguntas.forEach(p=>p.style.display='none');
+    if(this.final) this.final.style.display='none';
+    clearInterval(this.interval);
+    if(this.progressFill) this.progressFill.style.width='0%';
     if(this.countdownEl) this.countdownEl.textContent='';
-    if(this.progressFill) this.progressFill.style.width='100%';
-
+  }
+}
     const submitBtn = this.final.querySelector('button[type="submit"]');
     submitBtn.onclick = async (e)=>{
       e.preventDefault();
