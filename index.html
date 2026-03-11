@@ -1110,13 +1110,15 @@ class TestRapido {
     this.btn = document.querySelector(btnSelector);
     if(!this.modal || !this.btn) return;
 
-    this.preguntas = this.modal.querySelectorAll('.test-pregunta');
+    this.preguntas = Array.from(this.modal.querySelectorAll('.test-pregunta'));
     this.final = this.modal.querySelector('.test-final');
     this.countdownEl = this.modal.querySelector('.countdown');
     this.progressFill = this.modal.querySelector('.progress-fill');
     this.tiempoMax = tiempo;
     this.preguntaActual = 0;
+    this.interval = null;
 
+    // Eventos
     this.btn.addEventListener('click', ()=>this.abrir());
     this.modal.querySelector('.close-modal')?.addEventListener('click', ()=>this.cerrar());
     this.modal.addEventListener('click', e => { if(e.target===this.modal) this.cerrar(); });
@@ -1127,6 +1129,10 @@ class TestRapido {
     this.modal.style.display='flex';
     setTimeout(()=> this.modal.style.opacity=1,10);
     Scroll.bloquear();
+    this.preguntaActual = 0;
+    this.preguntas.forEach(p => p.classList.remove('active'));
+    this.preguntas[0].classList.add('active');
+    this.final.style.display='none';
     this.iniciarPregunta();
   }
 
@@ -1134,32 +1140,31 @@ class TestRapido {
     this.modal.style.opacity=0;
     setTimeout(()=>{
       this.modal.style.display='none';
-      this.preguntas?.forEach(p=>p.classList.remove('active'));
-      this.preguntas?.[0]?.classList.add('active');
+      this.preguntas.forEach(p=>p.classList.remove('active'));
+      this.preguntas[0]?.classList.add('active');
       if(this.final){ this.final.style.display='none'; this.final.querySelector('input').value=''; }
       if(this.progressFill) this.progressFill.style.width='0%';
       if(this.countdownEl) this.countdownEl.textContent=this.tiempoMax;
       Scroll.liberar();
       clearInterval(this.interval);
-      this.preguntaActual=0;
     },300);
   }
 
   iniciarPregunta(){
-    if(!this.preguntas?.[this.preguntaActual]) return;
+    if(!this.preguntas[this.preguntaActual]) return;
     this.tiempo = this.tiempoMax;
-    this.countdownEl.textContent=this.tiempo;
-    this.progressFill.style.width='0%';
+    if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
+    if(this.progressFill) this.progressFill.style.width='0%';
 
     this.interval = setInterval(()=>{
       this.tiempo--;
-      this.countdownEl.textContent=this.tiempo;
-      this.progressFill.style.width = `${((this.tiempoMax-this.tiempo)/this.tiempoMax)*100}%`;
-      if(this.tiempo<=0){ clearInterval(this.interval); this.avanzarPregunta(); }
+      if(this.countdownEl) this.countdownEl.textContent=this.tiempo;
+      if(this.progressFill) this.progressFill.style.width = `${((this.tiempoMax-this.tiempo)/this.tiempoMax)*100}%`;
+      if(this.tiempo <= 0){ clearInterval(this.interval); this.avanzarPregunta(); }
     },1000);
 
     const respuestas = this.preguntas[this.preguntaActual].querySelectorAll('.respuesta');
-    respuestas.forEach(btn => btn.onclick=()=>{
+    respuestas.forEach(btn => btn.onclick = ()=>{
       clearInterval(this.interval);
       this.avanzarPregunta();
     });
@@ -1168,7 +1173,7 @@ class TestRapido {
   avanzarPregunta(){
     this.preguntas[this.preguntaActual]?.classList.remove('active');
     this.preguntaActual++;
-    if(this.preguntaActual<this.preguntas.length){
+    if(this.preguntaActual < this.preguntas.length){
       this.preguntas[this.preguntaActual].classList.add('active');
       this.iniciarPregunta();
     } else this.mostrarFinal();
@@ -1178,20 +1183,20 @@ class TestRapido {
     if(!this.final) return;
     this.final.style.display='block';
     this.final.querySelector('input').focus();
-    this.countdownEl.textContent='';
-    this.progressFill.style.width='100%';
+    if(this.countdownEl) this.countdownEl.textContent='';
+    if(this.progressFill) this.progressFill.style.width='100%';
 
-    this.final.querySelector('button[type="submit"]').onclick = async (e)=>{
+    const submitBtn = this.final.querySelector('button[type="submit"]');
+    submitBtn.onclick = async (e)=>{
       e.preventDefault();
       const inputEmail = this.final.querySelector('input').value;
       const mensaje = this.final.querySelector('.mensaje-check');
       const svg = this.final.querySelector('.check-svg');
       const path = svg.querySelector('path');
-      const btn = this.final.querySelector('button[type="submit"]');
-      const originalText = btn.textContent;
-      if(!inputEmail) return;
+      const originalText = submitBtn.textContent;
 
-      btn.textContent='Enviando...'; btn.disabled=true;
+      if(!inputEmail) return;
+      submitBtn.textContent='Enviando...'; submitBtn.disabled=true;
 
       try{
         const res = await fetch("https://formspree.io/f/mgvzyyqk", {
@@ -1210,14 +1215,15 @@ class TestRapido {
         mensaje.style.color='#ff4d4d'; mensaje.style.opacity=1;
         setTimeout(()=>{
           mensaje.style.opacity=0; mensaje.style.color='#00ffc0';
-          btn.disabled=false; btn.textContent=originalText;
+          submitBtn.disabled=false; submitBtn.textContent=originalText;
         },2500);
       }
     };
   }
 }
 
-new TestRapido();
+// Inicialización
+document.addEventListener('DOMContentLoaded', ()=> new TestRapido());
 </script>
 </body>
 </html>
