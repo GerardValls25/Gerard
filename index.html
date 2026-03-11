@@ -176,7 +176,7 @@ text-align:center;
 <a href="calculadora.html" class="neon-link">Calculadora</a>
 <a href="imc.html" class="neon-link" target="_blank">IMC</a>
 </div>
-<button id="btn-test" class="btn-cambio">Haz el test de 30 segundos</button>
+<button id="btn-test">Haz el test de 30 segundos</button>
 </header>
 
 <!-- Servicios -->
@@ -561,17 +561,6 @@ window.addEventListener("load", ()=>{
 function bloquearScroll() { document.body.style.overflow = 'hidden'; }
 function liberarScroll() { document.body.style.overflow = ''; }
 
-// Abrir modal
-function abrirModal(id, plan="") {
-  const modal = document.getElementById(id);
-  const form = modal.querySelector("form");
-  const planInput = form.querySelector("[name='plan']");
-  if(planInput) planInput.value = plan;
-  modal.style.display = "flex";
-  setTimeout(() => { modal.style.opacity=1; form.style.transform="scale(1)"; }, 10);
-  document.body.style.overflow="hidden";
-}
-
 // Cerrar modal
 function cerrarModal(id) {
   const modal = document.getElementById(id);
@@ -597,25 +586,6 @@ document.querySelectorAll(".modal").forEach(m => {
   m.addEventListener("click", e => { if(e.target === m) cerrarModal(m.id); });
 });
 document.addEventListener("keydown", e => { if(e.key==="Escape") document.querySelectorAll(".modal").forEach(m=>{ if(m.style.display==="flex") cerrarModal(m.id); }); });
-
-// ==============================
-// CHECK ANIMADO Y MENSAJE
-// ==============================
-document.querySelectorAll("form").forEach(f => {
-  const mensaje = document.createElement("div");
-  mensaje.className="mensaje-check";
-  f.appendChild(mensaje);
-  
- const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.setAttribute("viewBox","0 0 52 52");
-  svg.classList.add("check-svg");
-  const path = document.createElementNS("http://www.w3.org/2000/svg","path");
-  path.setAttribute("d","M14 27 l10 10 l20 -20");
-  path.setAttribute("stroke-dasharray","50");
-  path.setAttribute("stroke-dashoffset","50");
-  svg.appendChild(path);
-  f.appendChild(svg);
-});
 
 // ==============================
 // FUNCION ENVIAR FORMULARIO
