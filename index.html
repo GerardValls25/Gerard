@@ -886,7 +886,6 @@ respuestas.forEach(btn => {
     if(actual < preguntas.length){
       preguntas[actual].classList.add("active");
     } else {
-      clearInterval(timer);
       finalizarTest();
     }
   });
@@ -896,17 +895,18 @@ respuestas.forEach(btn => {
 btnTest.addEventListener("click", () => {
   modalTest.style.display = "flex";
   setTimeout(() => modalTest.style.opacity = 1, 10);
-
+  
+  // Reiniciar preguntas
   preguntas.forEach(p => p.classList.remove("active"));
   preguntas[0].classList.add("active");
   actual = 0;
-  finalTest.style.display = "none";
-  btnEnviar.disabled = false;
-  checkSVG.style.opacity = 0;
-  checkPath.style.strokeDashoffset = "50";
 
+  // Ocultar final
+  finalTest.style.display = "none";
+
+  // Iniciar temporizador
+  clearInterval(timer);
   iniciarTemporizador();
-  document.body.style.overflow = "hidden";
 });
 
 // Cerrar modal
@@ -914,10 +914,11 @@ closeBtn.addEventListener("click", () => {
   modalTest.style.opacity = 0;
   setTimeout(() => {
     modalTest.style.display = "none";
+    clearInterval(timer);
+    countdownEl.textContent = TIEMPO_TEST;
+    progressFill.style.width = "0%";
     preguntas.forEach(p => p.classList.remove("active"));
     finalTest.style.display = "none";
-    clearInterval(timer);
-    document.body.style.overflow = "auto";
   }, 300);
 });
 
