@@ -880,39 +880,9 @@ window.addEventListener("load", ()=>{
 </script>
 
 <script>
-// ==============================
-// MODALES Y FORMULARIOS
-// ==============================
-
-// Funciones de scroll
-function bloquearScroll() { document.body.style.overflow = 'hidden'; }
-function liberarScroll() { document.body.style.overflow = ''; }
-
-// Función para cerrar modal
-function cerrarModal(id) {
-  const modal = document.getElementById(id);
-  if (!modal) return;
-
-  const form = modal.querySelector("form");
-  const mensaje = form?.querySelector(".mensaje-check");
-  const svg = form?.querySelector(".check-svg");
-  const path = svg?.querySelector("path");
-
-  modal.style.opacity = 0;
-  if(form) form.style.transform = "scale(0.9)";
-
-  setTimeout(() => {
-    modal.style.display = "none";
-    if(form) form.reset();
-    if(mensaje) mensaje.style.opacity = 0;
-    if(path) path.style.strokeDashoffset = "50";
-    if(svg) svg.style.opacity = 0;
-    liberarScroll();
-  }, 300);
-}
 
 // ==============================
-// Cerrar modal con botón o click fuera
+// Abrir modal
 // ==============================
 document.querySelectorAll(".close-modal").forEach(btn => {
   btn.addEventListener("click", () => {
