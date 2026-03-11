@@ -751,28 +751,24 @@ const checkPath = checkSVG.querySelector("path");
 
 // ===== Abrir modal con plan =====
 document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
+  btn.addEventListener("click", (e)=>{
+    e.stopPropagation(); // evita que el click cierre el modal
+
     let plan = "";
     const card = btn.closest(".subscription-card");
     if(card) plan = card.querySelector("h3")?.textContent || "";
 
     formUnificado.reset();
-    mensaje.style.opacity=0;
-    mensaje.textContent="";
-    checkSVG.style.opacity=0;
-    checkPath.style.strokeDashoffset="50";
     document.getElementById("plan-input").value = plan;
 
     modalUnificado.style.display="flex";
     setTimeout(()=>{
       modalUnificado.style.opacity=1;
-      formUnificado.style.transform="scale(1)";
-      formUnificado.nombre.focus();
     },10);
+
     document.body.style.overflow="hidden";
   });
 });
-
 // ===== FUNCION CERRAR MODAL =====
 function cerrarModal() {
   modalUnificado.style.opacity=0;
@@ -800,14 +796,16 @@ btnCerrar.addEventListener("click", cerrarModal);
 
 // Cerrar al hacer clic fuera del formulario
 document.addEventListener("click", function(e){
-  if(
-    modalUnificado.style.display === "flex" &&
-    !e.target.closest("#form-unificado") &&
-    !e.target.closest(".btn-cambio") &&
-    !e.target.closest(".subscription-card button")
-  ){
-    cerrarModal();
+
+  if(modalUnificado.style.display === "flex"){
+
+    // si el clic NO está dentro del formulario
+    if(!e.target.closest("#form-unificado")){
+      cerrarModal();
+    }
+
   }
+
 });
 
 // Cerrar con tecla Escape
