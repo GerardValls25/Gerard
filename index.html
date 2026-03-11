@@ -23,47 +23,41 @@
 
 <style>
 :root {
-  --primary: #00ffc0;
-  --secondary: #ffbf00;
-  --darkbg: #1a1f3f;
-  --text-light: #e6e6e6;
-  --radius: 20px;
-  --transition: 0.4s ease;
-  --card-bg: rgba(255,255,255,0.05);
-  --card-shadow: 0 12px 40px rgba(0,0,0,0.55);
+  --primary:#00ffc0; --secondary:#ffbf00; --darkbg:#1a1f3f; --text-light:#e6e6e6;
+  --radius:20px; --transition:0.4s ease; --card-bg:rgba(255,255,255,0.05); --card-shadow:0 12px 40px rgba(0,0,0,0.55);
 }
-*{ box-sizing:border-box; margin:0; padding:0; }
-body{ font-family:'Montserrat',sans-serif; background:var(--darkbg); color:var(--text-light); line-height:1.5; overflow-x:hidden; }
-a{text-decoration:none; color:var(--primary); transition:var(--transition);}
-a:hover{ color:var(--secondary);}
-canvas{ position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;}
-#main-content{ display:none; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',sans-serif;background:var(--darkbg);color:var(--text-light);line-height:1.5;overflow-x:hidden;}
+a{text-decoration:none;color:var(--primary);transition:var(--transition);}
+a:hover{color:var(--secondary);}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+#main-content{display:none;}
 
 /* Splash */
-#splash{ position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; z-index:10000; transition: opacity 0.6s ease;}
-#splash img{ max-width:80%; height:auto; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.6);}
-#btn-comencemos{ margin-top:30px; padding:15px 40px; font-size:1.2rem; border:none; border-radius:20px; background:var(--primary); color:#000; cursor:pointer; box-shadow:0 5px 15px rgba(0,255,192,0.4); transition:0.3s;}
-#btn-comencemos:hover{ transform:scale(1.05); box-shadow:0 8px 25px rgba(0,255,192,0.5);}
+#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:10000;transition:opacity 0.6s ease;}
+#splash img{max-width:80%;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.6);}
+#btn-comencemos{margin-top:30px;padding:15px 40px;font-size:1.2rem;border:none;border-radius:20px;background:var(--primary);color:#000;cursor:pointer;box-shadow:0 5px 15px rgba(0,255,192,0.4);transition:0.3s;}
+#btn-comencemos:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(0,255,192,0.5);}
 
 /* Menú neón */
-#main-nav{ position: fixed; top:0; left:50%; transform:translateX(-50%); width:95%; max-width:1200px; background: rgba(10,10,25,0.6); backdrop-filter: blur(15px); border-radius:15px; box-shadow:0 4px 20px rgba(0,255,192,0.3); z-index:1000; }
-#main-nav ul{ display:flex; justify-content: space-around; list-style:none; padding:10px 0; margin:0;}
-.neon-link{ color:#00ffc0; font-weight:600; font-size:0.95rem; padding:6px 12px; border-radius:10px; text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff; transition: all 0.3s ease-in-out; position: relative; animation: neon-flicker 2.5s infinite;}
-.neon-link:hover{ color:#ffbf00; text-shadow:0 0 5px #ffbf00,0 0 10px #ffbf00,0 0 20px #ffbf00,0 0 40px #ffbf00,0 0 80px #ffbf00; background: rgba(0,0,0,0.2);}
+#main-nav{position: fixed; top:0; left:50%; transform:translateX(-50%); width:95%; max-width:1200px; background: rgba(10,10,25,0.6); backdrop-filter: blur(15px); border-radius:15px; box-shadow:0 4px 20px rgba(0,255,192,0.3); z-index:1000; }
+#main-nav ul{display:flex;justify-content: space-around;list-style:none;padding:10px 0;margin:0;}
+.neon-link{color:#00ffc0;font-weight:600;font-size:0.95rem;padding:6px 12px;border-radius:10px;text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff;transition: all 0.3s ease-in-out;position: relative;animation: neon-flicker 2.5s infinite;}
+.neon-link:hover{color:#ffbf00;text-shadow:0 0 5px #ffbf00,0 0 10px #ffbf00,0 0 20px #ffbf00,0 0 40px #ffbf00,0 0 80px #ffbf00;background: rgba(0,0,0,0.2);}
 @keyframes neon-flicker{0%,18%,22%,25%,53%,57%,100%{ text-shadow:0 0 5px #00ffc0,0 0 10px #00ffc0,0 0 20px #00ffc0,0 0 40px #00bfff,0 0 80px #00bfff;}20%,24%,55%{ text-shadow:none; color:#00ffc0;}}
 
 /* Header */
-header{ text-align:center; padding:180px 20px 60px;}
-header img{ width:100%; max-width:500px; height:auto; border-radius:15px; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin-bottom:30px; transition:transform 0.3s ease, box-shadow 0.3s ease;}
-header img:hover{ transform:scale(1.05); box-shadow:0 25px 60px rgba(0,0,0,0.7);}
-header h1{ font-size:2.2rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.3); margin-bottom:10px; line-height:1.2; }
-header p{ font-size:1rem; max-width:600px; margin:auto; opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s; }
-header .cta{ margin-top:25px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;}
-header .cta button, header .cta a{ padding:12px 28px; border-radius: var(--radius); font-weight:600; cursor:pointer; transition: var(--transition); font-size:0.95rem;}
-header .cta button{ background: var(--secondary); color:#000; border:none;}
-header .cta button:hover{ background: var(--primary); transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,255,192,0.3);}
-header .cta a{ border:2px solid var(--primary); color: var(--primary);}
-header .cta a:hover{ background: var(--primary); color:#000; box-shadow:0 5px 15px rgba(0,255,192,0.3);}
+header{text-align:center;padding:180px 20px 60px;}
+header img{width:100%; max-width:500px; border-radius:15px; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin-bottom:30px; transition:transform 0.3s ease, box-shadow 0.3s ease;}
+header img:hover{transform:scale(1.05);box-shadow:0 25px 60px rgba(0,0,0,0.7);}
+header h1{font-size:2.2rem; background: linear-gradient(90deg, #00ffc0,#00bfff,#ff00c8,#ffbf00); -webkit-background-clip:text; color:transparent; text-shadow:0 0 15px rgba(0,255,192,0.3); margin-bottom:10px; line-height:1.2;}
+header p{font-size:1rem; max-width:600px; margin:auto; opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards 0.5s;}
+header .cta{margin-top:25px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;}
+header .cta button, header .cta a{padding:12px 28px; border-radius: var(--radius); font-weight:600; cursor:pointer; transition: var(--transition); font-size:0.95rem;}
+header .cta button{background: var(--secondary); color:#000; border:none;}
+header .cta button:hover{background: var(--primary); transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,255,192,0.3);}
+header .cta a{border:2px solid var(--primary); color: var(--primary);}
+header .cta a:hover{background: var(--primary); color:#000; box-shadow:0 5px 15px rgba(0,255,192,0.3);}
 
 /* Secciones y grids */
 section{ max-width:1100px; margin:100px auto; padding:60px 30px; border-radius:var(--radius); backdrop-filter: blur(12px); background: var(--card-bg); box-shadow:var(--card-shadow);}
@@ -75,15 +69,13 @@ section{ max-width:1100px; margin:100px auto; padding:60px 30px; border-radius:v
 .grid .card p{ font-size:0.9rem; opacity:0.85; line-height:1.4;}
 
 /* Footer */
-footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
+footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 
 /* Animaciones */
 @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 @keyframes neonGlow{0%{box-shadow:0 0 20px #00ffc0,0 0 50px #00bfff inset;}50%{box-shadow:0 0 40px #00ffc0,0 0 80px #00bfff inset;}100%{box-shadow:0 0 20px #00ffc0,0 0 50px #00bfff inset;}}
-@keyframes neonBorder{0%{box-shadow:0 0 20px var(--primary),0 0 40px #00bfff inset;border-color:var(--primary);}50%{box-shadow:0 0 35px var(--primary),0 0 70px #00bfff inset;border-color:#00bfff;}100%{box-shadow:0 0 20px var(--primary),0 0 40px #00bfff inset;border-color:var(--primary);}}
-
-@media(max-width:768px){ header h1{ font-size:1.8rem;} header p{ font-size:0.95rem;} .grid{ gap:15px;} .grid .card{ padding:15px; } }
+@media(max-width:768px){header h1{font-size:1.8rem;} header p{font-size:0.95rem;} .grid{gap:15px;} .grid .card{padding:15px;}}
 
 /* ==========================
    Tarjetas de Suscripción
@@ -107,15 +99,12 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
 .premium-modal button[type="submit"]:hover { background:var(--primary); box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset; transform:scale(1.05); }
 .premium-modal button.close-modal { padding:6px 10px; border:none; border-radius:var(--radius); background:rgba(255,0,0,0.5); color:#fff; cursor:pointer; }
 .mensaje-check { margin-top:10px; text-align:center; font-weight:600; color:var(--primary); opacity:0; transition:opacity 0.4s ease; }
-
-/* Check animado */
 .check-svg { width:40px; height:40px; margin:10px auto 0; display:block; stroke:var(--primary); stroke-width:4; fill:none; opacity:0; transition:opacity 0.4s ease; }
 .check-svg path { stroke-dasharray:50; stroke-dashoffset:50; transition:stroke-dashoffset 0.5s ease; }
 
 /* Test */
 .test-pregunta { display:none; text-align:center; }
 .test-pregunta.active { display:block; }
-.test-pregunta button { display:block; margin:10px auto; padding:10px 20px; border:none; border-radius:10px; background:#00ffc0; cursor:pointer; }
 .test-final { display:none; text-align:center; }
 
 /* Countdown y barra de progreso */
@@ -123,6 +112,13 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
 .countdown { font-size:20px; font-weight:bold; margin-bottom:5px; color:#00ffc0; }
 .progress-bar { width:100%; height:8px; background:#222; border-radius:4px; overflow:hidden; }
 .progress-fill { height:100%; width:0%; background:green; transition:width 1s linear; }
+
+/* WhatsApp */
+#whatsapp-btn-ultimate{position: fixed;bottom:25px;right:25px;background:#25d366;color:#fff;font-size:2.2rem;border-radius:50%;padding:16px;z-index:10000;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset;opacity:0;pointer-events:none;transition: all 0.3s ease; gap:8px;}
+#whatsapp-btn-ultimate.show{opacity:1;pointer-events:auto;}
+#whatsapp-btn-ultimate:hover{transform:scale(1.15);}
+#whatsapp-counter{background:rgba(0,0,0,0.6);font-size:0.8rem;font-weight:700;padding:2px 6px;border-radius:8px;}
+@keyframes whatsapp-urgent{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
 
 /* Responsive */
 @media(max-width:480px){ .premium-modal { width:90%; padding:12px 15px; gap:8px; } .premium-modal h3 { font-size:1rem; } .premium-modal input { font-size:0.8rem; padding:5px 6px; } .premium-modal button[type="submit"] { font-size:0.85rem; padding:7px 10px; } .premium-modal button.close-modal { padding:5px 8px; font-size:0.8rem; } }
@@ -138,6 +134,7 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
   
 <!-- Contenido principal -->
 <div id="main-content">
+  <!-- Menú -->
   <nav id="main-nav">
     <ul>
       <li><a class="neon-link" href="#header">Inicio</a></li>
@@ -151,34 +148,30 @@ footer{ text-align:center; padding:30px; font-size:0.85rem; opacity:0.7;}
 <!=================== Header  =================== -->
 <header id="header">
   <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
+  
   <h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
-  <p>Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.</p>
-
-  <div style="margin-top:20px; font-size:0.95rem; opacity:0.9;">
+  
+  <p class="header-subtitle">
+    Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.
+  </p>
+  
+  <div class="header-benefits">
     ✔ Plan totalmente personalizado<br>
     ✔ Seguimiento directo<br>
     ✔ Adaptado a tu estilo de vida
   </div>
-
-<p style="margin-top:10px; color:#ffbf00; font-weight:600;">
+  
+  <p class="header-warning">
     ⚡ Trabajo con pocas personas para asegurar resultados reales
   </p>
   
-  <div class="cta" style="margin-top:25px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+  <div class="cta">
     <button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
-    <button id="btn-test" type="button" style="
-      background: #00ffc0; 
-      color: #000; 
-      font-weight:600; 
-      border:none; 
-      padding:12px 28px; 
-      border-radius: var(--radius); 
-      cursor:pointer;
-      box-shadow: 0 5px 15px rgba(0,255,192,0.4);
-      transition: var(--transition);
-    ">
+    
+    <button id="btn-test" class="btn-test">
       Haz el test de 30 segundos
     </button>
+    
     <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
     <a href="calculadora.html" class="neon-link">Calculadora</a>
     <a href="imc.html" class="neon-link" target="_blank">IMC</a>
