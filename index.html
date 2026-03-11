@@ -966,7 +966,10 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
    
 <script>
 <script>
-// ===== Abrir modal del test =====
+// ===== Modal Test Rápido =====
+const btnTest = document.getElementById("btn-test");
+const modalTest = document.getElementById("modal-test");
+const closeTest = modalTest.querySelector(".close-modal");
 const testPreguntas = modalTest.querySelectorAll(".test-pregunta");
 const testFinal = modalTest.querySelector(".test-final");
 const countdownEl = modalTest.querySelector(".countdown");
@@ -1019,6 +1022,11 @@ testFinal.querySelector("button").addEventListener("click", async () => {
   const mensaje = testFinal.querySelector(".mensaje-check");
   const path = testFinal.querySelector("path");
   const svg = testFinal.querySelector(".check-svg");
+  const btn = testFinal.querySelector("button");
+
+  const originalText = btn.textContent;
+  btn.textContent = "Enviando...";
+  btn.disabled = true;
 
   try {
     await fetch("https://formspree.io/f/mgvzyyqk", {
@@ -1034,10 +1042,15 @@ testFinal.querySelector("button").addEventListener("click", async () => {
   } catch {
     mensaje.style.opacity = 1;
     mensaje.textContent = "Error, intenta de nuevo ❌";
+    setTimeout(() => {
+      mensaje.style.opacity = 0;
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }, 2500);
   }
 });
 
-// Iniciar test al abrir modal
+// Abrir modal test
 btnTest.addEventListener("click", () => {
   modalTest.style.display = "flex";
   setTimeout(() => modalTest.style.opacity = 1, 10);
@@ -1047,6 +1060,17 @@ btnTest.addEventListener("click", () => {
   preguntaActual = 0;
   tiempo = 30;
   startCountdown();
+});
+
+// Cerrar modal
+closeTest.addEventListener("click", () => {
+  modalTest.style.opacity = 0;
+  setTimeout(() => {
+    modalTest.style.display = "none";
+    document.body.style.overflow = "auto";
+    clearInterval(timerInterval);
+    tiempo = 30;
+  }, 300);
 });
 </script>
 </body>
