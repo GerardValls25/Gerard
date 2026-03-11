@@ -298,7 +298,7 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
   </p>
   
   <div class="cta">
-    <button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
+<button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
     
 <button id="btn-test">Haz el test de 30 segundos</button>
     
@@ -966,111 +966,115 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
    
 <script>
 <script>
-// ===== Modal Test Rápido =====
-const btnTest = document.getElementById("btn-test");
-const modalTest = document.getElementById("modal-test");
-const closeTest = modalTest.querySelector(".close-modal");
-const testPreguntas = modalTest.querySelectorAll(".test-pregunta");
-const testFinal = modalTest.querySelector(".test-final");
-const countdownEl = modalTest.querySelector(".countdown");
-const progressFill = modalTest.querySelector(".progress-fill");
+// ===== Modal Test Rápido Corregido =====
+document.addEventListener("DOMContentLoaded", () => {
+  const btnTest = document.getElementById("btn-test");
+  const modalTest = document.getElementById("modal-test");
+  const closeTest = modalTest.querySelector(".close-modal");
+  const testPreguntas = modalTest.querySelectorAll(".test-pregunta");
+  const testFinal = modalTest.querySelector(".test-final");
+  const countdownEl = modalTest.querySelector(".countdown");
+  const progressFill = modalTest.querySelector(".progress-fill");
 
-let preguntaActual = 0;
-let tiempo = 30; // segundos
-let timerInterval;
+  let preguntaActual = 0;
+  let tiempo = 30;
+  let timerInterval;
 
-// Función para actualizar contador y barra de progreso
-function startCountdown() {
-  countdownEl.textContent = tiempo;
-  progressFill.style.width = "0%";
-  timerInterval = setInterval(() => {
-    tiempo--;
+  function startCountdown() {
     countdownEl.textContent = tiempo;
-    progressFill.style.width = ((30 - tiempo) / 30 * 100) + "%";
-    if (tiempo <= 0) {
-      clearInterval(timerInterval);
-      mostrarFinal();
-    }
-  }, 1000);
-}
+    progressFill.style.width = "0%";
+    timerInterval = setInterval(() => {
+      tiempo--;
+      countdownEl.textContent = tiempo;
+      progressFill.style.width = ((30 - tiempo) / 30 * 100) + "%";
+      if (tiempo <= 0) {
+        clearInterval(timerInterval);
+        mostrarFinal();
+      }
+    }, 1000);
+  }
 
-// Función mostrar test final
-function mostrarFinal() {
-  testPreguntas.forEach(p => p.classList.remove("active"));
-  testFinal.style.display = "block";
-}
+  function mostrarFinal() {
+    testPreguntas.forEach(p => p.classList.remove("active"));
+    testFinal.style.display = "block";
+  }
 
-// Avanzar pregunta al hacer click en una respuesta
-modalTest.querySelectorAll(".respuesta").forEach(btn => {
-  btn.addEventListener("click", () => {
-    testPreguntas[preguntaActual].classList.remove("active");
-    preguntaActual++;
-    if (preguntaActual < testPreguntas.length) {
-      testPreguntas[preguntaActual].classList.add("active");
-    } else {
-      mostrarFinal();
-      clearInterval(timerInterval);
+  // Avanzar pregunta
+  modalTest.querySelectorAll(".respuesta").forEach(btn => {
+    btn.addEventListener("click", () => {
+      testPreguntas[preguntaActual].classList.remove("active");
+      preguntaActual++;
+      if (preguntaActual < testPreguntas.length) {
+        testPreguntas[preguntaActual].classList.add("active");
+      } else {
+        mostrarFinal();
+        clearInterval(timerInterval);
+      }
+    });
+  });
+
+  // Enviar email
+  testFinal.querySelector("button").addEventListener("click", async () => {
+    const emailInput = testFinal.querySelector("input");
+    if (!emailInput.value) return;
+
+    const mensaje = testFinal.querySelector(".mensaje-check");
+    const path = testFinal.querySelector("path");
+    const svg = testFinal.querySelector(".check-svg");
+    const btn = testFinal.querySelector("button");
+    const originalText = btn.textContent;
+
+    btn.textContent = "Enviando...";
+    btn.disabled = true;
+
+    try {
+      await fetch("https://formspree.io/f/mgvzyyqk", {
+        method: "POST",
+        headers: {"Accept":"application/json","Content-Type":"application/json"},
+        body: JSON.stringify({email: emailInput.value})
+      });
+      mensaje.style.opacity = 1;
+      svg.style.opacity = 1;
+      path.style.strokeDashoffset = 0;
+      mensaje.textContent = "¡Email enviado!";
+      setTimeout(() => cerrarModal(), 2000);
+    } catch {
+      mensaje.style.opacity = 1;
+      mensaje.textContent = "Error, intenta de nuevo ❌";
+      setTimeout(() => {
+        mensaje.style.opacity = 0;
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }, 2500);
     }
   });
-});
 
-// Envío del email del test final
-testFinal.querySelector("button").addEventListener("click", async () => {
-  const emailInput = testFinal.querySelector("input");
-  if (!emailInput.value) return;
-
-  const mensaje = testFinal.querySelector(".mensaje-check");
-  const path = testFinal.querySelector("path");
-  const svg = testFinal.querySelector(".check-svg");
-  const btn = testFinal.querySelector("button");
-
-  const originalText = btn.textContent;
-  btn.textContent = "Enviando...";
-  btn.disabled = true;
-
-  try {
-    await fetch("https://formspree.io/f/mgvzyyqk", {
-      method: "POST",
-      headers: {"Accept":"application/json","Content-Type":"application/json"},
-      body: JSON.stringify({email: emailInput.value})
-    });
-    mensaje.style.opacity = 1;
-    svg.style.opacity = 1;
-    path.style.strokeDashoffset = 0;
-    mensaje.textContent = "¡Email enviado!";
-    setTimeout(() => cerrarModal("modal-test"), 2000);
-  } catch {
-    mensaje.style.opacity = 1;
-    mensaje.textContent = "Error, intenta de nuevo ❌";
-    setTimeout(() => {
-      mensaje.style.opacity = 0;
-      btn.disabled = false;
-      btn.textContent = originalText;
-    }, 2500);
-  }
-});
-
-// Abrir modal test
-btnTest.addEventListener("click", () => {
-  modalTest.style.display = "flex";
-  setTimeout(() => modalTest.style.opacity = 1, 10);
-  document.body.style.overflow = "hidden";
-  testPreguntas.forEach((p,i)=>p.classList.toggle("active", i===0));
-  testFinal.style.display = "none";
-  preguntaActual = 0;
-  tiempo = 30;
-  startCountdown();
-});
-
-// Cerrar modal
-closeTest.addEventListener("click", () => {
-  modalTest.style.opacity = 0;
-  setTimeout(() => {
-    modalTest.style.display = "none";
-    document.body.style.overflow = "auto";
-    clearInterval(timerInterval);
+  // Abrir modal
+  btnTest.addEventListener("click", () => {
+    modalTest.style.display = "flex";
+    setTimeout(() => modalTest.style.opacity = 1, 10);
+    document.body.style.overflow = "hidden";
+    testPreguntas.forEach((p,i)=>p.classList.toggle("active", i===0));
+    testFinal.style.display = "none";
+    preguntaActual = 0;
     tiempo = 30;
-  }, 300);
+    startCountdown();
+  });
+
+  // Cerrar modal
+  function cerrarModal() {
+    modalTest.style.opacity = 0;
+    clearInterval(timerInterval);
+    setTimeout(() => {
+      modalTest.style.display = "none";
+      document.body.style.overflow = "auto";
+      tiempo = 30;
+    }, 300);
+  }
+
+  closeTest.addEventListener("click", cerrarModal);
+  modalTest.addEventListener("click", e => { if(e.target === modalTest) cerrarModal(); });
+  document.addEventListener("keydown", e => { if(e.key==="Escape" && modalTest.style.display==="flex") cerrarModal(); });
 });
 </script>
 </body>
