@@ -966,67 +966,130 @@ document.getElementById('btn-comencemos').addEventListener('click',()=>{
 </div>
    
 <script>
-// ===== Abrir modal del test =====
+<script>
+// ===== ELEMENTOS =====
 const btnTest = document.getElementById("btn-test");
 const modalTest = document.getElementById("modal-test");
-const closeTest = modalTest.querySelector(".close-modal");
+const closeBtn = modalTest.querySelector(".close-modal");
+const preguntas = modalTest.querySelectorAll(".test-pregunta");
+const finalTest = modalTest.querySelector(".test-final");
+const btnEnviar = finalTest.querySelector("button");
+const countdownEl = modalTest.querySelector(".countdown");
+const progressFill = modalTest.querySelector(".progress-fill");
+const checkSVG = finalTest.querySelector(".check-svg");
+const checkPath = checkSVG.querySelector("path");
+const mensajeCheck = finalTest.querySelector(".mensaje-check");
 
+let actualPregunta = 0;
+const TIEMPO_TEST = 30;
+let timer;
+let respuestas = [];
+
+// ===== Inicializar SVG check =====
+checkPath.style.strokeDasharray = "50";
+checkPath.style.strokeDashoffset = "50";
+
+// ===== Abrir modal =====
 btnTest.addEventListener("click", () => {
   modalTest.style.display = "flex";
-  setTimeout(() => {
-    modalTest.style.opacity = 1;
-  }, 10);
+  setTimeout(() => modalTest.style.opacity = 1, 10);
   document.body.style.overflow = "hidden";
 
-  // Inicializar contador y progreso
-  let tiempo = 30;
-  const countdown = modalTest.querySelector(".countdown");
-  const progress = modalTest.querySelector(".progress-fill");
-  countdown.textContent = tiempo;
-  progress.style.width = "0%";
-
-  const interval = setInterval(() => {
+  // Reset
+  actualPregunta = 0;
+  respuestas = [];
+  preguntas.forEach((p, i) => p.classList.toggle("active", i===0));
+  finalTest.classList.remove("active");
+  
+  // Iniciar contador
+  let tiempo = TIEMPO_TEST;
+  countdownEl.textContent = tiempo;
+  progressFill.style.width = "0%";
+  clearInterval(timer);
+  timer = setInterval(() => {
     tiempo--;
-    countdown.textContent = tiempo;
-    progress.style.width = ((30 - tiempo)/30*100) + "%";
-
+    countdownEl.textContent = tiempo;
+    progressFill.style.width = ((TIEMPO_TEST - tiempo)/TIEMPO_TEST*100) + "%";
     if(tiempo <= 0){
-      clearInterval(interval);
-      // Mostrar sección final
-      modalTest.querySelectorAll(".test-pregunta").forEach(p => p.classList.remove("active"));
-      modalTest.querySelector(".test-final").classList.add("active");
+      clearInterval(timer);
+      preguntas.forEach(p => p.classList.remove("active"));
+      finalTest.classList.add("active");
     }
   }, 1000);
 });
 
-// ===== Cerrar modal del test =====
-closeTest.addEventListener("click", () => {
+// ===== Cerrar modal =====
+closeBtn.addEventListener("click", () => cerrarModalTest());
+modalTest.addEventListener("click", e => { if(e.target===modalTest) cerrarModalTest(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape") cerrarModalTest(); });
+
+function cerrarModalTest(){
   modalTest.style.opacity = 0;
   setTimeout(() => {
     modalTest.style.display = "none";
     document.body.style.overflow = "auto";
-    // Reset modal
-    modalTest.querySelectorAll(".test-pregunta").forEach((p, i) => {
-      p.classList.toggle("active", i === 0);
-    });
-    modalTest.querySelector(".test-final").classList.remove("active");
+    preguntas.forEach((p, i) => p.classList.toggle("active", i===0));
+    finalTest.classList.remove("active");
+    btnEnviar.disabled = false;
+    btnEnviar.textContent = "Ver mi plan";
+    mensajeCheck.style.opacity = 0;
+    checkSVG.style.opacity = 0;
+    checkPath.style.strokeDashoffset = "50";
+    clearInterval(timer);
   }, 300);
-});
+}
 
 // ===== Navegar preguntas =====
-const preguntas = modalTest.querySelectorAll(".test-pregunta");
 preguntas.forEach((preg, i) => {
   preg.querySelectorAll(".respuesta").forEach(btn => {
     btn.addEventListener("click", () => {
+      respuestas.push(btn.textContent);
       preg.classList.remove("active");
       if(i + 1 < preguntas.length){
         preguntas[i+1].classList.add("active");
       } else {
-        // Mostrar sección final si era la última pregunta
-        modalTest.querySelector(".test-final").classList.add("active");
+        finalTest.classList.add("active");
       }
     });
   });
+});
+
+// ===== Enviar email =====
+btnEnviar.addEventListener("click", async () => {
+  const emailInput = finalTest.querySelector("input");
+  if(!emailInput.value) return;
+
+  btnEnviar.disabled = true;
+  const originalText = btnEnviar.textContent;
+  btnEnviar.textContent = "Enviando...";
+
+  const data = { email: emailInput.value, respuestas: respuestas.join(", ") };
+
+  try {
+    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+      method:"POST",
+      headers: {"Accept":"application/json","Content-Type":"application/json"},
+      body: JSON.stringify(data)
+    });
+    if(!res.ok) throw new Error("Error envío");
+
+    mensajeCheck.textContent = "¡Gracias! Pronto te enviaremos tu plan";
+    mensajeCheck.style.color = "#00ffc0";
+    mensajeCheck.style.opacity = 1;
+    checkSVG.style.opacity = 1;
+    setTimeout(()=>checkPath.style.strokeDashoffset = 0, 50);
+    setTimeout(cerrarModalTest, 2000);
+
+  } catch(err) {
+    mensajeCheck.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensajeCheck.style.color = "#ff4d4d";
+    mensajeCheck.style.opacity = 1;
+    setTimeout(()=>{
+      mensajeCheck.style.opacity = 0;
+      btnEnviar.disabled = false;
+      btnEnviar.textContent = originalText;
+    }, 2500);
+  }
 });
 </script>
 </body>
