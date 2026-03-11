@@ -161,89 +161,41 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 /* ==========================
    TARJETAS DE SUSCRIPCIÓN
 ========================== */
-.subscription-card {
-  background: linear-gradient(145deg, rgba(0,255,192,0.05), rgba(0,191,255,0.1));
-  border-radius: var(--radius); padding: 25px; text-align:center;
-  box-shadow:0 0 25px rgba(0,255,192,0.4),0 0 50px rgba(0,191,255,0.3);
-  transition: all 0.3s ease;
+.subscription-card{
+  background:linear-gradient(145deg,rgba(0,255,192,0.05),rgba(0,191,255,0.1));
+  border-radius:var(--radius);padding:25px;text-align:center;
+  box-shadow:0 0 25px rgba(0,255,192,0.4),0 0 50px rgba(0,191,255,0.3);transition:all 0.3s ease;
 }
-.subscription-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow:0 0 35px rgba(0,255,192,0.6),0 0 60px rgba(0,191,255,0.5);
+.subscription-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 0 35px rgba(0,255,192,0.6),0 0 60px rgba(0,191,255,0.5);}
+.subscription-card h3{font-size:1.2rem;margin-bottom:10px;font-weight:700;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;}
+.subscription-card button{
+  margin-top:15px;padding:12px 20px;border-radius:var(--radius);
+  font-weight:600;color:#000;background:#ffbf00;border:none;
+  cursor:pointer;box-shadow:0 0 15px #ffbf00,0 0 30px #ffbf00 inset;
+  animation:pulse 2s infinite;transition:all 0.3s ease-in-out;
 }
-.subscription-card h3 {
-  font-size:1.2rem; margin-bottom:10px; font-weight:700;
-  background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip:text; color:transparent;
-}
-.subscription-card button {
-  margin-top:15px; padding:12px 20px; border-radius: var(--radius);
-  font-weight:600; color:#000; background:#ffbf00; border:none;
-  cursor:pointer; box-shadow:0 0 15px #ffbf00,0 0 30px #ffbf00 inset;
-  animation: pulse 2s infinite; transition: all 0.3s ease-in-out;
-}
-.subscription-card button:hover {
-  background:#00ffc0;
-  box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset;
-  transform: scale(1.05);
-}
-.subscription-card.premium {
-  transform: scale(1.05); border:2px solid #00ffc0;
-  box-shadow:0 0 35px #00ffc0,0 0 70px #00bfff inset;
-  animation: neonGlow 2.5s infinite alternate;
-}
+.subscription-card button:hover{background:var(--primary);box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset;transform:scale(1.05);}
+.subscription-card.premium{transform:scale(1.05);border:2px solid var(--primary);box-shadow:0 0 35px var(--primary),0 0 70px #00bfff inset;animation:neonGlow 2.5s infinite alternate;}
+
 /* ==========================
    MODALES Y FORMULARIOS
 ========================== */
-.modal {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  display:none; justify-content:center; align-items:center;
-  background:rgba(0,0,0,0.7); backdrop-filter:blur(6px);
-  z-index:9999; opacity:0; transition:opacity 0.3s ease;
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;display:none;justify-content:center;align-items:center;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:9999;opacity:0;transition:opacity 0.3s ease;}
+.premium-modal{
+  background:rgba(17,17,17,0.9);padding:15px 20px;border-radius:var(--radius);width:320px;max-width:90%;
+  display:flex;flex-direction:column;gap:10px;box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset;
+  border:2px solid var(--primary);position:relative;transition:transform 0.3s ease,opacity 0.3s ease;
 }
-.premium-modal {
-  background:rgba(17,17,17,0.9); padding:15px 20px; border-radius:var(--radius);
-  width:320px; max-width:90%; display:flex; flex-direction:column; gap:10px;
-  box-shadow:0 0 25px #00ffc0,0 0 50px #00bfff inset;
-  border:2px solid #00ffc0; position:relative; transition:transform 0.3s ease,opacity 0.3s ease;
-}
-.premium-modal h3 {
-  text-align:center; font-size:1.2rem;
-  background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
-  -webkit-background-clip:text; color:transparent; margin-bottom:8px;
-}
-.premium-modal input {
-  padding:6px 8px; border-radius:var(--radius); border:none;
-  background:rgba(255,255,255,0.1); color:#fff; font-size:0.85rem; transition:0.3s;
-}
-.premium-modal input:focus {
-  outline:2px solid var(--primary); background:rgba(255,255,255,0.15);
-}
-.premium-modal button[type="submit"] {
-  padding:8px 12px; border:none; border-radius:var(--radius);
-  background:var(--secondary); color:#000; font-weight:700; cursor:pointer;
-  box-shadow:0 0 15px var(--secondary),0 0 30px var(--secondary) inset; transition:0.3s;
-}
-.premium-modal button[type="submit"]:hover {
-  background:var(--primary);
-  box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset; transform:scale(1.05);
-}
-.premium-modal button.close-modal {
-  padding:6px 10px; border:none; border-radius:var(--radius);
-  background:rgba(255,0,0,0.5); color:#fff; cursor:pointer;
-}
-.mensaje-check {
-  margin-top:10px; text-align:center; font-weight:600;
-  color:var(--primary); opacity:0; transition:opacity 0.4s ease;
-}
-.check-svg {
-  width:40px; height:40px; margin:10px auto 0; display:block;
-  stroke:var(--primary); stroke-width:4; fill:none; opacity:0;
-  transition:opacity 0.4s ease;
-}
-.check-svg path {
-  stroke-dasharray:50; stroke-dashoffset:50; transition:stroke-dashoffset 0.5s ease;
-}
+.premium-modal h3{font-size:1.2rem;text-align:center;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;margin-bottom:8px;}
+.premium-modal input{padding:6px 8px;border-radius:var(--radius);border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:0.85rem;transition:0.3s;}
+.premium-modal input:focus{outline:2px solid var(--primary);background:rgba(255,255,255,0.15);}
+.premium-modal button[type="submit"]{padding:8px 12px;border:none;border-radius:var(--radius);background:var(--secondary);color:#000;font-weight:700;cursor:pointer;box-shadow:0 0 15px var(--secondary),0 0 30px var(--secondary) inset;transition:0.3s;}
+.premium-modal button[type="submit"]:hover{background:var(--primary);box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset;transform:scale(1.05);}
+.premium-modal button.close-modal{padding:6px 10px;border:none;border-radius:var(--radius);background:rgba(255,0,0,0.5);color:#fff;cursor:pointer;}
+.mensaje-check{margin-top:10px;text-align:center;font-weight:600;color:var(--primary);opacity:0;transition:opacity 0.4s ease;}
+.check-svg{width:40px;height:40px;margin:10px auto 0;display:block;stroke:var(--primary);stroke-width:4;fill:none;opacity:0;transition:opacity 0.4s ease;}
+.check-svg path{stroke-dasharray:50;stroke-dashoffset:50;transition:stroke-dashoffset 0.5s ease;}
+
 
 /* ==========================
    TEST & PREGUNTAS
