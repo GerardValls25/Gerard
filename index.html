@@ -790,7 +790,9 @@ function cerrarModal() {
 
 // ===== Cerrar al hacer clic fuera del contenido =====
 modalUnificado.addEventListener("click", e => {
-  if(!formUnificado.contains(e.target)) cerrarModal();
+  if (e.target === modalUnificado) {
+    cerrarModal();
+  }
 });
 
 // ===== Cerrar con botón =====
