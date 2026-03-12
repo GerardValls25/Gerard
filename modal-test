@@ -1180,191 +1180,160 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
    
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-// ===== Test Rápido =====
-const modalTest = document.getElementById("modal-test");
-const btnTest = document.getElementById("btn-test");
-const closeTest = modalTest.querySelector(".close-modal");
-const preguntas = modalTest.querySelectorAll(".test-pregunta");
-const finalTest = modalTest.querySelector(".test-final");
-const countdownEl = modalTest.querySelector(".countdown");
-const progressFill = modalTest.querySelector(".progress-fill");
-
-let preguntaActual = 0;
-let tiempo = 30;
-let interval;
-
-});
-// Abrir modal test
-document.addEventListener("DOMContentLoaded", () => {
-
-  const btnTest = document.getElementById("btn-test");
+  // ===== Elementos =====
   const modalTest = document.getElementById("modal-test");
+  const btnTest = document.getElementById("btn-test");
+  const closeBtns = modalTest.querySelectorAll(".close-modal");
+  const preguntas = modalTest.querySelectorAll(".test-pregunta");
+  const finalTest = modalTest.querySelector(".test-final");
+  const countdownEl = modalTest.querySelector(".countdown");
+  const progressFill = modalTest.querySelector(".progress-fill");
 
+  let preguntaActual = 0;
+  let tiempo = 30;
+  let interval;
+
+ // ===== Abrir modal =====
   btnTest.addEventListener("click", () => {
-
     modalTest.style.display = "flex";
-
-    setTimeout(() => {
-      modalTest.style.opacity = 1;
-    }, 10);
-
+    setTimeout(() => modalTest.style.opacity = 1, 10);
     document.body.style.overflow = "hidden";
 
+    resetTest();
     iniciarPregunta();
   });
 
-});
+  // ===== Cerrar modal =====
+  closeBtns.forEach(btn => btn.addEventListener("click", cerrarModalTest));
+  modalTest.addEventListener("click", e => { if(e.target === modalTest) cerrarModalTest(); });
+  document.addEventListener("keydown", e => { if(e.key === "Escape") cerrarModalTest(); });
 
-// Cerrar modal
-closeTest.addEventListener("click", cerrarModalTest);
-modalTest.addEventListener("click", e => {
-  if(e.target === modalTest) cerrarModalTest();
-});
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape" && modalTest.style.display==="flex") cerrarModalTest();
-});
+  function cerrarModalTest() {
+    modalTest.style.opacity = 0;
+    clearInterval(interval);
+    document.body.style.overflow = "auto";
+    setTimeout(() => modalTest.style.display = "none", 300);
+  }
 
-function cerrarModalTest(){
-  modalTest.style.opacity = 0;
-  clearInterval(interval);
+  // ===== Resetear test =====
+  function resetTest() {
+    preguntaActual = 0;
+    tiempo = 30;
+    countdownEl.textContent = tiempo;
+    progressFill.style.width = "0%";
 
-  setTimeout(()=>{
-
-    modalTest.style.display = "none";
-
-    preguntas.forEach(p => p.classList.remove("active"));
-    preguntas[0].classList.add("active");
-
-    // LIMPIAR RESPUESTAS MARCADAS
-    modalTest.querySelectorAll(".respuesta").forEach(btn=>{
-  btn.classList.remove("selected");
-});
+    preguntas.forEach((p, i) => {
+      p.classList.toggle("active", i === 0);
+      p.querySelectorAll(".respuesta").forEach(btn => btn.classList.remove("selected"));
+    });
 
     finalTest.style.display = "none";
     finalTest.querySelector("input").value = "";
     finalTest.querySelector(".mensaje-check").style.opacity = 0;
-
     const svg = finalTest.querySelector(".check-svg");
     svg.style.opacity = 0;
     svg.querySelector("path").style.strokeDashoffset = 50;
+  }
 
-    progressFill.style.width = "0%";
+  // ===== Iniciar pregunta =====
+  function iniciarPregunta() {
+    const pregunta = preguntas[preguntaActual];
+    const respuestas = pregunta.querySelectorAll(".respuesta");
+
     tiempo = 30;
     countdownEl.textContent = tiempo;
 
-    document.body.style.overflow = "auto";
+    interval = setInterval(() => {
+      tiempo--;
+      countdownEl.textContent = tiempo;
+      progressFill.style.width = `${((preguntaActual + (30 - tiempo)/30)/preguntas.length)*100}%`;
 
-    preguntaActual = 0;
+      if(tiempo <= 0){
+        clearInterval(interval);
+        avanzarPregunta();
+      }
+    }, 1000);
 
-  }, 300);
-}
+    // Limpia selección previa
+    respuestas.forEach(btn => btn.classList.remove("selected"));
 
-// Iniciar pregunta
-function iniciarPregunta(){
-  tiempo = 30;
-  countdownEl.textContent = tiempo;
-  progressFill.style.width = `${(preguntaActual/preguntas.length)*100}%`;
+    // Eventos de respuesta
+    respuestas.forEach(btn => {
+      btn.onclick = () => {
+        respuestas.forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
 
-  interval = setInterval(()=>{
-    tiempo--;
-    countdownEl.textContent = tiempo;
-
-    progressFill.style.width = `${((preguntaActual + (30 - tiempo)/30)/preguntas.length)*100}%`;
-
-    if(tiempo <= 0){
-      clearInterval(interval);
-      avanzarPregunta();
-    }
-  }, 1000);
-
-  // Eventos de respuesta
-  const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
-
-// limpiar selección previa
-respuestas.forEach(b => b.classList.remove("selected"));
-
-respuestas.forEach(btn => {
-  btn.onclick = () => {
-
-    respuestas.forEach(b => b.classList.remove("selected"));
-    btn.classList.add("selected");
-
-    clearInterval(interval);
-
-    setTimeout(avanzarPregunta, 400);
-  };
-});
-
-// Avanzar a siguiente pregunta o mostrar final
-function avanzarPregunta(){
-
-  // quitar selección de la pregunta actual
-  const botones = preguntas[preguntaActual].querySelectorAll(".respuesta");
-  botones.forEach(b => b.classList.remove("selected"));
-
-  preguntas[preguntaActual].classList.remove("active");
-
-  preguntaActual++;
-
-  if(preguntaActual < preguntas.length){
-    preguntas[preguntaActual].classList.add("active");
-    iniciarPregunta();
-  } else {
-    mostrarFinal();
+        clearInterval(interval);
+        setTimeout(avanzarPregunta, 400);
+      };
+    });
   }
-}
 
-// Mostrar sección final del test
-function mostrarFinal(){
-  finalTest.style.display = "flex";
-  finalTest.querySelector("input").focus();
-  countdownEl.textContent = "";
-  progressFill.style.width = "100%";
+  // ===== Avanzar pregunta =====
+  function avanzarPregunta() {
+    preguntas[preguntaActual].classList.remove("active");
+    preguntaActual++;
 
-  const btnSubmit = finalTest.querySelector("button[type='submit']");
-  btnSubmit.onclick = async (e) => {
-    e.preventDefault();
-    const inputEmail = finalTest.querySelector("input").value;
-    const mensaje = finalTest.querySelector(".mensaje-check");
-    const svg = finalTest.querySelector(".check-svg");
-    const path = svg.querySelector("path");
-    const originalText = btnSubmit.textContent;
-
-    if(!inputEmail) return;
-
-    btnSubmit.textContent = "Enviando...";
-    btnSubmit.disabled = true;
-
-    try{
-      const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-        method:"POST",
-        headers: {"Accept":"application/json","Content-Type":"application/json"},
-        body: JSON.stringify({ email: inputEmail })
-      });
-
-      if(!res.ok) throw new Error("Error envío");
-
-      mensaje.textContent = "¡Gracias! Te enviaremos tu plan";
-      mensaje.style.opacity = 1;
-      svg.style.opacity = 1;
-      path.style.strokeDashoffset = 0;
-
-      setTimeout(cerrarModalTest, 2000);
-
-    } catch(err){
-      mensaje.textContent = "Error, intenta de nuevo ❌";
-      mensaje.style.color = "#ff4d4d";
-      mensaje.style.opacity = 1;
-      setTimeout(()=>{
-        mensaje.style.opacity = 0;
-        mensaje.style.color = "#00ffc0";
-        btnSubmit.disabled = false;
-        btnSubmit.textContent = originalText;
-      }, 2500);
+    if(preguntaActual < preguntas.length){
+      preguntas[preguntaActual].classList.add("active");
+      iniciarPregunta();
+    } else {
+      mostrarFinal();
     }
-  };
-}
+  }
+
+  // ===== Mostrar final =====
+  function mostrarFinal() {
+    finalTest.style.display = "flex";
+    finalTest.querySelector("input").focus();
+    countdownEl.textContent = "";
+    progressFill.style.width = "100%";
+
+    const btnSubmit = finalTest.querySelector("button[type='submit']");
+    btnSubmit.onclick = async (e) => {
+      e.preventDefault();
+      const inputEmail = finalTest.querySelector("input").value;
+      const mensaje = finalTest.querySelector(".mensaje-check");
+      const svg = finalTest.querySelector(".check-svg");
+      const path = svg.querySelector("path");
+      const originalText = btnSubmit.textContent;
+
+      if(!inputEmail) return;
+
+      btnSubmit.textContent = "Enviando...";
+      btnSubmit.disabled = true;
+
+      try{
+        const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+          method:"POST",
+          headers: {"Accept":"application/json","Content-Type":"application/json"},
+          body: JSON.stringify({ email: inputEmail })
+        });
+
+        if(!res.ok) throw new Error("Error envío");
+
+        mensaje.textContent = "¡Gracias! Te enviaremos tu plan";
+        mensaje.style.opacity = 1;
+        svg.style.opacity = 1;
+        path.style.strokeDashoffset = 0;
+
+        setTimeout(cerrarModalTest, 2000);
+
+      } catch(err){
+        mensaje.textContent = "Error, intenta de nuevo ❌";
+        mensaje.style.color = "#ff4d4d";
+        mensaje.style.opacity = 1;
+        setTimeout(()=>{
+          mensaje.style.opacity = 0;
+          mensaje.style.color = "#00ffc0";
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = originalText;
+        }, 2500);
+      }
+    };
+  }
+
+});
 </script>
 </body>
 </html>
