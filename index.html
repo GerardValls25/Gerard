@@ -782,10 +782,10 @@ document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=
 });
 
 // ==============================
-// CERRAR MODAL
+// CERRAR MODAL PLANES
 // ==============================
 
-function cerrarModal(){
+function cerrarModalPlanes(){
 
   modalUnificado.style.opacity = "0";
 
@@ -796,9 +796,21 @@ function cerrarModal(){
   document.body.style.overflow = "";
 
 }
-
 // botón cerrar
-btnCerrar.addEventListener("click", cerrarModal);
+btnCerrar.addEventListener("click", cerrarModalPlanes);
+
+modalUnificado.addEventListener("click", function(e){
+  const contenido = modalUnificado.querySelector(".premium-modal");
+  if(!contenido.contains(e.target)){
+    cerrarModalPlanes();
+  }
+});
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
+    cerrarModalPlanes();
+  }
+});
 
 // ==============================
 // CLIC FUERA DEL MODAL
@@ -1202,12 +1214,20 @@ btnTest.addEventListener("click", () => {
 });
 
 // Cerrar modal
-closeTest.addEventListener("click", cerrarModal);
-modalTest.addEventListener("click", e => { if(e.target === modalTest) cerrarModal(); });
-document.addEventListener("keydown", e => { if(e.key === "Escape" && modalTest.style.display==="flex") cerrarModal(); });
+closeTest.addEventListener("click", cerrarModalTest);
 
-function cerrarModal(){
+modalTest.addEventListener("click", e => {
+  if(e.target === modalTest) cerrarModalTest();
+});
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && modalTest.style.display==="flex") cerrarModalTest();
+});
+
+function cerrarModalTest(){
+
   modalTest.style.opacity=0;
+
   setTimeout(()=>{
     modalTest.style.display="none";
     preguntas.forEach(p => p.classList.remove("active"));
@@ -1221,6 +1241,7 @@ function cerrarModal(){
     preguntaActual = 0;
     tiempo = 30;
   },300);
+
 }
 
 // Iniciar una pregunta
