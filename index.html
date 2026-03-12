@@ -787,10 +787,15 @@ function cerrarModal() {
 btnCerrar.addEventListener("click", cerrarModal);
 
 // Cerrar al hacer clic fuera del modal
-modalUnificado.addEventListener("click", (e) => {
-  if (e.target === modalUnificado) {
+modalUnificado.addEventListener("click", function(e) {
+
+  const contenido = modalUnificado.querySelector(".premium-modal");
+
+  // Si el click NO está dentro del modal
+  if (!contenido.contains(e.target)) {
     cerrarModal();
   }
+
 });
 
 // ===== ENVÍO FORMULARIO UNIFICADO =====
