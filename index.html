@@ -1204,6 +1204,8 @@ const progressFill = modalTest.querySelector(".progress-fill");
 let tiempo = 30; 
 let preguntaActual = 0;
 let interval;
+let startTime;
+let rafId;
 
 // Abrir modal test
 btnTest.addEventListener("click", () => {
@@ -1225,7 +1227,7 @@ document.addEventListener("keydown", e => {
 });
 
 function cerrarModalTest(){
-  modalTest.style.opacity=0;
+  modalTest.style.opacity = 0;
 
   setTimeout(()=>{
     modalTest.style.display="none";
@@ -1237,6 +1239,7 @@ function cerrarModalTest(){
     countdownEl.textContent = 30;
     document.body.style.overflow="auto";
     clearInterval(interval);
+    cancelAnimationFrame(rafId);
     preguntaActual = 0;
     tiempo = 30;
   },300);
@@ -1250,13 +1253,29 @@ function iniciarPregunta(){
 
   preguntas.forEach((p, i) => p.classList.toggle("active", i === preguntaActual));
 
+  startTime = performance.now();
+
+  // Animación de barra continua
+  function animarProgreso(now){
+    const elapsed = (now - startTime)/1000; // segundos
+    const porcentaje = Math.min((elapsed/tiempo)*100, 100);
+    progressFill.style.width = porcentaje + "%";
+
+    if(elapsed < tiempo){
+      rafId = requestAnimationFrame(animarProgreso);
+    }
+  }
+  rafId = requestAnimationFrame(animarProgreso);
+
+  // Countdown en segundos
+  clearInterval(interval);
   interval = setInterval(()=>{
     tiempo--;
     countdownEl.textContent = tiempo;
-    progressFill.style.width = `${((30-tiempo)/30)*100}%`;
 
     if(tiempo <= 0){
       clearInterval(interval);
+      cancelAnimationFrame(rafId);
       avanzarPregunta();
     }
   },1000);
@@ -1270,6 +1289,7 @@ function iniciarPregunta(){
       btn.classList.add("seleccionado");
 
       clearInterval(interval);
+      cancelAnimationFrame(rafId);
       avanzarPregunta();
     };
   });
