@@ -1262,12 +1262,12 @@ respuestas.forEach(btn => {
     // quitar selección previa
     respuestas.forEach(b => b.classList.remove("selected"));
 
-    // marcar la seleccionada
+    // marcar seleccionada
     btn.classList.add("selected");
 
     clearInterval(interval);
 
-    // esperar un poco para que el usuario vea la selección
+    // pequeño delay para ver la selección
     setTimeout(avanzarPregunta, 400);
   };
 });
