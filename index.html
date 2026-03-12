@@ -654,7 +654,6 @@ document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=
 // ==============================
 
 function cerrarModalPlanes(){
-
   modalUnificado.style.opacity = "0";
 
   setTimeout(()=>{
@@ -662,11 +661,12 @@ function cerrarModalPlanes(){
   },300);
 
   document.body.style.overflow = "";
-
 }
-// botón cerrar
+
+// --- Botón cerrar ---
 btnCerrar.addEventListener("click", cerrarModalPlanes);
 
+// --- Clic fuera del modal ---
 modalUnificado.addEventListener("click", function(e){
   const contenido = modalUnificado.querySelector(".premium-modal");
   if(!contenido.contains(e.target)){
@@ -674,36 +674,11 @@ modalUnificado.addEventListener("click", function(e){
   }
 });
 
+// --- Tecla ESC ---
 document.addEventListener("keydown", function(e){
   if(e.key === "Escape" && modalUnificado.style.display === "flex"){
     cerrarModalPlanes();
   }
-});
-
-// ==============================
-// CLIC FUERA DEL MODAL
-// ==============================
-
-modalUnificado.addEventListener("click", function(e){
-
-  const contenido = modalUnificado.querySelector(".premium-modal");
-
-  if(!contenido.contains(e.target)){
-    cerrarModal();
-  }
-
-});
-
-// ==============================
-// TECLA ESC
-// ==============================
-
-document.addEventListener("keydown", function(e){
-
-  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
-    cerrarModal();
-  }
-
 });
 
 // ==============================
@@ -711,7 +686,6 @@ document.addEventListener("keydown", function(e){
 // ==============================
 
 formUnificado.addEventListener("submit", async e=>{
-
   e.preventDefault();
 
   const btn = formUnificado.querySelector("button[type='submit']");
@@ -727,7 +701,6 @@ formUnificado.addEventListener("submit", async e=>{
   };
 
   try{
-
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method:"POST",
       headers:{
@@ -749,10 +722,9 @@ formUnificado.addEventListener("submit", async e=>{
       checkPath.style.strokeDashoffset = 0;
     },50);
 
-    setTimeout(cerrarModal,2000);
+    setTimeout(cerrarModalPlanes,2000);
 
   }catch(err){
-
     mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
     mensaje.style.color = "#ff4d4d";
     mensaje.style.opacity = 1;
@@ -763,9 +735,7 @@ formUnificado.addEventListener("submit", async e=>{
       btn.disabled = false;
       btn.textContent = originalText;
     },2500);
-
   }
-
 });
 </script>
 
