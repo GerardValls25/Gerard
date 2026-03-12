@@ -1179,19 +1179,22 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
 </div>
    
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+
 // ===== Test Rápido =====
 const modalTest = document.getElementById("modal-test");
-const btnTest = document.getElementById("btn-test");       // Botón para abrir modal
-const closeTest = modalTest.querySelector(".close-modal"); // Botón para cerrar modal
+const btnTest = document.getElementById("btn-test");
+const closeTest = modalTest.querySelector(".close-modal");
 const preguntas = modalTest.querySelectorAll(".test-pregunta");
 const finalTest = modalTest.querySelector(".test-final");
 const countdownEl = modalTest.querySelector(".countdown");
 const progressFill = modalTest.querySelector(".progress-fill");
 
 let preguntaActual = 0;
-let tiempo = 30; // segundos
+let tiempo = 30;
 let interval;
 
+});
 // Abrir modal test
 document.addEventListener("DOMContentLoaded", () => {
 
