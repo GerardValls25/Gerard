@@ -1225,20 +1225,35 @@ document.addEventListener("keydown", e => {
 function cerrarModalTest(){
   modalTest.style.opacity = 0;
   clearInterval(interval);
+
   setTimeout(()=>{
+
     modalTest.style.display = "none";
+
     preguntas.forEach(p => p.classList.remove("active"));
     preguntas[0].classList.add("active");
+
+    // LIMPIAR RESPUESTAS MARCADAS
+    document.querySelectorAll(".respuesta").forEach(btn=>{
+      btn.classList.remove("selected");
+    });
+
     finalTest.style.display = "none";
     finalTest.querySelector("input").value = "";
     finalTest.querySelector(".mensaje-check").style.opacity = 0;
+
     const svg = finalTest.querySelector(".check-svg");
     svg.style.opacity = 0;
     svg.querySelector("path").style.strokeDashoffset = 50;
+
     progressFill.style.width = "0%";
+    tiempo = 30;
     countdownEl.textContent = tiempo;
+
     document.body.style.overflow = "auto";
+
     preguntaActual = 0;
+
   }, 300);
 }
 
