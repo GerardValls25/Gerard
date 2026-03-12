@@ -752,7 +752,6 @@ const checkPath = checkSVG.querySelector("path");
 // ===== Abrir modal con plan =====
 document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
   btn.addEventListener("click", (e)=>{
-    e.stopPropagation(); // evita que el click cierre el modal
 
     let plan = "";
     const card = btn.closest(".subscription-card");
@@ -885,10 +884,7 @@ window.addEventListener("load", ()=>{
 // Abrir modal
 // ==============================
 document.querySelectorAll(".close-modal").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const modal = btn.closest(".modal");
-    if(modal) cerrarModal(modal.id);
-  });
+  btn.addEventListener("click", cerrarModal);
 });
 
 document.addEventListener("keydown", e => {
