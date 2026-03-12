@@ -294,6 +294,12 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
   stroke-dashoffset: 50;
   transition: stroke-dashoffset 0.5s ease;
 }
+   .test-pregunta button.respuesta.selected{
+  background: var(--secondary);
+  color: #000;
+  box-shadow: 0 0 10px var(--secondary), 0 0 20px var(--secondary);
+  transform: scale(1.05);
+}
 /* ==========================
    MODALES Y TEST RÁPIDO NEÓN
 ========================== */
@@ -1245,6 +1251,7 @@ function iniciarPregunta(){
   interval = setInterval(()=>{
     tiempo--;
     countdownEl.textContent = tiempo;
+
     progressFill.style.width = `${((preguntaActual + (30 - tiempo)/30)/preguntas.length)*100}%`;
 
     if(tiempo <= 0){
@@ -1256,21 +1263,18 @@ function iniciarPregunta(){
   // Eventos de respuesta
   const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
 
-respuestas.forEach(btn => {
-  btn.onclick = () => {
+  respuestas.forEach(btn => {
+    btn.onclick = () => {
 
-    // quitar selección previa
-    respuestas.forEach(b => b.classList.remove("selected"));
+      respuestas.forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
 
-    // marcar seleccionada
-    btn.classList.add("selected");
+      clearInterval(interval);
 
-    clearInterval(interval);
-
-    // pequeño delay para ver la selección
-    setTimeout(avanzarPregunta, 400);
-  };
-});
+      setTimeout(avanzarPregunta, 400);
+    };
+  });
+}
 
 // Avanzar a siguiente pregunta o mostrar final
 function avanzarPregunta(){
