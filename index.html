@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerard Valls - Nutrición Profesional ULTRA PREMIUM</title>
+<meta name="description" content="Pierde grasa y gana músculo con planes personalizados y asesoría profesional de Gerard Valls. Resultados sostenibles y medibles.">
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.1/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.1/ScrollTrigger.min.js" defer></script>
+
+<!-- Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+<style>
+/* ==========================
+   VARIABLES GLOBALES
+========================== */
+:root{
+  --primary:#00ffc0;
+  --secondary:#ffbf00;
+  --darkbg:#1a1f3f;
+  --text-light:#e6e6e6;
+  --radius:20px;
+  --transition:0.4s ease;
+  --card-bg:rgba(255,255,255,0.05);
+  --card-shadow:0 12px 40px rgba(0,0,0,0.55);
+}
+/* ==========================
+   RESET & BASE
+========================== */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Montserrat',sans-serif;background:var(--darkbg);color:var(--text-light);line-height:1.5;overflow-x:hidden;}
+a{text-decoration:none;color:var(--primary);transition:var(--transition);}
+a:hover{color:var(--secondary);}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+#main-content{display:none;}
+
+/* ==========================
+   SPLASH SCREEN
+========================== */
+#splash{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:#000;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  z-index:10000;transition:opacity 0.6s ease;
+}
+#splash img{max-width:80%;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.6);}
+#btn-comencemos{
+  margin-top:30px;padding:15px 40px;font-size:1.2rem;
+  border:none;border-radius:20px;background:var(--primary);
+  color:#000;cursor:pointer;box-shadow:0 5px 15px rgba(0,255,192,0.4);
+  transition:0.3s;
+}
+#btn-comencemos:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(0,255,192,0.5);}
+
+/* ==========================
+   MENÚ NEÓN
+========================== */
+#main-nav{
+  position: fixed; top:0; left:50%; transform:translateX(-50%);
+  width:95%; max-width:1200px; background: rgba(10,10,25,0.6);
+  backdrop-filter: blur(15px); border-radius:15px;
+  box-shadow:0 4px 20px rgba(0,255,192,0.3); z-index:1000;
+}
+#main-nav ul{display:flex;justify-content: space-around;list-style:none;padding:10px 0;margin:0;}
+.neon-link{
+  color:var(--primary);font-weight:600;font-size:0.95rem;
+  padding:6px 12px;border-radius:10px;
+  text-shadow:0 0 5px var(--primary),0 0 10px var(--primary),0 0 20px var(--primary),0 0 40px #00bfff,0 0 80px #00bfff;
+  transition: all 0.3s ease-in-out;position: relative;
+  animation: neon-flicker 2.5s infinite;
+}
+.neon-link:hover{
+  color:var(--secondary);
+  text-shadow:0 0 5px var(--secondary),0 0 10px var(--secondary),0 0 20px var(--secondary),0 0 40px var(--secondary),0 0 80px var(--secondary);
+  background: rgba(0,0,0,0.2);
+}
+@keyframes neon-flicker{
+  0%,18%,22%,25%,53%,57%,100%{ text-shadow:0 0 5px var(--primary),0 0 10px var(--primary),0 0 20px var(--primary),0 0 40px #00bfff,0 0 80px #00bfff;}
+  20%,24%,55%{ text-shadow:none;color:var(--primary);}
+}
+
+/* ==========================
+   HEADER
+========================== */
+header{text-align:center;padding:180px 20px 60px;}
+header img{width:100%;max-width:500px;border-radius:15px;box-shadow:0 20px 50px rgba(0,0,0,0.6);margin-bottom:30px;transition:transform 0.3s ease, box-shadow 0.3s ease;}
+header img:hover{transform:scale(1.05);box-shadow:0 25px 60px rgba(0,0,0,0.7);}
+header h1{
+  font-size:2.2rem;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);
+  -webkit-background-clip:text;color:transparent;text-shadow:0 0 15px rgba(0,255,192,0.3);
+  margin-bottom:10px;line-height:1.2;
+}
+header p{
+  font-size:1rem;max-width:600px;margin:auto;opacity:0;transform:translateY(20px);
+  animation:fadeInUp 1s forwards 0.5s;
+}
+header .cta{margin-top:25px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+header .cta button,header .cta a{
+  padding:12px 28px;border-radius:var(--radius);font-weight:600;cursor:pointer;transition:var(--transition);font-size:0.95rem;
+}
+header .cta button{background:var(--secondary);color:#000;border:none;}
+header .cta button:hover{background:var(--primary);transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,255,192,0.3);}
+header .cta a{border:2px solid var(--primary);color:var(--primary);}
+header .cta a:hover{background:var(--primary);color:#000;box-shadow:0 5px 15px rgba(0,255,192,0.3);}
+
+/* ==========================
+   SECCIONES & GRID
+========================== */
+section{max-width:1100px;margin:100px auto;padding:60px 30px;border-radius:var(--radius);backdrop-filter:blur(12px);background:var(--card-bg);box-shadow:var(--card-shadow);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;}
+.grid .card{
+  padding:20px;border-radius:var(--radius);background:var(--card-bg);
+  backdrop-filter:blur(12px);box-shadow:var(--card-shadow);text-align:center;
+  transition:var(--transition);display:flex;flex-direction:column;justify-content:center;
+}
+.grid .card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 16px 45px rgba(0,0,0,0.6);}
+.grid .card i{font-size:2rem;margin-bottom:10px;}
+.grid .card h3{font-size:1.15rem;margin-bottom:6px;font-weight:600;}
+.grid .card p{font-size:0.9rem;opacity:0.85;line-height:1.4;}
+
+/* ==========================
+   FOOTER
+========================== */
+footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
+
+/* ==========================
+   ANIMACIONES
+========================== */
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes neonGlow{0%{box-shadow:0 0 20px var(--primary),0 0 50px #00bfff inset;}50%{box-shadow:0 0 40px var(--primary),0 0 80px #00bfff inset;}100%{box-shadow:0 0 20px var(--primary),0 0 50px #00bfff inset;}}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+@media(max-width:768px){
+  header h1{font-size:1.8rem;}
+  header p{font-size:0.95rem;}
+  .grid{gap:15px;}
+  .grid .card{padding:15px;}
+}
+@media(max-width:480px){
+  .premium-modal { width:90%; padding:12px 15px; gap:8px; }
+  .premium-modal h3 { font-size:1rem; }
+  .premium-modal input { font-size:0.8rem; padding:5px 6px; }
+  .premium-modal button[type="submit"] { font-size:0.85rem; padding:7px 10px; }
+  .premium-modal button.close-modal { padding:5px 8px; font-size:0.8rem; }
+}
+
+/* ==========================
+   TARJETAS DE SUSCRIPCIÓN
+========================== */
+.subscription-card{
+  background:linear-gradient(145deg,rgba(0,255,192,0.05),rgba(0,191,255,0.1));
+  border-radius:var(--radius);padding:25px;text-align:center;
+  box-shadow:0 0 25px rgba(0,255,192,0.4),0 0 50px rgba(0,191,255,0.3);transition:all 0.3s ease;
+}
+.subscription-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 0 35px rgba(0,255,192,0.6),0 0 60px rgba(0,191,255,0.5);}
+.subscription-card h3{font-size:1.2rem;margin-bottom:10px;font-weight:700;background:linear-gradient(90deg,#00ffc0,#00bfff,#ff00c8,#ffbf00);-webkit-background-clip:text;color:transparent;}
+.subscription-card button{
+  margin-top:15px;padding:12px 20px;border-radius:var(--radius);
+  font-weight:600;color:#000;background:#ffbf00;border:none;
+  cursor:pointer;box-shadow:0 0 15px #ffbf00,0 0 30px #ffbf00 inset;
+  animation:pulse 2s infinite;transition:all 0.3s ease-in-out;
+}
+.subscription-card button:hover{background:var(--primary);box-shadow:0 0 25px var(--primary),0 0 50px #00bfff inset;transform:scale(1.05);}
+.subscription-card.premium{transform:scale(1.05);border:2px solid var(--primary);box-shadow:0 0 35px var(--primary),0 0 70px #00bfff inset;animation:neonGlow 2.5s infinite alternate;}
+
+/* ==========================
+   MODALES Y TEST RÁPIDO NEÓN
+========================== */
+
+/* Fondo del modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Contenedor principal del modal */
+.premium-modal {
+  background: rgba(17, 17, 17, 0.9);
+  padding: 15px 20px;
+  border-radius: var(--radius);
+  width: 320px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset;
+  border: 2px solid var(--primary);
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Título con gradiente neón */
+.premium-modal h3 {
+  font-size: 1.2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
+}
+
+/* Inputs del modal */
+.premium-modal input {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.premium-modal input:focus {
+  outline: 2px solid var(--primary);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Botones generales */
+.premium-modal button[type="submit"] {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--secondary);
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 15px var(--secondary), 0 0 30px var(--secondary) inset;
+  transition: all 0.3s ease-in-out;
+}
+.premium-modal button[type="submit"]:hover {
+  background: var(--primary);
+  box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset;
+  transform: scale(1.05);
+}
+
+/* Botón cerrar */
+.premium-modal button.close-modal {
+  padding: 6px 10px;
+  border: none;
+  border-radius: var(--radius);
+  background: rgba(255, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Mensaje de check */
+.mensaje-check {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--primary);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Animación SVG check */
+.check-svg {
+  width: 40px;
+  height: 40px;
+  margin: 10px auto 0;
+  display: block;
+  stroke: var(--primary);
+  stroke-width: 4;
+  fill: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.check-svg path {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  transition: stroke-dashoffset 0.5s ease;
+}
+/* ==========================
+   MODALES Y TEST RÁPIDO NEÓN
+========================== */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.premium-modal{
+  background: rgba(17,17,17,0.9);
+  padding: 15px 20px;
+  border-radius: var(--radius);
+  width: 320px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ==========================
+   MODAL TEST TAMAÑO COMPACTO
+========================== */
+
+#modal-test .premium-modal{
+  width:260px;
+  max-width:90%;
+  max-height:70vh;
+  overflow:auto;
+  padding:12px 14px;
+  gap:8px;
+}
+
+#modal-test .test-final{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+#modal-test .test-final input{
+  width:100%;
+  padding:6px 8px;
+  font-size:0.85rem;
+}
+
+#modal-test .test-final button{
+  padding:6px 12px;
+  font-size:0.85rem;
+}
+
+#modal-test .check-svg{
+  width:28px;
+  height:28px;
+}
+/* ==========================
+   TEST RÁPIDO NEÓN
+========================== */
+.test-pregunta p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-shadow: 0 0 5px var(--primary);
+}
+.test-pregunta button.respuesta {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+  transition: all 0.3s ease-in-out;
+}
+.test-pregunta button.respuesta:hover {
+  background: var(--secondary);
+  text-shadow: 0 0 5px var(--secondary), 0 0 10px var(--secondary), 0 0 20px var(--secondary);
+}
+
+/* Inputs del test final */
+.test-final input[type="email"] {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* ==========================
+   COUNTDOWN Y PROGRESO
+========================== */
+.countdown-container {
+  display:flex; flex-direction:column; align-items:center; margin-bottom:15px;
+}
+.countdown {
+  font-size:20px; font-weight:bold; margin-bottom:5px; color:#00ffc0;
+}
+.progress-bar { width:100%; height:8px; background:#222; border-radius:4px; overflow:hidden; }
+.progress-fill { height:100%; width:0%; background:green; transition:width 1s linear; }
+
+/* ==========================
+   WHATSAPP BUTTON
+========================== */
+#whatsapp-btn-ultimate{
+  position: fixed;bottom:25px;right:25px;background:#25d366;color:#fff;
+  font-size:2.2rem;border-radius:50%;padding:16px;z-index:10000;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset;
+  opacity:0;pointer-events:none;transition: all 0.3s ease; gap:8px;
+}
+#whatsapp-btn-ultimate.show{opacity:1;pointer-events:auto;}
+#whatsapp-btn-ultimate:hover{transform:scale(1.15);}
+#whatsapp-counter{
+  background:rgba(0,0,0,0.6);font-size:0.8rem;font-weight:700;padding:2px 6px;border-radius:8px;
+}
+@keyframes whatsapp-urgent{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
+
+/* ==========================
+   HEADER SUBTITLES & CTA
+========================== */
+.header-subtitle{
+  max-width:600px;margin:10px auto 20px;font-size:1rem;opacity:0.9;text-align:center;
+}
+.header-benefits{
+  margin-top:20px;font-size:0.95rem;opacity:0.9;text-align:center;
+}
+.header-warning{
+  margin-top:10px;color:#ffbf00;font-weight:600;text-align:center;
+}
+.cta{margin-top:25px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.btn-test{
+  background:#00ffc0;color:#000;font-weight:600;border:none;
+  padding:12px 28px;border-radius: var(--radius);cursor:pointer;
+  box-shadow: 0 5px 15px rgba(0,255,192,0.4);transition: var(--transition);
+}
+.btn-test:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,255,192,0.5);
+}
+</style>
+</head>
+<body>
+<!-- Splash -->
+<div id="splash">
+  <img src="https://via.placeholder.com/400x200.png?text=Bienvenido" alt="Logo">
+  <button id="btn-comencemos">Comencemos</button>
+</div>
+  
+<!-- Contenido principal -->
+<div id="main-content">
+  <!-- Menú -->
+  <nav id="main-nav">
+    <ul>
+      <li><a class="neon-link" href="#header">Inicio</a></li>
+      <li><a class="neon-link" href="#servicios">Servicios</a></li>
+      <li><a class="neon-link" href="#suscripciones">Planes</a></li>
+      <li><a class="neon-link" href="#testimonios">Testimonios</a></li>
+      <li><a class="neon-link" href="#cta-final">Empezar</a></li>
+    </ul>
+  </nav>
+
+<!=================== Header  =================== -->
+<header id="header">
+  <img src="gerard.jpg" alt="Gerard Valls, especialista en nutrición profesional">
+  
+  <h1>Transforma tu cuerpo sin dejar de disfrutar tus comidas favoritas</h1>
+  
+  <p class="header-subtitle">
+    Aprende a comer equilibrado, crear hábitos saludables y entrenar a tu ritmo, logrando progreso real y sostenible.
+  </p>
+  
+  <div class="header-benefits">
+    ✔ Plan totalmente personalizado<br>
+    ✔ Seguimiento directo<br>
+    ✔ Adaptado a tu estilo de vida
+  </div>
+  
+  <p class="header-warning">
+    ⚡ Trabajo con pocas personas para asegurar resultados reales
+  </p>
+  
+  <div class="cta">
+<button class="btn-cambio">EMPEZAR MI CAMBIO AHORA</button>
+    
+<button id="btn-test">Haz el test de 30 segundos</button>
+    
+    <a href="#servicios" class="neon-link">VER PROGRAMAS</a>
+    <a href="calculadora.html" class="neon-link">Calculadora</a>
+    <a href="imc.html" class="neon-link" target="_blank">IMC</a>
+  </div>
+</header>
+
+<!-- Servicios -->
+<section id="servicios">
+<h2 style="text-align:center;">Lo que puedo ofrecerte</h2>
+<div class="grid">
+<div class="card"><i class="fas fa-bowl-food"></i><h3>Planes personalizados</h3><p>Comidas y hábitos adaptados a ti, para progresar sin complicaciones.</p></div>
+<div class="card"><i class="fas fa-person-running"></i><h3>Entrenamiento efectivo</h3><p>Rutinas que se ajustan a tu ritmo y estilo de vida.</p></div>
+<div class="card"><i class="fas fa-laptop"></i><h3>Apoyo constante</h3><p>Seguimiento y consejos online para mantener tu progreso real.</p></div>
+</div>
+</section>
+<!-- =========================== -->
+<!-- OFERTA LIMITADA + GARANTÍA + FAQ + LEAD MAGNET -->
+<!-- =========================== -->
+
+<section id="oferta-limitada">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">🔥 Oferta Especial Solo por este Mes 🔥</h2>
+  <div class="grid">
+    <div class="card subscription-card premium">
+      <h3>Suscripción Anual -10%</h3>
+      <p style="font-size:1.6rem;font-weight:700;">
+        <span style="text-decoration:line-through; opacity:0.6;">€510</span> → €459 / 12 meses
+      </p>
+      <ul style="text-align:left; margin:15px 0; padding-left:20px; line-height:1.5;">
+        <li>Acceso completo a todos los planes</li>
+        <li>Soporte prioritario 24/7</li>
+        <li>Descuento válido solo hasta fin de mes</li>
+      </ul>
+      <button>¡APROVECHAR AHORA!</button>
+      
+
+<p id="contador" style="text-align:center; margin-top:15px; color:#ffbf00; font-weight:600;">
+  ⚡ Quedan solo <span id="plazas"></span> plazas disponibles
+</p>
+
+<p id="fecha-limite" style="text-align:center; margin-top:5px; opacity:0.8;"></p>
+</div>
+</section>
+
+<!-- ======================= GARANTÍA + FAQ + CTA ======================= -->
+<section id="garantia">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">💡 Por qué este método funciona</h2>
+  <div class="grid">
+    <!-- Card 1 -->
+    <div class="card">
+      <i class="fas fa-ban" style="color:#ffbf00;"></i>
+      <h3>No más dietas restrictivas</h3>
+      <p>No necesitas eliminar alimentos ni vivir frustrado. Aprenderás a comer bien dentro de tu estilo de vida.</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <i class="fas fa-chart-line" style="color:#00ffc0;"></i>
+      <h3>Resultados sostenibles</h3>
+      <p>El objetivo no es que cambies un mes, sino que mantengas el progreso durante años sin efecto rebote.</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <i class="fas fa-hands-helping" style="color:#00bfff;"></i>
+      <h3>Acompañamiento real</h3>
+      <p>No estás solo. Tendrás seguimiento, ajustes y apoyo constante para asegurar que avanzas.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <h2 style="text-align:center; font-size:1.8rem; margin-bottom:25px;">❓ Preguntas Frecuentes</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>¿Y si no tengo tiempo?</h3>
+      <p>Precisamente por eso este sistema funciona. Se adapta a tu rutina real, no al revés.</p>
+    </div>
+    <div class="card">
+      <h3>¿Voy a pasar hambre?</h3>
+      <p>No. Aprenderás a comer de forma equilibrada y satisfactoria, sin restricciones extremas.</p>
+    </div>
+    <div class="card">
+      <h3>¿En cuánto tiempo veré resultados?</h3>
+      <p>Depende de tu punto de partida, pero desde las primeras semanas notarás mejoras en energía, hábitos y composición corporal.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cta-final" style="margin-top:50px;">
+  <h2 style="text-align:center; font-size:2rem; margin-bottom:15px;">🧠 Es tu momento de hacer un cambio real</h2>
+  <p style="text-align:center; margin-bottom:15px;">Si estás cansado de empezar y abandonar, este es el sistema que necesitas.</p>
+  <p style="text-align:center; color:#ffbf00; font-weight:600; margin-bottom:25px;">⚡ Solo 5 personas nuevas al mes</p>
+  <div style="text-align:center;">
+  <button class="cta-reserva btn-cambio"
+  style="padding:15px 40px; font-size:1.1rem; border:none; border-radius:20px; background:#ffbf00; color:#000; font-weight:700; cursor:pointer;">
+  👉 QUIERO MI PLAN PERSONALIZADO
+</button>
+</div>
+</section>
+
+<!-- Suscripciones Optimizado con Badge -->
+<section id="suscripciones">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:40px;">Planes de Suscripción</h2>
+  <div class="grid">
+    
+    <!-- Mensual -->
+    <div class="card subscription-card">
+      <h3>Suscripción Mensual</h3>
+      <p style="font-size:1.5rem;font-weight:700;">€50 / mes</p>
+      <ul style="text-align:left; margin:15px 0; padding-left:20px; line-height:1.5;">
+        <li><em>*Facturado mensualmente</em></li>
+        <li>Acceso mensual a todos los planes</li>
+        <li>Ideal para probar</li>
+        <li>Soporte básico online</li>
+      </ul>
+      <button>ÚNETE AHORA</button>
+    </div>
+    
+    <!-- Trimestral -->
+    <div class="card subscription-card">
+      <h3>Suscripción Trimestral</h3>
+      <p style="font-size:1.5rem;font-weight:700;">€135 / 3 meses <span style="font-size:1rem; color:#ffbf00;">(€45 / mes)</span></p>
+      <ul style="text-align:left; margin:15px 0; padding-left:20px; line-height:1.5;">
+        <li><em>*Facturado trimestral</em></li>
+        <li>Plan flexible y accesible</li>
+        <li>Actualización periódica de planes</li>
+        <li>Soporte online prioritario</li>
+        <li><strong>Ahorra €5 / mes comparado con mensual</strong></li>
+      </ul>
+      <button>ÚNETE AHORA</button>
+    </div>
+    
+    <!-- Anual con Badge -->
+    <div class="card subscription-card premium" style="position:relative;">
+      <!-- Badge Mejor Valor -->
+      <div style="position:absolute; top:-12px; right:-12px; background:#00ffc0; color:#000; font-weight:700; padding:6px 12px; border-radius:50px; text-shadow:0 0 10px #00ffc0, 0 0 20px #00bfff; font-size:0.85rem; animation: pulse 2s infinite;">Mejor Valor</div>
+      
+      <h3>Suscripción Anual</h3>
+      <p style="font-size:1.5rem;font-weight:700;">€510 / 12 meses <span style="font-size:1rem; color:#00ffc0;">(€43 / mes)</span></p>
+      <ul style="text-align:left; margin:15px 0; padding-left:20px; line-height:1.5;">
+        <li><em>*Facturado anualmente</em></li>
+        <li>Mejor valor total</li>
+        <li>Acceso completo a todos los planes</li>
+        <li>Soporte 24/7 y prioridad</li>
+        <li><strong>Ahorra €7 / mes comparado con mensual</strong></li>
+        <li><strong>Ahorra €27 / mes comparado con trimestral</strong></li>
+      </ul>
+      <button style="background:#00ffc0; color:#000; font-weight:700; box-shadow:0 0 25px #00ffc0, 0 0 50px #00bfff inset; animation:pulse 2s infinite;">ÚNETE AHORA</button>
+    </div>
+
+  </div>
+</section>
+<section id="resultados">
+<h2 style="text-align:center;">Resultados Reales</h2>
+<div class="grid">
+
+<div class="card">
+<img src="antes1.jpg">
+<img src="despues1.jpg">
+<p>-8kg en 3 meses</p>
+</div>
+
+<div class="card">
+<img src="antes2.jpg">
+<img src="despues2.jpg">
+<p>-12kg en 5 meses</p>
+</div>
+
+</div>
+</section>
+<!-- Testimonios -->
+<section id="testimonios">
+  <h2 style="text-align:center;font-size:1.8rem;margin-bottom:25px;">Testimonios Reales</h2>
+  <div class="grid">
+
+    <div class="card">
+      <p>“Antes me sentía cansada todo el tiempo y sin motivación. Con la guía personalizada he aprendido a organizar mi alimentación y a cuidar mi energía día a día. Me siento más activa y segura de mí misma.”</p>
+      <h4>- Ana G., 34 años</h4>
+    </div>
+
+    <div class="card">
+      <p>“Nunca entendía cómo comer de forma saludable sin complicarme la vida. Ahora disfruto mis comidas, tengo hábitos claros y mi rutina diaria se siente más equilibrada.”</p>
+      <h4>- Lucía P., 27 años</h4>
+    </div>
+
+    <div class="card">
+      <p>“Antes improvisaba mi alimentación y entrenamientos. Con un plan adaptado a mí he logrado mantener constancia, sentirme más fuerte y aprender a escuchar a mi cuerpo.”</p>
+      <h4>- Javier R., 38 años</h4>
+    </div>
+
+    <div class="card">
+      <p>“Lo que más valoro es la forma práctica en que me enseñaron a integrar hábitos saludables en mi día a día. Ahora comer bien y entrenar se siente natural, y no un sacrificio.”</p>
+      <h4>- María S., 41 años</h4>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  © 2026 Gerard Valls - Nutrición Profesional
+</footer>
+<!-- ================================ -->
+<!-- MODAL NUEVO: "EMPEZAR MI CAMBIO AHORA" -->
+<!-- ================================ -->
+<div class="modal" id="modal-unificado">
+  <form class="premium-modal" id="form-unificado">
+    <h3>Quiero mi plan Personalizado</h3>
+    <input type="text" name="nombre" placeholder="Nombre completo" required>
+    <input type="email" name="email" placeholder="Correo electrónico" required>
+    <input type="text" name="plan" id="plan-input" readonly>
+    <button type="submit">Enviar y Pagar</button>
+    <button type="button" class="close-modal">Cerrar</button>
+  </form>
+</div>
+<!-- Modal Cambio -->
+<div class="modal" id="modal-cambio">
+  <form class="premium-modal" id="form-cambio">
+    <h3>Empezar Mi Cambio Ahora</h3>
+    <input type="text" name="nombre" placeholder="Nombre completo" required>
+    <input type="email" name="email" placeholder="Correo electrónico" required>
+    <button type="submit">Enviar y Pagar</button>
+    <button type="button" class="close-modal">Cerrar</button>
+  </form>
+</div>
+<script>
+// ==============================
+// MODAL UNIFICADO PARA TODOS LOS PLANES
+// ==============================
+
+const modalUnificado = document.getElementById("modal-unificado");
+const formUnificado = document.getElementById("form-unificado");
+const btnCerrar = modalUnificado.querySelector(".close-modal");
+
+// --- Mensaje y check animado ---
+const mensaje = formUnificado.querySelector(".mensaje-check") || (() => {
+  const m = document.createElement("div");
+  m.className = "mensaje-check";
+  formUnificado.appendChild(m);
+  return m;
+})();
+
+const checkSVG = formUnificado.querySelector(".check-svg") || (() => {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox","0 0 52 52");
+  svg.classList.add("check-svg");
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+  path.setAttribute("d","M14 27 l10 10 l20 -20");
+  path.setAttribute("stroke-dasharray","50");
+  path.setAttribute("stroke-dashoffset","50");
+
+  svg.appendChild(path);
+  formUnificado.appendChild(svg);
+  return svg;
+})();
+
+const checkPath = checkSVG.querySelector("path");
+
+// ==============================
+// ABRIR MODAL CON PLAN
+// ==============================
+
+document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+
+    let plan = "";
+    const card = btn.closest(".subscription-card");
+
+    if(card){
+      plan = card.querySelector("h3")?.textContent || "";
+    }
+
+    formUnificado.reset();
+    document.getElementById("plan-input").value = plan;
+
+    modalUnificado.style.display = "flex";
+
+    setTimeout(()=>{
+      modalUnificado.style.opacity = "1";
+    },10);
+
+    document.body.style.overflow = "hidden";
+  });
+});
+
+// ==============================
+// CERRAR MODAL PLANES
+// ==============================
+
+function cerrarModalPlanes(){
+
+  modalUnificado.style.opacity = "0";
+
+  setTimeout(()=>{
+    modalUnificado.style.display = "none";
+  },300);
+
+  document.body.style.overflow = "";
+
+}
+// botón cerrar
+btnCerrar.addEventListener("click", cerrarModalPlanes);
+
+modalUnificado.addEventListener("click", function(e){
+  const contenido = modalUnificado.querySelector(".premium-modal");
+  if(!contenido.contains(e.target)){
+    cerrarModalPlanes();
+  }
+});
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
+    cerrarModalPlanes();
+  }
+});
+
+// ==============================
+// CLIC FUERA DEL MODAL
+// ==============================
+
+modalUnificado.addEventListener("click", function(e){
+
+  const contenido = modalUnificado.querySelector(".premium-modal");
+
+  if(!contenido.contains(e.target)){
+    cerrarModal();
+  }
+
+});
+
+// ==============================
+// TECLA ESC
+// ==============================
+
+document.addEventListener("keydown", function(e){
+
+  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
+    cerrarModal();
+  }
+
+});
+
+// ==============================
+// ENVÍO FORMULARIO
+// ==============================
+
+formUnificado.addEventListener("submit", async e=>{
+
+  e.preventDefault();
+
+  const btn = formUnificado.querySelector("button[type='submit']");
+  const originalText = btn.textContent;
+
+  btn.textContent = "Enviando...";
+  btn.disabled = true;
+
+  const data = {
+    nombre: formUnificado.nombre.value,
+    email: formUnificado.email.value,
+    plan: formUnificado.plan.value
+  };
+
+  try{
+
+    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+      method:"POST",
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    if(!res.ok) throw new Error("Error envío");
+
+    mensaje.textContent = "¡Gracias! Pronto nos contactaremos";
+    mensaje.style.color = "#00ffc0";
+    mensaje.style.opacity = 1;
+
+    checkSVG.style.opacity = 1;
+
+    setTimeout(()=>{
+      checkPath.style.strokeDashoffset = 0;
+    },50);
+
+    setTimeout(cerrarModal,2000);
+
+  }catch(err){
+
+    mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensaje.style.color = "#ff4d4d";
+    mensaje.style.opacity = 1;
+
+    setTimeout(()=>{
+      mensaje.style.opacity = 0;
+      mensaje.style.color = "#00ffc0";
+      btn.disabled = false;
+      btn.textContent = originalText;
+    },2500);
+
+  }
+
+});
+</script>
+
+<script>
+
+// ==============================
+// Abrir modal
+// ==============================
+document.querySelectorAll(".close-modal").forEach(btn => {
+  btn.addEventListener("click", cerrarModal);
+});
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") {
+    document.querySelectorAll(".modal").forEach(modal => {
+      if(modal.style.display === "flex") cerrarModal(modal.id);
+    });
+  }
+});
+
+// ==============================
+// FUNCION ENVIAR FORMULARIO
+// ==============================
+async function enviar(form) {
+  if (!form) return;
+
+  const mensaje = form.querySelector(".mensaje-check");
+  const svg = form.querySelector(".check-svg");
+  const path = svg?.querySelector("path");
+  const btn = form.querySelector("button[type='submit']");
+  const originalText = btn?.textContent || "Enviar";
+
+  if(btn) {
+    btn.textContent = "Enviando...";
+    btn.disabled = true;
+  }
+
+  // Construir datos a enviar
+  const data = {
+    nombre: form.nombre?.value || "",
+    email: form.email?.value || ""
+  };
+  if(form.plan) data.plan = form.plan.value;
+
+  try {
+    const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+      method: "POST",
+      headers: { "Accept":"application/json", "Content-Type":"application/json" },
+      body: JSON.stringify(data)
+    });
+
+    if(!res.ok) throw new Error("Error envío");
+
+    // Mostrar mensaje de éxito
+    if(mensaje) {
+      mensaje.textContent = "¡Gracias! Pronto nos contactaremos";
+      mensaje.style.color = "#00ffc0";
+      mensaje.style.opacity = 1;
+    }
+    if(svg) svg.style.opacity = 1;
+    if(path) {
+      path.style.transition = "stroke-dashoffset 0.5s ease";
+      setTimeout(() => path.style.strokeDashoffset = 0, 50);
+    }
+
+    setTimeout(() => cerrarModal(form.closest(".modal")?.id), 2000);
+
+  } catch(err) {
+    if(mensaje) {
+      mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
+      mensaje.style.color = "#ff4d4d";
+      mensaje.style.opacity = 1;
+    }
+    setTimeout(() => {
+      if(mensaje) {
+        mensaje.style.opacity = 0;
+        mensaje.style.color = "#00ffc0";
+      }
+      if(btn) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }, 2500);
+  }
+}
+</script>
+<script>
+// CONFIGURACIÓN
+const plazasIniciales = 5;      // Plazas al inicio del mes
+const diasParaAgotar = 30;      // Total de días hasta que se agoten todas las plazas (ajusta según urgencia)
+const parpadeoLimite = 2;       // Si quedan <=2 plazas, parpadea
+
+function actualizarOfertaDiaria() {
+  const hoy = new Date();
+  const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+
+  const diasTranscurridos = Math.floor((hoy - inicioMes) / (1000 * 60 * 60 * 24));
+
+  // Calcula plazas restantes proporcionalmente a los días transcurridos
+  let plazasRestantes = Math.ceil(plazasIniciales * (1 - diasTranscurridos / diasParaAgotar));
+  if(plazasRestantes < 0) plazasRestantes = 0;
+
+  const spanPlazas = document.getElementById("plazas");
+  spanPlazas.textContent = plazasRestantes;
+
+  // Parpadeo si quedan pocas plazas
+  if(plazasRestantes <= parpadeoLimite && plazasRestantes > 0){
+    spanPlazas.style.animation = "parpadeo 1s infinite";
+  } else {
+    spanPlazas.style.animation = "none";
+  }
+
+  // Fecha límite del mes
+  const opciones = { day: 'numeric', month: 'long' };
+  document.getElementById("fecha-limite").textContent =
+    "Oferta válida hasta el " + finMes.toLocaleDateString('es-ES', opciones);
+}
+
+// Animación CSS para parpadeo
+const style = document.createElement('style');
+style.innerHTML = `
+@keyframes parpadeo {
+  0%, 50%, 100% { opacity: 1; transform: scale(1); }
+  25%, 75% { opacity: 0.3; transform: scale(1.2); }
+}`;
+document.head.appendChild(style);
+
+// Inicializar
+actualizarOfertaDiaria();
+setInterval(actualizarOfertaDiaria, 1000 * 60 * 60); // Actualiza cada hora
+</script>
+<!-- Botón WhatsApp con contador -->
+<a href="https://wa.me/34123456789?text=Hola%20Gerard,%20quiero%20más%20info" 
+   target="_blank" id="whatsapp-btn-ultimate">
+  <i class="fab fa-whatsapp"></i>
+  <span id="whatsapp-counter"></span>
+</a>
+
+<style>
+#whatsapp-btn-ultimate {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #25d366;
+  color: #fff;
+  font-size: 2.2rem;
+  border-radius: 50%;
+  padding: 16px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, bottom 0.3s ease, background 0.3s ease, opacity 0.5s ease;
+  gap: 8px;
+}
+#whatsapp-btn-ultimate.show { opacity:1; pointer-events:auto; }
+#whatsapp-btn-ultimate:hover { transform: scale(1.15); }
+
+#whatsapp-counter {
+  background: rgba(0,0,0,0.6);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+/* Parpadeo + pulse */
+@keyframes whatsapp-urgent {
+  0%,100% { transform: scale(1); box-shadow: 0 0 15px,0 0 30px,0 0 45px,0 0 60px inset; }
+  50% { transform: scale(1.2); box-shadow: 0 0 30px,0 0 60px,0 0 90px,0 0 120px inset; }
+}
+
+/* Responsive */
+@media(max-width:768px){
+  #whatsapp-btn-ultimate { font-size:1.8rem; padding:12px; bottom:18px; right:18px; }
+  #whatsapp-counter { font-size:0.7rem; padding:1px 4px; }
+}
+</style>
+
+<script>
+setTimeout(()=>{
+  const btn = document.getElementById("whatsapp-btn-ultimate");
+  const counter = document.getElementById("whatsapp-counter");
+
+  btn.classList.add("show");
+
+  // --- Inicializar plazas desde la página ---
+  const plazasElem = document.getElementById("plazas");
+  let plazas = plazasElem ? parseInt(plazasElem.textContent) : 5;
+  counter.textContent = plazas;
+
+  // --- Actualizar color según oferta ---
+  const premiumCard = document.querySelector(".subscription-card.premium");
+  const ofertaLimitada = document.getElementById("oferta-limitada");
+  
+  if(premiumCard){ btn.style.background="#00ffc0"; btn.style.boxShadow="0 0 15px #00ffc0,0 0 30px #00bfff inset"; }
+  else if(ofertaLimitada){ btn.style.background="#ffbf00"; btn.style.boxShadow="0 0 15px #ffbf00,0 0 30px #ffbf00 inset"; }
+  else { btn.style.background="#25d366"; btn.style.boxShadow="0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset"; }
+
+  // --- Animación de urgencia si plazas ≤3 ---
+  function checkUrgencia() {
+    if(plazas <=3 && plazas >0){ btn.style.animation="whatsapp-urgent 1s infinite alternate"; }
+    else { btn.style.animation="none"; }
+    counter.textContent = plazas;
+  }
+  checkUrgencia();
+
+  // --- Scroll dinámico ---
+  let lastScroll = window.scrollY;
+  window.addEventListener("scroll", ()=>{
+    const currentScroll = window.scrollY;
+    btn.style.bottom = (currentScroll > lastScroll ? 15 : 35)+"px";
+    lastScroll = currentScroll;
+  });
+
+  // --- Actualizar contador automáticamente cada hora según tu script de plazas ---
+  setInterval(()=>{
+    plazas = plazasElem ? parseInt(plazasElem.textContent) : plazas;
+    checkUrgencia();
+  }, 1000*60*60);
+
+}, 5000);
+</script>
+<script>
+// ==============================
+//   SPLASH SCREEN
+// ==============================
+const splash = document.getElementById("splash");
+const mainContent = document.getElementById("main-content");
+document.getElementById("btn-comencemos").addEventListener("click", () => {
+  splash.style.opacity = 0;
+  setTimeout(() => splash.style.display = "none", 600);
+  mainContent.style.display = "block";
+});
+</script>
+<!-- Modal Test -->
+<div class="modal" id="modal-test">
+  <div class="premium-modal">
+    <h3>Test Rápido</h3>
+
+   <!-- Contador y barra de progreso -->
+    <div class="countdown-container">
+      <span class="countdown">30</span>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Pregunta 1 -->
+    <div class="test-pregunta active">
+      <p>¿Cuál es tu objetivo principal?</p>
+      <button class="respuesta">Perder grasa</button>
+      <button class="respuesta">Ganar músculo</button>
+      <button class="respuesta">Mejorar hábitos</button>
+    </div>
+
+     <!-- Pregunta 2 -->
+     <div class="test-pregunta">
+      <p>¿Cuántos días entrenas?</p>
+      <button class="respuesta">0-1</button>
+      <button class="respuesta">2-3</button>
+      <button class="respuesta">4+</button>
+    </div>
+
+    <!-- Pregunta 3 -->
+    <div class="test-pregunta">
+      <p>¿Qué es lo que más te cuesta?</p>
+      <button class="respuesta">Constancia</button>
+      <button class="respuesta">Comida</button>
+      <button class="respuesta">Tiempo</button>
+    </div>
+
+    <!-- Final: Email -->
+     <div class="test-final">
+      <p>Déjanos tu email y te enviaremos tu plan recomendado</p>
+      <input type="email" placeholder="Tu email" required>
+      <button type="submit">Ver mi plan</button>
+
+      <!-- Check animado -->
+      <svg class="check-svg" viewBox="0 0 52 52">
+        <path d="M14 27l10 10 20-20" stroke="#00ffc0" stroke-width="4" fill="none"/>
+      </svg>
+      <div class="mensaje-check">¡Email enviado!</div>
+    </div>
+
+    <button class="close-modal">Cerrar</button>
+  </div>
+</div>
+   
+<script>
+// ===== Test Rápido =====
+const btnTest = document.getElementById("btn-test");
+const modalTest = document.getElementById("modal-test");
+const closeTest = modalTest.querySelector(".close-modal");
+const preguntas = modalTest.querySelectorAll(".test-pregunta");
+const finalTest = modalTest.querySelector(".test-final");
+const countdownEl = modalTest.querySelector(".countdown");
+const progressFill = modalTest.querySelector(".progress-fill");
+
+let tiempo = 30; 
+let preguntaActual = 0;
+let interval;
+
+// Abrir modal test
+btnTest.addEventListener("click", () => {
+  modalTest.style.display = "flex";
+  setTimeout(()=> modalTest.style.opacity = 1, 10);
+  document.body.style.overflow = "hidden";
+  iniciarPregunta();
+});
+
+// Cerrar modal
+closeTest.addEventListener("click", cerrarModalTest);
+
+modalTest.addEventListener("click", e => {
+  if(e.target === modalTest) cerrarModalTest();
+});
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && modalTest.style.display==="flex") cerrarModalTest();
+});
+
+function cerrarModalTest(){
+
+  modalTest.style.opacity=0;
+
+  setTimeout(()=>{
+    modalTest.style.display="none";
+    preguntas.forEach(p => p.classList.remove("active"));
+    preguntas[0].classList.add("active");
+    finalTest.style.display="none";
+    finalTest.querySelector("input").value="";
+    progressFill.style.width="0%";
+    countdownEl.textContent = 30;
+    document.body.style.overflow="auto";
+    clearInterval(interval);
+    preguntaActual = 0;
+    tiempo = 30;
+  },300);
+
+}
+
+// Iniciar una pregunta
+function iniciarPregunta(){
+  tiempo = 30;
+  countdownEl.textContent = tiempo;
+  progressFill.style.width = "0%";
+
+  interval = setInterval(()=>{
+    tiempo--;
+    countdownEl.textContent = tiempo;
+    progressFill.style.width = `${((30-tiempo)/30)*100}%`;
+
+    if(tiempo <= 0){
+      clearInterval(interval);
+      avanzarPregunta();
+    }
+  },1000);
+
+  // Eventos de respuesta
+  const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
+  respuestas.forEach(btn=>{
+    btn.onclick = ()=>{
+      clearInterval(interval);
+      avanzarPregunta();
+    };
+  });
+}
+
+// Avanzar a siguiente pregunta o mostrar final
+function avanzarPregunta(){
+  preguntas[preguntaActual].classList.remove("active");
+  preguntaActual++;
+  if(preguntaActual < preguntas.length){
+    preguntas[preguntaActual].classList.add("active");
+    iniciarPregunta();
+  } else {
+    mostrarFinal();
+  }
+}
+
+// Mostrar sección final del test
+function mostrarFinal(){
+  finalTest.style.display="block";
+  finalTest.querySelector("input").focus();
+  countdownEl.textContent = "";
+  progressFill.style.width = "100%";
+
+  // Enviar email
+  finalTest.querySelector("button[type='submit']").onclick = async (e)=>{
+    e.preventDefault();
+    const inputEmail = finalTest.querySelector("input").value;
+    const mensaje = finalTest.querySelector(".mensaje-check");
+    const svg = finalTest.querySelector(".check-svg");
+    const path = svg.querySelector("path");
+    const btn = finalTest.querySelector("button[type='submit']");
+    const originalText = btn.textContent;
+
+    if(!inputEmail) return;
+
+    btn.textContent="Enviando...";
+    btn.disabled=true;
+
+    try{
+      const res = await fetch("https://formspree.io/f/mgvzyyqk", {
+        method:"POST",
+        headers: {"Accept":"application/json","Content-Type":"application/json"},
+        body: JSON.stringify({ email: inputEmail })
+      });
+      if(!res.ok) throw new Error("Error envío");
+
+      mensaje.textContent="¡Gracias! Te enviaremos tu plan";
+      mensaje.style.opacity=1;
+      svg.style.opacity=1;
+      path.style.strokeDashoffset=0;
+
+      setTimeout(cerrarModal,2000);
+
+    } catch(err){
+      mensaje.textContent="Error, intenta de nuevo ❌";
+      mensaje.style.color="#ff4d4d";
+      mensaje.style.opacity=1;
+      setTimeout(()=>{
+        mensaje.style.opacity=0;
+        mensaje.style.color="#00ffc0";
+        btn.disabled=false;
+        btn.textContent=originalText;
+      },2500);
+    }
+  }
+}
+</script>
+</body>
+</html>
