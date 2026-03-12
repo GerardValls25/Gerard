@@ -1234,9 +1234,9 @@ function cerrarModalTest(){
     preguntas[0].classList.add("active");
 
     // LIMPIAR RESPUESTAS MARCADAS
-    document.querySelectorAll(".respuesta").forEach(btn=>{
-      btn.classList.remove("selected");
-    });
+    modalTest.querySelectorAll(".respuesta").forEach(btn=>{
+  btn.classList.remove("selected");
+});
 
     finalTest.style.display = "none";
     finalTest.querySelector("input").value = "";
@@ -1278,18 +1278,20 @@ function iniciarPregunta(){
   // Eventos de respuesta
   const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
 
-  respuestas.forEach(btn => {
-    btn.onclick = () => {
+// limpiar selección previa
+respuestas.forEach(b => b.classList.remove("selected"));
 
-      respuestas.forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
+respuestas.forEach(btn => {
+  btn.onclick = () => {
 
-      clearInterval(interval);
+    respuestas.forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
 
-      setTimeout(avanzarPregunta, 400);
-    };
-  });
-}
+    clearInterval(interval);
+
+    setTimeout(avanzarPregunta, 400);
+  };
+});
 
 // Avanzar a siguiente pregunta o mostrar final
 function avanzarPregunta(){
