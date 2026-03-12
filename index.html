@@ -943,7 +943,17 @@ formUnificado.addEventListener("submit", async e=>{
       checkPath.style.strokeDashoffset = 0;
     },50);
 
-    setTimeout(cerrarModal,2000);
+    function avanzarPregunta(){
+  preguntas[preguntaActual].classList.remove("active");
+  preguntaActual++;
+  if(preguntaActual < preguntas.length){
+    iniciarPregunta();
+  } else {
+    mostrarFinal();
+    // Opcional: cerrar modal automáticamente tras 2 seg del final del test
+    setTimeout(cerrarModalTest, 2000);
+  }
+}
 
   }catch(err){
 
@@ -1297,35 +1307,31 @@ function cerrarModalTest() {
     // Oculta modal
     modalTest.style.display = "none";
 
-    // Resetea preguntas
+    // Reinicia preguntas
     preguntas.forEach(p => p.classList.remove("active"));
     preguntas[0].classList.add("active");
 
-    // Oculta sección final
+    // Oculta sección final y limpia input
     finalTest.style.display = "none";
-
-    // Limpia input del final
     finalTest.querySelector("input").value = "";
 
-    // Reset barra de progreso y contador
+    // Reinicia barra de progreso y countdown
     progressFill.style.width = "0%";
-    countdownEl.textContent = 30;
+    countdownEl.textContent = "30";
 
-    // Habilita scroll en el body
+    // Permite scroll de página
     document.body.style.overflow = "auto";
 
-    // Detiene cualquier countdown activo
+    // Limpiar intervalos y variables
     clearInterval(interval);
-
-    // Reset de variables
     preguntaActual = 0;
     tiempo = 30;
-    // Limpiar selecciones de respuestas
+
+    // Limpiar selección de respuestas
     Object.keys(respuestasSeleccionadas).forEach(k => delete respuestasSeleccionadas[k]);
     preguntas.forEach(p => p.querySelectorAll(".respuesta").forEach(b => b.classList.remove("seleccionado")));
-  }, 300); // Tiempo de transición para desvanecer modal
+  }, 300); // 300ms coincide con animación de opacidad
 }
-
 // Iniciar una pregunta
 function iniciarPregunta(){
   tiempo = 30;
