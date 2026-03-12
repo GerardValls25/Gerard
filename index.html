@@ -1187,11 +1187,24 @@ let tiempo = 30; // segundos
 let interval;
 
 // Abrir modal test
-btnTest.addEventListener("click", () => {
-  modalTest.style.display = "flex";
-  setTimeout(()=> modalTest.style.opacity = 1, 10);
-  document.body.style.overflow = "hidden";
-  iniciarPregunta();
+document.addEventListener("DOMContentLoaded", () => {
+
+  const btnTest = document.getElementById("btn-test");
+  const modalTest = document.getElementById("modal-test");
+
+  btnTest.addEventListener("click", () => {
+
+    modalTest.style.display = "flex";
+
+    setTimeout(() => {
+      modalTest.style.opacity = 1;
+    }, 10);
+
+    document.body.style.overflow = "hidden";
+
+    iniciarPregunta();
+  });
+
 });
 
 // Cerrar modal
