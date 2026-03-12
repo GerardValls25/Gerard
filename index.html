@@ -1405,7 +1405,8 @@ function avanzarPregunta(){
 // Mostrar sección final del test
 function mostrarFinal(){
   finalTest.style.display = "block";
-  finalTest.querySelector("input").focus();
+  const inputEmail = finalTest.querySelector("input");
+  inputEmail.focus();
   countdownEl.textContent = "";
   progressFill.style.width = "100%";
 
@@ -1414,42 +1415,53 @@ function mostrarFinal(){
   const svg = finalTest.querySelector(".check-svg");
   const path = svg.querySelector("path");
 
-  btn.onclick = async (e)=>{
+  // Reinicia estado visual
+  mensaje.style.opacity = 0;
+  svg.style.opacity = 0;
+  path.style.transition = "none";
+  path.style.strokeDashoffset = 20; // check oculto al inicio
+
+  btn.onclick = async (e) => {
     e.preventDefault();
-    const inputEmail = finalTest.querySelector("input").value;
-    if(!inputEmail) return;
+    const email = inputEmail.value.trim();
+    if(!email) return;
 
-    const originalText = btn.textContent;
-    btn.textContent="Enviando...";
-    btn.disabled=true;
+    btn.textContent = "Enviando...";
+    btn.disabled = true;
 
-    try{
+    try {
       const res = await fetch("https://formspree.io/f/mgvzyyqk", {
-        method:"POST",
+        method: "POST",
         headers: {"Accept":"application/json","Content-Type":"application/json"},
-        body: JSON.stringify({ email: inputEmail })
+        body: JSON.stringify({ email })
       });
       if(!res.ok) throw new Error("Error envío");
 
-      mensaje.textContent="¡Gracias! Te enviaremos tu plan";
-      mensaje.style.opacity=1;
-      svg.style.opacity=1;
-      path.style.strokeDashoffset=0;
+      // Mostrar mensaje y check animado
+      mensaje.textContent = "¡Gracias! Te enviaremos tu plan";
+      mensaje.style.opacity = 1;
+      svg.style.opacity = 1;
 
-      setTimeout(cerrarModalTest,2000);
+      // Animación del check
+      path.style.transition = "stroke-dashoffset 0.5s ease";
+      path.style.strokeDashoffset = 0;
 
-    } catch(err){
-      mensaje.textContent="Error, intenta de nuevo ❌";
-      mensaje.style.color="#ff4d4d";
-      mensaje.style.opacity=1;
+      // Ocultar todo al cerrar
+      setTimeout(() => cerrarModalTest(), 2000);
+
+    } catch(err) {
+      mensaje.textContent = "Error, intenta de nuevo ❌";
+      mensaje.style.color = "#ff4d4d";
+      mensaje.style.opacity = 1;
+
       setTimeout(()=>{
-        mensaje.style.opacity=0;
-        mensaje.style.color="#00ffc0";
-        btn.disabled=false;
-        btn.textContent=originalText;
-      },2500);
+        mensaje.style.opacity = 0;
+        mensaje.style.color = "#00ffc0";
+        btn.disabled = false;
+        btn.textContent = "Enviar";
+      }, 2500);
     }
-  }
+  };
 }
 </script>
 </body>
