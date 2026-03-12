@@ -721,9 +721,10 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
   </form>
 </div>
 <script>
- // ==============================
- // MODAL UNIFICADO PARA TODOS LOS PLANES
- // ==============================
+// ==============================
+// MODAL UNIFICADO PARA TODOS LOS PLANES
+// ==============================
+
 const modalUnificado = document.getElementById("modal-unificado");
 const formUnificado = document.getElementById("form-unificado");
 const btnCerrar = modalUnificado.querySelector(".close-modal");
@@ -735,146 +736,156 @@ const mensaje = formUnificado.querySelector(".mensaje-check") || (() => {
   formUnificado.appendChild(m);
   return m;
 })();
+
 const checkSVG = formUnificado.querySelector(".check-svg") || (() => {
   const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
   svg.setAttribute("viewBox","0 0 52 52");
   svg.classList.add("check-svg");
+
   const path = document.createElementNS("http://www.w3.org/2000/svg","path");
   path.setAttribute("d","M14 27 l10 10 l20 -20");
   path.setAttribute("stroke-dasharray","50");
   path.setAttribute("stroke-dashoffset","50");
+
   svg.appendChild(path);
   formUnificado.appendChild(svg);
   return svg;
 })();
+
 const checkPath = checkSVG.querySelector("path");
 
-// ===== Abrir modal con plan =====
+// ==============================
+// ABRIR MODAL CON PLAN
+// ==============================
+
 document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
-  btn.addEventListener("click", (e)=>{
+  btn.addEventListener("click", ()=>{
 
     let plan = "";
     const card = btn.closest(".subscription-card");
-    if(card) plan = card.querySelector("h3")?.textContent || "";
+
+    if(card){
+      plan = card.querySelector("h3")?.textContent || "";
+    }
 
     formUnificado.reset();
     document.getElementById("plan-input").value = plan;
 
-    modalUnificado.style.display="flex";
+    modalUnificado.style.display = "flex";
+
     setTimeout(()=>{
-      modalUnificado.style.opacity=1;
+      modalUnificado.style.opacity = "1";
     },10);
 
-    document.body.style.overflow="hidden";
+    document.body.style.overflow = "hidden";
   });
 });
-// ===== FUNCION CERRAR MODAL =====
-function cerrarModal() {
-  modalUnificado.style.opacity=0;
-  formUnificado.style.transform="scale(0.9)";
-  mensaje.style.opacity=0;
-  mensaje.textContent="";
-  checkSVG.style.opacity=0;
-  checkPath.style.strokeDashoffset="50";
+
+// ==============================
+// CERRAR MODAL
+// ==============================
+
+function cerrarModal(){
+
+  modalUnificado.style.opacity = "0";
+
   setTimeout(()=>{
-    modalUnificado.style.display="none";
-    formUnificado.reset();
-    document.body.style.overflow="auto";
+    modalUnificado.style.display = "none";
   },300);
+
+  document.body.style.overflow = "";
+
 }
-// Cerrar con botón
+
+// botón cerrar
 btnCerrar.addEventListener("click", cerrarModal);
 
-// Cerrar al hacer clic fuera del modal
-modalUnificado.addEventListener("click", function(e) {
+// ==============================
+// CLIC FUERA DEL MODAL
+// ==============================
+
+modalUnificado.addEventListener("click", function(e){
 
   const contenido = modalUnificado.querySelector(".premium-modal");
 
-  // Si el click NO está dentro del modal
-  if (!contenido.contains(e.target)) {
+  if(!contenido.contains(e.target)){
     cerrarModal();
   }
 
 });
 
-// ===== ENVÍO FORMULARIO UNIFICADO =====
+// ==============================
+// TECLA ESC
+// ==============================
+
+document.addEventListener("keydown", function(e){
+
+  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
+    cerrarModal();
+  }
+
+});
+
+// ==============================
+// ENVÍO FORMULARIO
+// ==============================
+
 formUnificado.addEventListener("submit", async e=>{
+
   e.preventDefault();
+
   const btn = formUnificado.querySelector("button[type='submit']");
   const originalText = btn.textContent;
-  btn.textContent="Enviando...";
-  btn.disabled=true;
+
+  btn.textContent = "Enviando...";
+  btn.disabled = true;
+
   const data = {
     nombre: formUnificado.nombre.value,
     email: formUnificado.email.value,
     plan: formUnificado.plan.value
   };
+
   try{
+
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method:"POST",
-      headers: {"Accept":"application/json","Content-Type":"application/json"},
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      },
       body: JSON.stringify(data)
     });
+
     if(!res.ok) throw new Error("Error envío");
-    mensaje.textContent="¡Gracias! Pronto nos contactaremos";
-    mensaje.style.color="#00ffc0";
-    mensaje.style.opacity=1;
-    checkSVG.style.opacity=1;
-    setTimeout(()=>checkPath.style.strokeDashoffset=0,50);
-    setTimeout(cerrarModal,2000);
-  }catch(err){
-    mensaje.textContent="Hubo un error, intenta de nuevo ❌";
-    mensaje.style.color="#ff4d4d";
-    mensaje.style.opacity=1;
+
+    mensaje.textContent = "¡Gracias! Pronto nos contactaremos";
+    mensaje.style.color = "#00ffc0";
+    mensaje.style.opacity = 1;
+
+    checkSVG.style.opacity = 1;
+
     setTimeout(()=>{
-      mensaje.style.opacity=0;
-      mensaje.style.color="#00ffc0";
-      btn.disabled=false;
-      btn.textContent=originalText;
+      checkPath.style.strokeDashoffset = 0;
+    },50);
+
+    setTimeout(cerrarModal,2000);
+
+  }catch(err){
+
+    mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
+    mensaje.style.color = "#ff4d4d";
+    mensaje.style.opacity = 1;
+
+    setTimeout(()=>{
+      mensaje.style.opacity = 0;
+      mensaje.style.color = "#00ffc0";
+      btn.disabled = false;
+      btn.textContent = originalText;
     },2500);
+
   }
-});
-</script>
 
-<!-- Scripts -->
-<script>
-// --- Scroll Animaciones y Three.js ---
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-camera.position.set(0,1.5,5);
-let renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-let ambient = new THREE.AmbientLight(0xffffff,0.6); scene.add(ambient);
-let point = new THREE.PointLight(0xffbf00,1.2); point.position.set(5,5,5); scene.add(point);
-let geometry = new THREE.TorusKnotGeometry(0.7,0.2,128,32);
-let material = new THREE.MeshStandardMaterial({color:0x00ffc0, metalness:0.7, roughness:0.2});
-let torus = new THREE.Mesh(geometry, material); scene.add(torus);
-
-let composer = new THREE.EffectComposer(renderer); composer.addPass(new THREE.RenderPass(scene,camera));
-let bloom = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth,window.innerHeight),1.2,0.4,0.85);
-composer.addPass(bloom);
-
-let controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true; controls.enabled = window.innerWidth > 768;
-
-gsap.to(torus.rotation, {y:Math.PI*2, duration:20, repeat:-1, ease:"linear"});
-gsap.utils.toArray("section").forEach(sec=>{
-  gsap.from(sec,{opacity:0,y:50,duration:1,scrollTrigger:{trigger:sec,start:"top 80%",toggleActions:"play none none reverse"}});
-});
-
-function animate(){
-  requestAnimationFrame(animate);
-  controls.update();
-  composer.render();
-}
-
-window.addEventListener("load", ()=>{
-  setTimeout(()=>{
-    animate();
-  }, 2500);
 });
 </script>
 
