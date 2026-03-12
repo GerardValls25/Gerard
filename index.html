@@ -783,23 +783,6 @@ function cerrarModal() {
     document.body.style.overflow="auto";
   },300);
 }
-
-// ===== Cerrar al hacer clic fuera del contenido =====
-document.addEventListener("click", function(e){
-
-  if(modalUnificado.style.display === "flex"){
-
-    const contenido = document.querySelector("#modal-unificado .premium-modal");
-
-    // Si el click NO está dentro del contenido
-    if(!contenido.contains(e.target)){
-      cerrarModal();
-    }
-
-  }
-
-});
-
 // Cerrar con botón
 btnCerrar.addEventListener("click", cerrarModal);
 
