@@ -1300,7 +1300,6 @@ document.addEventListener("keydown", e => {
 });
 
 function cerrarModalTest() {
-  // Inicia animación de cierre
   modalTest.style.opacity = 0;
 
   setTimeout(() => {
@@ -1313,7 +1312,27 @@ function cerrarModalTest() {
 
     // Oculta sección final y limpia input
     finalTest.style.display = "none";
-    finalTest.querySelector("input").value = "";
+    const inputEmail = finalTest.querySelector("input");
+    if (inputEmail) inputEmail.value = "";
+
+    // Limpiar mensaje final y SVG
+    const mensaje = finalTest.querySelector(".mensaje-check");
+    const svg = finalTest.querySelector(".check-svg");
+    const path = svg.querySelector("path");
+    if(mensaje){
+      mensaje.textContent = "";
+      mensaje.style.opacity = 0;
+      mensaje.style.color = "#00ffc0";
+    }
+    if(svg) svg.style.opacity = 0;
+    if(path) path.style.strokeDashoffset = path.getTotalLength();
+
+    // Resetear botón de envío
+    const btn = finalTest.querySelector("button[type='submit']");
+    if(btn){
+      btn.disabled = false;
+      btn.textContent = "Ver mi plan";
+    }
 
     // Reinicia barra de progreso y countdown
     progressFill.style.width = "0%";
@@ -1330,8 +1349,9 @@ function cerrarModalTest() {
     // Limpiar selección de respuestas
     Object.keys(respuestasSeleccionadas).forEach(k => delete respuestasSeleccionadas[k]);
     preguntas.forEach(p => p.querySelectorAll(".respuesta").forEach(b => b.classList.remove("seleccionado")));
-  }, 300); // 300ms coincide con animación de opacidad
+  }, 300);
 }
+
 // Iniciar una pregunta
 function iniciarPregunta(){
   tiempo = 30;
@@ -1349,14 +1369,10 @@ function iniciarPregunta(){
     }
 
     btn.onclick = () => {
-      // Guardar selección
       respuestasSeleccionadas[preguntaActual] = btn.textContent;
-
-      // Marcar solo la opción clickeada
       respuestas.forEach(b => b.classList.remove("seleccionado"));
       btn.classList.add("seleccionado");
 
-      // Avanzar a siguiente pregunta después de 0.3s para que se vea marcado
       clearInterval(interval);
       setTimeout(avanzarPregunta, 300);
     };
@@ -1367,10 +1383,7 @@ function iniciarPregunta(){
   interval = setInterval(()=>{
     tiempo--;
     countdownEl.textContent = tiempo;
-
-    // Barra de progreso
     progressFill.style.width = `${((30 - tiempo)/30)*100}%`;
-
     if(tiempo <= 0){
       clearInterval(interval);
       avanzarPregunta();
@@ -1396,17 +1409,17 @@ function mostrarFinal(){
   countdownEl.textContent = "";
   progressFill.style.width = "100%";
 
-  finalTest.querySelector("button[type='submit']").onclick = async (e)=>{
+  const btn = finalTest.querySelector("button[type='submit']");
+  const mensaje = finalTest.querySelector(".mensaje-check");
+  const svg = finalTest.querySelector(".check-svg");
+  const path = svg.querySelector("path");
+
+  btn.onclick = async (e)=>{
     e.preventDefault();
     const inputEmail = finalTest.querySelector("input").value;
-    const mensaje = finalTest.querySelector(".mensaje-check");
-    const svg = finalTest.querySelector(".check-svg");
-    const path = svg.querySelector("path");
-    const btn = finalTest.querySelector("button[type='submit']");
-    const originalText = btn.textContent;
-
     if(!inputEmail) return;
 
+    const originalText = btn.textContent;
     btn.textContent="Enviando...";
     btn.disabled=true;
 
