@@ -1207,6 +1207,9 @@ let interval;
 let startTime;
 let rafId;
 
+// Guardar selección por pregunta
+const respuestasSeleccionadas = {};
+
 // Abrir modal test
 btnTest.addEventListener("click", () => {
   modalTest.style.display = "flex";
@@ -1235,13 +1238,16 @@ function cerrarModalTest(){
     preguntas[0].classList.add("active");
     finalTest.style.display="none";
     finalTest.querySelector("input").value="";
-    progressFill.style.width="0%";
+    progressFill.style.width = "0%";
     countdownEl.textContent = 30;
     document.body.style.overflow="auto";
     clearInterval(interval);
     cancelAnimationFrame(rafId);
     preguntaActual = 0;
     tiempo = 30;
+    // Limpiar selección
+    Object.keys(respuestasSeleccionadas).forEach(k => delete respuestasSeleccionadas[k]);
+    preguntas.forEach(p => p.querySelectorAll(".respuesta").forEach(b => b.classList.remove("seleccionado")));
   },300);
 }
 
@@ -1283,8 +1289,16 @@ function iniciarPregunta(){
   // Eventos de respuesta
   const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
   respuestas.forEach(btn=>{
+    // Si ya estaba seleccionada, marcarla
+    if(respuestasSeleccionadas[preguntaActual] === btn.textContent){
+      btn.classList.add("seleccionado");
+    }
+
     btn.onclick = ()=>{
-      // Marcar como seleccionado
+      // Guardar selección
+      respuestasSeleccionadas[preguntaActual] = btn.textContent;
+
+      // Marcar solo la opción clickeada
       respuestas.forEach(b => b.classList.remove("seleccionado"));
       btn.classList.add("seleccionado");
 
