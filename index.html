@@ -1157,35 +1157,33 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
       <button class="respuesta">Tiempo</button>
     </div>
 
-    <!-- Final: Email -->
-     <div class="test-final">
-      <p>Déjanos tu email y te enviaremos tu plan recomendado</p>
-      <input type="email" placeholder="Tu email" required>
-      <button type="submit">Ver mi plan</button>
-
-      <!-- Check animado -->
+<!-- Formulario final -->
+    <div class="test-final">
+      <h3>Déjanos tus datos</h3>
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="email" name="email" placeholder="Correo electrónico" required>
+      <button type="submit">Enviar y obtener mi plan</button>
+      <button type="button" class="close-modal">Cerrar</button>
+      <div class="mensaje-check"></div>
       <svg class="check-svg" viewBox="0 0 52 52">
-        <path d="M14 27l10 10 20-20" stroke="#00ffc0" stroke-width="4" fill="none"/>
+        <path d="M14 27 l10 10 l20 -20" stroke-dasharray="50" stroke-dashoffset="50" stroke="#00ffc0" stroke-width="4" fill="none"/>
       </svg>
-      <div class="mensaje-check">¡Email enviado!</div>
     </div>
-
-    <button class="close-modal">Cerrar</button>
   </div>
 </div>
    
 <script>
 // ===== Test Rápido =====
-const btnTest = document.getElementById("btn-test");
 const modalTest = document.getElementById("modal-test");
-const closeTest = modalTest.querySelector(".close-modal");
+const btnTest = document.getElementById("btn-test");       // Botón para abrir modal
+const closeTest = modalTest.querySelector(".close-modal"); // Botón para cerrar modal
 const preguntas = modalTest.querySelectorAll(".test-pregunta");
 const finalTest = modalTest.querySelector(".test-final");
 const countdownEl = modalTest.querySelector(".countdown");
 const progressFill = modalTest.querySelector(".progress-fill");
 
-let tiempo = 30; 
 let preguntaActual = 0;
+let tiempo = 30; // segundos
 let interval;
 
 // Abrir modal test
@@ -1198,56 +1196,54 @@ btnTest.addEventListener("click", () => {
 
 // Cerrar modal
 closeTest.addEventListener("click", cerrarModalTest);
-
 modalTest.addEventListener("click", e => {
   if(e.target === modalTest) cerrarModalTest();
 });
-
 document.addEventListener("keydown", e => {
   if(e.key === "Escape" && modalTest.style.display==="flex") cerrarModalTest();
 });
 
 function cerrarModalTest(){
-
-  modalTest.style.opacity=0;
-
+  modalTest.style.opacity = 0;
+  clearInterval(interval);
   setTimeout(()=>{
-    modalTest.style.display="none";
+    modalTest.style.display = "none";
     preguntas.forEach(p => p.classList.remove("active"));
     preguntas[0].classList.add("active");
-    finalTest.style.display="none";
-    finalTest.querySelector("input").value="";
-    progressFill.style.width="0%";
-    countdownEl.textContent = 30;
-    document.body.style.overflow="auto";
-    clearInterval(interval);
+    finalTest.style.display = "none";
+    finalTest.querySelector("input").value = "";
+    finalTest.querySelector(".mensaje-check").style.opacity = 0;
+    const svg = finalTest.querySelector(".check-svg");
+    svg.style.opacity = 0;
+    svg.querySelector("path").style.strokeDashoffset = 50;
+    progressFill.style.width = "0%";
+    countdownEl.textContent = tiempo;
+    document.body.style.overflow = "auto";
     preguntaActual = 0;
-    tiempo = 30;
-  },300);
-
+  }, 300);
 }
 
-// Iniciar una pregunta
+// Iniciar pregunta
 function iniciarPregunta(){
   tiempo = 30;
   countdownEl.textContent = tiempo;
-  progressFill.style.width = "0%";
+  progressFill.style.width = `${(preguntaActual/preguntas.length)*100}%`;
 
   interval = setInterval(()=>{
     tiempo--;
     countdownEl.textContent = tiempo;
-    progressFill.style.width = `${((30-tiempo)/30)*100}%`;
+    progressFill.style.width = `${((preguntaActual + (30 - tiempo)/30)/preguntas.length)*100}%`;
 
     if(tiempo <= 0){
       clearInterval(interval);
       avanzarPregunta();
     }
-  },1000);
+  }, 1000);
 
   // Eventos de respuesta
   const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
-  respuestas.forEach(btn=>{
-    btn.onclick = ()=>{
+  respuestas.forEach(btn => {
+    btn.onclick = () => {
       clearInterval(interval);
       avanzarPregunta();
     };
@@ -1268,25 +1264,24 @@ function avanzarPregunta(){
 
 // Mostrar sección final del test
 function mostrarFinal(){
-  finalTest.style.display="block";
+  finalTest.style.display = "flex";
   finalTest.querySelector("input").focus();
   countdownEl.textContent = "";
   progressFill.style.width = "100%";
 
-  // Enviar email
-  finalTest.querySelector("button[type='submit']").onclick = async (e)=>{
+  const btnSubmit = finalTest.querySelector("button[type='submit']");
+  btnSubmit.onclick = async (e) => {
     e.preventDefault();
     const inputEmail = finalTest.querySelector("input").value;
     const mensaje = finalTest.querySelector(".mensaje-check");
     const svg = finalTest.querySelector(".check-svg");
     const path = svg.querySelector("path");
-    const btn = finalTest.querySelector("button[type='submit']");
-    const originalText = btn.textContent;
+    const originalText = btnSubmit.textContent;
 
     if(!inputEmail) return;
 
-    btn.textContent="Enviando...";
-    btn.disabled=true;
+    btnSubmit.textContent = "Enviando...";
+    btnSubmit.disabled = true;
 
     try{
       const res = await fetch("https://formspree.io/f/mgvzyyqk", {
@@ -1294,27 +1289,28 @@ function mostrarFinal(){
         headers: {"Accept":"application/json","Content-Type":"application/json"},
         body: JSON.stringify({ email: inputEmail })
       });
+
       if(!res.ok) throw new Error("Error envío");
 
-      mensaje.textContent="¡Gracias! Te enviaremos tu plan";
-      mensaje.style.opacity=1;
-      svg.style.opacity=1;
-      path.style.strokeDashoffset=0;
+      mensaje.textContent = "¡Gracias! Te enviaremos tu plan";
+      mensaje.style.opacity = 1;
+      svg.style.opacity = 1;
+      path.style.strokeDashoffset = 0;
 
-      setTimeout(cerrarModal,2000);
+      setTimeout(cerrarModalTest, 2000);
 
     } catch(err){
-      mensaje.textContent="Error, intenta de nuevo ❌";
-      mensaje.style.color="#ff4d4d";
-      mensaje.style.opacity=1;
+      mensaje.textContent = "Error, intenta de nuevo ❌";
+      mensaje.style.color = "#ff4d4d";
+      mensaje.style.opacity = 1;
       setTimeout(()=>{
-        mensaje.style.opacity=0;
-        mensaje.style.color="#00ffc0";
-        btn.disabled=false;
-        btn.textContent=originalText;
-      },2500);
+        mensaje.style.opacity = 0;
+        mensaje.style.color = "#00ffc0";
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = originalText;
+      }, 2500);
     }
-  }
+  };
 }
 </script>
 </body>
