@@ -1242,13 +1242,22 @@ function iniciarPregunta(){
 
   // Eventos de respuesta
   const respuestas = preguntas[preguntaActual].querySelectorAll(".respuesta");
-  respuestas.forEach(btn => {
-    btn.onclick = () => {
-      clearInterval(interval);
-      avanzarPregunta();
-    };
-  });
-}
+
+respuestas.forEach(btn => {
+  btn.onclick = () => {
+
+    // quitar selección previa
+    respuestas.forEach(b => b.classList.remove("selected"));
+
+    // marcar la seleccionada
+    btn.classList.add("selected");
+
+    clearInterval(interval);
+
+    // esperar un poco para que el usuario vea la selección
+    setTimeout(avanzarPregunta, 400);
+  };
+});
 
 // Avanzar a siguiente pregunta o mostrar final
 function avanzarPregunta(){
