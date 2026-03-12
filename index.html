@@ -794,23 +794,9 @@ modalUnificado.addEventListener("click", e => {
 // Cerrar con botón
 btnCerrar.addEventListener("click", cerrarModal);
 
-// Cerrar al hacer clic fuera del formulario
-document.addEventListener("click", function(e){
-
-  if(modalUnificado.style.display === "flex"){
-
-    // si el clic NO está dentro del formulario
-    if(!e.target.closest("#form-unificado")){
-      cerrarModal();
-    }
-
-  }
-
-});
-
-// Cerrar con tecla Escape
-document.addEventListener("keydown", function(e){
-  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
+// Cerrar al hacer clic fuera del modal
+modalUnificado.addEventListener("click", (e) => {
+  if (e.target === modalUnificado) {
     cerrarModal();
   }
 });
@@ -905,12 +891,6 @@ document.querySelectorAll(".close-modal").forEach(btn => {
   btn.addEventListener("click", () => {
     const modal = btn.closest(".modal");
     if(modal) cerrarModal(modal.id);
-  });
-});
-
-document.querySelectorAll(".modal").forEach(modal => {
-  modal.addEventListener("click", e => {
-    if(e.target === modal) cerrarModal(modal.id);
   });
 });
 
