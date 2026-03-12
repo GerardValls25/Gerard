@@ -35,7 +35,6 @@
   --card-bg:rgba(255,255,255,0.05);
   --card-shadow:0 12px 40px rgba(0,0,0,0.55);
 }
-
 /* ==========================
    RESET & BASE
 ========================== */
@@ -181,132 +180,265 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 /* ==========================
    MODALES Y TEST RÁPIDO NEÓN
 ========================== */
+
+/* Fondo del modal */
 .modal {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: none; /* se activa con JS */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.6); /* menos negro */
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
   z-index: 9999;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.modal.show {
-  display: flex;
-  opacity: 1;
-}
-
+/* Contenedor principal del modal */
 .premium-modal {
-  background: rgba(25,25,50,0.95); /* más visible */
-  padding: 20px;
+  background: rgba(17, 17, 17, 0.9);
+  padding: 15px 20px;
   border-radius: var(--radius);
   width: 320px;
   max-width: 90%;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: #fff; /* texto visible */
   box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset;
+  border: 2px solid var(--primary);
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* Título con gradiente neón */
 .premium-modal h3 {
-  color: var(--primary);
+  font-size: 1.2rem;
   text-align: center;
+  background: linear-gradient(90deg, #00ffc0, #00bfff, #ff00c8, #ffbf00);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 8px;
 }
 
+/* Inputs del modal */
 .premium-modal input {
-  background: rgba(255,255,255,0.1);
-  color: #fff; /* texto visible */
   padding: 8px 10px;
   border-radius: var(--radius);
   border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  transition: 0.3s;
 }
-
 .premium-modal input:focus {
   outline: 2px solid var(--primary);
-  box-shadow: 0 0 10px var(--primary);
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-.premium-modal button {
+/* Botones generales */
+.premium-modal button[type="submit"] {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
   background: var(--secondary);
   color: #000;
   font-weight: 700;
   cursor: pointer;
-  padding: 10px;
-  border-radius: var(--radius);
-  border: none;
-  transition: 0.3s;
+  box-shadow: 0 0 15px var(--secondary), 0 0 30px var(--secondary) inset;
+  transition: all 0.3s ease-in-out;
 }
-
-.premium-modal button:hover {
+.premium-modal button[type="submit"]:hover {
   background: var(--primary);
+  box-shadow: 0 0 25px var(--primary), 0 0 50px #00bfff inset;
   transform: scale(1.05);
 }
 
-/* Modal test compacto */
-#modal-test .premium-modal {
-  width: 260px; max-width: 90%; max-height:70vh; overflow-y:auto;
-  padding:12px 14px; gap:8px;
-  background: rgba(20,20,35,0.95);
-  transform: translateY(-20px); opacity:0; transition:all 0.4s ease;
-}
-#modal-test.show .premium-modal {opacity:1; transform:translateY(0);}
-#modal-test .premium-modal::-webkit-scrollbar{width:6px;}
-#modal-test .premium-modal::-webkit-scrollbar-thumb{background:var(--primary);border-radius:10px;}
-
-/* Test final */
-#modal-test .test-final{display:flex;flex-direction:column;align-items:center;gap:6px;}
-#modal-test .test-final input[type="email"]{
-  width:100%; padding:6px 8px; font-size:0.85rem; border-radius:var(--radius);
-  border:none; background: rgba(255,255,255,0.1); color:#fff; margin-bottom:10px;
-  text-align:center; transition: all 0.3s ease;
-}
-#modal-test .test-final input:focus{outline:2px solid var(--primary); box-shadow:0 0 10px var(--primary); background: rgba(255,255,255,0.15);}
-#modal-test .test-final button{
-  padding:6px 12px; font-size:0.85rem; border-radius:var(--radius);
-  border:none; background: var(--primary); color:#000; cursor:pointer;
-  font-weight:600; transition: all 0.3s ease; box-shadow:0 0 10px var(--primary),0 0 20px var(--primary) inset;
-}
-#modal-test .test-final button:hover{background:var(--secondary); box-shadow:0 0 15px var(--secondary),0 0 30px var(--secondary) inset; transform:scale(1.05);}
-
-/* Preguntas del test */
-.test-pregunta p{font-size:1rem; font-weight:600; margin-bottom:12px; text-align:center; text-shadow:0 0 5px var(--primary);}
-.test-pregunta button.respuesta{
-  background:var(--primary); color:#000; border:none; border-radius:var(--radius);
-  padding:10px 20px; margin:5px; cursor:pointer; font-weight:600; text-shadow:0 0 5px var(--primary),0 0 10px var(--primary); transition: all 0.3s ease-in-out;
-}
-.test-pregunta button.respuesta:hover{
-  background:var(--secondary); text-shadow:0 0 5px var(--secondary),0 0 10px var(--secondary),0 0 20px var(--secondary); transform:scale(1.05);
+/* Botón cerrar */
+.premium-modal button.close-modal {
+  padding: 6px 10px;
+  border: none;
+  border-radius: var(--radius);
+  background: rgba(255, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
 }
 
 /* Mensaje de check */
-.mensaje-check{margin-top:10px;text-align:center;font-weight:600;color:var(--primary);opacity:0;transition:opacity 0.4s ease;}
-.check-svg{width:40px;height:40px;margin:10px auto 0;display:block;stroke:var(--primary);stroke-width:4;fill:none;opacity:0;transition:opacity 0.4s ease;}
-.check-svg path{stroke-dasharray:50; stroke-dashoffset:50; transition:stroke-dashoffset 0.5s ease;}
+.mensaje-check {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--primary);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Animación SVG check */
+.check-svg {
+  width: 40px;
+  height: 40px;
+  margin: 10px auto 0;
+  display: block;
+  stroke: var(--primary);
+  stroke-width: 4;
+  fill: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.check-svg path {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  transition: stroke-dashoffset 0.5s ease;
+}
+/* ==========================
+   MODALES Y TEST RÁPIDO NEÓN
+========================== */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.premium-modal{
+  background: rgba(17,17,17,0.9);
+  padding: 15px 20px;
+  border-radius: var(--radius);
+  width: 320px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 /* ==========================
-   BOTÓN WHATSAPP
+   MODAL TEST TAMAÑO COMPACTO
+========================== */
+
+#modal-test .premium-modal{
+  width:260px;
+  max-width:90%;
+  max-height:70vh;
+  overflow:auto;
+  padding:12px 14px;
+  gap:8px;
+}
+
+#modal-test .test-final{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+#modal-test .test-final input{
+  width:100%;
+  padding:6px 8px;
+  font-size:0.85rem;
+}
+
+#modal-test .test-final button{
+  padding:6px 12px;
+  font-size:0.85rem;
+}
+
+#modal-test .check-svg{
+  width:28px;
+  height:28px;
+}
+/* ==========================
+   TEST RÁPIDO NEÓN
+========================== */
+.test-pregunta p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-shadow: 0 0 5px var(--primary);
+}
+.test-pregunta button.respuesta {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+  transition: all 0.3s ease-in-out;
+}
+.test-pregunta button.respuesta:hover {
+  background: var(--secondary);
+  text-shadow: 0 0 5px var(--secondary), 0 0 10px var(--secondary), 0 0 20px var(--secondary);
+}
+
+/* Inputs del test final */
+.test-final input[type="email"] {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* ==========================
+   COUNTDOWN Y PROGRESO
+========================== */
+.countdown-container {
+  display:flex; flex-direction:column; align-items:center; margin-bottom:15px;
+}
+.countdown {
+  font-size:20px; font-weight:bold; margin-bottom:5px; color:#00ffc0;
+}
+.progress-bar { width:100%; height:8px; background:#222; border-radius:4px; overflow:hidden; }
+.progress-fill { height:100%; width:0%; background:green; transition:width 1s linear; }
+
+/* ==========================
+   WHATSAPP BUTTON
 ========================== */
 #whatsapp-btn-ultimate{
-  position: fixed; bottom:25px; right:25px;
-  background:#25d366;color:#fff; font-size:2.2rem; border-radius:50%;
-  padding:16px; z-index:10000; display:flex;align-items:center;justify-content:center;
+  position: fixed;bottom:25px;right:25px;background:#25d366;color:#fff;
+  font-size:2.2rem;border-radius:50%;padding:16px;z-index:10000;
+  display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 10px #25d366,0 0 20px #25d366,0 0 30px #25d366,0 0 40px #25d366 inset;
-  opacity:0; pointer-events:none; transition:all 0.3s ease; gap:8px;
+  opacity:0;pointer-events:none;transition: all 0.3s ease; gap:8px;
 }
 #whatsapp-btn-ultimate.show{opacity:1;pointer-events:auto;}
 #whatsapp-btn-ultimate:hover{transform:scale(1.15);}
-#whatsapp-counter{background:rgba(0,0,0,0.6); font-size:0.8rem; font-weight:700; padding:2px 6px; border-radius:8px;}
+#whatsapp-counter{
+  background:rgba(0,0,0,0.6);font-size:0.8rem;font-weight:700;padding:2px 6px;border-radius:8px;
+}
 @keyframes whatsapp-urgent{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
 
 /* ==========================
-   BOTONES TEST
+   HEADER SUBTITLES & CTA
 ========================== */
+.header-subtitle{
+  max-width:600px;margin:10px auto 20px;font-size:1rem;opacity:0.9;text-align:center;
+}
+.header-benefits{
+  margin-top:20px;font-size:0.95rem;opacity:0.9;text-align:center;
+}
+.header-warning{
+  margin-top:10px;color:#ffbf00;font-weight:600;text-align:center;
+}
+.cta{margin-top:25px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
 .btn-test{
   background:#00ffc0;color:#000;font-weight:600;border:none;
   padding:12px 28px;border-radius: var(--radius);cursor:pointer;
@@ -593,12 +725,33 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 // MODAL UNIFICADO PARA TODOS LOS PLANES
 // ==============================
 
-// ===================== JS MODAL UNIFICADO =====================
 const modalUnificado = document.getElementById("modal-unificado");
 const formUnificado = document.getElementById("form-unificado");
 const btnCerrar = modalUnificado.querySelector(".close-modal");
-const mensaje = formUnificado.querySelector(".mensaje-check");
-const checkSVG = formUnificado.querySelector(".check-svg");
+
+// --- Mensaje y check animado ---
+const mensaje = formUnificado.querySelector(".mensaje-check") || (() => {
+  const m = document.createElement("div");
+  m.className = "mensaje-check";
+  formUnificado.appendChild(m);
+  return m;
+})();
+
+const checkSVG = formUnificado.querySelector(".check-svg") || (() => {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox","0 0 52 52");
+  svg.classList.add("check-svg");
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+  path.setAttribute("d","M14 27 l10 10 l20 -20");
+  path.setAttribute("stroke-dasharray","50");
+  path.setAttribute("stroke-dashoffset","50");
+
+  svg.appendChild(path);
+  formUnificado.appendChild(svg);
+  return svg;
+})();
+
 const checkPath = checkSVG.querySelector("path");
 
 // ==============================
@@ -607,18 +760,24 @@ const checkPath = checkSVG.querySelector("path");
 
 document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
-    let plan = btn.closest(".subscription-card")?.querySelector("h3")?.textContent || "";
+
+    let plan = "";
+    const card = btn.closest(".subscription-card");
+
+    if(card){
+      plan = card.querySelector("h3")?.textContent || "";
+    }
+
     formUnificado.reset();
     document.getElementById("plan-input").value = plan;
 
     modalUnificado.style.display = "flex";
-    setTimeout(()=> modalUnificado.style.opacity = 1, 10);
-    document.body.style.overflow = "hidden";
 
-    // reset check y mensaje
-    mensaje.style.opacity = 0;
-    checkSVG.style.opacity = 0;
-    checkPath.style.strokeDashoffset = 50;
+    setTimeout(()=>{
+      modalUnificado.style.opacity = "1";
+    },10);
+
+    document.body.style.overflow = "hidden";
   });
 });
 
@@ -626,33 +785,70 @@ document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=
 // CERRAR MODAL PLANES
 // ==============================
 
-function cerrarModal(){
-  modalUnificado.style.opacity = 0;
-  setTimeout(()=> modalUnificado.style.display = "none", 300);
-  document.body.style.overflow = "";
-}
+function cerrarModalPlanes(){
 
-btnCerrar.addEventListener("click", cerrarModal);
-modalUnificado.addEventListener("click", e=>{
-  if(!modalUnificado.querySelector(".premium-modal").contains(e.target)){
-    cerrarModal();
+  modalUnificado.style.opacity = "0";
+
+  setTimeout(()=>{
+    modalUnificado.style.display = "none";
+  },300);
+
+  document.body.style.overflow = "";
+
+}
+// botón cerrar
+btnCerrar.addEventListener("click", cerrarModalPlanes);
+
+modalUnificado.addEventListener("click", function(e){
+  const contenido = modalUnificado.querySelector(".premium-modal");
+  if(!contenido.contains(e.target)){
+    cerrarModalPlanes();
   }
 });
-document.addEventListener("keydown", e=>{
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape" && modalUnificado.style.display === "flex"){
+    cerrarModalPlanes();
+  }
+});
+
+// ==============================
+// CLIC FUERA DEL MODAL
+// ==============================
+
+modalUnificado.addEventListener("click", function(e){
+
+  const contenido = modalUnificado.querySelector(".premium-modal");
+
+  if(!contenido.contains(e.target)){
+    cerrarModal();
+  }
+
+});
+
+// ==============================
+// TECLA ESC
+// ==============================
+
+document.addEventListener("keydown", function(e){
+
   if(e.key === "Escape" && modalUnificado.style.display === "flex"){
     cerrarModal();
   }
-});
 
+});
 
 // ==============================
 // ENVÍO FORMULARIO
 // ==============================
 
 formUnificado.addEventListener("submit", async e=>{
+
   e.preventDefault();
+
   const btn = formUnificado.querySelector("button[type='submit']");
   const originalText = btn.textContent;
+
   btn.textContent = "Enviando...";
   btn.disabled = true;
 
@@ -663,6 +859,7 @@ formUnificado.addEventListener("submit", async e=>{
   };
 
   try{
+
     const res = await fetch("https://formspree.io/f/mgvzyyqk", {
       method:"POST",
       headers:{
@@ -679,10 +876,15 @@ formUnificado.addEventListener("submit", async e=>{
     mensaje.style.opacity = 1;
 
     checkSVG.style.opacity = 1;
-    setTimeout(()=> checkPath.style.strokeDashoffset = 0, 50);
 
-    setTimeout(cerrarModal, 2000);
+    setTimeout(()=>{
+      checkPath.style.strokeDashoffset = 0;
+    },50);
+
+    setTimeout(cerrarModal,2000);
+
   }catch(err){
+
     mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
     mensaje.style.color = "#ff4d4d";
     mensaje.style.opacity = 1;
@@ -693,7 +895,9 @@ formUnificado.addEventListener("submit", async e=>{
       btn.disabled = false;
       btn.textContent = originalText;
     },2500);
+
   }
+
 });
 </script>
 
@@ -938,7 +1142,7 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
   <div class="premium-modal">
     <h3>Test Rápido</h3>
 
-    <!-- Contador y barra de progreso -->
+   <!-- Contador y barra de progreso -->
     <div class="countdown-container">
       <span class="countdown">30</span>
       <div class="progress-bar">
@@ -946,7 +1150,7 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
       </div>
     </div>
 
-    <!-- Preguntas -->
+    <!-- Pregunta 1 -->
     <div class="test-pregunta active">
       <p>¿Cuál es tu objetivo principal?</p>
       <button class="respuesta">Perder grasa</button>
@@ -954,43 +1158,36 @@ document.getElementById("btn-comencemos").addEventListener("click", () => {
       <button class="respuesta">Mejorar hábitos</button>
     </div>
 
-    <div class="test-pregunta">
-      <p>¿Cuántos días entrenas actualmente?</p>
+     <!-- Pregunta 2 -->
+     <div class="test-pregunta">
+      <p>¿Cuántos días entrenas?</p>
       <button class="respuesta">0-1</button>
       <button class="respuesta">2-3</button>
       <button class="respuesta">4+</button>
     </div>
 
+    <!-- Pregunta 3 -->
     <div class="test-pregunta">
-      <p>¿Cómo describirías tu alimentación actual?</p>
-      <button class="respuesta">Desordenada</button>
-      <button class="respuesta">Equilibrada</button>
-      <button class="respuesta">Muy saludable</button>
+      <p>¿Qué es lo que más te cuesta?</p>
+      <button class="respuesta">Constancia</button>
+      <button class="respuesta">Comida</button>
+      <button class="respuesta">Tiempo</button>
     </div>
 
-    <div class="test-pregunta">
-      <p>¿Prefieres entrenamientos en casa o en gimnasio?</p>
-      <button class="respuesta">Casa</button>
-      <button class="respuesta">Gimnasio</button>
-      <button class="respuesta">Indiferente</button>
+    <!-- Final: Email -->
+     <div class="test-final">
+      <p>Déjanos tu email y te enviaremos tu plan recomendado</p>
+      <input type="email" placeholder="Tu email" required>
+      <button type="submit">Ver mi plan</button>
+
+      <!-- Check animado -->
+      <svg class="check-svg" viewBox="0 0 52 52">
+        <path d="M14 27l10 10 20-20" stroke="#00ffc0" stroke-width="4" fill="none"/>
+      </svg>
+      <div class="mensaje-check">¡Email enviado!</div>
     </div>
 
-    <div class="test-pregunta">
-      <p>¿Qué es más importante para ti?</p>
-      <button class="respuesta">Resultados rápidos</button>
-      <button class="respuesta">Sostenibilidad</button>
-      <button class="respuesta">Mejorar hábitos</button>
-    </div>
-
-    <!-- Pantalla final: correo -->
-    <div class="test-pregunta">
-      <p>Ingresa tu correo para recibir tu plan sugerido:</p>
-      <div class="test-final">
-        <input type="email" placeholder="Correo electrónico" required>
-        <button type="button" id="btn-finalizar">Ver mi plan</button>
-      </div>
-    </div>
-
+    <button class="close-modal">Cerrar</button>
   </div>
 </div>
    
