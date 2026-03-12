@@ -1278,8 +1278,15 @@ function iniciarPregunta(){
 
 // Avanzar a siguiente pregunta o mostrar final
 function avanzarPregunta(){
+
+  // quitar selección de la pregunta actual
+  const botones = preguntas[preguntaActual].querySelectorAll(".respuesta");
+  botones.forEach(b => b.classList.remove("selected"));
+
   preguntas[preguntaActual].classList.remove("active");
+
   preguntaActual++;
+
   if(preguntaActual < preguntas.length){
     preguntas[preguntaActual].classList.add("active");
     iniciarPregunta();
