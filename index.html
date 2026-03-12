@@ -593,33 +593,12 @@ footer{text-align:center;padding:30px;font-size:0.85rem;opacity:0.7;}
 // MODAL UNIFICADO PARA TODOS LOS PLANES
 // ==============================
 
+// ===================== JS MODAL UNIFICADO =====================
 const modalUnificado = document.getElementById("modal-unificado");
 const formUnificado = document.getElementById("form-unificado");
 const btnCerrar = modalUnificado.querySelector(".close-modal");
-
-// --- Mensaje y check animado ---
-const mensaje = formUnificado.querySelector(".mensaje-check") || (() => {
-  const m = document.createElement("div");
-  m.className = "mensaje-check";
-  formUnificado.appendChild(m);
-  return m;
-})();
-
-const checkSVG = formUnificado.querySelector(".check-svg") || (() => {
-  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.setAttribute("viewBox","0 0 52 52");
-  svg.classList.add("check-svg");
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg","path");
-  path.setAttribute("d","M14 27 l10 10 l20 -20");
-  path.setAttribute("stroke-dasharray","50");
-  path.setAttribute("stroke-dashoffset","50");
-
-  svg.appendChild(path);
-  formUnificado.appendChild(svg);
-  return svg;
-})();
-
+const mensaje = formUnificado.querySelector(".mensaje-check");
+const checkSVG = formUnificado.querySelector(".check-svg");
 const checkPath = checkSVG.querySelector("path");
 
 // ==============================
@@ -628,24 +607,18 @@ const checkPath = checkSVG.querySelector("path");
 
 document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
-
-    let plan = "";
-    const card = btn.closest(".subscription-card");
-
-    if(card){
-      plan = card.querySelector("h3")?.textContent || "";
-    }
-
+    let plan = btn.closest(".subscription-card")?.querySelector("h3")?.textContent || "";
     formUnificado.reset();
     document.getElementById("plan-input").value = plan;
 
     modalUnificado.style.display = "flex";
-
-    setTimeout(()=>{
-      modalUnificado.style.opacity = "1";
-    },10);
-
+    setTimeout(()=> modalUnificado.style.opacity = 1, 10);
     document.body.style.overflow = "hidden";
+
+    // reset check y mensaje
+    mensaje.style.opacity = 0;
+    checkSVG.style.opacity = 0;
+    checkPath.style.strokeDashoffset = 50;
   });
 });
 
@@ -653,33 +626,24 @@ document.querySelectorAll(".btn-cambio, .subscription-card button").forEach(btn=
 // CERRAR MODAL PLANES
 // ==============================
 
-function cerrarModalPlanes(){
-  modalUnificado.style.opacity = "0";
-
-  setTimeout(()=>{
-    modalUnificado.style.display = "none";
-  },300);
-
+function cerrarModal(){
+  modalUnificado.style.opacity = 0;
+  setTimeout(()=> modalUnificado.style.display = "none", 300);
   document.body.style.overflow = "";
 }
 
-// --- Botón cerrar ---
-btnCerrar.addEventListener("click", cerrarModalPlanes);
-
-// --- Clic fuera del modal ---
-modalUnificado.addEventListener("click", function(e){
-  const contenido = modalUnificado.querySelector(".premium-modal");
-  if(!contenido.contains(e.target)){
-    cerrarModalPlanes();
+btnCerrar.addEventListener("click", cerrarModal);
+modalUnificado.addEventListener("click", e=>{
+  if(!modalUnificado.querySelector(".premium-modal").contains(e.target)){
+    cerrarModal();
   }
 });
-
-// --- Tecla ESC ---
-document.addEventListener("keydown", function(e){
+document.addEventListener("keydown", e=>{
   if(e.key === "Escape" && modalUnificado.style.display === "flex"){
-    cerrarModalPlanes();
+    cerrarModal();
   }
 });
+
 
 // ==============================
 // ENVÍO FORMULARIO
@@ -687,10 +651,8 @@ document.addEventListener("keydown", function(e){
 
 formUnificado.addEventListener("submit", async e=>{
   e.preventDefault();
-
   const btn = formUnificado.querySelector("button[type='submit']");
   const originalText = btn.textContent;
-
   btn.textContent = "Enviando...";
   btn.disabled = true;
 
@@ -717,13 +679,9 @@ formUnificado.addEventListener("submit", async e=>{
     mensaje.style.opacity = 1;
 
     checkSVG.style.opacity = 1;
+    setTimeout(()=> checkPath.style.strokeDashoffset = 0, 50);
 
-    setTimeout(()=>{
-      checkPath.style.strokeDashoffset = 0;
-    },50);
-
-    setTimeout(cerrarModalPlanes,2000);
-
+    setTimeout(cerrarModal, 2000);
   }catch(err){
     mensaje.textContent = "Hubo un error, intenta de nuevo ❌";
     mensaje.style.color = "#ff4d4d";
